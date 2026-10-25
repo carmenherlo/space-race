@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Space Race</title>
+  <!-- Relative paths, so it also works behind a proxy under a sub-path. -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/game.css">
+  <link rel="stylesheet" href="css/sound-panel.css">
+  <script type="module" src="js/game.js"></script>
+</head>
+<body class="game">
+  <p class="status" id="status" role="status" hidden></p>
+
+  <!-- The board: the game's picture (data/games/<id>, set from js) with the tokens on top. -->
+  <main class="board-game" id="board">
+    <img class="board-game__image" id="board-image" alt="" decoding="async" hidden>
+    <div class="board-game__marks" id="marks" aria-hidden="true"></div>
+    <div class="board-game__tokens" id="tokens"></div>
+  </main>
+
+  <!-- Whose turn it is and the die, in the top-left corner. -->
+  <section class="turn" id="turn" aria-live="polite" hidden>
+    <span class="turn__avatar" id="turn-avatar"></span>
+    <p class="turn__name" id="turn-name"></p>
+    <span class="turn__stars" id="turn-stars" aria-label="Estrellas comodín" hidden></span>
+    <button class="die" id="die" type="button" aria-label="Tirar el dado">🎲</button>
+  </section>
+
+  <!-- Sound: 🔊 opens the panel, with a slider for the music, the effects and the voice,
+       and who reads the cards (js/sound-panel.js; remembered on this tablet). -->
+  <button class="game-sound" id="sound" type="button" aria-expanded="false" aria-controls="sound-panel" aria-label="Sonido">🔊</button>
+  <div class="sound-panel" id="sound-panel" hidden>
+    <div class="sound-row" data-channel="music">
+      <button class="sound-row__icon" type="button" aria-pressed="true">🎵</button>
+      <input class="sound-row__slider" type="range" min="0" max="100" step="5" aria-label="Volumen de la música">
+    </div>
+    <div class="sound-row" data-channel="effects">
+      <button class="sound-row__icon" type="button" aria-pressed="true">🔔</button>
+      <input class="sound-row__slider" type="range" min="0" max="100" step="5" aria-label="Volumen de los efectos">
+    </div>
+    <div class="sound-row" data-channel="voice">
+      <button class="sound-row__icon" type="button" aria-pressed="true">🗣️</button>
+      <input class="sound-row__slider" type="range" min="0" max="100" step="5" aria-label="Volumen de la voz">
+    </div>
+    <div class="sound-voices" role="radiogroup" aria-label="Voz">
+      <button class="sound-voices__option" type="button" role="radio" aria-checked="true" data-voice="natural">🙂 Natural</button>
+      <button class="sound-voices__option" type="button" role="radio" aria-checked="false" data-voice="robot">🤖 Robot</button>
+    </div>
+  </div>
+
+  <a class="game-exit" id="exit" href="./" aria-label="Salir del juego">
+    <svg class="line-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6.5H9V21H4.5a1 1 0 0 1-1-1z" />
+    </svg>
+  </a>
+
+  <!-- Before playing: 1. how many play, 2. each one's avatar, name and level, 3. the mode,
+       and how a turn goes. Remembered on this device for the next game (js/game.js). -->
+  <dialog class="game-dialog setup" id="setup" aria-labelledby="setup-title">
+    <h1 class="setup__title" id="setup-title">🚀 Space Race</h1>
+
+    <section class="setup__section" aria-labelledby="setup-count-title">
+      <h2 class="setup__heading" id="setup-count-title">1. ¿Cuántos jugáis?</h2>
+      <div class="setup__count" id="setup-count" role="radiogroup" aria-labelledby="setup-count-title"></div>
+    </section>
+
+    <section class="setup__section" aria-labelledby="setup-players-title">
+      <h2 class="setup__heading" id="setup-players-title">2. ¿Quién es quién?</h2>
+      <ul class="setup__players" id="setup-players"></ul>
+    </section>
+
+    <section class="setup__section" id="setup-mode" aria-labelledby="setup-mode-title">
+      <h2 class="setup__heading" id="setup-mode-title">3. Modo de juego</h2>
+      <div class="setup__options" role="radiogroup" aria-labelledby="setup-mode-title">
+        <button class="option" type="button" role="radio" aria-checked="false" data-mode="race">
+          <span class="option__icon" aria-hidden="true">🏁</span>
+          <span class="option__text">
+            <span class="option__name">Carrera</span>
+            <span class="option__hint">Solo dado: ¡rápida!</span>
+          </span>
+        </button>
+        <button class="option" type="button" role="radio" aria-checked="true" data-mode="challenges">
+          <span class="option__icon" aria-hidden="true">🎭</span>
+          <span class="option__text">
+            <span class="option__name">Retos locos</span>
+            <span class="option__hint">Un reto gracioso cada turno</span>
+          </span>
+        </button>
+        <button class="option" type="button" role="radio" aria-checked="false" data-mode="questions">
+          <span class="option__icon" aria-hidden="true">🧠</span>
+          <span class="option__text">
+            <span class="option__name">Sabelotodo</span>
+            <span class="option__hint">Preguntas: si aciertas, ¡otra tirada!</span>
+          </span>
+        </button>
+      </div>
+      <!-- An extra rule, with any mode. -->
+      <div class="setup__options setup__options--extra">
+        <button class="option" type="button" role="switch" aria-checked="false" data-option="exactFinish">
+          <span class="option__icon" aria-hidden="true">🌕</span>
+          <span class="option__text">
+            <span class="option__name">Llegada exacta</span>
+            <span class="option__hint">Si te pasas de la Luna, rebotas</span>
+          </span>
+          <span class="option__switch" aria-hidden="true"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- How a turn goes, with the mode and the rules chosen above (set from js). -->
+    <p class="setup__summary" id="setup-summary"></p>
+
+    <div class="game-actions">
+      <button class="game-button" id="start" type="button">¡A jugar!</button>
+      <a class="game-button game-button--quiet" href="games.html">Salir</a>
+    </div>
+  </dialog>
+
+  <!-- Choosing an avatar: every picture in data/games/players (the ones another player has
+       are greyed out). -->
+  <dialog class="game-dialog avatars" id="avatars" aria-labelledby="avatars-title">
+    <h2 class="card__title" id="avatars-title">Elige tu avatar</h2>
+    <div class="avatars__list" id="avatars-list"></div>
+    <div class="game-actions">
+      <button class="game-button game-button--quiet" id="avatars-close" type="button">Cerrar</button>
+    </div>
+  </dialog>
+
+  <!-- What happens on a square: something good, something bad or a funny challenge. -->
+  <dialog class="game-dialog card" id="card" aria-labelledby="card-title">
+    <span class="card__emoji" id="card-emoji" aria-hidden="true"></span>
+    <h2 class="card__title" id="card-title"></h2>
+    <p class="card__text" id="card-text"></p>
+    <button class="game-button" id="card-ok" type="button">Vale</button>
+  </dialog>
+
+  <!-- A bad square for a player with a wildcard star: they choose to use it or keep it. -->
+  <dialog class="game-dialog card card--choice" id="star-offer" data-kind="bad" aria-labelledby="star-offer-title">
+    <span class="card__emoji" id="star-offer-emoji" aria-hidden="true"></span>
+    <h2 class="card__title" id="star-offer-title"></h2>
+    <p class="card__text" id="star-offer-text"></p>
+    <p class="card__text card__text--star" id="star-offer-stars"></p>
+    <div class="game-actions">
+      <button class="game-button" id="star-use" type="button">⭐ ¡Uso mi estrella!</button>
+      <button class="game-button game-button--quiet" id="star-keep" type="button">No, la guardo</button>
+    </div>
+  </dialog>
+
+  <!-- The spy satellite: swap places with another player of your choice, or stay. -->
+  <dialog class="game-dialog card card--choice" id="swap" data-kind="good" aria-labelledby="swap-title">
+    <span class="card__emoji" id="swap-emoji" aria-hidden="true"></span>
+    <h2 class="card__title" id="swap-title"></h2>
+    <p class="card__text" id="swap-text"></p>
+    <p class="card__text card__text--star">¿Con quién te cambias?</p>
+    <div class="swap__players" id="swap-players"></div>
+    <div class="game-actions">
+      <button class="game-button game-button--quiet" id="swap-none" type="button">No, me quedo aquí</button>
+    </div>
+  </dialog>
+
+  <!-- Mode "Preguntas": four answers to choose from. The game knows the right one:
+       right, the player rolls again; wrong, the right one is shown and the turn passes. -->
+  <dialog class="game-dialog question" id="question" aria-labelledby="question-text">
+    <span class="question__level" id="question-level"></span>
+    <span class="question__emoji" id="question-emoji" aria-hidden="true"></span>
+    <p class="question__text" id="question-text"></p>
+    <div class="question__answers" id="question-answers"></div>
+    <p class="question__result" id="question-result" hidden></p>
+    <button class="game-button" id="question-next" type="button" hidden></button>
+  </dialog>
+
+  <!-- Someone reached the Moon. -->
+  <dialog class="game-dialog winner" id="winner" aria-labelledby="winner-title">
+    <span class="winner__avatar" id="winner-avatar"></span>
+    <h2 class="winner__title" id="winner-title"></h2>
+    <div class="game-actions">
+      <button class="game-button" id="again" type="button">Otra partida</button>
+      <a class="game-button game-button--quiet" href="games.html">Salir</a>
+    </div>
+  </dialog>
+
+  <!-- Leaving in the middle of a game: ask first, the game is not saved. -->
+  <dialog class="game-dialog leave" id="leave" aria-labelledby="leave-title">
+    <span class="card__emoji" aria-hidden="true">🚀</span>
+    <h2 class="card__title" id="leave-title">¿Salir de la partida?</h2>
+    <p class="card__text">Si sales ahora, la partida no se guardará.</p>
+    <div class="game-actions">
+      <button class="game-button" id="leave-stay" type="button">Seguir jugando</button>
+      <a class="game-button game-button--quiet" href="games.html">Salir</a>
+    </div>
+  </dialog>
+
+  <template id="player-template">
+    <li class="setup__person">
+      <!-- A tap opens the avatars to choose from. -->
+      <button class="setup__player" type="button">
+        <span class="setup__avatar"></span>
+      </button>
+      <input class="setup__name" type="text" maxlength="14" autocomplete="off" spellcheck="false">
+      <!-- Level of their questions (mode "Sabelotodo"): a tap changes it. -->
+      <button class="setup__level" type="button"></button>
+    </li>
+  </template>
+</body>
+</html>

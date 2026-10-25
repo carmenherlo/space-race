@@ -1,0 +1,40 @@
+# Local runtime data: the real games, avatars, personal photos and voice cache (mounted as /data)
+/data/
+
+# Safety net: never commit a database or a voice model created outside /data by mistake
+*.db
+*.db-*
+*.sqlite3
+*.onnx
+*.onnx.json
+
+# Secrets (keep a template under the name .env.example)
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# Editor and OS
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Claude Code's local settings
+.claude/settings.local.json

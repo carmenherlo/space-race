@@ -1,0 +1,94 @@
+/* The sound panel (js/sound-panel.js): under the 🔊 button, top right. */
+
+.sound-panel {
+  position: fixed;
+  top: calc(var(--space-s) * 2 + 3.5rem);
+  right: var(--space-s);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  width: min(88vw, 22rem);
+  padding: var(--space-m);
+  border-radius: 1.4rem;
+  background: rgb(255 255 255 / 96%);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 40%);
+  color: #1e2a5a;
+}
+
+.sound-panel[hidden],
+.sound-row[hidden],
+.sound-voices[hidden] {
+  display: none;
+}
+
+/* A channel: its icon (a tap crosses it out) and its slider. */
+.sound-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.sound-row__icon {
+  position: relative;
+  flex: none;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #f1ecff;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* Off: the icon faded and crossed out with a red line. */
+.sound-row[data-off="true"] .sound-row__icon {
+  opacity: 0.55;
+}
+
+.sound-row[data-off="true"] .sound-row__icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 12%;
+  width: 76%;
+  height: 4px;
+  border-radius: 2px;
+  background: #e53950;
+  transform: rotate(-45deg);
+}
+
+.sound-row__slider {
+  flex: 1;
+  min-width: 0;
+  height: var(--touch-min);
+  accent-color: #8a5cf6;
+}
+
+.sound-row[data-off="true"] .sound-row__slider {
+  opacity: 0.45;
+}
+
+/* Who reads the cards, under the voice's slider. */
+.sound-voices {
+  display: flex;
+  gap: var(--space-s);
+  padding-left: calc(var(--touch-min) + var(--space-s));
+}
+
+.sound-voices__option {
+  flex: 1;
+  min-height: var(--touch-min);
+  border: 3px solid #e2dcf5;
+  border-radius: 999px;
+  background: #ffffff;
+  color: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.sound-voices__option[aria-checked="true"] {
+  border-color: #8a5cf6;
+  background: #f1ecff;
+}

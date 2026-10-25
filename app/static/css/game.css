@@ -1,0 +1,764 @@
+/* Space Race: the board game page (game.html). Uses the tokens and the avatar of base.css. */
+
+body.game {
+  --game-navy: #1e2a5a; /* the numbers on the board */
+  --game-pink: #f48fb1; /* the colours of the squares */
+  --game-lilac: #c58cf9;
+  --game-mint: #b9ebe2;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: #0b1026; /* deep space around the board */
+}
+
+/* ---------- The board ---------- */
+/* As big as the screen allows, keeping the picture's shape (16:9). Places are in % of
+   the board, so they stay on their squares at any size. */
+.board-game {
+  --board-width: min(100vw, calc(var(--screen-h) * 16 / 9));
+  --token: calc(var(--board-width) * 0.042); /* size of a player's token */
+
+  position: relative;
+  flex: none;
+  width: var(--board-width);
+  height: calc(var(--board-width) * 9 / 16);
+}
+
+.board-game__image,
+.board-game__marks,
+.board-game__tokens {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.board-game__image {
+  display: block;
+  object-fit: cover;
+}
+
+/* Without the board picture: a numbered dot on every place. */
+.mark {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: calc(var(--token) * 1.2);
+  height: calc(var(--token) * 1.2);
+  border-radius: 50%;
+  background: var(--game-mint);
+  color: var(--game-navy);
+  font-size: calc(var(--token) * 0.42);
+  font-weight: 800;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* ---------- Tokens ---------- */
+.token {
+  position: absolute;
+  width: var(--token);
+  height: var(--token);
+  margin: calc(var(--token) / -2) 0 0 calc(var(--token) / -2);
+  transform: translate(calc(var(--dx) * var(--token)), calc(var(--dy) * var(--token)));
+  transition:
+    left 0.22s ease-out,
+    top 0.22s ease-out;
+}
+
+/* Flying to another square (UFOs, galaxies, the black hole): slower, with a little
+   jump. Same length as FLIGHT_MS in game.js. */
+.token[data-flying] {
+  z-index: 2;
+  transition:
+    left 0.9s ease-in-out,
+    top 0.9s ease-in-out;
+}
+
+.token[data-flying] .avatar {
+  animation: token-fly 0.9s ease-in-out;
+}
+
+@keyframes token-fly {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.6) rotate(20deg); }
+}
+
+.token .avatar {
+  --avatar-size: var(--token);
+}
+
+/* Wildcard stars (Space Race Expanded): a little badge on the token. */
+.token__stars {
+  position: absolute;
+  right: -30%;
+  bottom: -20%;
+  z-index: 1;
+  padding: 0 0.2em;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 40%);
+  color: var(--game-navy);
+  font-size: calc(var(--token) * 0.38);
+  font-weight: 800;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* The player whose turn it is: on top of the others, with a pulsing halo. */
+.token[data-current] {
+  z-index: 1;
+}
+
+.token[data-current]::before {
+  content: "";
+  position: absolute;
+  top: -35%;
+  left: -35%;
+  width: 170%;
+  height: 170%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--player-color) 55%, transparent);
+  animation: token-pulse 1.1s ease-in-out infinite alternate;
+}
+
+@keyframes token-pulse {
+  from { opacity: 0.35; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1.1); }
+}
+
+/* ---------- Whose turn, and the die (top left) ---------- */
+.turn {
+  position: fixed;
+  top: var(--space-s);
+  left: var(--space-s);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  padding: var(--space-s) var(--space-s) var(--space-s) var(--space-s);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 90%);
+  box-shadow: 0 4px 16px rgb(0 0 0 / 35%);
+}
+
+.turn__avatar {
+  --avatar-size: clamp(2.5rem, calc(var(--screen-h) * 0.08), 4rem);
+}
+
+.turn__name {
+  margin: 0;
+  color: var(--game-navy);
+  font-size: clamp(1rem, 0.6rem + 1.2vw, 1.6rem);
+  font-weight: 800;
+}
+
+.turn__stars {
+  font-size: clamp(1rem, 0.6rem + 1.2vw, 1.6rem);
+  letter-spacing: -0.15em;
+}
+
+.turn__stars[hidden] {
+  display: none;
+}
+
+.die {
+  --die-size: clamp(3.5rem, calc(var(--screen-h) * 0.12), 5.5rem);
+
+  width: var(--die-size);
+  height: var(--die-size);
+  border: 4px solid var(--player-color, var(--game-lilac));
+  border-radius: 1.2rem;
+  background: var(--color-bg);
+  color: var(--game-navy);
+  font-size: calc(var(--die-size) * 0.5);
+  font-weight: 800;
+  line-height: 1;
+  animation: die-call 1.6s ease-in-out infinite; /* "tap me" */
+}
+
+.die:disabled {
+  animation: none;
+}
+
+.die[data-rolling] {
+  animation: die-roll 0.25s linear infinite;
+}
+
+@keyframes die-call {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes die-roll {
+  0% { transform: rotate(-12deg); }
+  50% { transform: rotate(12deg); }
+  100% { transform: rotate(-12deg); }
+}
+
+/* Back to the home screen (top right), and the sound
+   switch next to it. */
+.game-exit,
+.game-sound {
+  position: fixed;
+  top: var(--space-s);
+  right: var(--space-s);
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 90%);
+  box-shadow: 0 4px 16px rgb(0 0 0 / 35%);
+  color: var(--game-navy);
+}
+
+.game-sound {
+  right: calc(var(--space-s) * 2 + 3.5rem);
+  font-size: 1.6rem;
+}
+
+/* ---------- Dialogs: setup, cards, winner ---------- */
+.game-dialog {
+  width: min(90vw, 34rem);
+  max-height: calc(var(--screen-h) * 0.92);
+  padding: var(--space-l);
+  border: 0;
+  border-top: 12px solid var(--game-lilac);
+  border-radius: 2rem;
+  color: var(--game-navy);
+  text-align: center;
+}
+
+.game-dialog::backdrop {
+  background: rgb(5 8 25 / 65%);
+}
+
+.game-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(var(--touch-min) * 1.2);
+  padding: 0 1.6em;
+  border: 0;
+  border-radius: 999px;
+  background: var(--game-navy);
+  color: var(--color-bg);
+  font-size: clamp(1.1rem, 0.8rem + 1vw, 1.5rem);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.game-button:disabled {
+  opacity: 0.4;
+}
+
+.game-button--quiet {
+  background: var(--color-track);
+  color: var(--game-navy);
+}
+
+/* Setup: how many play, then each one's avatar (a tap opens the choice), name and level. */
+/* Wide and compact, so everything fits on a landscape tablet without scrolling. */
+.setup {
+  width: min(96vw, 64rem);
+  max-height: calc(var(--screen-h) * 0.97);
+  padding: var(--space-s) var(--space-l) var(--space-m);
+}
+
+.setup__title {
+  margin: 0;
+  font-size: clamp(1.4rem, 0.9rem + 1.5vw, 2.1rem);
+}
+
+/* Three numbered blocks: how many, who is who, and the rules. */
+.setup__section {
+  margin-top: var(--space-s);
+}
+
+.setup__heading {
+  margin: 0 0 0.4rem;
+  color: var(--color-muted);
+  font-size: clamp(1rem, 0.8rem + 0.6vw, 1.3rem);
+  font-weight: 800;
+}
+
+/* 1 to 6: one round button each. */
+.setup__count {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-s);
+}
+
+.setup__number {
+  width: calc(var(--touch-min) * 1.15);
+  height: calc(var(--touch-min) * 1.15);
+  border: 3px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-bg);
+  color: var(--color-muted);
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.setup__number[aria-checked="true"] {
+  border-color: var(--game-navy);
+  background: var(--game-mint);
+  color: var(--game-navy);
+}
+
+.setup__players {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-s);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.setup__player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: var(--space-s);
+  border: 0;
+  border-radius: 1.2rem;
+  background: transparent;
+  color: var(--game-navy);
+  font-weight: 800;
+}
+
+.setup__avatar {
+  --avatar-size: clamp(2.8rem, calc(var(--screen-h) * 0.085), 5.5rem);
+
+  padding: calc(var(--avatar-size) * 0.05 + 2px); /* room for the colour ring */
+}
+
+.setup__person {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* The name, optional: empty, it is "Jugador 1", "Jugador 2"… (the placeholder). */
+.setup__name {
+  width: 8.5rem;
+  min-height: 2.2rem;
+  padding: 0 0.6em;
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-bg);
+  color: var(--game-navy);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* The stars of each player's level of questions: only in "Sabelotodo". */
+.setup__level {
+  display: none;
+  min-width: 4.5rem;
+  min-height: 1.9rem;
+  padding: 0 0.6em;
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-bg);
+  font-size: 1rem;
+  letter-spacing: -0.15em;
+}
+
+.setup[data-mode="questions"] .setup__level {
+  display: block;
+}
+
+/* With the stars below them, the photos get a little smaller so everything still fits. */
+.setup[data-mode="questions"] .setup__avatar {
+  --avatar-size: clamp(2.6rem, calc(var(--screen-h) * 0.07), 5rem);
+}
+
+/* Choosing an avatar: every picture, big enough to tell them apart. */
+.avatars {
+  width: min(94vw, 48rem);
+}
+
+.avatars__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-m);
+  margin: var(--space-m) 0;
+}
+
+.avatars__option {
+  padding: var(--space-s);
+  border: 3px solid transparent;
+  border-radius: 1.2rem;
+  background: transparent;
+}
+
+.avatars__option .avatar {
+  --avatar-size: clamp(4rem, calc(var(--screen-h) * 0.15), 7rem);
+}
+
+.avatars__option[aria-pressed="true"] {
+  border-color: var(--game-navy);
+  background: var(--game-mint);
+}
+
+/* Another player has it. */
+.avatars__option:disabled {
+  opacity: 0.3;
+  filter: grayscale(1);
+}
+
+.leave {
+  border-top-color: var(--game-pink);
+}
+
+/* The rules: one switch each, side by side when they fit. */
+.setup__options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-s);
+}
+
+.option {
+  display: flex;
+  flex: 1 1 18rem;
+  align-items: center;
+  gap: 0.7rem;
+  max-width: 26rem;
+  padding: 0.45rem 0.8rem;
+  border: 3px solid var(--color-border);
+  border-radius: 1.2rem;
+  background: var(--color-bg);
+  color: var(--color-muted);
+  text-align: left;
+}
+
+.option[aria-checked="true"] {
+  border-color: var(--game-navy);
+  background: var(--game-mint);
+  color: var(--game-navy);
+}
+
+.option__icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.option__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.option__name {
+  font-size: clamp(1.05rem, 0.9rem + 0.5vw, 1.3rem);
+  font-weight: 800;
+}
+
+.option__hint {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* The switch itself: a pill with a knob, left (off) or right (on). */
+.option__switch {
+  position: relative;
+  flex: none;
+  width: 3.2rem;
+  height: 1.8rem;
+  border-radius: 999px;
+  background: var(--color-border);
+  transition: background 0.2s ease;
+}
+
+.option__switch::after {
+  content: "";
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: var(--color-bg);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
+  transition: transform 0.2s ease;
+}
+
+.option[aria-checked="true"] .option__switch {
+  background: var(--game-navy);
+}
+
+.option[aria-checked="true"] .option__switch::after {
+  transform: translateX(1.4rem);
+}
+
+/* The extra rule (exact finish), a little below the modes. */
+.setup__options--extra {
+  margin-top: var(--space-s);
+}
+
+/* How a turn goes, with the rules chosen. */
+.setup__summary {
+  margin: var(--space-s) auto;
+  max-width: 50rem;
+  padding: var(--space-s) var(--space-m);
+  border-radius: 1rem;
+  background: #f3f0ff;
+  color: var(--game-navy);
+  font-size: clamp(0.95rem, 0.8rem + 0.5vw, 1.15rem);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Cards: the colour of the squares tells the kind (mint good, pink bad, lilac challenge). */
+.card[data-kind="good"] {
+  border-top-color: var(--game-mint);
+}
+
+.card[data-kind="bad"] {
+  border-top-color: var(--game-pink);
+}
+
+.card[data-kind="challenge"] {
+  border-top-color: var(--game-lilac);
+}
+
+.card[open] {
+  animation: card-in 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.card__emoji {
+  display: block;
+  font-size: clamp(4rem, calc(var(--screen-h) * 0.18), 7rem);
+  line-height: 1.1;
+}
+
+.card__title {
+  margin: var(--space-s) 0 0;
+  font-size: clamp(1.6rem, 1rem + 2vw, 2.6rem);
+}
+
+.card__text {
+  margin: var(--space-s) 0 var(--space-l);
+  font-size: clamp(1.2rem, 0.8rem + 1.4vw, 2rem);
+  font-weight: 700;
+}
+
+/* The question of the wildcard star: wider and shorter, so its two buttons fit side by
+   side on a landscape tablet. */
+.card--choice {
+  width: min(94vw, 46rem);
+}
+
+.card--choice {
+  padding-top: var(--space-m);
+  padding-bottom: var(--space-m);
+}
+
+.card--choice .card__emoji {
+  font-size: clamp(2.4rem, calc(var(--screen-h) * 0.08), 4rem);
+}
+
+.card--choice .card__title {
+  margin-top: 0;
+}
+
+.card--choice .card__text {
+  margin-bottom: var(--space-s);
+  font-size: clamp(1.05rem, 0.75rem + 1vw, 1.6rem);
+}
+
+.card--choice .game-actions {
+  margin-top: var(--space-s);
+}
+
+/* The spy satellite: the other players, with where they are, to swap with one. */
+.swap__players {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-s);
+}
+
+.swap__player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  min-width: 7rem;
+  padding: var(--space-s);
+  border: 3px solid var(--color-border);
+  border-radius: 1.2rem;
+  background: var(--color-bg);
+  color: var(--game-navy);
+}
+
+.swap__player .avatar {
+  --avatar-size: clamp(2.8rem, calc(var(--screen-h) * 0.09), 4.2rem);
+}
+
+.swap__name {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.swap__place {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+/* The question of the wildcard star, under the square's text. */
+.card__text--star {
+  margin-top: 0;
+  padding: var(--space-s);
+  border-radius: 1rem;
+  background: #fff4d6;
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: scale(0.5) rotate(-6deg); }
+  to { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+/* Question (mode "Preguntas"): the question, four answers in a grid, then the result. */
+.question {
+  width: min(94vw, 46rem);
+  border-top-color: #ffd166;
+}
+
+/* The level of the question, in the corner: ⭐ easy, ⭐⭐ medium, ⭐⭐⭐ hard. */
+.question__level {
+  position: absolute;
+  top: var(--space-s);
+  right: var(--space-m);
+  font-size: 1.1rem;
+  letter-spacing: -0.15em;
+}
+
+.question {
+  position: relative;
+}
+
+.question__emoji {
+  display: block;
+  font-size: clamp(3rem, calc(var(--screen-h) * 0.12), 5rem);
+  line-height: 1.1;
+}
+
+.question__text {
+  margin: var(--space-s) 0 var(--space-m);
+  font-size: clamp(1.3rem, 0.9rem + 1.4vw, 2.1rem);
+  font-weight: 800;
+}
+
+.question__answers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-s);
+}
+
+/* True or false: two big buttons, with a hand each. */
+.question__answers[data-kind="true-false"] .answer {
+  min-height: calc(var(--touch-min) * 2);
+  font-size: clamp(1.4rem, 1rem + 1.4vw, 2.1rem);
+}
+
+.answer {
+  min-height: calc(var(--touch-min) * 1.3);
+  padding: 0.5em 0.8em;
+  border: 3px solid var(--color-border);
+  border-radius: 1rem;
+  background: var(--color-bg);
+  color: var(--game-navy);
+  font-size: clamp(1.05rem, 0.85rem + 0.8vw, 1.5rem);
+  font-weight: 700;
+}
+
+.answer:disabled {
+  opacity: 0.55;
+}
+
+/* After answering: the right one in mint with a tick, a wrong choice in pink. */
+.answer[data-result="right"] {
+  border-color: var(--game-navy);
+  background: var(--game-mint);
+  opacity: 1;
+}
+
+.answer[data-result="right"]::before {
+  content: "✓ ";
+}
+
+.answer[data-result="wrong"] {
+  border-color: #d0315a;
+  background: var(--game-pink);
+  opacity: 1;
+}
+
+.answer[data-result="wrong"]::before {
+  content: "✗ ";
+}
+
+.question__result {
+  margin: var(--space-m) 0;
+  font-size: clamp(1.05rem, 0.85rem + 0.8vw, 1.4rem);
+  font-weight: 700;
+}
+
+.question #question-next {
+  margin-top: var(--space-s);
+}
+
+/* Winner */
+.winner {
+  border-top-color: #ffd166;
+}
+
+.winner__avatar {
+  --avatar-size: clamp(6rem, calc(var(--screen-h) * 0.25), 10rem);
+
+  display: inline-block;
+  padding: calc(var(--avatar-size) * 0.05 + 2px);
+  animation: card-in 0.6s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.winner__title {
+  margin: var(--space-m) 0 var(--space-l);
+  font-size: clamp(1.6rem, 1rem + 2vw, 2.6rem);
+}
+
+/* Buttons side by side at the bottom of a dialog. */
+.game-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-m);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .token,
+  .token[data-current]::before,
+  .die,
+  .card[open],
+  .winner__avatar {
+    transition: none;
+    animation: none;
+  }
+}
