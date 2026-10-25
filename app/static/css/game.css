@@ -149,11 +149,14 @@ body.game {
   --avatar-size: clamp(2.5rem, calc(var(--screen-h) * 0.08), 4rem);
 }
 
+/* Only for screen readers: the avatar says whose turn it is. */
 .turn__name {
-  margin: 0;
-  color: var(--game-navy);
-  font-size: clamp(1rem, 0.6rem + 1.2vw, 1.6rem);
-  font-weight: 800;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .turn__stars {
@@ -695,9 +698,58 @@ body.game {
   margin-top: var(--space-s);
 }
 
-/* Winner */
+/* Winner: the whole screen in their colour, confetti falling, and a card with their avatar. */
 .winner {
+  width: 100vw;
+  max-width: none;
+  height: var(--screen-h);
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--player-color, #ffd166);
+}
+
+.winner[open] {
+  display: grid;
+  place-items: center;
+}
+
+.winner::backdrop {
+  background: transparent;
+}
+
+.winner__panel {
+  position: relative;
+  z-index: 1;
+  background: var(--color-bg);
   border-top-color: #ffd166;
+  box-shadow: 0 12px 40px rgb(0 0 0 / 30%);
+}
+
+.winner__confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* One piece: falls from above the screen, turning (place, colour and timing set from js). */
+.confetti {
+  position: absolute;
+  top: -5%;
+  width: 0.7rem;
+  height: 1.1rem;
+  border-radius: 2px;
+  animation: confetti-fall var(--fall, 3s) linear var(--delay, 0s) infinite;
+}
+
+@keyframes confetti-fall {
+  from { transform: translate(0, 0) rotate(0); }
+  to { transform: translate(var(--drift, 0), calc(var(--screen-h) * 1.1)) rotate(var(--spin, 720deg)); }
 }
 
 .winner__avatar {
@@ -729,5 +781,9 @@ body.game {
   .winner__avatar {
     transition: none;
     animation: none;
+  }
+
+  .winner__confetti {
+    display: none;
   }
 }

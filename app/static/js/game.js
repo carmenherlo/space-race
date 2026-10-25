@@ -60,6 +60,10 @@ const SHARED_SQUARE_OFFSETS = [
 
 // ---------- Cards ----------
 
+// The confetti of the winner's screen: their colour and these.
+const CONFETTI_COLORS = ["#ffd166", "#ef476f", "#06d6a0", "#118ab2", "#c3a6ff", "#ffffff"];
+const CONFETTI_PIECES = 90;
+
 // Levels of the questions (mode "Sabelotodo"), shown as stars.
 const LEVELS = ["very_easy", "easy", "medium", "hard"];
 const LEVEL_STARS = { very_easy: "⭐", easy: "⭐⭐", medium: "⭐⭐⭐", hard: "⭐⭐⭐⭐" };
@@ -80,6 +84,7 @@ const DIE_ROLL_MS = 900; // the die keeps changing before it stops
 const STEP_MS = 280; // a token hops one square
 const FLIGHT_MS = 900; // a token flies to another square (keep in sync with game.css)
 const LAND_PAUSE_MS = 900; // the token rests on its square before a card shows, to see where
+const START_PAUSE_MS = 1500; // the board alone for a moment before the first turn
 const IDLE_MS = 10 * 60 * 1000; // back to the home screen after 10 minutes untouched
 
 // ---------- State ----------
@@ -138,6 +143,7 @@ const elements = {
   winner: document.getElementById("winner"),
   winnerAvatar: document.getElementById("winner-avatar"),
   winnerTitle: document.getElementById("winner-title"),
+  winnerConfetti: document.getElementById("winner-confetti"),
   turnStars: document.getElementById("turn-stars"),
   starOffer: document.getElementById("star-offer"),
   starOfferEmoji: document.getElementById("star-offer-emoji"),
@@ -384,7 +390,7 @@ function setUpRules(savedMode) {
   renderSummary();
 }
 
-function startGame(players) {
+async function startGame(players) {
   music.start(); // after a tap ("¡A jugar!"), so the browser allows it
   game.players = players.map((person) => ({
     ...person,
@@ -400,10 +406,13 @@ function startGame(players) {
   game.busy = false;
   elements.setup.close();
   elements.winner.close();
-  elements.turn.hidden = false;
   game.opening = null;
   game.mayRoll = false;
+  game.busy = true; // nothing to tap yet
   renderTokens();
+  await wait(START_PAUSE_MS); // first, the board with everybody at the start
+  game.busy = false;
+  elements.turn.hidden = false;
   if (game.mode === "questions") {
     renderTurn(); // the first player starts
     askTurnQuestion();
@@ -915,11 +924,30 @@ function chooseAnswer(question, chosen) {
 
 function showWinner(player) {
   elements.turn.hidden = true;
+  elements.winner.style.setProperty("--player-color", player.color);
+  dropConfetti(player.color);
   elements.winnerAvatar.replaceChildren(createAvatar(player));
   elements.winnerTitle.textContent = `¡${player.name} ha llegado a la Luna! 🌕`;
   sounds.win();
   elements.winner.showModal();
   speak(elements.winnerTitle.textContent);
+}
+
+// Confetti in the winner's colour and others, each piece at its own place, pace and spin.
+function dropConfetti(color) {
+  const colors = [color, color, ...CONFETTI_COLORS];
+  const pieces = Array.from({ length: CONFETTI_PIECES }, () => {
+    const piece = document.createElement("span");
+    piece.className = "confetti";
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.setProperty("--fall", `${2.5 + Math.random() * 2.5}s`);
+    piece.style.setProperty("--delay", `${-Math.random() * 5}s`); // already falling at the start
+    piece.style.setProperty("--drift", `${(Math.random() - 0.5) * 20}vw`);
+    piece.style.setProperty("--spin", `${(Math.random() < 0.5 ? -1 : 1) * (360 + Math.random() * 720)}deg`);
+    return piece;
+  });
+  elements.winnerConfetti.replaceChildren(...pieces);
 }
 
 // ---------- Rendering ----------
@@ -1155,6 +1183,8 @@ async function init() {
   for (const dialog of [elements.setup, elements.card, elements.question, elements.winner, elements.starOffer, elements.swap]) {
     dialog.addEventListener("cancel", (event) => event.preventDefault());
   }
+  // The music from the menu on: browsers only allow sound after a first tap.
+  document.addEventListener("pointerdown", () => music.start(), { once: true });
   for (const type of ["pointerdown", "keydown"]) {
     document.addEventListener(type, restartIdleTimer, { capture: true, passive: true });
   }

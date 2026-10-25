@@ -23,6 +23,7 @@
   <!-- Whose turn it is and the die, in the top-left corner. -->
   <section class="turn" id="turn" aria-live="polite" hidden>
     <span class="turn__avatar" id="turn-avatar"></span>
+    <!-- Whose turn, for screen readers: on the screen, their avatar says it. -->
     <p class="turn__name" id="turn-name"></p>
     <span class="turn__stars" id="turn-stars" aria-label="Estrellas comodín" hidden></span>
     <button class="die" id="die" type="button" aria-label="Tirar el dado">🎲</button>
@@ -162,12 +163,16 @@
   </dialog>
 
   <!-- Someone reached the Moon. -->
-  <dialog class="game-dialog winner" id="winner" aria-labelledby="winner-title">
-    <span class="winner__avatar" id="winner-avatar"></span>
-    <h2 class="winner__title" id="winner-title"></h2>
-    <div class="game-actions">
-      <button class="game-button" id="again" type="button">Otra partida</button>
-      <a class="game-button game-button--quiet" href="games.html">Salir</a>
+  <!-- The whole screen in the winner's colour, with confetti falling (set from js). -->
+  <dialog class="winner" id="winner" aria-labelledby="winner-title">
+    <div class="winner__confetti" id="winner-confetti" aria-hidden="true"></div>
+    <div class="game-dialog winner__panel">
+      <span class="winner__avatar" id="winner-avatar"></span>
+      <h2 class="winner__title" id="winner-title"></h2>
+      <div class="game-actions">
+        <button class="game-button" id="again" type="button">Otra partida</button>
+        <a class="game-button game-button--quiet" href="games.html">Salir</a>
+      </div>
     </div>
   </dialog>
 
