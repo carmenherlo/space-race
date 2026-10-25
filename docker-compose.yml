@@ -1,11 +1,11 @@
-# Run: docker compose up -d --build  →  http://localhost:8000
+# Run: docker compose up -d --build  →  http://localhost:8100
 # Before the first run: cp -r examples/games data/games  (then add your board picture and avatars)
 services:
   space-race:
     build: .
     image: space-race:local
     ports:
-      - "8000:8000"
+      - "8100:8000"
     volumes:
       - ./data:/data
     restart: unless-stopped

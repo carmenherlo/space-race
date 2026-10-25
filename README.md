@@ -11,7 +11,7 @@ Una voz lee las cartas en voz alta.
 
 ```bash
 cp -r examples/games data/games      # la primera vez
-docker compose up -d --build         # → http://localhost:8000
+docker compose up -d --build         # → http://localhost:8100
 ```
 
 - **Tablero:** copia la imagen a `data/games/space-race-expanded/board.webp` y quita el `#`
@@ -26,8 +26,8 @@ Tras cambiar un `game.yaml`: `docker compose restart`.
 Con el entorno de conda `missionboard` activo:
 
 ```bash
-bash dev.sh            # tus datos de data/games  → http://localhost:8001
-bash dev.sh --example  # los ejemplos             → http://localhost:8002
+bash dev.sh            # tus datos de data/games  → http://localhost:8101
+bash dev.sh --example  # los ejemplos             → http://localhost:8102
 python -m pytest
 ```
 
