@@ -104,6 +104,7 @@ const game = {
   // the die; the highest starts, ties roll again (see rollForStart). null once decided.
   opening: null, // { rolling, rolls: Map index → roll }
   mayRoll: false, // "Sabelotodo": the question was right, the die is the player's
+  paused: false, // ⏸: every wait stops (see wait) until "Seguir jugando"
   // What was chosen before playing (the setup):
   mode: "challenges", // the end of each turn: "race" (nothing), "challenges" or "questions"
   exactFinish: false, // the Moon only with the exact number: overshooting bounces back
@@ -163,9 +164,11 @@ const elements = {
   swapNone: document.getElementById("swap-none"),
   exactOption: document.querySelector('[data-option="exactFinish"]'),
   again: document.getElementById("again"),
-  exit: document.getElementById("exit"),
-  leave: document.getElementById("leave"),
-  leaveStay: document.getElementById("leave-stay"),
+  pauseButton: document.getElementById("pause-button"),
+  pause: document.getElementById("pause"),
+  pauseResume: document.getElementById("pause-resume"),
+  pauseRestart: document.getElementById("pause-restart"),
+  pauseMenu: document.getElementById("pause-menu"),
   sound: document.getElementById("sound"),
   soundPanel: document.getElementById("sound-panel"),
   playerTemplate: document.getElementById("player-template"),
@@ -670,7 +673,7 @@ function offerStar(player, square) {
   elements.starOfferText.textContent = square.text;
   elements.starOfferStars.textContent = `${player.name}, tienes ${"⭐".repeat(player.stars)}. ¿Usas una estrella para librarte?`;
   sounds.bad();
-  elements.starOffer.showModal();
+  elements.starOffer.show();
   const stars = player.stars === 1 ? "una estrella" : `${player.stars} estrellas`;
   speak([square.title, square.text, `${player.name}, tienes ${stars}. ¿Usas una para librarte?`]);
   return new Promise((resolve) => {
@@ -716,7 +719,7 @@ function chooseSwap(player, square, others) {
   elements.swapPlayers.replaceChildren(...buttons);
   sounds.good();
   elements.swap.returnValue = "";
-  elements.swap.showModal();
+  elements.swap.show();
   speak([square.title, square.text, "¿Con quién te cambias?"]);
   return new Promise((resolve) => {
     elements.swap.addEventListener(
@@ -792,13 +795,11 @@ function rollDie() {
   const shuffle = setInterval(() => {
     elements.die.textContent = String(1 + Math.floor(Math.random() * 6));
   }, 80);
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      clearInterval(shuffle);
-      delete elements.die.dataset.rolling;
-      elements.die.textContent = String(roll);
-      resolve(roll);
-    }, DIE_ROLL_MS);
+  return wait(DIE_ROLL_MS).then(() => {
+    clearInterval(shuffle);
+    delete elements.die.dataset.rolling;
+    elements.die.textContent = String(roll);
+    return roll;
   });
 }
 
@@ -873,7 +874,7 @@ function showCard(card) {
   elements.cardText.textContent = card.text;
   elements.cardOk.textContent = card.button ?? CARD_BUTTONS[card.kind];
   sounds[card.kind](); // good, bad or challenge
-  elements.card.showModal();
+  elements.card.show();
   speak([elements.cardTitle.textContent, card.text]);
   return new Promise((resolve) => {
     elements.card.addEventListener("close", resolve, { once: true });
@@ -919,7 +920,7 @@ function askQuestion(question) {
   elements.questionNext.hidden = true;
   delete elements.question.dataset.result; // nothing answered yet
   sounds.challenge();
-  elements.question.showModal();
+  elements.question.show();
   // The question, then each answer in the order they are on the screen, with a pause
   // between them.
   speak(trueFalse ? [question.text, "¿Verdadero o falso?"] : [question.text, ...options.map(({ answer }) => answer)]);
@@ -1092,16 +1093,31 @@ function createAvatar(person) {
   return avatar;
 }
 
-// ---------- Leaving ----------
+// ---------- Pause ----------
 
-// In the middle of a game, 🏠 asks first: the game is not saved. Before it starts or
-// once someone has reached the Moon, it just leaves.
-function tapExit(event) {
-  const playing = game.players.length > 0 && !game.players.some((p) => p.place === pack.goal);
-  if (playing) {
-    event.preventDefault();
-    elements.leave.showModal();
-  }
+// ⏸ stops everything (the clock of the game, the music, the voice) and asks what to do.
+function pauseGame() {
+  game.paused = true;
+  music.pause();
+  quiet();
+  elements.pause.showModal();
+}
+
+function resumeGame() {
+  elements.pause.close();
+  game.paused = false;
+  music.follow(); // back on, unless the music is switched off
+}
+
+// A new game with the same players and mode: the page again, starting at once (the setup
+// is remembered, see loadSetup), so nothing of this game is left half way.
+function restartGame() {
+  window.location.replace(`game.html?game=${encodeURIComponent(GAME_ID)}&start=1`);
+}
+
+// Back to choosing who plays.
+function backToMenu() {
+  window.location.replace(`game.html?game=${encodeURIComponent(GAME_ID)}`);
 }
 
 // ---------- Small helpers ----------
@@ -1115,8 +1131,26 @@ function speak(text) {
   }
 }
 
+// Waits `ms` of game time: while paused (⏸), the clock stops, so the whole game stops
+// where it is (a token half way, the die rolling, the pause before a card…).
 function wait(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise((resolve) => {
+    let left = ms;
+    let last = performance.now();
+    const tick = () => {
+      const now = performance.now();
+      if (!game.paused) {
+        left -= now - last;
+      }
+      last = now;
+      if (left <= 0) {
+        resolve();
+      } else {
+        setTimeout(tick, Math.min(left, 50));
+      }
+    };
+    setTimeout(tick, Math.min(ms, 50));
+  });
 }
 
 function showStatus(message, error) {
@@ -1212,8 +1246,14 @@ async function init() {
   elements.starUse.addEventListener("click", () => elements.starOffer.close("use"));
   elements.starKeep.addEventListener("click", () => elements.starOffer.close("keep"));
   elements.swapNone.addEventListener("click", () => elements.swap.close(""));
-  elements.exit.addEventListener("click", tapExit);
-  elements.leaveStay.addEventListener("click", () => elements.leave.close());
+  elements.pauseButton.addEventListener("click", pauseGame);
+  elements.pauseResume.addEventListener("click", resumeGame);
+  elements.pauseRestart.addEventListener("click", restartGame);
+  elements.pauseMenu.addEventListener("click", backToMenu);
+  elements.pause.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    resumeGame(); // Escape: go on playing
+  });
   // The voice stops with its card, and when leaving the page.
   for (const dialog of [elements.card, elements.question, elements.starOffer, elements.swap, elements.winner]) {
     dialog.addEventListener("close", quiet);
@@ -1255,6 +1295,14 @@ async function init() {
   }
   const saved = loadSetup();
   setUpRules(saved.mode);
+  const params = new URLSearchParams(window.location.search);
+  if (params.has("start") && game.chosen.length > 0) {
+    // "Empezar de nuevo": the same players, straight to the board.
+    params.delete("start");
+    history.replaceState(null, "", `game.html?${params}`);
+    startGame(chosenPlayers());
+    return;
+  }
   showSetup();
 }
 

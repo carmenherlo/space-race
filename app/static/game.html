@@ -51,11 +51,8 @@
     </div>
   </div>
 
-  <a class="game-exit" id="exit" href="./" aria-label="Salir del juego">
-    <svg class="line-icon" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6.5H9V21H4.5a1 1 0 0 1-1-1z" />
-    </svg>
-  </a>
+  <!-- Pause: always on top, also over a card (the cards open non-modal, see js/game.js). -->
+  <button class="game-exit" id="pause-button" type="button" aria-label="Pausa">⏸</button>
 
   <!-- Before playing: 1. who plays (tap the avatars, in turn order), 2. each one's name and
        level, 3. the mode, and how a turn goes. Remembered on this device (js/game.js). -->
@@ -120,7 +117,7 @@
   </dialog>
 
   <!-- What happens on a square: something good, something bad or a funny challenge. -->
-  <dialog class="game-dialog card" id="card" aria-labelledby="card-title">
+  <dialog class="game-dialog card" id="card" data-in-game aria-labelledby="card-title">
     <span class="card__emoji" id="card-emoji" aria-hidden="true"></span>
     <h2 class="card__title" id="card-title"></h2>
     <p class="card__text" id="card-text"></p>
@@ -128,7 +125,7 @@
   </dialog>
 
   <!-- A bad square for a player with a wildcard star: they choose to use it or keep it. -->
-  <dialog class="game-dialog card card--choice" id="star-offer" data-kind="bad" aria-labelledby="star-offer-title">
+  <dialog class="game-dialog card card--choice" id="star-offer" data-in-game data-kind="bad" aria-labelledby="star-offer-title">
     <span class="card__emoji" id="star-offer-emoji" aria-hidden="true"></span>
     <h2 class="card__title" id="star-offer-title"></h2>
     <p class="card__text" id="star-offer-text"></p>
@@ -140,7 +137,7 @@
   </dialog>
 
   <!-- The spy satellite: swap places with another player of your choice, or stay. -->
-  <dialog class="game-dialog card card--choice" id="swap" data-kind="good" aria-labelledby="swap-title">
+  <dialog class="game-dialog card card--choice" id="swap" data-in-game data-kind="good" aria-labelledby="swap-title">
     <span class="card__emoji" id="swap-emoji" aria-hidden="true"></span>
     <h2 class="card__title" id="swap-title"></h2>
     <p class="card__text" id="swap-text"></p>
@@ -153,7 +150,7 @@
 
   <!-- Mode "Preguntas": four answers to choose from. The game knows the right one:
        right, the player rolls again; wrong, the right one is shown and the turn passes. -->
-  <dialog class="game-dialog question" id="question" aria-labelledby="question-text">
+  <dialog class="game-dialog question" id="question" data-in-game aria-labelledby="question-text">
     <span class="question__level" id="question-level"></span>
     <span class="question__emoji" id="question-emoji" aria-hidden="true"></span>
     <p class="question__text" id="question-text"></p>
@@ -176,14 +173,14 @@
     </div>
   </dialog>
 
-  <!-- Leaving in the middle of a game: ask first, the game is not saved. -->
-  <dialog class="game-dialog leave" id="leave" aria-labelledby="leave-title">
-    <span class="card__emoji" aria-hidden="true">🚀</span>
-    <h2 class="card__title" id="leave-title">¿Salir de la partida?</h2>
-    <p class="card__text">Si sales ahora, la partida no se guardará.</p>
-    <div class="game-actions">
-      <button class="game-button" id="leave-stay" type="button">Seguir jugando</button>
-      <a class="game-button game-button--quiet" href="games.html">Salir</a>
+  <!-- Paused: everything stops (die, tokens, music, voice) until one of these. -->
+  <dialog class="game-dialog pause" id="pause" aria-labelledby="pause-title">
+    <span class="card__emoji" aria-hidden="true">⏸</span>
+    <h2 class="card__title" id="pause-title">Pausa</h2>
+    <div class="pause__actions">
+      <button class="game-button" id="pause-resume" type="button">▶ Seguir jugando</button>
+      <button class="game-button game-button--quiet" id="pause-restart" type="button">🔄 Empezar de nuevo</button>
+      <button class="game-button game-button--quiet" id="pause-menu" type="button">👥 Volver al menú</button>
     </div>
   </dialog>
 

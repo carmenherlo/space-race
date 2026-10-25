@@ -225,7 +225,7 @@ body.game {
   position: fixed;
   top: var(--space-s);
   right: var(--space-s);
-  z-index: 5;
+  z-index: 30; /* over the cards (see .game-dialog[data-in-game]) */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -242,6 +242,30 @@ body.game {
 .game-sound {
   right: calc(var(--space-s) * 2 + 3.5rem);
   font-size: 1.6rem;
+}
+
+.game-exit {
+  font-size: 1.5rem;
+}
+
+/* The cards and questions open non-modal, so ⏸ and 🔊 stay usable: centred on the screen
+   with their own dark veil around them (instead of a ::backdrop). */
+.game-dialog[data-in-game][open] {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 20;
+  height: fit-content;
+  margin: auto;
+  box-shadow: 0 0 0 100vmax rgb(5 8 25 / 65%);
+}
+
+/* Paused: one big button under the other. */
+.pause__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  margin-top: var(--space-m);
 }
 
 /* ---------- Dialogs: setup, cards, winner ---------- */
@@ -411,8 +435,8 @@ body.game {
 }
 
 
-.leave {
-  border-top-color: var(--game-pink);
+.pause {
+  border-top-color: var(--game-mint);
 }
 
 /* The rules: one switch each, side by side when they fit. */
