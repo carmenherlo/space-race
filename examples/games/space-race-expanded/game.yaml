@@ -17,6 +17,7 @@ title: "Space Race Expanded"
 modes: [race, questions] # "Carrera" or "Sabelotodo" (a question after a turn)
 exact_finish: true       # the Moon only with the exact number; overshooting bounces back
 backwards_counts: false  # going back (meteorites, storm, bounce, nebula, swap): you just stay there
+max_stars: 1             # one wildcard star at a time: with one, square 13 gives no other
 voice: true              # a voice reads the cards aloud (the tablet's own; 🔊 turns it off)
 
 # Where every place is on the picture: [x, y] in % of its width and height.

@@ -31,6 +31,7 @@ const pack = {
   modes: [], // "race", "challenges", "questions": the ones this game has
   exactFinish: null, // true or false: fixed by the game; null: the players choose
   backwardsCounts: true, // going back lands on a square that counts (false: you just stay)
+  maxStars: Infinity, // wildcard stars a player can keep at once
   voice: false, // a voice reads the cards aloud (see speak)
   challenges: [], // funny things to do (mode "Retos locos"): { kind, emoji, text }
   questions: [], // space questions (mode "Sabelotodo"): { kind, emoji, text, answer, wrong, note }
@@ -605,6 +606,17 @@ async function landOn(player) {
     if (await offerStar(player, square)) {
       return { again: false, punished: true }; // saved: you stay here and the turn ends
     }
+  } else if (square.star && player.stars >= pack.maxStars) {
+    // Already as many stars as allowed: nothing happens here.
+    await showCard({
+      kind: "good",
+      emoji: square.emoji,
+      title: square.title,
+      text: pack.maxStars === 1
+        ? "Ya tienes una estrella: solo se puede llevar una."
+        : `Ya tienes ${pack.maxStars} estrellas: no se pueden llevar más.`,
+    });
+    return { again: false, punished: false };
   } else if (square.swap && others.length > 0) {
     const other = await chooseSwap(player, square, others);
     if (other) {
@@ -1140,6 +1152,7 @@ async function loadPack() {
   pack.modes = content.modes;
   pack.exactFinish = content.exact_finish;
   pack.backwardsCounts = content.backwards_counts;
+  pack.maxStars = content.max_stars ?? Infinity;
   pack.voice = content.voice;
   pack.challenges = content.challenges.map((challenge) => ({ kind: "challenge", ...challenge }));
   pack.questions = content.questions.map((question) => ({ kind: "question", ...question }));

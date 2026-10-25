@@ -50,6 +50,7 @@ def test_space_race_expanded_has_its_own_rules() -> None:
     assert pack.goal == 69  # start, 68 squares, the Moon
     assert pack.playable_modes() == ["race", "questions"]  # "Carrera" and "Sabelotodo"
     assert (pack.exact_finish, pack.backwards_counts, pack.voice) == (True, False, True)
+    assert pack.max_stars == 1  # one wildcard star at a time
     galaxies = [6, 11, 15, 20, 24, 29, 33, 38, 42, 47, 51, 56, 60, 65]
     assert [pack.squares[n].go_to for n in galaxies] == [*galaxies[1:], 69]  # the last one: the Moon
     assert all(pack.squares[n].again for n in galaxies[:-1])  # "y tiro porque me toca"
@@ -90,6 +91,7 @@ INVALID: dict[str, Callable[[dict[str, Any]], None]] = {
     "challenges mode without challenges": lambda d: d.update(challenges=[]),
     "unknown mode": lambda d: d.update(modes=["race", "chess"]),
     "no modes": lambda d: d.update(modes=[]),
+    "max_stars of 0": lambda d: d.update(max_stars=0),
     "place outside the picture": lambda d: d["places"].__setitem__(3, [120, 40]),
     "too few places": lambda d: d.update(places=[[1, 1], [2, 2]]),
     "question with two wrong answers": lambda d: d["questions"][0].update(wrong=["A", "B"]),

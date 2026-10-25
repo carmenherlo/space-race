@@ -116,6 +116,8 @@ class GamePack(StrictModel):
     # Going back (the meteorites, someone else's move, the bounce at the goal) lands on a
     # square that counts (true), or you just stay there (false).
     backwards_counts: bool = True
+    # How many wildcard stars a player can keep at once; without it, as many as they get.
+    max_stars: int | None = Field(default=None, ge=1)
     # A voice reads the cards aloud (the tablet's own voice, in Spanish), for those who
     # cannot read yet. The sound switch turns it off too.
     voice: bool = False
