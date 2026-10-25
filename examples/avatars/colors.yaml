@@ -1,0 +1,5 @@
+# Example of data/avatars/colors.yaml. The avatars are the pictures in data/avatars/
+# (png, webp, jpg…; any names; subfolders are never shown). Each one's colour (#rrggbb):
+# its ring, its token and its glow on its turn. A picture not listed gets its seat's colour.
+pollito.png: "#ffd60a"    # yellow
+delfin.png: "#1e90ff"     # blue

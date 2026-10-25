@@ -4,6 +4,7 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     SPACE_RACE_GAMES=/data/games \
+    SPACE_RACE_AVATARS=/data/avatars \
     SPACE_RACE_CACHE=/data/cache
 
 WORKDIR /app

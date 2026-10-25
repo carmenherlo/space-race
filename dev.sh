@@ -3,17 +3,19 @@
 # missionboard conda environment active. Code changes (CSS, JS, Python) show up on reload.
 #
 # Usage: bash dev.sh [--example]
-#   (no options)  your games and avatars in data/games  → http://localhost:8101/
-#   --example     the example games (no board picture)  → http://localhost:8102/
+#   (no options)  your games and avatars in data/       → http://localhost:8101/
+#   --example     the examples (no board, no avatars)   → http://localhost:8102/
 set -euo pipefail
 cd "$(dirname "$0")"
 
 port=8101
 export SPACE_RACE_GAMES=data/games
+export SPACE_RACE_AVATARS=data/avatars
 case "${1:-}" in
   "") ;;
   --example)
     export SPACE_RACE_GAMES=examples/games
+    export SPACE_RACE_AVATARS=examples/avatars
     port=8102
     ;;
   -h | --help)

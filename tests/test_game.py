@@ -1,4 +1,4 @@
-"""The board games (app/game.py): one folder per game, the avatars, and the API."""
+"""The board games (app/game.py): one folder per game, and the API."""
 
 import copy
 import shutil
@@ -11,7 +11,7 @@ import yaml
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
 
-from app.game import AVATARS_DIR, GAME_FILE, GamePack, list_avatars, load_game_pack, load_games
+from app.game import GAME_FILE, GamePack, load_game_pack, load_games
 from tests.conftest import EXAMPLE_GAMES, TEMPLATES
 
 SPACE_RACE = TEMPLATES / "space-race"  # the original board: a template, not in the menu
@@ -151,41 +151,6 @@ def test_a_broken_game_is_reported_and_the_others_still_work(tmp_path: Path) -> 
     assert games.games["space-race-expanded"].available and games.available
 
 
-# ---------- Avatars ----------
-
-def games_with_avatars(tmp_path: Path) -> Path:
-    """The example games plus a players folder with two drawings, a personal photo and a
-    file that is not a picture."""
-    games_dir = tmp_path / "games"
-    shutil.copytree(EXAMPLE_GAMES, games_dir)
-    players = games_dir / AVATARS_DIR
-    (players / "personal").mkdir(parents=True)
-    (players / "oso.png").write_bytes(b"\x89PNG")
-    (players / "Gato 2.webp").write_bytes(b"RIFF....WEBP")
-    (players / "notes.txt").write_text("not a picture", encoding="utf-8")
-    (players / ".hidden.png").write_bytes(b"\x89PNG")
-    (players / "personal" / "photo.jpg").write_bytes(b"\xff\xd8")
-    return games_dir
-
-
-def test_avatars_are_only_the_pictures_right_in_players(tmp_path: Path) -> None:
-    assert list_avatars(games_with_avatars(tmp_path)) == ["Gato 2.webp", "oso.png"]
-    assert list_avatars(tmp_path / "none") == []
-
-
-def test_api_serves_the_avatars_but_never_the_personal_photos(tmp_path: Path, client_for: ClientFor) -> None:
-    with client_for(games_with_avatars(tmp_path)) as client:
-        assert client.get("/api/avatars").json() == [
-            {"id": "Gato 2.webp", "url": "games-pack/players/Gato%202.webp"},
-            {"id": "oso.png", "url": "games-pack/players/oso.png"},
-        ]
-        assert client.get("/games-pack/players/oso.png").status_code == 200
-        assert client.get("/games-pack/players/Gato%202.webp").status_code == 200
-        assert client.get("/games-pack/players/personal/photo.jpg").status_code == 404
-        assert client.get("/games-pack/players/notes.txt").status_code == 404
-        assert client.get("/games-pack/players/..%2Fspace-race-expanded%2Fgame.yaml").status_code == 404
-
-
 # ---------- API ----------
 
 def test_api_lists_the_games(client: TestClient) -> None:
@@ -221,7 +186,6 @@ def test_without_games_there_is_no_game(tmp_path: Path, client_for: ClientFor) -
     with client_for(tmp_path / "none") as client:
         assert client.get("/api/games").json() == []
         assert client.get("/api/games/space-race-expanded").status_code == 404
-        assert client.get("/api/avatars").json() == []
 
 
 def test_a_broken_game_is_listed_as_not_available(tmp_path: Path, client_for: ClientFor) -> None:

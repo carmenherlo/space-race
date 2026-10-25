@@ -34,13 +34,14 @@ const pack = {
   voice: false, // a voice reads the cards aloud (see speak)
   challenges: [], // funny things to do (mode "Retos locos"): { kind, emoji, text }
   questions: [], // space questions (mode "Sabelotodo"): { kind, emoji, text, answer, wrong, note }
-  avatars: [], // the pictures players choose from: { id, url } (data/games/players)
+  avatars: [], // the pictures players choose from: { id, url, color } (data/avatars)
 };
 
 // ---------- Players ----------
 
 const MAX_PLAYERS = 6;
-// Each seat's colour (the ring of their avatar, their token and turn), in turn order.
+// Each seat's colour, for an avatar without its own (data/avatars/colors.yaml): the ring
+// of their avatar, their token, their glow and their turn.
 const PLAYER_COLORS = ["#c3a6ff", "#8fd3c7", "#ffb4a2", "#ffe08a", "#9cc7ff", "#f5a3d0"];
 // The setup, remembered on this device for the next game (see saveSetup).
 const SETUP_KEY = "space-race:setup";
@@ -239,7 +240,7 @@ function chooseAvatar(index) {
     button.className = "avatars__option";
     button.setAttribute("aria-pressed", String(avatar.id === game.seats[index].avatar));
     button.disabled = taken.has(avatar.id) && avatar.id !== game.seats[index].avatar;
-    button.append(createAvatar({ name: avatar.id, color: PLAYER_COLORS[index], photoUrl: avatar.url }));
+    button.append(createAvatar({ name: avatar.id, color: avatar.color ?? PLAYER_COLORS[index], photoUrl: avatar.url }));
     button.addEventListener("click", () => {
       game.seats[index].avatar = avatar.id;
       saveSetup();
@@ -256,14 +257,15 @@ function defaultName(index) {
   return `Jugador ${index + 1}`;
 }
 
-// A seat as a player: their name (or "Jugador 2"), colour, avatar and level.
+// A seat as a player: their name (or "Jugador 2"), avatar, its colour, and level.
 function seatPerson(index) {
   const seat = game.seats[index];
+  const avatar = pack.avatars.find((one) => one.id === seat.avatar);
   return {
     id: `player-${index + 1}`,
     name: seat.name.trim() || defaultName(index),
-    color: PLAYER_COLORS[index],
-    photoUrl: pack.avatars.find((avatar) => avatar.id === seat.avatar)?.url ?? null,
+    color: avatar?.color ?? PLAYER_COLORS[index],
+    photoUrl: avatar?.url ?? null,
     level: seat.level,
   };
 }

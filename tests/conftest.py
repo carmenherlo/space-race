@@ -11,16 +11,18 @@ from app.main import create_app
 
 ROOT = Path(__file__).parent.parent
 EXAMPLE_GAMES = ROOT / "examples" / "games"
+EXAMPLE_AVATARS = ROOT / "examples" / "avatars"
 TEMPLATES = ROOT / "templates"
 
 
 @pytest.fixture
-def client_for(tmp_path: Path) -> Callable[[Path], TestClient]:
-    """An app on this games folder; use it with "with", which runs the startup."""
+def client_for(tmp_path: Path) -> Callable[..., TestClient]:
+    """An app on this games (and avatars) folder; use it with "with", which runs the startup."""
 
-    def make(games_dir: Path) -> TestClient:
+    def make(games_dir: Path, avatars_dir: Path = EXAMPLE_AVATARS) -> TestClient:
         settings = Settings(
             games_dir=games_dir,
+            avatars_dir=avatars_dir,
             cache_dir=tmp_path / "cache",
             voice_model=tmp_path / "no-voice.onnx",  # no voice: tests never load a real model
         )
@@ -30,6 +32,6 @@ def client_for(tmp_path: Path) -> Callable[[Path], TestClient]:
 
 
 @pytest.fixture
-def client(client_for: Callable[[Path], TestClient]) -> Iterator[TestClient]:
+def client(client_for: Callable[..., TestClient]) -> Iterator[TestClient]:
     with client_for(EXAMPLE_GAMES) as client:
         yield client

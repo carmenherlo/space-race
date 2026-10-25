@@ -1,11 +1,9 @@
-"""The board games: a folder with one pack per game, and the avatars players choose from.
+"""The board games: a folder with one pack per game.
 
 The games themselves run in the browser (app/static/js/game.js); this module only reads and
 checks the packs, so a typo in a game.yaml only disables that game.
 
     data/games/
-      players/                   the avatars, one picture each (any names)
-        personal/                never shown: subfolders of players/ are ignored
       space-race-expanded/       one folder per game; its name is the game's id
         game.yaml                where the squares are, what happens on them, the rules
         board.webp               the board picture
@@ -21,10 +19,9 @@ from typing import Annotated, Literal
 import yaml
 from pydantic import Field, StringConstraints, ValidationError, field_validator, model_validator
 
-from app.config import IMAGE_EXTENSIONS, ImageName, StrictModel, Text
+from app.config import ImageName, StrictModel, Text
 
 GAME_FILE = "game.yaml"
-AVATARS_DIR = "players"  # in the games folder; not a game (it has no game.yaml)
 
 # A place on the board picture: [x, y] in % of its width and height.
 Percent = Annotated[float, Field(ge=0, le=100)]
@@ -216,17 +213,3 @@ def load_games(games_dir: Path) -> Games:
         if (folder / GAME_FILE).is_file() and not folder.name.startswith(".")
     })
 
-
-def list_avatars(games_dir: Path) -> list[str]:
-    """The pictures players can choose as their avatar: the image files right in
-    games_dir/players, in name order. Subfolders (like personal/) are never listed."""
-    folder = games_dir / AVATARS_DIR
-    if not folder.is_dir():
-        return []
-    return sorted(
-        path.name
-        for path in folder.iterdir()
-        if path.is_file()
-        and not path.name.startswith(".")
-        and path.suffix.lower().lstrip(".") in IMAGE_EXTENSIONS
-    )

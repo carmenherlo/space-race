@@ -15,7 +15,8 @@ from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.config import Settings
-from app.game import AVATARS_DIR, list_avatars, load_games
+from app.avatars import list_avatars
+from app.game import load_games
 from app.voice import MAX_TEXT, Voice, VoiceUnavailableError, Who
 
 STATIC_DIR = Path(__file__).parent / "static"
@@ -98,21 +99,20 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return content
 
     @app.get("/api/avatars")
-    def avatars() -> list[dict[str, str]]:
-        """The pictures players choose from (data/games/players; read on every call, so new
-        drawings show up without a restart)."""
+    def avatars() -> list[dict[str, str | None]]:
+        """The pictures players choose from, with their colours (app/avatars.py)."""
         return [
-            {"id": name, "url": games_url(f"{AVATARS_DIR}/{name}")}
-            for name in list_avatars(resolved.games_dir)
+            {"id": avatar.name, "url": f"avatars/{quote(avatar.name)}", "color": avatar.color}
+            for avatar in list_avatars(resolved.avatars_dir)
         ]
 
-    # Only the files the game needs: each game's board picture and the avatars. Nothing
-    # else in the games folder (players/personal/, the rules…) is ever served.
-    @app.get(f"/games-pack/{AVATARS_DIR}/{{name}}")
+    # Only the files the game needs: the avatars and each game's board picture. Nothing
+    # else (subfolders, colors.yaml, a game's rules…) is ever served.
+    @app.get("/avatars/{name}")
     def avatar_file(name: str) -> FileResponse:
-        if name not in list_avatars(resolved.games_dir):
+        if name not in {avatar.name for avatar in list_avatars(resolved.avatars_dir)}:
             raise HTTPException(status_code=404)
-        return FileResponse(resolved.games_dir / AVATARS_DIR / name)
+        return FileResponse(resolved.avatars_dir / name)
 
     @app.get("/games-pack/{game_id}/{name:path}")
     def board_picture(game_id: str, name: str, request: Request) -> FileResponse:

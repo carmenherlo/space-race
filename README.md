@@ -10,14 +10,14 @@ Una voz lee las cartas en voz alta.
 ## Ponerlo en marcha (Docker)
 
 ```bash
-cp -r examples/games data/games      # la primera vez
+cp -r examples/games examples/avatars data/   # la primera vez
 docker compose up -d --build         # → http://localhost:8100
 ```
 
 - **Tablero:** copia la imagen a `data/games/space-race-expanded/board.webp` y quita el `#`
   de `image: board.webp` en su `game.yaml`. Sin imagen se juega sobre un tablero de puntos.
-- **Avatares:** pon los dibujos (png, webp, jpg…) en `data/games/players/`. Las
-  subcarpetas, como `players/personal/`, nunca se muestran ni se sirven.
+- **Avatares:** pon las fotos o dibujos (png, webp, jpg…) en `data/avatars/`, y el color de
+  cada uno en `data/avatars/colors.yaml`. Las subcarpetas nunca se muestran ni se sirven.
 
 Tras cambiar un `game.yaml`: `docker compose restart`.
 
@@ -26,7 +26,7 @@ Tras cambiar un `game.yaml`: `docker compose restart`.
 Con el entorno de conda `missionboard` activo:
 
 ```bash
-bash dev.sh            # tus datos de data/games  → http://localhost:8101
+bash dev.sh            # tus datos de data/       → http://localhost:8101
 bash dev.sh --example  # los ejemplos             → http://localhost:8102
 python -m pytest
 ```
@@ -39,7 +39,7 @@ Para tener voz en desarrollo, el modelo de Piper va en `data/voices/`
 ```
 app/            servidor (FastAPI): main.py rutas · game.py lee los game.yaml · voice.py voz
 app/static/     la web: games.html (menú) · game.html + js/game.js (el juego)
-examples/games/ ejemplo de data/games (el juego Expanded)
+examples/       ejemplo de data/: games/ (el juego Expanded) y avatars/colors.yaml
 templates/      juegos guardados que no salen en el menú (el Space Race original)
-data/           lo real: juegos, tablero, avatares, caché de voz (fuera del repo)
+data/           lo real: games/, avatars/, personal/, voices/ (fuera del repo)
 ```

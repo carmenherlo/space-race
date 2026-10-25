@@ -23,6 +23,9 @@ ImageName = Annotated[
     StringConstraints(pattern=rf"^({_PATH_PART}/)*{_PATH_PART}\.({'|'.join(IMAGE_EXTENSIONS)})$"),
 ]
 
+# Colour as #rrggbb, e.g. "#ffd60a".
+Color = Annotated[str, StringConstraints(pattern=r"^#[0-9a-fA-F]{6}$")]
+
 
 class StrictModel(BaseModel):
     """Base model that rejects unknown fields, so typos fail loudly."""
@@ -32,7 +35,8 @@ class StrictModel(BaseModel):
 
 @dataclass(frozen=True)
 class Settings:
-    games_dir: Path = Path("/data/games")  # one folder per game, and players/ (the avatars)
+    games_dir: Path = Path("/data/games")  # one folder per game
+    avatars_dir: Path = Path("/data/avatars")  # the pictures players choose from (app/avatars.py)
     cache_dir: Path = Path("/data/cache")  # the voice's WAV files
     # The voice model (app/voice.py); the Docker image brings it. Optional.
     voice_model: Path = Path("/opt/voices/es_ES-sharvard-medium.onnx")
@@ -42,6 +46,7 @@ class Settings:
         default = cls()
         return cls(
             games_dir=Path(os.environ.get("SPACE_RACE_GAMES", default.games_dir)),
+            avatars_dir=Path(os.environ.get("SPACE_RACE_AVATARS", default.avatars_dir)),
             cache_dir=Path(os.environ.get("SPACE_RACE_CACHE", default.cache_dir)),
             voice_model=Path(os.environ.get("SPACE_RACE_VOICE_MODEL", default.voice_model)),
         )
