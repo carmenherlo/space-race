@@ -71,8 +71,8 @@ const LEVEL_NAMES = { very_easy: "muy fácil", easy: "fácil", medium: "medio", 
 // "very_easy" questions are true or false: these two answers, in this order, with a hand
 // for those who cannot read yet.
 const TRUE_FALSE = [
-  { answer: "Verdadero", icon: "👍" },
-  { answer: "Falso", icon: "👎" },
+  { answer: "Verdadero", icon: "👍", tone: "true" }, // green
+  { answer: "Falso", icon: "👎", tone: "false" }, // red
 ];
 
 const CARD_TITLES = { good: "¡Qué suerte!", bad: "¡Oh, no!", challenge: "¡Reto!" };
@@ -869,11 +869,14 @@ function askQuestion(question) {
   const options = trueFalse
     ? TRUE_FALSE
     : shuffled([question.answer, ...question.wrong]).map((answer) => ({ answer }));
-  const answers = options.map(({ answer, icon }) => {
+  const answers = options.map(({ answer, icon, tone }) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "answer";
     button.dataset.answer = answer;
+    if (tone) {
+      button.dataset.tone = tone;
+    }
     button.textContent = icon ? `${icon} ${answer}` : answer;
     button.addEventListener("click", () => chooseAnswer(question, button));
     return button;
@@ -908,6 +911,7 @@ function chooseAnswer(question, chosen) {
   if (!right) {
     chosen.dataset.result = "wrong";
   }
+  chosen.dataset.chosen = ""; // the one they tapped stands out
   elements.question.dataset.result = right ? "right" : "wrong";
   const verdict = right ? "¡Correcto! 🎉" : `¡Casi! Era: ${question.answer}.`;
   elements.questionResult.textContent = question.note ? `${verdict} ${question.note}` : verdict;

@@ -646,10 +646,40 @@ body.game {
   gap: var(--space-s);
 }
 
-/* True or false: two big buttons, with a hand each. */
+/* True or false, for the littlest ones: two big buttons, green and red, with a hand each.
+   The one they tap grows with a thick ring; the other fades. */
 .question__answers[data-kind="true-false"] .answer {
-  min-height: calc(var(--touch-min) * 2);
-  font-size: clamp(1.4rem, 1rem + 1.4vw, 2.1rem);
+  min-height: calc(var(--touch-min) * 2.6);
+  border: 6px solid transparent;
+  border-radius: 1.5rem;
+  color: #ffffff;
+  font-size: clamp(1.6rem, 1.1rem + 1.8vw, 2.6rem);
+  font-weight: 800;
+  text-shadow: 0 2px 4px rgb(0 0 0 / 25%);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.question__answers[data-kind="true-false"] .answer[data-tone="true"] {
+  background: #22b04b;
+}
+
+.question__answers[data-kind="true-false"] .answer[data-tone="false"] {
+  background: #e5383b;
+}
+
+.question__answers[data-kind="true-false"] .answer:disabled {
+  opacity: 0.3;
+}
+
+.question__answers[data-kind="true-false"] .answer[data-result] {
+  opacity: 1;
+}
+
+.question__answers[data-kind="true-false"] .answer[data-chosen] {
+  border-color: var(--game-navy);
+  opacity: 1;
+  transform: scale(1.08);
+  box-shadow: 0 0 0 4px #ffffff, 0 8px 20px rgb(0 0 0 / 30%);
 }
 
 .answer {
@@ -686,6 +716,23 @@ body.game {
 
 .answer[data-result="wrong"]::before {
   content: "✗ ";
+}
+
+/* True or false keep their green and red: only the ✓ and ✗ tell the result. */
+.question__answers[data-kind="true-false"] .answer[data-result] {
+  border-color: transparent;
+}
+
+.question__answers[data-kind="true-false"] .answer[data-result][data-tone="true"] {
+  background: #22b04b;
+}
+
+.question__answers[data-kind="true-false"] .answer[data-result][data-tone="false"] {
+  background: #e5383b;
+}
+
+.question__answers[data-kind="true-false"] .answer[data-chosen][data-result] {
+  border-color: var(--game-navy);
 }
 
 .question__result {
