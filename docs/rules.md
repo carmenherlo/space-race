@@ -82,7 +82,7 @@ Antes de empezar se elige el modo:
 
 - Hay 4 niveles: 1 ⭐ muy fácil (verdadero o falso) · 2 ⭐⭐ fácil · 3 ⭐⭐⭐ medio · 4 ⭐⭐⭐⭐ difícil.
 - A cada jugador se le asigna un nivel antes de empezar (las estrellas bajo su avatar).
-- Empieza el jugador 1 y se sigue en el orden de la lista (no se tira para ver quién empieza).
+- Para ver quién empieza se tira el dado como en Carrera (empieza el más alto; si hay empate, desempatan). Después se sigue en el orden de la lista.
 - En tu turno te hacen una pregunta de tu nivel:
   - **Si aciertas**, tiras el dado y avanzas tantas casillas como indique. Después, turno del siguiente.
   - **Si fallas**, se muestra la respuesta correcta y te quedas donde estás. Turno del siguiente.

@@ -3,7 +3,7 @@
 // "Carrera" (and "Retos locos"): roll the die and do what your square says (UFOs, galaxies,
 // a black hole…); in "Retos locos", a turn that ends further on brings a funny challenge.
 // "Sabelotodo": first a question of your level; right, roll and move (the squares do
-// nothing); wrong, you stay where you are.
+// nothing); wrong, you stay where you are. In both, a first roll decides who starts.
 // Nothing is saved on the server: a game lasts while the page is open. Only the setup (how
 // many play, their avatars, names and levels, the mode) is remembered on this device.
 //
@@ -350,15 +350,17 @@ function renderSummary() {
   const moon = exactFinish()
     ? "🌕 Gana quien llega a la Luna con el número justo."
     : "🌕 Gana el primero que llega a la Luna.";
+  const opening = game.chosen.length > 1 ? ["🎲 Primero, todos tiran: empieza quien saque más."] : [];
   if (mode === "questions") {
     elements.setupSummary.textContent = [
+      ...opening,
       "🧠 En tu turno, una pregunta de tu nivel: si aciertas, tiras el dado y avanzas; si fallas, te quedas donde estás.",
       "Las casillas especiales no hacen nada.",
       moon,
     ].join(" ");
     return;
   }
-  const parts = game.chosen.length > 1 ? ["🎲 Primero, todos tiran: empieza quien saque más."] : [];
+  const parts = [...opening];
   parts.push("🎲 Tiras y haces lo que dice tu casilla.");
   if (mode === "challenges") {
     parts.push("🎭 Si acabas más adelante de donde empezaste, ¡reto!");
@@ -419,13 +421,18 @@ async function startGame(players) {
   await wait(START_PAUSE_MS); // first, the board with everybody at the start
   game.busy = false;
   elements.turn.hidden = false;
-  if (game.mode === "questions") {
-    renderTurn(); // the first player starts
-    askTurnQuestion();
-  } else if (game.players.length > 1) {
+  if (game.players.length > 1) {
     startOpening(game.players.map((_, index) => index));
   } else {
-    renderTurn(); // playing alone: nothing to decide
+    beginFirstTurn(); // playing alone: nothing to decide
+  }
+}
+
+// The first turn, once who starts is decided: in "Sabelotodo", it begins with a question.
+function beginFirstTurn() {
+  renderTurn();
+  if (game.mode === "questions") {
+    askTurnQuestion();
   }
 }
 
@@ -483,7 +490,7 @@ async function rollForStart() {
   game.opening = null;
   game.turn = tied[0];
   game.busy = false;
-  renderTurn();
+  beginFirstTurn();
 }
 
 // "Ana", "Ana y Luis", "Ana, Luis y Sara".
