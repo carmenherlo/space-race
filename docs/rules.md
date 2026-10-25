@@ -14,7 +14,7 @@
 ## Preparación
 
 1. Cada jugador coloca su ficha en **Start here**.
-2. Todos tiran el dado: empieza quien saque el número más alto. Después se juega por turnos en el sentido de las agujas del reloj.
+2. Por orden, cada jugador toca el dado: empieza quien saque el número más alto. Si hay empate en el más alto, solo los empatados vuelven a tirar hasta que uno saque más. Después se juega por turnos, en el orden de la lista de jugadores, a partir del que empieza.
 
 ## Cómo se juega
 
@@ -44,7 +44,8 @@ En tu turno tiras el dado y avanzas tantas casillas como indique. Si caes en una
 
 ## La estrella comodín ⭐
 
-- Cada vez que caes en la casilla 13 coges una estrella.
+- Cuando caes en la casilla 13 coges una estrella.
+- Solo puedes tener **una estrella a la vez**: si ya tienes una y caes en la 13, no coges otra.
 - Puedes usarla **una vez** para librarte de una casilla mala: **meteoritos (23), ovni hacia atrás (57), estación espacial (36), nebulosa (44), fiesta alienígena (52) o agujero negro (58)**.
 - Cuando caes en esa casilla dices **"¡Uso mi estrella!"**, la devuelves y no te pasa nada: te quedas en esa casilla y termina tu turno.
 - La estrella no te protege de la tormenta solar de otro jugador.
@@ -70,18 +71,11 @@ Gana el primer jugador que llegue a **Moon**. Si queréis, podéis seguir jugand
 
 ---
 
-## Variantes opcionales
-
-- **Estrella única**: solo se puede tener una estrella a la vez. Si ya tienes una, no coges otra.
-- **Partida rápida**: en la fiesta alienígena se pierde solo 1 turno.
-
----
-
 ## Modos de juego
 
 Antes de empezar se elige el modo:
 
-- 🏁 **Carrera**: solo dado. Tiras, haces lo que dice tu casilla y pasa el turno.
+- 🏁 **Carrera**: solo dado. Tiras, haces lo que dice tu casilla y pasa el turno. Cuentan todas las casillas especiales (también la fiesta alienígena: 2 turnos).
 - 🧠 **Sabelotodo**: igual, y además preguntas (ver abajo).
 
 ## Sabelotodo 🧠

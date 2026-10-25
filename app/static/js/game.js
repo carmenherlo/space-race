@@ -90,6 +90,9 @@ const game = {
   players: [],
   turn: 0, // index in players
   busy: false, // a roll, a move or a card is in progress
+  // Before the first turn, who starts: each player in `rolling` (indexes in players) taps
+  // the die; the highest starts, ties roll again (see rollForStart). null once decided.
+  opening: null, // { rolling, rolls: Map index → roll }
   // What was chosen before playing (the setup):
   mode: "challenges", // the end of each turn: "race" (nothing), "challenges" or "questions"
   exactFinish: false, // the Moon only with the exact number: overshooting bounces back
@@ -182,6 +185,7 @@ function renderCount() {
       saveSetup();
       renderCount();
       renderSeats();
+      renderSummary();
     });
     return button;
   });
@@ -338,7 +342,8 @@ function toggleOption(option) {
 
 // How a turn goes, in a few words, with the mode and the rules chosen.
 function renderSummary() {
-  const parts = ["🎲 Tiras y haces lo que dice tu casilla."];
+  const parts = game.count > 1 ? ["🎲 Primero, todos tiran: empieza quien saque más."] : [];
+  parts.push("🎲 Tiras y haces lo que dice tu casilla.");
   const mode = chosenMode();
   if (mode === "challenges") {
     parts.push("🎭 Si acabas más adelante de donde empezaste, ¡reto!");
@@ -403,7 +408,77 @@ function startGame(players) {
   elements.winner.close();
   elements.turn.hidden = false;
   renderTokens();
+  if (game.players.length > 1) {
+    startOpening(game.players.map((_, index) => index));
+  } else {
+    renderTurn(); // playing alone: nothing to decide
+  }
+}
+
+// ---------- Who starts ----------
+
+function startOpening(rolling) {
+  game.opening = { rolling, rolls: new Map() };
+  showOpeningTurn(rolling[0]);
+}
+
+// The die is this player's, to roll for who starts.
+function showOpeningTurn(index) {
+  game.turn = index;
+  game.busy = false;
   renderTurn();
+  elements.turnName.textContent = `${currentPlayer().name}: tira para ver quién empieza`;
+}
+
+// One roll for who starts. When everybody in this round has rolled: the highest starts;
+// a tie at the top, only those tied roll again.
+async function rollForStart() {
+  if (game.busy) {
+    return;
+  }
+  game.busy = true;
+  const { rolling, rolls } = game.opening;
+  rolls.set(game.turn, await rollDie());
+  await wait(LAND_PAUSE_MS); // first see the number
+  const next = rolling.find((index) => !rolls.has(index));
+  if (next !== undefined) {
+    showOpeningTurn(next);
+    return;
+  }
+  const best = Math.max(...rolls.values());
+  const tied = rolling.filter((index) => rolls.get(index) === best);
+  const results = rolling.map((index) => `${game.players[index].name} ha sacado un ${rolls.get(index)}.`).join(" ");
+  if (tied.length > 1) {
+    await showCard({
+      kind: "challenge",
+      emoji: "🎲",
+      title: "¡Empate!",
+      text: `${results} ${listOfNames(tied)} volvéis a tirar.`,
+      button: "¡Otra vez!",
+    });
+    startOpening(tied);
+    return;
+  }
+  const first = game.players[tied[0]];
+  await showCard({ kind: "good", emoji: "🚀", title: `¡Empieza ${first.name}!`, text: results, button: "¡Vamos!" });
+  game.opening = null;
+  game.turn = tied[0];
+  game.busy = false;
+  renderTurn();
+}
+
+// "Ana", "Ana y Luis", "Ana, Luis y Sara".
+function listOfNames(indexes) {
+  const names = indexes.map((index) => game.players[index].name);
+  return names.length > 1 ? `${names.slice(0, -1).join(", ")} y ${names.at(-1)}` : names[0];
+}
+
+function tapDie() {
+  if (game.opening) {
+    rollForStart();
+  } else {
+    playTurn();
+  }
 }
 
 // ---------- A turn ----------
@@ -718,7 +793,7 @@ function showCard(card) {
   elements.cardEmoji.textContent = card.emoji;
   elements.cardTitle.textContent = card.title ?? CARD_TITLES[card.kind];
   elements.cardText.textContent = card.text;
-  elements.cardOk.textContent = CARD_BUTTONS[card.kind];
+  elements.cardOk.textContent = card.button ?? CARD_BUTTONS[card.kind];
   sounds[card.kind](); // good, bad or challenge
   elements.card.showModal();
   speak([elements.cardTitle.textContent, card.text]);
@@ -1017,7 +1092,7 @@ async function loadPack() {
 // ---------- Start ----------
 
 async function init() {
-  elements.die.addEventListener("click", playTurn);
+  elements.die.addEventListener("click", tapDie);
   elements.start.addEventListener("click", () => startGame(chosenPlayers()));
   for (const option of elements.options) {
     option.addEventListener("click", () => toggleOption(option));
