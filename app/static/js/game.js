@@ -1,8 +1,9 @@
 // Space Race: a board game for family and friends, on its own page (game.html).
-// Everybody plays on this tablet, taking turns. A turn: roll the die and do what your square
-// says (UFOs, galaxies, a black hole…); then, if the turn ends further on than it started,
-// depending on the mode: nothing ("Carrera"), a funny challenge ("Retos locos") or a
-// question ("Sabelotodo": right answer, roll again). The first one to reach the Moon wins.
+// Everybody plays on this tablet, taking turns. The first one to reach the Moon wins.
+// "Carrera" (and "Retos locos"): roll the die and do what your square says (UFOs, galaxies,
+// a black hole…); in "Retos locos", a turn that ends further on brings a funny challenge.
+// "Sabelotodo": first a question of your level; right, roll and move (the squares do
+// nothing); wrong, you stay where you are.
 // Nothing is saved on the server: a game lasts while the page is open. Only the setup (how
 // many play, their avatars, names and levels, the mode) is remembered on this device.
 //
@@ -93,6 +94,7 @@ const game = {
   // Before the first turn, who starts: each player in `rolling` (indexes in players) taps
   // the die; the highest starts, ties roll again (see rollForStart). null once decided.
   opening: null, // { rolling, rolls: Map index → roll }
+  mayRoll: false, // "Sabelotodo": the question was right, the die is the player's
   // What was chosen before playing (the setup):
   mode: "challenges", // the end of each turn: "race" (nothing), "challenges" or "questions"
   exactFinish: false, // the Moon only with the exact number: overshooting bounces back
@@ -342,13 +344,22 @@ function toggleOption(option) {
 
 // How a turn goes, in a few words, with the mode and the rules chosen.
 function renderSummary() {
+  const mode = chosenMode();
+  const moon = exactFinish()
+    ? "🌕 Gana quien llega a la Luna con el número justo."
+    : "🌕 Gana el primero que llega a la Luna.";
+  if (mode === "questions") {
+    elements.setupSummary.textContent = [
+      "🧠 En tu turno, una pregunta de tu nivel: si aciertas, tiras el dado y avanzas; si fallas, te quedas donde estás.",
+      "Las casillas especiales no hacen nada.",
+      moon,
+    ].join(" ");
+    return;
+  }
   const parts = game.count > 1 ? ["🎲 Primero, todos tiran: empieza quien saque más."] : [];
   parts.push("🎲 Tiras y haces lo que dice tu casilla.");
-  const mode = chosenMode();
   if (mode === "challenges") {
     parts.push("🎭 Si acabas más adelante de donde empezaste, ¡reto!");
-  } else if (mode === "questions") {
-    parts.push("🧠 Si acabas más adelante de donde empezaste, una pregunta: si aciertas, ¡vuelves a tirar!");
   }
   const toTheMoon = [...pack.squares.values()].some((square) => square.goTo === pack.goal);
   parts.push(
@@ -359,11 +370,7 @@ function renderSummary() {
   if ([...pack.squares.values()].some((square) => square.star)) {
     parts.push("⭐ La estrella comodín te libra de una casilla mala.");
   }
-  parts.push(
-    exactFinish()
-      ? "🌕 Gana quien llega a la Luna con el número justo."
-      : "🌕 Gana el primero que llega a la Luna.",
-  );
+  parts.push(moon);
   elements.setupSummary.textContent = parts.join(" ");
 }
 
@@ -407,8 +414,13 @@ function startGame(players) {
   elements.setup.close();
   elements.winner.close();
   elements.turn.hidden = false;
+  game.opening = null;
+  game.mayRoll = false;
   renderTokens();
-  if (game.players.length > 1) {
+  if (game.mode === "questions") {
+    renderTurn(); // the first player starts
+    askTurnQuestion();
+  } else if (game.players.length > 1) {
     startOpening(game.players.map((_, index) => index));
   } else {
     renderTurn(); // playing alone: nothing to decide
@@ -476,9 +488,50 @@ function listOfNames(indexes) {
 function tapDie() {
   if (game.opening) {
     rollForStart();
+  } else if (game.mode === "questions") {
+    rollAfterQuestion();
   } else {
     playTurn();
   }
+}
+
+// ---------- A turn in "Sabelotodo" ----------
+
+// The turn starts with a question of the player's level, by itself. Right: the die is
+// theirs (see rollAfterQuestion). Wrong: they stay where they are, next player.
+async function askTurnQuestion() {
+  game.busy = true;
+  elements.die.disabled = true;
+  await wait(700); // a moment to see whose turn it is
+  const player = currentPlayer();
+  if (!(await askQuestion(drawQuestion(player.level)))) {
+    nextTurn();
+    return;
+  }
+  game.mayRoll = true;
+  game.busy = false;
+  elements.die.disabled = false;
+  elements.turnName.textContent = `${player.name}: ¡tira el dado!`;
+}
+
+// Roll and move; the squares do nothing here (only the exact finish at the Moon).
+async function rollAfterQuestion() {
+  if (game.busy || !game.mayRoll) {
+    return;
+  }
+  game.busy = true;
+  game.mayRoll = false;
+  const player = currentPlayer();
+  const bounced = await moveBy(player, await rollDie());
+  if (player.place === pack.goal) {
+    showWinner(player);
+    return;
+  }
+  if (bounced) {
+    await wait(LAND_PAUSE_MS);
+    await showBounce(bounced);
+  }
+  nextTurn();
 }
 
 // ---------- A turn ----------
@@ -499,12 +552,7 @@ async function playTurn() {
   }
   if (bounced) {
     await wait(LAND_PAUSE_MS);
-    await showCard({
-      kind: "bad",
-      emoji: "🌕",
-      title: "¡Rebote lunar!",
-      text: `¡Casi! Te has pasado de la Luna y rebotas ${bounced} ${bounced === 1 ? "casilla" : "casillas"} hacia atrás. Hay que llegar con el número justo.`,
-    });
+    await showBounce(bounced);
     if (!pack.backwardsCounts) {
       nextTurn(); // where the bounce leaves you does nothing
       return;
@@ -528,21 +576,21 @@ async function playTurn() {
     return;
   }
 
-  // 2. The end of the turn, by mode (nothing after a punishment).
-  if (game.mode !== "race") {
-    await wait(LAND_PAUSE_MS); // first see where the turn ended
-  }
+  // 2. The end of the turn: a challenge in "Retos locos" (nothing after a punishment).
   if (game.mode === "challenges") {
+    await wait(LAND_PAUSE_MS); // first see where the turn ended
     await showCard(drawFrom("challenges"));
-  } else if (game.mode === "questions") {
-    const right = await askQuestion(drawQuestion(player.level));
-    if (right) {
-      game.busy = false; // a right answer: the same player rolls again
-      renderTurn();
-      return;
-    }
   }
   nextTurn();
+}
+
+function showBounce(bounced) {
+  return showCard({
+    kind: "bad",
+    emoji: "🌕",
+    title: "¡Rebote lunar!",
+    text: `¡Casi! Te has pasado de la Luna y rebotas ${bounced} ${bounced === 1 ? "casilla" : "casillas"} hacia atrás. Hay que llegar con el número justo.`,
+  });
 }
 
 // Does what the square a player has just reached WITH THE DIE says. Only die landings count:
@@ -676,7 +724,9 @@ function nextTurn() {
   game.turn = (game.turn + 1) % game.players.length;
   game.busy = false;
   renderTurn();
-  if (currentPlayer().skipTurns > 0) {
+  if (game.mode === "questions") {
+    askTurnQuestion();
+  } else if (currentPlayer().skipTurns > 0) {
     missTurn();
   }
 }
@@ -866,7 +916,7 @@ function chooseAnswer(question, chosen) {
   const verdict = right ? "¡Correcto! 🎉" : `¡Casi! Era: ${question.answer}.`;
   elements.questionResult.textContent = question.note ? `${verdict} ${question.note}` : verdict;
   elements.questionResult.hidden = false;
-  elements.questionNext.textContent = right ? "¡Vuelvo a tirar!" : "Vale";
+  elements.questionNext.textContent = right ? "¡A tirar el dado!" : "Vale";
   elements.questionNext.hidden = false;
   speak(question.note ? [verdict, question.note] : verdict);
   if (right) {

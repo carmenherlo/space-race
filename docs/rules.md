@@ -75,19 +75,20 @@ Gana el primer jugador que llegue a **Moon**. Si queréis, podéis seguir jugand
 
 Antes de empezar se elige el modo:
 
-- 🏁 **Carrera**: solo dado. Tiras, haces lo que dice tu casilla y pasa el turno. Cuentan todas las casillas especiales (también la fiesta alienígena: 2 turnos).
-- 🧠 **Sabelotodo**: igual, y además preguntas (ver abajo).
+- 🏁 **Carrera**: todas las normas de arriba, con llegada exacta a la Luna. Cuentan todas las casillas especiales (también la fiesta alienígena: 2 turnos).
+- 🧠 **Sabelotodo**: una carrera de preguntas (ver abajo).
 
 ## Sabelotodo 🧠
 
-- Cada jugador elige su nivel de preguntas antes de empezar, con las estrellas bajo su avatar:
-  ⭐ muy fácil (verdadero o falso) · ⭐⭐ fácil · ⭐⭐⭐ medio · ⭐⭐⭐⭐ difícil.
-- Al final de tu turno, si has acabado **más adelante** de donde estabas antes de tirar, te toca una pregunta de tu nivel.
-  - No hay pregunta si acabas en la misma casilla o más atrás, si rebotas en la Luna, ni después de un castigo (perder turnos) o de usar la estrella.
-  - Si la casilla te hace volver a tirar (galaxia, propulsores…), todavía no hay pregunta: se mira al acabar la nueva tirada.
-- Las preguntas tienen 4 respuestas (en un orden distinto cada vez); las de muy fácil, solo "Verdadero" o "Falso".
-- **Si aciertas**, vuelves a tirar. **Si fallas**, se muestra la respuesta correcta y pasa el turno.
-- Algunas preguntas traen un dato curioso que se enseña al contestar.
+- Hay 4 niveles: 1 ⭐ muy fácil (verdadero o falso) · 2 ⭐⭐ fácil · 3 ⭐⭐⭐ medio · 4 ⭐⭐⭐⭐ difícil.
+- A cada jugador se le asigna un nivel antes de empezar (las estrellas bajo su avatar).
+- Empieza el jugador 1 y se sigue en el orden de la lista (no se tira para ver quién empieza).
+- En tu turno te hacen una pregunta de tu nivel:
+  - **Si aciertas**, tiras el dado y avanzas tantas casillas como indique. Después, turno del siguiente.
+  - **Si fallas**, se muestra la respuesta correcta y te quedas donde estás. Turno del siguiente.
+- Las casillas especiales **no tienen efecto**: ni saltos, ni esperas, ni estrella, ni ninguna otra.
+- Hay que llegar a la Luna con el número exacto; si te pasas, rebotas.
+- Las preguntas tienen 4 respuestas (en un orden distinto cada vez); las de muy fácil, solo "Verdadero" o "Falso". Algunas traen un dato curioso que se enseña al contestar.
 - Cada nivel tiene su propio mazo, compartido por todos: no se repite ninguna pregunta hasta que han salido todas las de ese nivel.
 
 Las preguntas están en `docs/questions.md`.
