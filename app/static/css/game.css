@@ -143,6 +143,22 @@ body.game {
   border-radius: 999px;
   background: rgb(255 255 255 / 90%);
   box-shadow: 0 4px 16px rgb(0 0 0 / 35%);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+/* Between two turns (see nextTurn): the bar slides away, and the glow on the board stops. */
+.turn[data-changing] {
+  opacity: 0;
+  transform: translateY(-1.5rem);
+}
+
+.board-game__tokens[data-changing] .token[data-current]::before {
+  display: none;
+}
+
+/* The new player's avatar comes in with a little jump. */
+.turn:not([data-changing]) .turn__avatar .avatar {
+  animation: card-in 0.5s cubic-bezier(0.2, 1.4, 0.4, 1);
 }
 
 .turn__avatar {
@@ -825,7 +841,9 @@ body.game {
   .token[data-current]::before,
   .die,
   .card[open],
-  .winner__avatar {
+  .winner__avatar,
+  .turn,
+  .turn__avatar .avatar {
     transition: none;
     animation: none;
   }

@@ -86,6 +86,7 @@ const STEP_MS = 280; // a token hops one square
 const FLIGHT_MS = 900; // a token flies to another square (keep in sync with game.css)
 const LAND_PAUSE_MS = 900; // the token rests on its square before a card shows, to see where
 const START_PAUSE_MS = 1500; // the board alone for a moment before the first turn
+const TURN_PAUSE_MS = 1100; // between two turns: the turn bar goes away, then comes back
 const IDLE_MS = 10 * 60 * 1000; // back to the home screen after 10 minutes untouched
 
 // ---------- State ----------
@@ -407,6 +408,7 @@ async function startGame(players) {
   game.busy = false;
   elements.setup.close();
   elements.winner.close();
+  delete elements.turnAvatar.dataset.player; // a new game: same ids, new players
   game.opening = null;
   game.mayRoll = false;
   game.busy = true; // nothing to tap yet
@@ -428,14 +430,19 @@ async function startGame(players) {
 
 function startOpening(rolling) {
   game.opening = { rolling, rolls: new Map() };
-  showOpeningTurn(rolling[0]);
+  showOpeningTurn(rolling[0], false);
 }
 
-// The die is this player's, to roll for who starts.
-function showOpeningTurn(index) {
-  game.turn = index;
-  game.busy = false;
-  renderTurn();
+// The die is this player's, to roll for who starts (the first one at once, the others after
+// the pause between turns).
+async function showOpeningTurn(index, pause = true) {
+  if (pause) {
+    await passTurnTo(index);
+  } else {
+    game.turn = index;
+    game.busy = false;
+    renderTurn();
+  }
   elements.turnName.textContent = `${currentPlayer().name}: tira para ver quién empieza`;
 }
 
@@ -728,10 +735,8 @@ async function swapPlaces(player, other) {
   await wait(FLIGHT_MS);
 }
 
-function nextTurn() {
-  game.turn = (game.turn + 1) % game.players.length;
-  game.busy = false;
-  renderTurn();
+async function nextTurn() {
+  await passTurnTo((game.turn + 1) % game.players.length);
   if (game.mode === "questions") {
     askTurnQuestion();
   } else if (currentPlayer().skipTurns > 0) {
@@ -757,6 +762,21 @@ async function missTurn() {
     text: `${player.name} sigue allí y pierde este turno.${left}`,
   });
   nextTurn();
+}
+
+// The turn passes in two beats, so it shows: the turn bar (and the glow) goes away for a
+// moment, then comes back with that player's avatar.
+async function passTurnTo(index) {
+  game.busy = true;
+  elements.die.disabled = true;
+  elements.turn.dataset.changing = "";
+  elements.tokens.dataset.changing = "";
+  await wait(TURN_PAUSE_MS);
+  game.turn = index;
+  game.busy = false;
+  renderTurn();
+  delete elements.turn.dataset.changing;
+  delete elements.tokens.dataset.changing;
 }
 
 function currentPlayer() {
@@ -970,7 +990,11 @@ function dropConfetti(color) {
 
 function renderTurn() {
   const player = currentPlayer();
-  elements.turnAvatar.replaceChildren(createAvatar(player));
+  // A new avatar (with its little jump, see game.css) only when the player changes.
+  if (elements.turnAvatar.dataset.player !== player.id) {
+    elements.turnAvatar.dataset.player = player.id;
+    elements.turnAvatar.replaceChildren(createAvatar(player));
+  }
   elements.turnName.textContent = `Turno de ${player.name}`;
   elements.turnStars.textContent = "⭐".repeat(player.stars);
   elements.turnStars.hidden = player.stars === 0;
