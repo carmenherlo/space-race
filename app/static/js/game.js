@@ -85,9 +85,10 @@ const IDLE_MS = 10 * 60 * 1000; // back to the home screen after 10 minutes unto
 // ---------- State ----------
 
 const game = {
-  count: 2, // how many play (1 to MAX_PLAYERS)
-  // Every seat, also those not playing now, so their choices come back: { avatar, name, level }
-  seats: [],
+  chosen: [], // the avatars (ids) that play, in turn order: the order they were tapped
+  // Each avatar's name and level, also of those not playing now, so they come back next
+  // time: avatar id → { name, level }
+  profiles: {},
   // who plays this game, in turn order: { ...person, place, stars, skipTurns, skipSquare }
   players: [],
   turn: 0, // index in players
@@ -116,11 +117,8 @@ const elements = {
   die: document.getElementById("die"),
   setup: document.getElementById("setup"),
   setupTitle: document.getElementById("setup-title"),
-  setupCount: document.getElementById("setup-count"),
+  setupChoices: document.getElementById("setup-choices"),
   setupPlayers: document.getElementById("setup-players"),
-  avatars: document.getElementById("avatars"),
-  avatarsList: document.getElementById("avatars-list"),
-  avatarsClose: document.getElementById("avatars-close"),
   start: document.getElementById("start"),
   options: document.querySelectorAll("[data-option]"),
   modes: document.querySelectorAll("[data-mode]"),
@@ -168,58 +166,73 @@ const elements = {
 // ---------- Setup: who plays ----------
 
 function showSetup() {
-  renderCount();
+  renderChoices();
   renderSeats();
   elements.setup.showModal();
 }
 
-// 1 to 6 buttons: how many play.
-function renderCount() {
-  const buttons = Array.from({ length: MAX_PLAYERS }, (_, i) => {
+// Every avatar: a tap puts it in the game (it gets its number in the turn order) or takes it
+// out. Without avatars, six coloured circles with a number instead.
+function renderChoices() {
+  const full = game.chosen.length >= MAX_PLAYERS;
+  const buttons = choices().map((avatar, index) => {
+    const position = game.chosen.indexOf(avatar.id);
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "setup__number";
-    button.setAttribute("role", "radio");
-    button.setAttribute("aria-checked", String(i + 1 === game.count));
-    button.textContent = String(i + 1);
+    button.className = "setup__choice";
+    button.setAttribute("aria-pressed", String(position >= 0));
+    button.disabled = position < 0 && full;
+    button.append(createAvatar(avatarPerson(avatar, index)));
+    if (position >= 0) {
+      const badge = document.createElement("span");
+      badge.className = "setup__turn";
+      badge.textContent = String(position + 1);
+      button.append(badge);
+    }
+    const label = avatar.id.replace(/\.[^.]+$/, ""); // "pez-globo.png" → "pez-globo"
+    button.setAttribute("aria-label", position >= 0 ? `${label}: juega (${position + 1}º)` : `${label}: no juega`);
     button.addEventListener("click", () => {
-      game.count = i + 1;
-      giveAvatars();
+      game.chosen = position >= 0 ? game.chosen.filter((id) => id !== avatar.id) : [...game.chosen, avatar.id];
       saveSetup();
-      renderCount();
+      renderChoices();
       renderSeats();
       renderSummary();
     });
     return button;
   });
-  elements.setupCount.replaceChildren(...buttons);
+  elements.setupChoices.replaceChildren(...buttons);
+  elements.start.disabled = game.chosen.length === 0;
 }
 
-// One row per player: their avatar (a tap changes it), their name (optional) and their stars.
+// What can be chosen: the avatars, or (without any) one numbered circle per seat.
+function choices() {
+  if (pack.avatars.length > 0) {
+    return pack.avatars;
+  }
+  return PLAYER_COLORS.map((color, index) => ({ id: `${index + 1}`, url: null, color }));
+}
+
+// One row per player, in turn order: their avatar, their name (optional) and their stars.
 function renderSeats() {
-  const items = game.seats.slice(0, game.count).map((seat, index) => {
-    const person = seatPerson(index);
+  const items = chosenPlayers().map((person, index) => {
+    const profile = profileOf(game.chosen[index]);
     const node = elements.playerTemplate.content.firstElementChild.cloneNode(true);
-    const button = node.querySelector(".setup__player");
-    button.setAttribute("aria-label", `Elegir el avatar de ${person.name}`);
-    button.disabled = pack.avatars.length === 0;
     node.querySelector(".setup__avatar").replaceChildren(createAvatar(person));
-    button.addEventListener("click", () => chooseAvatar(index));
     const name = node.querySelector(".setup__name");
-    name.value = seat.name;
+    name.value = profile.name;
     name.placeholder = defaultName(index);
     name.setAttribute("aria-label", `Nombre del jugador ${index + 1}`);
     name.addEventListener("input", () => {
-      seat.name = name.value;
+      profile.name = name.value;
       saveSetup();
     });
     const level = node.querySelector(".setup__level");
     renderLevel(level, person);
     level.addEventListener("click", () => {
       // ⭐ → ⭐⭐ → ⭐⭐⭐ → ⭐⭐⭐⭐ → ⭐ …
-      seat.level = LEVELS[(LEVELS.indexOf(seat.level) + 1) % LEVELS.length];
+      profile.level = LEVELS[(LEVELS.indexOf(profile.level) + 1) % LEVELS.length];
       saveSetup();
-      renderLevel(level, seatPerson(index));
+      renderLevel(level, chosenPlayers()[index]);
     });
     return node;
   });
@@ -231,88 +244,64 @@ function renderLevel(button, person) {
   button.setAttribute("aria-label", `Preguntas de nivel ${LEVEL_NAMES[person.level]} para ${person.name}`);
 }
 
-// The avatars to choose from: the ones another player has are greyed out.
-function chooseAvatar(index) {
-  const taken = new Set(game.seats.slice(0, game.count).map((seat) => seat.avatar));
-  const buttons = pack.avatars.map((avatar) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "avatars__option";
-    button.setAttribute("aria-pressed", String(avatar.id === game.seats[index].avatar));
-    button.disabled = taken.has(avatar.id) && avatar.id !== game.seats[index].avatar;
-    button.append(createAvatar({ name: avatar.id, color: avatar.color ?? PLAYER_COLORS[index], photoUrl: avatar.url }));
-    button.addEventListener("click", () => {
-      game.seats[index].avatar = avatar.id;
-      saveSetup();
-      elements.avatars.close();
-      renderSeats();
-    });
-    return button;
-  });
-  elements.avatarsList.replaceChildren(...buttons);
-  elements.avatars.showModal();
-}
-
 function defaultName(index) {
   return `Jugador ${index + 1}`;
 }
 
-// A seat as a player: their name (or "Jugador 2"), avatar, its colour, and level.
-function seatPerson(index) {
-  const seat = game.seats[index];
-  const avatar = pack.avatars.find((one) => one.id === seat.avatar);
-  return {
-    id: `player-${index + 1}`,
-    name: seat.name.trim() || defaultName(index),
-    color: avatar?.color ?? PLAYER_COLORS[index],
-    photoUrl: avatar?.url ?? null,
-    level: seat.level,
-  };
+function profileOf(id) {
+  game.profiles[id] = game.profiles[id] ?? { name: "", level: "easy" };
+  return game.profiles[id];
 }
 
-// Every playing seat without an avatar (or with one that is gone) gets the first one nobody
-// has. With more players than avatars, the rest show their initial on their colour.
-function giveAvatars() {
-  const ids = pack.avatars.map((avatar) => avatar.id);
-  const playing = game.seats.slice(0, game.count);
-  const used = new Set();
-  for (const seat of playing) {
-    if (!ids.includes(seat.avatar) || used.has(seat.avatar)) {
-      seat.avatar = null;
-    }
-    used.add(seat.avatar);
-  }
-  for (const seat of playing.filter((s) => s.avatar === null)) {
-    seat.avatar = ids.find((id) => !used.has(id)) ?? null;
-    used.add(seat.avatar);
-  }
+// An avatar as it looks before playing: its picture on its colour.
+function avatarPerson(avatar, index) {
+  return { name: avatar.id, color: avatar.color ?? PLAYER_COLORS[index % PLAYER_COLORS.length], photoUrl: avatar.url };
+}
+
+// Who plays, in turn order: their name (or "Jugador 2"), avatar, its colour, and level.
+function chosenPlayers() {
+  const all = choices();
+  return game.chosen.map((id, index) => {
+    const avatar = all.find((one) => one.id === id);
+    const profile = profileOf(id);
+    return {
+      id: `player-${index + 1}`,
+      name: profile.name.trim() || defaultName(index),
+      color: avatar.color ?? PLAYER_COLORS[index],
+      photoUrl: avatar.url,
+      level: profile.level,
+    };
+  });
 }
 
 // ---------- Setup: remembered on this device ----------
 
-// The last setup (or the usual one: 2 players, easy questions), checked so an old or
-// broken one never stops the game.
+// The last setup, checked so an old or broken one never stops the game: avatars that are
+// gone are left out.
 function loadSetup() {
   let saved = {};
   try {
     saved = JSON.parse(localStorage.getItem(SETUP_KEY)) ?? {};
   } catch {
-    saved = {}; // private mode or a broken value: start from the usual one
+    saved = {}; // private mode or a broken value: start from nothing
   }
-  const count = Number(saved.count);
-  game.count = Number.isInteger(count) && count >= 1 && count <= MAX_PLAYERS ? count : 2;
-  const seats = Array.isArray(saved.seats) ? saved.seats : [];
-  game.seats = Array.from({ length: MAX_PLAYERS }, (_, i) => ({
-    avatar: typeof seats[i]?.avatar === "string" ? seats[i].avatar : null,
-    name: typeof seats[i]?.name === "string" ? seats[i].name.slice(0, 14) : "",
-    level: LEVELS.includes(seats[i]?.level) ? seats[i].level : "easy",
-  }));
+  const ids = choices().map((avatar) => avatar.id);
+  const chosen = Array.isArray(saved.chosen) ? saved.chosen : [];
+  game.chosen = [...new Set(chosen)].filter((id) => ids.includes(id)).slice(0, MAX_PLAYERS);
+  const profiles = saved.profiles && typeof saved.profiles === "object" ? saved.profiles : {};
+  game.profiles = {};
+  for (const [id, profile] of Object.entries(profiles)) {
+    game.profiles[id] = {
+      name: typeof profile?.name === "string" ? profile.name.slice(0, 14) : "",
+      level: LEVELS.includes(profile?.level) ? profile.level : "easy",
+    };
+  }
   return { mode: saved.mode };
 }
 
 function saveSetup() {
   try {
-    localStorage.setItem(SETUP_KEY, JSON.stringify({ count: game.count, seats: game.seats, mode: chosenMode() }));
+    localStorage.setItem(SETUP_KEY, JSON.stringify({ chosen: game.chosen, profiles: game.profiles, mode: chosenMode() }));
   } catch {
     // private mode: nothing is remembered, the game still works
   }
@@ -358,7 +347,7 @@ function renderSummary() {
     ].join(" ");
     return;
   }
-  const parts = game.count > 1 ? ["🎲 Primero, todos tiran: empieza quien saque más."] : [];
+  const parts = game.chosen.length > 1 ? ["🎲 Primero, todos tiran: empieza quien saque más."] : [];
   parts.push("🎲 Tiras y haces lo que dice tu casilla.");
   if (mode === "challenges") {
     parts.push("🎭 Si acabas más adelante de donde empezaste, ¡reto!");
@@ -393,10 +382,6 @@ function setUpRules(savedMode) {
   elements.exactOption.hidden = pack.exactFinish !== null;
   elements.modeSection.hidden = pack.modes.length === 1 && pack.exactFinish !== null;
   renderSummary();
-}
-
-function chosenPlayers() {
-  return game.seats.slice(0, game.count).map((_, index) => seatPerson(index));
 }
 
 function startGame(players) {
@@ -1153,7 +1138,6 @@ async function init() {
     mode.addEventListener("click", () => selectMode(mode));
   }
   elements.questionNext.addEventListener("click", () => elements.question.close());
-  elements.avatarsClose.addEventListener("click", () => elements.avatars.close());
   elements.again.addEventListener("click", () => startGame(game.players));
   elements.cardOk.addEventListener("click", () => elements.card.close());
   elements.starUse.addEventListener("click", () => elements.starOffer.close("use"));
@@ -1186,8 +1170,6 @@ async function init() {
     showStatus(error.message, error);
     return;
   }
-  const saved = loadSetup();
-  setUpRules(saved.mode);
   // 🔊: music, effects and, in a game with a voice, the voice (see sound-panel.js).
   setUpSoundPanel(elements.sound, elements.soundPanel, { voice: pack.voice });
 
@@ -1200,7 +1182,8 @@ async function init() {
   } catch (error) {
     showStatus("No se han podido cargar los avatares.", error);
   }
-  giveAvatars();
+  const saved = loadSetup();
+  setUpRules(saved.mode);
   showSetup();
 }
 

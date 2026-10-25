@@ -56,18 +56,18 @@
     </svg>
   </a>
 
-  <!-- Before playing: 1. how many play, 2. each one's avatar, name and level, 3. the mode,
-       and how a turn goes. Remembered on this device for the next game (js/game.js). -->
+  <!-- Before playing: 1. who plays (tap the avatars, in turn order), 2. each one's name and
+       level, 3. the mode, and how a turn goes. Remembered on this device (js/game.js). -->
   <dialog class="game-dialog setup" id="setup" aria-labelledby="setup-title">
     <h1 class="setup__title" id="setup-title">🚀 Space Race</h1>
 
     <section class="setup__section" aria-labelledby="setup-count-title">
-      <h2 class="setup__heading" id="setup-count-title">1. ¿Cuántos jugáis?</h2>
-      <div class="setup__count" id="setup-count" role="radiogroup" aria-labelledby="setup-count-title"></div>
+      <h2 class="setup__heading" id="setup-count-title">1. ¿Quién juega? Tocad vuestro avatar</h2>
+      <div class="setup__choices" id="setup-choices"></div>
     </section>
 
     <section class="setup__section" aria-labelledby="setup-players-title">
-      <h2 class="setup__heading" id="setup-players-title">2. ¿Quién es quién?</h2>
+      <h2 class="setup__heading" id="setup-players-title">2. Nombre y nivel</h2>
       <ul class="setup__players" id="setup-players"></ul>
     </section>
 
@@ -115,16 +115,6 @@
     <div class="game-actions">
       <button class="game-button" id="start" type="button">¡A jugar!</button>
       <a class="game-button game-button--quiet" href="games.html">Salir</a>
-    </div>
-  </dialog>
-
-  <!-- Choosing an avatar: every picture in data/avatars (the ones another player has are
-       greyed out). -->
-  <dialog class="game-dialog avatars" id="avatars" aria-labelledby="avatars-title">
-    <h2 class="card__title" id="avatars-title">Elige tu avatar</h2>
-    <div class="avatars__list" id="avatars-list"></div>
-    <div class="game-actions">
-      <button class="game-button game-button--quiet" id="avatars-close" type="button">Cerrar</button>
     </div>
   </dialog>
 
@@ -194,10 +184,7 @@
 
   <template id="player-template">
     <li class="setup__person">
-      <!-- A tap opens the avatars to choose from. -->
-      <button class="setup__player" type="button">
-        <span class="setup__avatar"></span>
-      </button>
+      <span class="setup__avatar"></span>
       <input class="setup__name" type="text" maxlength="14" autocomplete="off" spellcheck="false">
       <!-- Level of their questions (mode "Sabelotodo"): a tap changes it. -->
       <button class="setup__level" type="button"></button>

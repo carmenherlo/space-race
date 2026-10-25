@@ -290,29 +290,49 @@ body.game {
   font-weight: 800;
 }
 
-/* 1 to 6: one round button each. */
-.setup__count {
+/* Every avatar: tapped ones play, with their number in the turn order. */
+.setup__choices {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-s);
 }
 
-.setup__number {
-  width: calc(var(--touch-min) * 1.15);
-  height: calc(var(--touch-min) * 1.15);
-  border: 3px solid var(--color-border);
+.setup__choice {
+  position: relative;
+  padding: 0.35rem;
+  border: 0;
   border-radius: 50%;
-  background: var(--color-bg);
-  color: var(--color-muted);
-  font-size: 1.4rem;
-  font-weight: 800;
+  background: transparent;
 }
 
-.setup__number[aria-checked="true"] {
-  border-color: var(--game-navy);
-  background: var(--game-mint);
-  color: var(--game-navy);
+.setup__choice .avatar {
+  --avatar-size: clamp(3rem, calc(var(--screen-h) * 0.09), 5rem);
+}
+
+.setup__choice[aria-pressed="false"] .avatar {
+  opacity: 0.45;
+  filter: grayscale(0.8);
+}
+
+.setup__choice:disabled {
+  opacity: 0.5;
+}
+
+/* Their turn: 1, 2, 3… */
+.setup__turn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  background: var(--game-navy);
+  color: var(--color-bg);
+  font-size: 1rem;
+  font-weight: 800;
 }
 
 .setup__players {
@@ -325,21 +345,9 @@ body.game {
   list-style: none;
 }
 
-.setup__player {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
-  padding: var(--space-s);
-  border: 0;
-  border-radius: 1.2rem;
-  background: transparent;
-  color: var(--game-navy);
-  font-weight: 800;
-}
-
+/* Small here: the big ones are in "1. ¿Quién juega?". */
 .setup__avatar {
-  --avatar-size: clamp(2.8rem, calc(var(--screen-h) * 0.085), 5.5rem);
+  --avatar-size: clamp(2.2rem, calc(var(--screen-h) * 0.06), 3.5rem);
 
   padding: calc(var(--avatar-size) * 0.05 + 2px); /* room for the colour ring */
 }
@@ -383,45 +391,6 @@ body.game {
   display: block;
 }
 
-/* With the stars below them, the photos get a little smaller so everything still fits. */
-.setup[data-mode="questions"] .setup__avatar {
-  --avatar-size: clamp(2.6rem, calc(var(--screen-h) * 0.07), 5rem);
-}
-
-/* Choosing an avatar: every picture, big enough to tell them apart. */
-.avatars {
-  width: min(94vw, 48rem);
-}
-
-.avatars__list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-m);
-  margin: var(--space-m) 0;
-}
-
-.avatars__option {
-  padding: var(--space-s);
-  border: 3px solid transparent;
-  border-radius: 1.2rem;
-  background: transparent;
-}
-
-.avatars__option .avatar {
-  --avatar-size: clamp(4rem, calc(var(--screen-h) * 0.15), 7rem);
-}
-
-.avatars__option[aria-pressed="true"] {
-  border-color: var(--game-navy);
-  background: var(--game-mint);
-}
-
-/* Another player has it. */
-.avatars__option:disabled {
-  opacity: 0.3;
-  filter: grayscale(1);
-}
 
 .leave {
   border-top-color: var(--game-pink);
