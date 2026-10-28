@@ -12,7 +12,6 @@ from app.main import create_app
 ROOT = Path(__file__).parent.parent
 EXAMPLE_GAMES = ROOT / "examples" / "games"
 EXAMPLE_AVATARS = ROOT / "examples" / "avatars"
-TEMPLATES = ROOT / "templates"
 
 
 @pytest.fixture

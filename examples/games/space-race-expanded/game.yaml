@@ -5,7 +5,7 @@
 #
 # A game is a folder in /data/games with this file and its board picture; the folder's
 # name is the game's id. The avatars to choose from are in /data/games/players/.
-# Every field is explained in templates/space-race/game.yaml.
+# Every field is explained in docs/game-yaml.md.
 # After editing it, restart the app (docker compose restart).
 #
 # Texts IN QUOTES: some have a colon (:), which YAML would misread without them.

@@ -11,7 +11,7 @@ checks the packs, so a typo in a game.yaml only disables that game.
     data/questions/
       space.yaml                 a question bank, shared by the games that name it
 
-See examples/games/ and templates/ for every field.
+Every field is explained in docs/game-yaml.md; examples in examples/games/.
 """
 
 import re

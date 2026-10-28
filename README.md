@@ -4,8 +4,9 @@ Juego de mesa espacial para jugar en una tablet o un ordenador, de 1 a 6 jugador
 Cada jugador elige su avatar, su nombre y la dificultad de sus preguntas. El juego lo
 recuerda para la próxima partida en ese mismo dispositivo.
 
-Modos: **Carrera** (solo dado) y **Sabelotodo** (si aciertas la pregunta, vuelves a tirar).
-Una voz lee las cartas en voz alta.
+Dos tableros: **Space Race** (28 casillas) y **Space Race Expanded** (68 casillas).
+Modos: **Carrera** (dado y casillas especiales) y **Sabelotodo** (una pregunta de tu nivel;
+si aciertas, tiras el dado). Una voz lee las cartas en voz alta.
 
 ## Ponerlo en marcha (Docker)
 
@@ -14,12 +15,13 @@ cp -r examples/games examples/questions examples/avatars data/   # la primera ve
 docker compose up -d --build         # → http://localhost:8100
 ```
 
-- **Tablero:** copia la imagen a `data/games/space-race-expanded/board.webp` y quita el `#`
-  de `image: board.webp` en su `game.yaml`. Sin imagen se juega sobre un tablero de puntos.
+- **Tablero:** copia la imagen a `data/games/<juego>/board.webp` y quita el `#` de
+  `image: board.webp` en su `game.yaml`. Sin imagen se juega sobre un tablero de puntos.
 - **Avatares:** pon las fotos o dibujos (png, webp, jpg…) en `data/avatars/`, y el color de
   cada uno en `data/avatars/colors.yaml`. Las subcarpetas nunca se muestran ni se sirven.
 
-Tras cambiar un `game.yaml`: `docker compose restart`.
+Tras cambiar un `game.yaml` o las preguntas: `docker compose restart`. Cómo se escribe un
+juego: [docs/game-yaml.md](docs/game-yaml.md).
 
 ## Desarrollo
 
@@ -38,8 +40,8 @@ Para tener voz en desarrollo, el modelo de Piper va en `data/voices/`
 
 ```
 app/            servidor (FastAPI): main.py rutas · game.py lee los game.yaml · voice.py voz
-app/static/     la web: games.html (menú) · game.html + js/game.js (el juego)
-examples/       ejemplo de data/: games/ (el juego Expanded) y avatars/colors.yaml
-templates/      juegos guardados que no salen en el menú (el Space Race original)
-data/           lo real: games/, avatars/, personal/, voices/ (fuera del repo)
+app/static/     la web: games.html (menú) · game.html + js/game.js y js/game/ (el juego)
+examples/       ejemplo de data/: games/ (los dos tableros), questions/ y avatars/colors.yaml
+docs/           reglas, preguntas y cómo se escribe un game.yaml
+data/           lo real: games/, questions/, avatars/, personal/, voices/ (fuera del repo)
 ```

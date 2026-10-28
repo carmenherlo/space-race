@@ -11,10 +11,10 @@ import yaml
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
 
-from app.game import GAME_FILE, GamePack, load_game_pack, load_games
-from tests.conftest import EXAMPLE_GAMES, TEMPLATES
+from app.game import GAME_FILE, GamePack, load_game_pack, load_games, load_question_bank
+from tests.conftest import EXAMPLE_GAMES
 
-SPACE_RACE = TEMPLATES / "space-race"  # the original board: a template, not in the menu
+SPACE_RACE = EXAMPLE_GAMES / "space-race"  # the short board
 EXPANDED = EXAMPLE_GAMES / "space-race-expanded"
 
 ClientFor = Callable[[Path], TestClient]
@@ -28,7 +28,11 @@ def copy_examples(tmp_path: Path) -> Path:
 
 @pytest.fixture
 def raw() -> dict[str, Any]:
-    return yaml.safe_load((SPACE_RACE / GAME_FILE).read_text(encoding="utf-8"))
+    """The short board's game.yaml, with every mode and its bank's questions in it."""
+    data = yaml.safe_load((SPACE_RACE / GAME_FILE).read_text(encoding="utf-8"))
+    data["questions"] = load_question_bank(EXAMPLE_GAMES.parent / "questions", data["questions"])
+    data["modes"] = ["race", "challenges", "questions"]
+    return data
 
 
 def test_the_examples_are_the_short_and_the_expanded_boards() -> None:
@@ -37,18 +41,7 @@ def test_the_examples_are_the_short_and_the_expanded_boards() -> None:
     assert games.available
 
 
-def test_the_short_board_bounces_only_in_the_race() -> None:
-    pack = load_game_pack(EXAMPLE_GAMES / "space-race")
-    template = load_game_pack(SPACE_RACE)
-    assert pack.goal == 29  # start, 28 squares, the Moon
-    assert pack.squares == template.squares  # the same board as the template
-    assert pack.playable_modes() == ["race", "questions"]  # "Carrera" and "Sabelotodo"
-    assert pack.exact_finish_in("race") is True  # overshooting bounces back
-    assert pack.exact_finish_in("questions") is False  # overshooting still reaches the Moon
-    assert len(pack.questions) == 151  # the shared bank (see test_both_boards_share…)
-
-
-def test_the_space_race_template_keeps_its_rules() -> None:
+def test_the_short_board_keeps_its_rules() -> None:
     pack = load_game_pack(SPACE_RACE)
     assert pack.goal == 29  # start, 28 squares, the Moon
     assert pack.squares[17].go_to == 0  # the black hole sends back to the start
@@ -57,9 +50,12 @@ def test_the_space_race_template_keeps_its_rules() -> None:
     assert [pack.squares[n].go_to for n in galaxies] == [10, 15, 20, 25]  # each to the next one
     assert not any(pack.squares[n].again for n in galaxies)  # no extra roll: no chains
     assert pack.squares[25].go_to is None  # the last galaxy is asleep: the Moon, on foot
-    assert pack.playable_modes() == ["race", "challenges", "questions"]
-    assert (pack.exact_finish, pack.backwards_counts, pack.voice) == (None, True, True)  # chosen; counts
-    assert len(pack.challenges) == 32
+    assert pack.playable_modes() == ["race", "questions"]  # "Carrera" and "Sabelotodo"
+    assert pack.exact_finish_in("race") is True  # overshooting bounces back
+    assert pack.exact_finish_in("questions") is False  # overshooting still reaches the Moon
+    assert (pack.backwards_counts, pack.voice) == (True, True)
+    assert len(pack.challenges) == 32  # "Retos locos", kept though not in the menu
+    assert len(pack.questions) == 151  # the shared bank (see test_both_boards_share…)
 
 
 def test_a_mode_sets_its_own_rules_over_the_games(raw: dict[str, Any]) -> None:
@@ -95,7 +91,7 @@ def test_space_race_expanded_has_its_own_rules() -> None:
 
 def test_both_boards_share_the_space_questions_of_every_level() -> None:
     pack = load_game_pack(EXPANDED)
-    assert load_game_pack(EXAMPLE_GAMES / "space-race").questions == pack.questions
+    assert load_game_pack(SPACE_RACE).questions == pack.questions
     assert all(len(q.wrong) == 3 for q in pack.questions if q.level != "easy")
     by_level = {level: sum(q.level == level for q in pack.questions) for level in ("easy", "medium", "hard")}
     assert by_level == {"easy": 32, "medium": 70, "hard": 49}
