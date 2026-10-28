@@ -785,6 +785,75 @@ body.game {
   margin-top: var(--space-s);
 }
 
+/* "Sabelotodo": the questions never hide the board. The board moves aside, whole, and the
+   question sits next to it with no veil: on the right (landscape) or below (portrait). */
+body.game[data-mode="questions"] {
+  --question-panel: clamp(20rem, 36vw, 30rem);
+
+  justify-content: flex-start;
+  padding-right: var(--question-panel);
+}
+
+body.game[data-mode="questions"] .board-game {
+  --board-width: min(100vw - var(--question-panel), calc(var(--screen-h) * 16 / 9));
+
+  margin: 0 auto;
+}
+
+body.game[data-mode="questions"] .question[open] {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: var(--question-panel);
+  max-width: none;
+  height: var(--screen-h);
+  max-height: none;
+  margin: 0;
+  padding: calc(3.5rem + var(--space-s) * 2) var(--space-m) var(--space-m); /* under ⏸ and 🔊 */
+  overflow-y: auto;
+  border-top: 0;
+  border-left: 12px solid #ffd166;
+  border-radius: 2rem 0 0 2rem;
+  box-shadow: none;
+}
+
+body.game[data-mode="questions"] .question__level {
+  right: auto;
+  left: var(--space-m);
+}
+
+body.game[data-mode="questions"] .question__answers[data-kind="choice"] {
+  grid-template-columns: minmax(0, 1fr); /* one under the other: the column is narrow */
+}
+
+@media (orientation: portrait) {
+  body.game[data-mode="questions"] {
+    align-items: flex-start;
+    padding-right: 0;
+  }
+
+  body.game[data-mode="questions"] .board-game {
+    --board-width: 100vw;
+
+    margin-top: calc(3.5rem + var(--space-s) * 2); /* under the turn and ⏸ 🔊 */
+  }
+
+  body.game[data-mode="questions"] .question[open] {
+    top: auto;
+    left: 0;
+    width: 100vw;
+    height: calc(var(--screen-h) - 100vw * 9 / 16 - 3.5rem - var(--space-s) * 2);
+    padding-top: var(--space-m);
+    border-left: 0;
+    border-top: 12px solid #ffd166;
+    border-radius: 2rem 2rem 0 0;
+  }
+}
+
 /* Winner: the whole screen in their colour, confetti falling, and a card with their avatar. */
 .winner {
   width: 100vw;

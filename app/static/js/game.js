@@ -408,6 +408,7 @@ async function startGame(players) {
   }));
   game.decks = {};
   game.mode = chosenMode();
+  document.body.dataset.mode = game.mode; // "Sabelotodo": the board leaves room for the questions
   game.exactFinish = exactFinish();
   game.turn = 0;
   game.busy = false;
