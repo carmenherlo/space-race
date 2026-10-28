@@ -67,10 +67,12 @@ const CONFETTI_COLORS = ["#ffd166", "#ef476f", "#06d6a0", "#118ab2", "#c3a6ff", 
 const CONFETTI_PIECES = 90;
 
 // Levels of the questions (mode "Sabelotodo"), shown as stars.
-const LEVELS = ["very_easy", "easy", "medium", "hard"];
-const LEVEL_STARS = { very_easy: "⭐", easy: "⭐⭐", medium: "⭐⭐⭐", hard: "⭐⭐⭐⭐" };
-const LEVEL_NAMES = { very_easy: "muy fácil", easy: "fácil", medium: "medio", hard: "difícil" };
-// "very_easy" questions are true or false: these two answers, in this order, with a hand
+const LEVELS = ["easy", "medium", "hard"];
+const LEVEL_STARS = { easy: "⭐", medium: "⭐⭐", hard: "⭐⭐⭐" };
+const LEVEL_NAMES = { easy: "fácil", medium: "medio", hard: "difícil" };
+// A setup remembered from when there were 4 levels: each old level, as one of these.
+const OLD_LEVELS = { very_easy: "easy", easy: "medium", medium: "medium", hard: "hard" };
+// "easy" questions are true or false: these two answers, in this order, with a hand
 // for those who cannot read yet.
 const TRUE_FALSE = [
   { answer: "Verdadero", icon: "👍", tone: "true" }, // green
@@ -244,7 +246,7 @@ function renderSeats() {
     const level = node.querySelector(".setup__level");
     renderLevel(level, person);
     level.addEventListener("click", () => {
-      // ⭐ → ⭐⭐ → ⭐⭐⭐ → ⭐⭐⭐⭐ → ⭐ …
+      // ⭐ → ⭐⭐ → ⭐⭐⭐ → ⭐ …
       profile.level = LEVELS[(LEVELS.indexOf(profile.level) + 1) % LEVELS.length];
       saveSetup();
       renderLevel(level, chosenPlayers()[index]);
@@ -264,7 +266,7 @@ function defaultName(index) {
 }
 
 function profileOf(id) {
-  game.profiles[id] = game.profiles[id] ?? { name: "", level: "easy" };
+  game.profiles[id] = game.profiles[id] ?? { name: "", level: "medium" };
   return game.profiles[id];
 }
 
@@ -306,9 +308,10 @@ function loadSetup() {
   const profiles = saved.profiles && typeof saved.profiles === "object" ? saved.profiles : {};
   game.profiles = {};
   for (const [id, profile] of Object.entries(profiles)) {
+    const level = saved.levels === LEVELS.length ? profile?.level : OLD_LEVELS[profile?.level];
     game.profiles[id] = {
       name: typeof profile?.name === "string" ? profile.name.slice(0, 14) : "",
-      level: LEVELS.includes(profile?.level) ? profile.level : "easy",
+      level: LEVELS.includes(level) ? level : "medium",
     };
   }
   return { mode: saved.mode };
@@ -316,7 +319,7 @@ function loadSetup() {
 
 function saveSetup() {
   try {
-    localStorage.setItem(SETUP_KEY, JSON.stringify({ chosen: game.chosen, profiles: game.profiles, mode: chosenMode() }));
+    localStorage.setItem(SETUP_KEY, JSON.stringify({ chosen: game.chosen, profiles: game.profiles, mode: chosenMode(), levels: LEVELS.length }));
   } catch {
     // private mode: nothing is remembered, the game still works
   }
@@ -885,7 +888,7 @@ function askQuestion(question) {
   elements.questionEmoji.textContent = question.emoji;
   elements.questionText.textContent = question.text;
   // True or false: always "Verdadero", "Falso". The others: four answers, shuffled.
-  const trueFalse = question.level === "very_easy";
+  const trueFalse = question.level === "easy";
   const options = trueFalse
     ? TRUE_FALSE
     : shuffled([question.answer, ...question.wrong]).map((answer) => ({ answer }));

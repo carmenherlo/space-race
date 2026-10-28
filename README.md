@@ -10,7 +10,7 @@ Una voz lee las cartas en voz alta.
 ## Ponerlo en marcha (Docker)
 
 ```bash
-cp -r examples/games examples/avatars data/   # la primera vez
+cp -r examples/games examples/questions examples/avatars data/   # la primera vez
 docker compose up -d --build         # → http://localhost:8100
 ```
 

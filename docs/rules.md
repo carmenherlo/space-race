@@ -80,7 +80,7 @@ Antes de empezar se elige el modo:
 
 ## Sabelotodo 🧠
 
-- Hay 4 niveles: 1 ⭐ muy fácil (verdadero o falso) · 2 ⭐⭐ fácil · 3 ⭐⭐⭐ medio · 4 ⭐⭐⭐⭐ difícil.
+- Hay 3 niveles: 1 ⭐ fácil (verdadero o falso) · 2 ⭐⭐ medio · 3 ⭐⭐⭐ difícil.
 - A cada jugador se le asigna un nivel antes de empezar (las estrellas bajo su avatar).
 - El orden de los turnos lo decide el sorteo, como en Carrera.
 - En tu turno te hacen una pregunta de tu nivel:
@@ -88,7 +88,7 @@ Antes de empezar se elige el modo:
   - **Si fallas**, se muestra la respuesta correcta y te quedas donde estás. Turno del siguiente.
 - Las casillas especiales **no tienen efecto**: ni saltos, ni esperas, ni estrella, ni ninguna otra.
 - No hace falta el número exacto: si te pasas, llegas igual a la Luna (sin rebote).
-- Las preguntas tienen 4 respuestas (en un orden distinto cada vez); las de muy fácil, solo "Verdadero" o "Falso". Algunas traen un dato curioso que se enseña al contestar.
+- Las preguntas tienen 4 respuestas (en un orden distinto cada vez); las de fácil, solo "Verdadero" o "Falso". Algunas traen un dato curioso que se enseña al contestar.
 - Cada nivel tiene su propio mazo, compartido por todos: no se repite ninguna pregunta hasta que han salido todas las de ese nivel.
 
 Las preguntas están en `docs/questions.md`.

@@ -8,10 +8,13 @@ checks the packs, so a typo in a game.yaml only disables that game.
         game.yaml                where the squares are, what happens on them, the rules
         board.webp               the board picture
       …
+    data/questions/
+      space.yaml                 a question bank, shared by the games that name it
 
 See examples/games/ and templates/ for every field.
 """
 
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Annotated, Literal
@@ -22,6 +25,10 @@ from pydantic import Field, StringConstraints, ValidationError, field_validator,
 from app.config import ImageName, StrictModel, Text
 
 GAME_FILE = "game.yaml"
+# The question banks, a folder next to the games folder (data/questions, next to data/games).
+QUESTIONS_DIR = "questions"
+# A question bank's name: its file in the questions folder, without ".yaml".
+BANK_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]*")
 
 # A place on the board picture: [x, y] in % of its width and height.
 Percent = Annotated[float, Field(ge=0, le=100)]
@@ -29,9 +36,9 @@ Place = tuple[Percent, Percent]
 Emoji = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=16)]
 
 # How hard a question is, and which questions a player gets (mode "Sabelotodo"), from
-# 1 to 4 stars: very easy (true or false, the littlest ones), easy, medium, hard (adults).
-Level = Literal["very_easy", "easy", "medium", "hard"]
-# The two answers of a "very_easy" question, always in this order on the screen.
+# 1 to 3 stars: easy (true or false, the littlest ones), medium (kids who read), hard (adults).
+Level = Literal["easy", "medium", "hard"]
+# The two answers of an "easy" question, always in this order on the screen.
 TRUE_FALSE = ("Verdadero", "Falso")
 # What comes at the end of a turn: nothing ("Carrera"), a funny challenge ("Retos locos")
 # or a question ("Sabelotodo").
@@ -79,23 +86,23 @@ class Challenge(StrictModel):
 
 class Question(StrictModel):
     """A question at the end of a turn (mode "Sabelotodo"): four answers to choose from,
-    shuffled each time; the right one, roll again. At level "very_easy" it is a sentence
-    that is true or false: two answers, "Verdadero" and "Falso"."""
+    shuffled each time; the right one, roll again. At level "easy" it is a sentence that
+    is true or false: two answers, "Verdadero" and "Falso"."""
 
     emoji: Emoji
     text: Text
     answer: Text  # the right answer
     wrong: list[Text] = Field(min_length=1, max_length=3)  # three wrong answers (one if true/false)
     note: Text | None = None  # a curious fact, shown once answered
-    level: Level = "easy"
+    level: Level
 
     @model_validator(mode="after")
     def answers_for_the_level(self) -> "Question":
         answers = [self.answer, *self.wrong]
-        if self.level == "very_easy":
+        if self.level == "easy":
             if sorted(answers) != sorted(TRUE_FALSE):
                 raise ValueError(
-                    f"{self.text!r} is very_easy: its answers are {TRUE_FALSE[0]!r} and {TRUE_FALSE[1]!r}"
+                    f"{self.text!r} is easy: its answers are {TRUE_FALSE[0]!r} and {TRUE_FALSE[1]!r}"
                 )
         elif len(self.wrong) != 3 or len({answer.lower() for answer in answers}) != 4:
             raise ValueError(f"the four answers to {self.text!r} must all be different")
@@ -215,19 +222,34 @@ class Games:
 
 
 def load_game_pack(folder: Path) -> GamePack:
-    """Read and check folder/game.yaml.
+    """Read and check folder/game.yaml. Its questions can be its own (a list) or a bank's:
+    "questions: space" → questions/space.yaml, next to the games folder.
 
-    Raises FileNotFoundError, yaml.YAMLError or pydantic.ValidationError.
+    Raises OSError (a missing file), yaml.YAMLError or pydantic.ValidationError.
     """
-    data = yaml.safe_load((folder / GAME_FILE).read_text(encoding="utf-8"))
+    data = read_yaml(folder / GAME_FILE)
+    if isinstance(data, dict) and isinstance(data.get("questions"), str):
+        data["questions"] = load_question_bank(folder.parent.parent / QUESTIONS_DIR, data["questions"])
     return GamePack.model_validate(data)
+
+
+def load_question_bank(questions_dir: Path, name: str) -> object:
+    """The questions of the bank questions_dir/<name>.yaml (checked with the game)."""
+    if not BANK_NAME.fullmatch(name):
+        raise FileNotFoundError(f"{name!r} is not a question bank name (letters, digits, - and _)")
+    data = read_yaml(questions_dir / f"{name}.yaml")
+    return data.get("questions") if isinstance(data, dict) else data
+
+
+def read_yaml(path: Path) -> object:
+    return yaml.safe_load(path.read_text(encoding="utf-8"))
 
 
 def load_game(folder: Path) -> GameLoad:
     """The game in this folder (its game.yaml)."""
     try:
         return GameLoad(folder.name, load_game_pack(folder))
-    except (yaml.YAMLError, ValidationError) as error:
+    except (OSError, yaml.YAMLError, ValidationError) as error:
         return GameLoad(folder.name, None, f"{folder / GAME_FILE} is not valid:\n{error}")
 
 

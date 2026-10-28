@@ -3,11 +3,12 @@
 Las preguntas del modo Sabelotodo, por nivel. ✅ es la respuesta correcta y ❌ las incorrectas;
 💡 es el dato curioso que sale al contestar (opcional).
 
-Lo que el juego usa de verdad está en `game.yaml`: si cambias algo aquí, Claude lo pasa allí.
+Lo que el juego usa de verdad está en `data/questions/space.yaml` (el banco de preguntas que
+comparten los tableros): si cambias algo aquí, Claude lo pasa allí.
 
 ---
 
-## ⭐ Muy fácil (verdadero o falso) — 32 preguntas
+## ⭐ Fácil (verdadero o falso) — 32 preguntas
 
 1. ☀️ **El Sol es una estrella.**  
    ✅ Verdadero · ❌ Falso  
@@ -133,7 +134,7 @@ Lo que el juego usa de verdad está en `game.yaml`: si cambias algo aquí, Claud
 
 ---
 
-## ⭐⭐ Fácil — 34 preguntas
+## ⭐⭐ Medio — 70 preguntas
 
 1. 🌍 **¿En qué planeta vivimos?**  
    ✅ La Tierra · ❌ Marte · ❌ La Luna · ❌ Júpiter
@@ -249,136 +250,132 @@ Lo que el juego usa de verdad está en `game.yaml`: si cambias algo aquí, Claud
    ✅ Anaranjado · ❌ Azul · ❌ Verde · ❌ Morado  
    💡 Por el polvo rojo que flota en el aire.
 
----
-
-## ⭐⭐⭐ Medio — 36 preguntas
-
-1. 🔥 **¿Qué planeta está más cerca del Sol?**  
+35. 🔥 **¿Qué planeta está más cerca del Sol?**  
    ✅ Mercurio · ❌ Neptuno · ❌ Marte · ❌ Saturno
 
-2. 🧊 **¿Qué planeta está más lejos del Sol?**  
+36. 🧊 **¿Qué planeta está más lejos del Sol?**  
    ✅ Neptuno · ❌ Mercurio · ❌ Venus · ❌ La Tierra
 
-3. 🔢 **¿Cuántos planetas hay en nuestro sistema solar?**  
+37. 🔢 **¿Cuántos planetas hay en nuestro sistema solar?**  
    ✅ Ocho · ❌ Tres · ❌ Cien · ❌ Uno
 
-4. 🌌 **¿Cómo se llama nuestra galaxia?**  
+38. 🌌 **¿Cómo se llama nuestra galaxia?**  
    ✅ La Vía Láctea · ❌ La Vía del Tren · ❌ El Camino de Chocolate · ❌ La Galaxia Azul
 
-5. 🌑 **¿Qué es un eclipse de Sol?**  
+39. 🌑 **¿Qué es un eclipse de Sol?**  
    ✅ La Luna tapa el Sol · ❌ El Sol se apaga · ❌ Una nube muy grande · ❌ Se hace de noche para siempre
 
-6. 🐻 **¿Cómo se llama una constelación con forma de cazo o de oso?**  
+40. 🐻 **¿Cómo se llama una constelación con forma de cazo o de oso?**  
    ✅ La Osa Mayor · ❌ El León Dormido · ❌ La Gran Cuchara · ❌ El Oso Panda
 
-7. 🔥 **¿Cuál es el planeta más caliente?**  
+41. 🔥 **¿Cuál es el planeta más caliente?**  
    ✅ Venus · ❌ Mercurio · ❌ Marte · ❌ Júpiter  
    💡 Aunque Mercurio está más cerca del Sol, las nubes de Venus atrapan el calor.
 
-8. 🌙 **¿Cuántas lunas tiene la Tierra?**  
+42. 🌙 **¿Cuántas lunas tiene la Tierra?**  
    ✅ Una · ❌ Dos · ❌ Ninguna · ❌ Tres
 
-9. 🪐 **¿Qué planeta tiene más lunas?**  
+43. 🪐 **¿Qué planeta tiene más lunas?**  
    ✅ Saturno · ❌ Júpiter · ❌ Neptuno · ❌ Marte  
    💡 Tiene más de 200.
 
-10. 🪐 **¿Qué planeta gira tumbado, de lado?**  
+44. 🪐 **¿Qué planeta gira tumbado, de lado?**  
    ✅ Urano · ❌ Neptuno · ❌ Saturno · ❌ Venus
 
-11. 🔴 **¿Qué planeta tiene una mancha roja que es una tormenta gigante?**  
+45. 🔴 **¿Qué planeta tiene una mancha roja que es una tormenta gigante?**  
    ✅ Júpiter · ❌ Marte · ❌ Saturno · ❌ Venus  
    💡 La tormenta es más grande que la Tierra.
 
-12. 🌙 **¿Cómo se llama la luna más grande de Júpiter?**  
+46. 🌙 **¿Cómo se llama la luna más grande de Júpiter?**  
    ✅ Ganímedes · ❌ Titán · ❌ Europa · ❌ Fobos  
    💡 Es más grande que el planeta Mercurio.
 
-13. 🐭 **¿Cuál es el planeta más pequeño?**  
+47. 🐭 **¿Cuál es el planeta más pequeño?**  
    ✅ Mercurio · ❌ Marte · ❌ Plutón · ❌ La Tierra  
    💡 Plutón ya no cuenta como planeta.
 
-14. ❄️ **¿Por qué Plutón ya no es un planeta?**  
+48. ❄️ **¿Por qué Plutón ya no es un planeta?**  
    ✅ Ahora es un planeta enano · ❌ Se apagó · ❌ Lo destruyó un meteorito · ❌ Se fue del sistema solar
 
-15. 🌅 **¿Qué «lucero» brilla al amanecer y al atardecer y en realidad es un planeta?**  
+49. 🌅 **¿Qué «lucero» brilla al amanecer y al atardecer y en realidad es un planeta?**  
    ✅ Venus · ❌ Marte · ❌ Júpiter · ❌ Sirio
 
-16. 🌗 **¿Qué planeta tiene los días más largos que sus años?**  
+50. 🌗 **¿Qué planeta tiene los días más largos que sus años?**  
    ✅ Venus · ❌ Mercurio · ❌ Marte · ❌ Júpiter  
    💡 Un día allí dura más que su vuelta entera al Sol.
 
-17. 📅 **¿Cuánto dura un año en Marte?**  
+51. 📅 **¿Cuánto dura un año en Marte?**  
    ✅ Unos 687 días · ❌ 365 días · ❌ 100 días · ❌ 10 días  
    💡 Casi el doble que en la Tierra.
 
-18. ☀️ **¿Cuál es la estrella más cercana a la Tierra?**  
+52. ☀️ **¿Cuál es la estrella más cercana a la Tierra?**  
    ✅ El Sol · ❌ Sirio · ❌ La Estrella Polar · ❌ Alfa Centauri  
    💡 ¡Trampa! El Sol también es una estrella.
 
-19. 🧭 **¿Qué estrella indica el norte?**  
+53. 🧭 **¿Qué estrella indica el norte?**  
    ✅ La Estrella Polar · ❌ Sirio · ❌ Venus · ❌ Betelgeuse
 
-20. ☀️ **¿De qué está hecho sobre todo el Sol?**  
+54. ☀️ **¿De qué está hecho sobre todo el Sol?**  
    ✅ Hidrógeno y helio · ❌ Fuego y lava · ❌ Hierro · ❌ Carbón
 
-21. ⏱️ **¿Cuánto tarda la luz del Sol en llegar a la Tierra?**  
+55. ⏱️ **¿Cuánto tarda la luz del Sol en llegar a la Tierra?**  
    ✅ Unos 8 minutos · ❌ 1 segundo · ❌ 1 hora · ❌ 1 día
 
-22. 🔦 **¿Qué es un año luz?**  
+56. 🔦 **¿Qué es un año luz?**  
    ✅ La distancia que recorre la luz en un año · ❌ Un año muy brillante · ❌ Lo que dura un día en el Sol · ❌ Un tipo de estrella
 
-23. 💥 **¿Qué es una supernova?**  
+57. 💥 **¿Qué es una supernova?**  
    ✅ La explosión de una estrella · ❌ Una estrella que acaba de nacer · ❌ Un planeta nuevo · ❌ Una galaxia pequeña
 
-24. 🕳️ **¿Qué hay en el centro de nuestra galaxia?**  
+58. 🕳️ **¿Qué hay en el centro de nuestra galaxia?**  
    ✅ Un agujero negro gigante · ❌ El Sol · ❌ Un planeta de hielo · ❌ Nada
 
-25. 🪨 **¿Qué hay entre Marte y Júpiter?**  
+59. 🪨 **¿Qué hay entre Marte y Júpiter?**  
    ✅ El cinturón de asteroides · ❌ Los anillos de Saturno · ❌ La Vía Láctea · ❌ La Luna
 
-26. ✨ **¿Cómo se llaman las tres estrellas en fila de la constelación de Orión?**  
+60. ✨ **¿Cómo se llaman las tres estrellas en fila de la constelación de Orión?**  
    ✅ El Cinturón de Orión · ❌ La Osa Menor · ❌ Las Pléyades · ❌ La Cruz del Sur  
    💡 También las llaman «las Tres Marías».
 
-27. 🌊 **¿Qué provoca las mareas del mar?**  
+61. 🌊 **¿Qué provoca las mareas del mar?**  
    ✅ La Luna · ❌ El viento · ❌ Los barcos · ❌ Las ballenas
 
-28. 🌍 **¿Por qué hay verano e invierno?**  
+62. 🌍 **¿Por qué hay verano e invierno?**  
    ✅ Porque la Tierra está inclinada · ❌ Porque nos acercamos y alejamos del Sol · ❌ Porque el Sol se enfría · ❌ Porque la Luna tapa el Sol  
    💡 Mucha gente cree que es por la distancia al Sol, ¡pero no!
 
-29. ⚖️ **¿Cuánto pesarías en la Luna?**  
+63. ⚖️ **¿Cuánto pesarías en la Luna?**  
    ✅ Unas 6 veces menos · ❌ Lo mismo · ❌ El doble · ❌ Nada  
    💡 Por eso los astronautas dan saltos tan grandes.
 
-30. 🥶 **¿Qué temperatura hace en el espacio, lejos de las estrellas?**  
+64. 🥶 **¿Qué temperatura hace en el espacio, lejos de las estrellas?**  
    ✅ Unos 270 grados bajo cero · ❌ Unos 50 grados bajo cero · ❌ 0 grados · ❌ Unos 100 grados  
    💡 Es casi lo más frío que puede existir.
 
-31. 🎒 **¿Qué llevan los astronautas en la mochila del traje para respirar?**  
+65. 🎒 **¿Qué llevan los astronautas en la mochila del traje para respirar?**  
    ✅ Oxígeno · ❌ Helio · ❌ Dióxido de carbono · ❌ Hidrógeno
 
-32. 🧑‍🚀 **¿Quién fue la primera persona en viajar al espacio?**  
+66. 🧑‍🚀 **¿Quién fue la primera persona en viajar al espacio?**  
    ✅ Yuri Gagarin · ❌ Neil Armstrong · ❌ Galileo Galilei · ❌ Buzz Lightyear  
    💡 Fue en 1961.
 
-33. 👩‍🚀 **¿Quién fue la primera mujer en viajar al espacio?**  
+67. 👩‍🚀 **¿Quién fue la primera mujer en viajar al espacio?**  
    ✅ Valentina Tereshkova · ❌ Marie Curie · ❌ Amelia Earhart · ❌ Frida Kahlo  
    💡 Fue en 1963.
 
-34. 🚀 **¿Cómo se llamaba la misión que llegó a la Luna por primera vez?**  
+68. 🚀 **¿Cómo se llamaba la misión que llegó a la Luna por primera vez?**  
    ✅ Apolo 11 · ❌ Sputnik · ❌ Voyager · ❌ Soyuz
 
-35. 🔭 **¿Quién descubrió con su telescopio cuatro lunas de Júpiter?**  
+69. 🔭 **¿Quién descubrió con su telescopio cuatro lunas de Júpiter?**  
    ✅ Galileo Galilei · ❌ Isaac Newton · ❌ Albert Einstein · ❌ Leonardo da Vinci
 
-36. 🛰️ **¿Qué es la Estación Espacial Internacional?**  
+70. 🛰️ **¿Qué es la Estación Espacial Internacional?**  
    ✅ Una casa-laboratorio que da vueltas a la Tierra · ❌ Un satélite de Marte · ❌ Una estrella artificial · ❌ Un cohete aparcado en la Luna  
    💡 En ella viven astronautas de muchos países.
 
 ---
 
-## ⭐⭐⭐⭐ Difícil — 49 preguntas
+## ⭐⭐⭐ Difícil — 49 preguntas
 
 1. 🌕 **¿Cuánto tarda la luz de la Luna en llegar a la Tierra?**  
    ✅ Poco más de 1 segundo · ❌ Unos 8 minutos · ❌ Un minuto · ❌ Una hora  

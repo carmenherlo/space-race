@@ -20,6 +20,12 @@ EXPANDED = EXAMPLE_GAMES / "space-race-expanded"
 ClientFor = Callable[[Path], TestClient]
 
 
+def copy_examples(tmp_path: Path) -> Path:
+    """The example games and their question banks, in tmp_path; returns the games folder."""
+    shutil.copytree(EXAMPLE_GAMES.parent / "questions", tmp_path / "questions")
+    return Path(shutil.copytree(EXAMPLE_GAMES, tmp_path / "games"))
+
+
 @pytest.fixture
 def raw() -> dict[str, Any]:
     return yaml.safe_load((SPACE_RACE / GAME_FILE).read_text(encoding="utf-8"))
@@ -39,7 +45,7 @@ def test_the_short_board_bounces_only_in_the_race() -> None:
     assert pack.playable_modes() == ["race", "questions"]  # "Carrera" and "Sabelotodo"
     assert pack.exact_finish_in("race") is True  # overshooting bounces back
     assert pack.exact_finish_in("questions") is False  # overshooting still reaches the Moon
-    assert pack.questions == template.questions
+    assert len(pack.questions) == 151  # the shared bank (see test_both_boards_share…)
 
 
 def test_the_space_race_template_keeps_its_rules() -> None:
@@ -87,14 +93,24 @@ def test_space_race_expanded_has_its_own_rules() -> None:
     assert pack.squares[49].swap  # the spy satellite
 
 
-def test_expanded_has_questions_of_every_level() -> None:
+def test_both_boards_share_the_space_questions_of_every_level() -> None:
     pack = load_game_pack(EXPANDED)
-    assert all(len(q.wrong) == 3 for q in pack.questions if q.level != "very_easy")
-    levels = ("very_easy", "easy", "medium", "hard")
-    by_level = {level: sum(q.level == level for q in pack.questions) for level in levels}
-    assert by_level == {"very_easy": 32, "easy": 34, "medium": 36, "hard": 49}
-    true_false = [q for q in pack.questions if q.level == "very_easy"]
+    assert load_game_pack(EXAMPLE_GAMES / "space-race").questions == pack.questions
+    assert all(len(q.wrong) == 3 for q in pack.questions if q.level != "easy")
+    by_level = {level: sum(q.level == level for q in pack.questions) for level in ("easy", "medium", "hard")}
+    assert by_level == {"easy": 32, "medium": 70, "hard": 49}
+    true_false = [q for q in pack.questions if q.level == "easy"]
     assert all(sorted([q.answer, *q.wrong]) == ["Falso", "Verdadero"] for q in true_false)
+
+
+def test_a_missing_question_bank_only_disables_that_game(tmp_path: Path) -> None:
+    copy_examples(tmp_path)
+    game_file = tmp_path / "games" / "space-race" / GAME_FILE
+    game_file.write_text(game_file.read_text(encoding="utf-8").replace("questions: space", "questions: nope"), encoding="utf-8")
+    games = load_games(tmp_path / "games")
+    assert not games.games["space-race"].available
+    assert "nope.yaml" in games.games["space-race"].error
+    assert games.games["space-race-expanded"].available
 
 
 INVALID: dict[str, Callable[[dict[str, Any]], None]] = {
@@ -121,9 +137,9 @@ INVALID: dict[str, Callable[[dict[str, Any]], None]] = {
     "question repeating an answer": lambda d: d["questions"][0].update(wrong=["la tierra", "B", "C"]),
     "question without answer": lambda d: d["questions"][0].pop("answer"),
     "question level unknown": lambda d: d["questions"][0].update(level="expert"),
-    "true or false with other answers": lambda d: d["questions"][0].update(answer="Sí", wrong=["No"], level="very_easy"),
-    "true or false with four answers": lambda d: d["questions"][0].update(answer="Verdadero", wrong=["Falso", "Quizá", "Nunca"], level="very_easy"),
-    "only one wrong answer, not true or false": lambda d: d["questions"][0].update(wrong=["Falso"], level="easy"),
+    "true or false with other answers": lambda d: d["questions"][0].update(answer="Sí", wrong=["No"], level="easy"),
+    "true or false with four answers": lambda d: d["questions"][0].update(answer="Verdadero", wrong=["Falso", "Quizá", "Nunca"], level="easy"),
+    "only one wrong answer, not true or false": lambda d: d["questions"][0].update(wrong=["Falso"], level="medium"),
     "players are chosen before playing": lambda d: d.update(parents=[]),
 }
 
@@ -167,7 +183,7 @@ def test_no_games_folder_is_not_an_error(tmp_path: Path) -> None:
 
 
 def test_a_broken_game_is_reported_and_the_others_still_work(tmp_path: Path) -> None:
-    shutil.copytree(EXAMPLE_GAMES, tmp_path / "games")
+    copy_examples(tmp_path)
     (tmp_path / "games" / "broken").mkdir()
     (tmp_path / "games" / "broken" / GAME_FILE).write_text("places: [[1, 1]]\n", encoding="utf-8")
     games = load_games(tmp_path / "games")
@@ -195,8 +211,7 @@ def test_api_serves_a_game(client: TestClient) -> None:
 
 
 def test_api_serves_the_board_picture_and_nothing_else(tmp_path: Path, client_for: ClientFor) -> None:
-    games_dir = tmp_path / "games"
-    shutil.copytree(EXAMPLE_GAMES, games_dir)
+    games_dir = copy_examples(tmp_path)
     game_file = games_dir / "space-race-expanded" / GAME_FILE
     text = game_file.read_text(encoding="utf-8")
     game_file.write_text(text.replace("# image: board.webp", "image: board.webp"), encoding="utf-8")
@@ -231,6 +246,6 @@ def test_a_broken_game_is_listed_as_not_available(tmp_path: Path, client_for: Cl
 def test_api_serves_the_questions(client: TestClient) -> None:
     questions = client.get("/api/games/space-race-expanded").json()["questions"]
     assert questions[0]["answer"] == "Verdadero"  # the first ones are true or false
-    question = next(q for q in questions if q["level"] == "easy")
+    question = next(q for q in questions if q["level"] == "medium")
     assert question["answer"] == "La Tierra"
     assert len(question["wrong"]) == 3
