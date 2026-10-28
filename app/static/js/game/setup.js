@@ -1,0 +1,234 @@
+// Before playing: who plays (avatars, names, levels), the mode and its rules, remembered
+// on this device.
+
+import { createAvatar } from "./board.js";
+import { LEVELS, LEVEL_NAMES, LEVEL_STARS, OLD_LEVELS } from "./questions.js";
+import { elements, game, pack } from "./state.js";
+
+const MAX_PLAYERS = 6;
+// Each seat's colour, for an avatar without its own (data/avatars/colors.yaml): the ring
+// of their avatar, their token, their glow and their turn.
+const PLAYER_COLORS = ["#c3a6ff", "#8fd3c7", "#ffb4a2", "#ffe08a", "#9cc7ff", "#f5a3d0"];
+// The setup, remembered on this device for the next game (see saveSetup).
+const SETUP_KEY = "space-race:setup";
+
+export function showSetup() {
+  renderChoices();
+  renderSeats();
+  elements.setup.showModal();
+}
+
+// Every avatar: a tap puts it in the game (it gets its number in the turn order) or takes it
+// out. Without avatars, six coloured circles with a number instead.
+function renderChoices() {
+  const full = game.chosen.length >= MAX_PLAYERS;
+  const buttons = choices().map((avatar, index) => {
+    const position = game.chosen.indexOf(avatar.id);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "setup__choice";
+    button.setAttribute("aria-pressed", String(position >= 0));
+    button.disabled = position < 0 && full;
+    button.append(createAvatar(avatarPerson(avatar, index)));
+    if (position >= 0) {
+      const badge = document.createElement("span");
+      badge.className = "setup__turn";
+      badge.textContent = String(position + 1);
+      button.append(badge);
+    }
+    const label = avatar.id.replace(/\.[^.]+$/, ""); // "pez-globo.png" → "pez-globo"
+    button.setAttribute("aria-label", position >= 0 ? `${label}: juega (${position + 1}º)` : `${label}: no juega`);
+    button.addEventListener("click", () => {
+      game.chosen = position >= 0 ? game.chosen.filter((id) => id !== avatar.id) : [...game.chosen, avatar.id];
+      saveSetup();
+      renderChoices();
+      renderSeats();
+      renderSummary();
+    });
+    return button;
+  });
+  elements.setupChoices.replaceChildren(...buttons);
+  elements.start.disabled = game.chosen.length === 0;
+}
+
+// What can be chosen: the avatars, or (without any) one numbered circle per seat.
+export function choices() {
+  if (pack.avatars.length > 0) {
+    return pack.avatars;
+  }
+  return PLAYER_COLORS.map((color, index) => ({ id: `${index + 1}`, url: null, color }));
+}
+
+// One row per player, in turn order: their avatar, their name (optional) and their stars.
+function renderSeats() {
+  const items = chosenPlayers().map((person, index) => {
+    const profile = profileOf(game.chosen[index]);
+    const node = elements.playerTemplate.content.firstElementChild.cloneNode(true);
+    node.querySelector(".setup__avatar").replaceChildren(createAvatar(person));
+    const name = node.querySelector(".setup__name");
+    name.value = profile.name;
+    name.placeholder = defaultName(index);
+    name.setAttribute("aria-label", `Nombre del jugador ${index + 1}`);
+    name.addEventListener("input", () => {
+      profile.name = name.value;
+      saveSetup();
+    });
+    const level = node.querySelector(".setup__level");
+    renderLevel(level, person);
+    level.addEventListener("click", () => {
+      // ⭐ → ⭐⭐ → ⭐⭐⭐ → ⭐ …
+      profile.level = LEVELS[(LEVELS.indexOf(profile.level) + 1) % LEVELS.length];
+      saveSetup();
+      renderLevel(level, chosenPlayers()[index]);
+    });
+    return node;
+  });
+  elements.setupPlayers.replaceChildren(...items);
+}
+
+function renderLevel(button, person) {
+  button.textContent = LEVEL_STARS[person.level];
+  button.setAttribute("aria-label", `Preguntas de nivel ${LEVEL_NAMES[person.level]} para ${person.name}`);
+}
+
+function defaultName(index) {
+  return `Jugador ${index + 1}`;
+}
+
+function profileOf(id) {
+  game.profiles[id] = game.profiles[id] ?? { name: "", level: "medium" };
+  return game.profiles[id];
+}
+
+// An avatar as it looks before playing: its picture on its colour.
+function avatarPerson(avatar, index) {
+  return { name: avatar.id, color: avatar.color ?? PLAYER_COLORS[index % PLAYER_COLORS.length], photoUrl: avatar.url };
+}
+
+// Who plays, in turn order: their name (or "Jugador 2"), avatar, its colour, and level.
+export function chosenPlayers() {
+  const all = choices();
+  return game.chosen.map((id, index) => {
+    const avatar = all.find((one) => one.id === id);
+    const profile = profileOf(id);
+    return {
+      id: `player-${index + 1}`,
+      name: profile.name.trim() || defaultName(index),
+      color: avatar.color ?? PLAYER_COLORS[index],
+      photoUrl: avatar.url,
+      level: profile.level,
+    };
+  });
+}
+
+// The last setup, checked so an old or broken one never stops the game: avatars that are
+// gone are left out.
+export function loadSetup() {
+  let saved = {};
+  try {
+    saved = JSON.parse(localStorage.getItem(SETUP_KEY)) ?? {};
+  } catch {
+    saved = {}; // private mode or a broken value: start from nothing
+  }
+  const ids = choices().map((avatar) => avatar.id);
+  const chosen = Array.isArray(saved.chosen) ? saved.chosen : [];
+  game.chosen = [...new Set(chosen)].filter((id) => ids.includes(id)).slice(0, MAX_PLAYERS);
+  const profiles = saved.profiles && typeof saved.profiles === "object" ? saved.profiles : {};
+  game.profiles = {};
+  for (const [id, profile] of Object.entries(profiles)) {
+    const level = saved.levels === LEVELS.length ? profile?.level : OLD_LEVELS[profile?.level];
+    game.profiles[id] = {
+      name: typeof profile?.name === "string" ? profile.name.slice(0, 14) : "",
+      level: LEVELS.includes(level) ? level : "medium",
+    };
+  }
+  return { mode: saved.mode };
+}
+
+function saveSetup() {
+  try {
+    localStorage.setItem(SETUP_KEY, JSON.stringify({ chosen: game.chosen, profiles: game.profiles, mode: chosenMode(), levels: LEVELS.length }));
+  } catch {
+    // private mode: nothing is remembered, the game still works
+  }
+}
+
+export function chosenMode() {
+  return document.querySelector('[data-mode][aria-checked="true"]')?.dataset.mode;
+}
+
+export function selectMode(chosen) {
+  for (const mode of elements.modes) {
+    mode.setAttribute("aria-checked", String(mode === chosen));
+  }
+  elements.setup.dataset.mode = chosen.dataset.mode; // the stars show only in "Sabelotodo"
+  elements.exactOption.hidden = fixedExactFinish() !== null; // a switch only if not fixed
+  renderSummary();
+  saveSetup();
+}
+
+function optionIsOn(name) {
+  const option = document.querySelector(`[data-option="${name}"]`);
+  return option.getAttribute("aria-checked") === "true";
+}
+
+export function toggleOption(option) {
+  const on = option.getAttribute("aria-checked") !== "true";
+  option.setAttribute("aria-checked", String(on));
+  renderSummary();
+}
+
+// How a turn goes, in a few words, with the mode and the rules chosen.
+function renderSummary() {
+  const mode = chosenMode();
+  const moon = exactFinish()
+    ? "🌕 Gana quien llega a la Luna con el número justo."
+    : "🌕 Gana el primero que llega a la Luna.";
+  const opening = game.chosen.length > 1 ? ["🎲 Primero, un sorteo decide el orden."] : [];
+  if (mode === "questions") {
+    elements.setupSummary.textContent = [
+      ...opening,
+      "🧠 En tu turno, una pregunta de tu nivel: si aciertas, tiras el dado y avanzas; si fallas, te quedas donde estás.",
+      "Las casillas especiales no hacen nada.",
+      moon,
+    ].join(" ");
+    return;
+  }
+  const parts = [...opening];
+  parts.push("🎲 Tiras y haces lo que dice tu casilla.");
+  if (mode === "challenges") {
+    parts.push("🎭 Si acabas más adelante de donde empezaste, ¡reto!");
+  }
+  const toTheMoon = [...pack.squares.values()].some((square) => square.goTo === pack.goal);
+  parts.push(
+    toTheMoon
+      ? "🌌 Las galaxias te llevan a la siguiente galaxia, y la última ¡a la Luna!"
+      : "🌌 Las galaxias te llevan a la siguiente galaxia.",
+  );
+  if ([...pack.squares.values()].some((square) => square.star)) {
+    parts.push("⭐ La estrella comodín te libra de una casilla mala.");
+  }
+  parts.push(moon);
+  elements.setupSummary.textContent = parts.join(" ");
+}
+
+// The exact finish: fixed by the chosen mode (or the game), or chosen with its switch.
+export function exactFinish() {
+  return fixedExactFinish() ?? optionIsOn("exactFinish");
+}
+
+function fixedExactFinish() {
+  return pack.modes.get(chosenMode())?.exactFinish ?? null;
+}
+
+// Only the modes and options of this game, starting with the mode chosen last time if this
+// game has it. With a single mode and nothing to choose, the whole "3. Modo de juego"
+// section goes away.
+export function setUpRules(savedMode) {
+  for (const mode of elements.modes) {
+    mode.hidden = !pack.modes.has(mode.dataset.mode);
+  }
+  const visible = [...elements.modes].filter((mode) => !mode.hidden);
+  selectMode(visible.find((mode) => mode.dataset.mode === savedMode) ?? visible.find((mode) => mode.dataset.mode === chosenMode()) ?? visible[0]);
+  elements.modeSection.hidden = pack.modes.size === 1 && fixedExactFinish() !== null;
+}
