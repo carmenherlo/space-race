@@ -25,10 +25,20 @@ def raw() -> dict[str, Any]:
     return yaml.safe_load((SPACE_RACE / GAME_FILE).read_text(encoding="utf-8"))
 
 
-def test_only_expanded_is_in_the_examples() -> None:
+def test_the_examples_are_the_short_and_the_expanded_boards() -> None:
     games = load_games(EXAMPLE_GAMES)
-    assert list(games.games) == ["space-race-expanded"]
+    assert sorted(games.games) == ["space-race", "space-race-expanded"]
     assert games.available
+
+
+def test_the_short_board_finishes_without_bouncing() -> None:
+    pack = load_game_pack(EXAMPLE_GAMES / "space-race")
+    template = load_game_pack(SPACE_RACE)
+    assert pack.goal == 29  # start, 28 squares, the Moon
+    assert pack.squares == template.squares  # the same board as the template
+    assert pack.playable_modes() == ["race", "questions"]  # "Carrera" and "Sabelotodo"
+    assert pack.exact_finish is False  # overshooting still reaches the Moon
+    assert pack.questions == template.questions
 
 
 def test_the_space_race_template_keeps_its_rules() -> None:
@@ -157,6 +167,7 @@ def test_a_broken_game_is_reported_and_the_others_still_work(tmp_path: Path) -> 
 
 def test_api_lists_the_games(client: TestClient) -> None:
     assert client.get("/api/games").json() == [
+        {"id": "space-race", "title": "Space Race", "image_url": None, "available": True},
         {"id": "space-race-expanded", "title": "Space Race Expanded", "image_url": None, "available": True},
     ]
 
@@ -179,7 +190,7 @@ def test_api_serves_the_board_picture_and_nothing_else(tmp_path: Path, client_fo
     with client_for(games_dir) as client:
         url = "games-pack/space-race-expanded/board.webp"
         assert client.get("/api/games/space-race-expanded").json()["image_url"] == url
-        assert client.get("/api/games").json()[0]["image_url"] == url
+        assert client.get("/api/games").json()[1]["image_url"] == url
         assert client.get(f"/{url}").status_code == 200
         assert client.get("/games-pack/space-race-expanded/game.yaml").status_code == 404
 
