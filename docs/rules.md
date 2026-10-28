@@ -14,7 +14,7 @@
 ## Preparación
 
 1. Cada jugador coloca su ficha en **Start here**.
-2. Por orden, cada jugador toca el dado: empieza quien saque el número más alto. Si hay empate en el más alto, solo los empatados vuelven a tirar hasta que uno saque más. Después se juega por turnos, en el orden de la lista de jugadores, a partir del que empieza.
+2. Un sorteo automático decide el orden de los turnos: los avatares se barajan solos y quedan en fila, 1º, 2º, 3º… Se juega en ese orden.
 
 ## Cómo se juega
 
@@ -82,7 +82,7 @@ Antes de empezar se elige el modo:
 
 - Hay 4 niveles: 1 ⭐ muy fácil (verdadero o falso) · 2 ⭐⭐ fácil · 3 ⭐⭐⭐ medio · 4 ⭐⭐⭐⭐ difícil.
 - A cada jugador se le asigna un nivel antes de empezar (las estrellas bajo su avatar).
-- Para ver quién empieza se tira el dado como en Carrera (empieza el más alto; si hay empate, desempatan). Después se sigue en el orden de la lista.
+- El orden de los turnos lo decide el sorteo, como en Carrera.
 - En tu turno te hacen una pregunta de tu nivel:
   - **Si aciertas**, tiras el dado y avanzas tantas casillas como indique. Después, turno del siguiente.
   - **Si fallas**, se muestra la respuesta correcta y te quedas donde estás. Turno del siguiente.

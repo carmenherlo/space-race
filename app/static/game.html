@@ -116,6 +116,12 @@
     </div>
   </dialog>
 
+  <!-- Who starts: the avatars are shuffled, then shown in turn order (js/game.js, drawOrder). -->
+  <dialog class="game-dialog draw" id="draw" data-in-game aria-labelledby="draw-title">
+    <h2 class="draw__title" id="draw-title"></h2>
+    <ol class="draw__players" id="draw-players"></ol>
+  </dialog>
+
   <!-- What happens on a square: something good, something bad or a funny challenge. -->
   <dialog class="game-dialog card" id="card" data-in-game aria-labelledby="card-title">
     <span class="card__emoji" id="card-emoji" aria-hidden="true"></span>

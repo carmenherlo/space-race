@@ -3,7 +3,7 @@
 // "Carrera" (and "Retos locos"): roll the die and do what your square says (UFOs, galaxies,
 // a black hole…); in "Retos locos", a turn that ends further on brings a funny challenge.
 // "Sabelotodo": first a question of your level; right, roll and move (the squares do
-// nothing); wrong, you stay where you are. In both, a first roll decides who starts.
+// nothing); wrong, you stay where you are. In both, a draw decides the order of the turns.
 // Nothing is saved on the server: a game lasts while the page is open. Only the setup (how
 // many play, their avatars, names and levels, the mode) is remembered on this device.
 //
@@ -87,6 +87,9 @@ const FLIGHT_MS = 900; // a token flies to another square (keep in sync with gam
 const LAND_PAUSE_MS = 900; // the token rests on its square before a card shows, to see where
 const START_PAUSE_MS = 1500; // the board alone for a moment before the first turn
 const TURN_PAUSE_MS = 1100; // between two turns: the turn bar goes away, then comes back
+const DRAW_SHUFFLES = 9; // who starts: the avatars change places this many times…
+const DRAW_SHUFFLE_MS = 140; // …this fast
+const DRAW_SHOW_MS = 2200; // then the order stays on the screen this long
 const IDLE_MS = 10 * 60 * 1000; // back to the home screen after 10 minutes untouched
 
 // ---------- State ----------
@@ -100,9 +103,6 @@ const game = {
   players: [],
   turn: 0, // index in players
   busy: false, // a roll, a move or a card is in progress
-  // Before the first turn, who starts: each player in `rolling` (indexes in players) taps
-  // the die; the highest starts, ties roll again (see rollForStart). null once decided.
-  opening: null, // { rolling, rolls: Map index → roll }
   mayRoll: false, // "Sabelotodo": the question was right, the die is the player's
   paused: false, // ⏸: every wait stops (see wait) until "Seguir jugando"
   // What was chosen before playing (the setup):
@@ -143,6 +143,9 @@ const elements = {
   cardTitle: document.getElementById("card-title"),
   cardText: document.getElementById("card-text"),
   cardOk: document.getElementById("card-ok"),
+  draw: document.getElementById("draw"),
+  drawTitle: document.getElementById("draw-title"),
+  drawPlayers: document.getElementById("draw-players"),
   winner: document.getElementById("winner"),
   winnerAvatar: document.getElementById("winner-avatar"),
   winnerTitle: document.getElementById("winner-title"),
@@ -350,7 +353,7 @@ function renderSummary() {
   const moon = exactFinish()
     ? "🌕 Gana quien llega a la Luna con el número justo."
     : "🌕 Gana el primero que llega a la Luna.";
-  const opening = game.chosen.length > 1 ? ["🎲 Primero, todos tiran: empieza quien saque más."] : [];
+  const opening = game.chosen.length > 1 ? ["🎲 Primero, un sorteo decide el orden."] : [];
   if (mode === "questions") {
     elements.setupSummary.textContent = [
       ...opening,
@@ -399,7 +402,8 @@ function setUpRules(savedMode) {
 
 async function startGame(players) {
   music.start(); // after a tap ("¡A jugar!"), so the browser allows it
-  game.players = players.map((person) => ({
+  // In the order of the draw (see drawOrder), shown before the board.
+  game.players = shuffled(players).map((person) => ({
     ...person,
     place: 0,
     stars: 0, // wildcard stars ⭐ (see useStar)
@@ -415,18 +419,16 @@ async function startGame(players) {
   elements.setup.close();
   elements.winner.close();
   delete elements.turnAvatar.dataset.player; // a new game: same ids, new players
-  game.opening = null;
   game.mayRoll = false;
   game.busy = true; // nothing to tap yet
+  if (game.players.length > 1) {
+    await drawOrder(); // playing alone: nothing to decide
+  }
   renderTokens();
   await wait(START_PAUSE_MS); // first, the board with everybody at the start
   game.busy = false;
   elements.turn.hidden = false;
-  if (game.players.length > 1) {
-    startOpening(game.players.map((_, index) => index));
-  } else {
-    beginFirstTurn(); // playing alone: nothing to decide
-  }
+  beginFirstTurn();
 }
 
 // The first turn, once who starts is decided: in "Sabelotodo", it begins with a question.
@@ -439,71 +441,44 @@ function beginFirstTurn() {
 
 // ---------- Who starts ----------
 
-function startOpening(rolling) {
-  game.opening = { rolling, rolls: new Map() };
-  showOpeningTurn(rolling[0], false);
+// The order of the turns, drawn by itself (game.players is already in that order): the
+// avatars change places a few times, then stay in order, 1st, 2nd… Nobody taps anything.
+async function drawOrder() {
+  elements.drawTitle.textContent = "🎲 ¿Quién empieza?";
+  elements.draw.show();
+  for (let i = 0; i < DRAW_SHUFFLES; i += 1) {
+    renderDraw(shuffled(game.players), false);
+    sounds.hop();
+    await wait(DRAW_SHUFFLE_MS);
+  }
+  renderDraw(game.players, true);
+  elements.drawTitle.textContent = `¡Empieza ${game.players[0].name}!`;
+  sounds.good();
+  speak(elements.drawTitle.textContent);
+  await wait(DRAW_SHOW_MS);
+  elements.draw.close();
 }
 
-// The die is this player's, to roll for who starts (the first one at once, the others after
-// the pause between turns).
-async function showOpeningTurn(index, pause = true) {
-  if (pause) {
-    await passTurnTo(index);
-  } else {
-    game.turn = index;
-    game.busy = false;
-    renderTurn();
-  }
-  elements.turnName.textContent = `${currentPlayer().name}: tira para ver quién empieza`;
-}
-
-// One roll for who starts. When everybody in this round has rolled: the highest starts;
-// a tie at the top, only those tied roll again.
-async function rollForStart() {
-  if (game.busy) {
-    return;
-  }
-  game.busy = true;
-  const { rolling, rolls } = game.opening;
-  rolls.set(game.turn, await rollDie());
-  await wait(LAND_PAUSE_MS); // first see the number
-  const next = rolling.find((index) => !rolls.has(index));
-  if (next !== undefined) {
-    showOpeningTurn(next);
-    return;
-  }
-  const best = Math.max(...rolls.values());
-  const tied = rolling.filter((index) => rolls.get(index) === best);
-  const results = rolling.map((index) => `${game.players[index].name} ha sacado un ${rolls.get(index)}.`).join(" ");
-  if (tied.length > 1) {
-    await showCard({
-      kind: "challenge",
-      emoji: "🎲",
-      title: "¡Empate!",
-      text: `${results} ${listOfNames(tied)} volvéis a tirar.`,
-      button: "¡Otra vez!",
-    });
-    startOpening(tied);
-    return;
-  }
-  const first = game.players[tied[0]];
-  await showCard({ kind: "good", emoji: "🚀", title: `¡Empieza ${first.name}!`, text: results, button: "¡Vamos!" });
-  game.opening = null;
-  game.turn = tied[0];
-  game.busy = false;
-  beginFirstTurn();
-}
-
-// "Ana", "Ana y Luis", "Ana, Luis y Sara".
-function listOfNames(indexes) {
-  const names = indexes.map((index) => game.players[index].name);
-  return names.length > 1 ? `${names.slice(0, -1).join(", ")} y ${names.at(-1)}` : names[0];
+function renderDraw(players, final) {
+  elements.drawPlayers.dataset.final = String(final);
+  elements.drawPlayers.replaceChildren(
+    ...players.map((player, index) => {
+      const item = document.createElement("li");
+      item.className = "draw__player";
+      const number = document.createElement("span");
+      number.className = "draw__number";
+      number.textContent = final ? `${index + 1}º` : "?";
+      const name = document.createElement("span");
+      name.className = "draw__name";
+      name.textContent = player.name;
+      item.append(number, createAvatar(player), name);
+      return item;
+    }),
+  );
 }
 
 function tapDie() {
-  if (game.opening) {
-    rollForStart();
-  } else if (game.mode === "questions") {
+  if (game.mode === "questions") {
     rollAfterQuestion();
   } else {
     playTurn();

@@ -538,6 +538,59 @@ body.game {
   line-height: 1.4;
 }
 
+/* Who starts: the avatars in a row, shuffling; then in turn order with their number. */
+.draw {
+  width: min(94vw, 46rem);
+  border-top-color: #ffd166;
+}
+
+.draw__title {
+  margin: 0 0 var(--space-m);
+  font-size: clamp(1.6rem, 1.1rem + 1.8vw, 2.6rem);
+  font-weight: 800;
+}
+
+.draw__players {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-m);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.draw__player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  min-width: 5.5rem;
+}
+
+.draw__player .avatar {
+  --avatar-size: clamp(3rem, calc(var(--screen-h) * 0.1), 4.8rem);
+}
+
+.draw__number {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.draw__name {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+/* In order: the first one, bigger. */
+.draw__players[data-final="true"] .draw__player {
+  animation: card-in 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.draw__players[data-final="true"] .draw__player:first-child .avatar {
+  --avatar-size: clamp(4rem, calc(var(--screen-h) * 0.14), 6.4rem);
+}
+
 /* Cards: the colour of the squares tells the kind (mint good, pink bad, lilac challenge). */
 .card[data-kind="good"] {
   border-top-color: var(--game-mint);
