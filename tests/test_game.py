@@ -31,13 +31,14 @@ def test_the_examples_are_the_short_and_the_expanded_boards() -> None:
     assert games.available
 
 
-def test_the_short_board_finishes_without_bouncing() -> None:
+def test_the_short_board_bounces_only_in_the_race() -> None:
     pack = load_game_pack(EXAMPLE_GAMES / "space-race")
     template = load_game_pack(SPACE_RACE)
     assert pack.goal == 29  # start, 28 squares, the Moon
     assert pack.squares == template.squares  # the same board as the template
     assert pack.playable_modes() == ["race", "questions"]  # "Carrera" and "Sabelotodo"
-    assert pack.exact_finish is False  # overshooting still reaches the Moon
+    assert pack.exact_finish_in("race") is True  # overshooting bounces back
+    assert pack.exact_finish_in("questions") is False  # overshooting still reaches the Moon
     assert pack.questions == template.questions
 
 
@@ -55,11 +56,22 @@ def test_the_space_race_template_keeps_its_rules() -> None:
     assert len(pack.challenges) == 32
 
 
+def test_a_mode_sets_its_own_rules_over_the_games(raw: dict[str, Any]) -> None:
+    raw.update(modes={"race": None, "questions": {"exact_finish": False}}, exact_finish=True)
+    pack = GamePack.model_validate(raw)
+    assert list(pack.modes) == ["race", "questions"]
+    assert (pack.exact_finish_in("race"), pack.exact_finish_in("questions")) == (True, False)
+    raw.update(modes=["race", "questions"], exact_finish=None)  # a list: the game's rules
+    pack = GamePack.model_validate(raw)
+    assert (pack.exact_finish_in("race"), pack.exact_finish_in("questions")) == (None, None)
+
+
 def test_space_race_expanded_has_its_own_rules() -> None:
     pack = load_game_pack(EXPANDED)
     assert pack.goal == 69  # start, 68 squares, the Moon
     assert pack.playable_modes() == ["race", "questions"]  # "Carrera" and "Sabelotodo"
-    assert (pack.exact_finish, pack.backwards_counts, pack.voice) == (True, False, True)
+    assert (pack.exact_finish_in("race"), pack.exact_finish_in("questions")) == (True, False)
+    assert (pack.backwards_counts, pack.voice) == (False, True)
     assert pack.max_stars == 1  # one wildcard star at a time
     galaxies = [6, 11, 15, 20, 24, 29, 33, 38, 42, 47, 51, 56, 60, 65]
     assert [pack.squares[n].go_to for n in galaxies] == [*galaxies[1:], 69]  # the last one: the Moon
@@ -101,6 +113,7 @@ INVALID: dict[str, Callable[[dict[str, Any]], None]] = {
     "challenges mode without challenges": lambda d: d.update(challenges=[]),
     "unknown mode": lambda d: d.update(modes=["race", "chess"]),
     "no modes": lambda d: d.update(modes=[]),
+    "unknown rule in a mode": lambda d: d.update(modes={"race": {"bounce": True}}),
     "max_stars of 0": lambda d: d.update(max_stars=0),
     "place outside the picture": lambda d: d["places"].__setitem__(3, [120, 40]),
     "too few places": lambda d: d.update(places=[[1, 1], [2, 2]]),
@@ -175,7 +188,8 @@ def test_api_lists_the_games(client: TestClient) -> None:
 def test_api_serves_a_game(client: TestClient) -> None:
     game = client.get("/api/games/space-race-expanded").json()
     assert game["title"] == "Space Race Expanded"
-    assert (game["modes"], game["exact_finish"], game["backwards_counts"]) == (["race", "questions"], True, False)
+    assert game["modes"] == [{"id": "race", "exact_finish": True}, {"id": "questions", "exact_finish": False}]
+    assert game["backwards_counts"] is False
     assert game["image_url"] is None  # the example has no picture
     assert "parents" not in game and "levels" not in game
 

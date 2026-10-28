@@ -94,7 +94,11 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         if game.error:
             raise HTTPException(status_code=503, detail=game.error)
         content = game.pack.model_dump()
-        content["modes"] = game.pack.playable_modes()
+        # Each mode with its rules worked out (its own, else the game's).
+        content["modes"] = [
+            {"id": mode, "exact_finish": game.pack.exact_finish_in(mode)} for mode in game.pack.playable_modes()
+        ]
+        del content["exact_finish"]
         content["image_url"] = games_url(f"{game.id}/{game.pack.image}") if game.pack.image else None
         return content
 

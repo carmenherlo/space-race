@@ -102,14 +102,26 @@ class Question(StrictModel):
         return self
 
 
+class ModeRules(StrictModel):
+    """The rules a mode sets for itself, over the game's own (see GamePack)."""
+
+    # The goal only with the exact number: true or false; without it, as the game says.
+    exact_finish: bool | None = None
+
+
 class GamePack(StrictModel):
     title: Text = "Space Race"
     image: ImageName | None = None  # the board picture, in the game's folder
     # The start, squares 1, 2, … and the goal (the last one), in order.
     places: list[Place] = Field(min_length=3)
     squares: dict[int, Square] = Field(default_factory=dict)
-    # The rules of this game:
-    modes: list[Mode] = Field(default=["race", "challenges", "questions"], min_length=1)
+    # The modes of this game, each with the rules it changes (see ModeRules), in the order
+    # they are shown. A plain list ("modes: [race, questions]") changes nothing.
+    modes: dict[Mode, ModeRules] = Field(
+        default_factory=lambda: {mode: ModeRules() for mode in ("race", "challenges", "questions")},
+        min_length=1,
+    )
+    # The rules of this game, for every mode that does not set its own:
     # The goal only with the exact number (overshooting bounces back): true or false;
     # without it, the players choose before playing.
     exact_finish: bool | None = None
@@ -123,6 +135,15 @@ class GamePack(StrictModel):
     voice: bool = False
     challenges: list[Challenge] = Field(default_factory=list)  # mode "challenges"
     questions: list[Question] = Field(default_factory=list)  # mode "questions"
+
+    @field_validator("modes", mode="before")
+    @classmethod
+    def modes_as_a_list(cls, value: object) -> object:
+        if isinstance(value, list):
+            return {mode: {} for mode in value}
+        if isinstance(value, dict):
+            return {mode: {} if rules is None else rules for mode, rules in value.items()}
+        return value
 
     # "squares:", "challenges:"… with nothing below is read by YAML as None.
     @field_validator("squares", mode="before")
@@ -162,6 +183,11 @@ class GamePack(StrictModel):
     def playable_modes(self) -> list[Mode]:
         """The modes of this game; "questions" only if it has questions."""
         return [mode for mode in self.modes if mode != "questions" or self.questions]
+
+    def exact_finish_in(self, mode: Mode) -> bool | None:
+        """The exact finish in that mode: its own, else the game's (None: the players choose)."""
+        own = self.modes[mode].exact_finish
+        return self.exact_finish if own is None else own
 
 
 @dataclass(frozen=True)

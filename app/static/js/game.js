@@ -28,8 +28,9 @@ const pack = {
   // square number → { kind, emoji, title, text, goTo, move, backRoll, again, skip,
   //                   othersMove, star, starSaves, swap } (see app/game.py, Square)
   squares: new Map(),
-  modes: [], // "race", "challenges", "questions": the ones this game has
-  exactFinish: null, // true or false: fixed by the game; null: the players choose
+  // The modes this game has ("race", "challenges", "questions"), in order, each with its
+  // rules: id → { exactFinish } (true or false: fixed; null: the players choose)
+  modes: new Map(),
   backwardsCounts: true, // going back lands on a square that counts (false: you just stay)
   maxStars: Infinity, // wildcard stars a player can keep at once
   voice: false, // a voice reads the cards aloud (see speak)
@@ -332,6 +333,7 @@ function selectMode(chosen) {
     mode.setAttribute("aria-checked", String(mode === chosen));
   }
   elements.setup.dataset.mode = chosen.dataset.mode; // the stars show only in "Sabelotodo"
+  elements.exactOption.hidden = fixedExactFinish() !== null; // a switch only if not fixed
   renderSummary();
   saveSetup();
 }
@@ -381,9 +383,13 @@ function renderSummary() {
   elements.setupSummary.textContent = parts.join(" ");
 }
 
-// The exact finish: fixed by the game, or chosen with its switch.
+// The exact finish: fixed by the chosen mode (or the game), or chosen with its switch.
 function exactFinish() {
-  return pack.exactFinish ?? optionIsOn("exactFinish");
+  return fixedExactFinish() ?? optionIsOn("exactFinish");
+}
+
+function fixedExactFinish() {
+  return pack.modes.get(chosenMode())?.exactFinish ?? null;
 }
 
 // Only the modes and options of this game, starting with the mode chosen last time if this
@@ -391,13 +397,11 @@ function exactFinish() {
 // section goes away.
 function setUpRules(savedMode) {
   for (const mode of elements.modes) {
-    mode.hidden = !pack.modes.includes(mode.dataset.mode);
+    mode.hidden = !pack.modes.has(mode.dataset.mode);
   }
   const visible = [...elements.modes].filter((mode) => !mode.hidden);
   selectMode(visible.find((mode) => mode.dataset.mode === savedMode) ?? visible.find((mode) => mode.dataset.mode === chosenMode()) ?? visible[0]);
-  elements.exactOption.hidden = pack.exactFinish !== null;
-  elements.modeSection.hidden = pack.modes.length === 1 && pack.exactFinish !== null;
-  renderSummary();
+  elements.modeSection.hidden = pack.modes.size === 1 && fixedExactFinish() !== null;
 }
 
 async function startGame(players) {
@@ -1190,8 +1194,7 @@ async function loadPack() {
       },
     ]),
   );
-  pack.modes = content.modes;
-  pack.exactFinish = content.exact_finish;
+  pack.modes = new Map(content.modes.map((mode) => [mode.id, { exactFinish: mode.exact_finish }]));
   pack.backwardsCounts = content.backwards_counts;
   pack.maxStars = content.max_stars ?? Infinity;
   pack.voice = content.voice;

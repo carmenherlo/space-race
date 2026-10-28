@@ -87,7 +87,7 @@ Antes de empezar se elige el modo:
   - **Si aciertas**, tiras el dado y avanzas tantas casillas como indique. Después, turno del siguiente.
   - **Si fallas**, se muestra la respuesta correcta y te quedas donde estás. Turno del siguiente.
 - Las casillas especiales **no tienen efecto**: ni saltos, ni esperas, ni estrella, ni ninguna otra.
-- Hay que llegar a la Luna con el número exacto; si te pasas, rebotas.
+- No hace falta el número exacto: si te pasas, llegas igual a la Luna (sin rebote).
 - Las preguntas tienen 4 respuestas (en un orden distinto cada vez); las de muy fácil, solo "Verdadero" o "Falso". Algunas traen un dato curioso que se enseña al contestar.
 - Cada nivel tiene su propio mazo, compartido por todos: no se repite ninguna pregunta hasta que han salido todas las de ese nivel.
 
