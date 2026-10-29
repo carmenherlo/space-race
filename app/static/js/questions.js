@@ -5,13 +5,16 @@
 import { KIDS_LEVELS, LEVEL_NAMES, LEVEL_STARS, LEVELS, TOPIC_NAMES, TOPICS } from "./levels.js";
 
 const FILTERS_KEY = "space-race:questions-filters";
-// The level buttons: everything, the kids', the grown-ups', then each level.
+const ADULT_LEVELS = LEVELS.filter((level) => !KIDS_LEVELS.includes(level));
+// What the level buttons choose: everything, the kids', the grown-ups', or one level.
 const LEVEL_GROUPS = [
   { id: "all", label: "Todas", levels: LEVELS },
-  { id: "kids", label: "🐣 Niños", levels: KIDS_LEVELS },
-  { id: "adults", label: "⭐ Adultos", levels: LEVELS.filter((level) => !KIDS_LEVELS.includes(level)) },
+  { id: "kids", label: "Niños", levels: KIDS_LEVELS },
+  { id: "adults", label: "Adultos", levels: ADULT_LEVELS },
   ...LEVELS.map((level) => ({ id: level, label: LEVEL_STARS[level], title: LEVEL_NAMES[level], levels: [level] })),
 ];
+// How they are shown: "Todas", then a block for the kids and one for the grown-ups.
+const LEVEL_ROW = [["all"], ["kids", ...KIDS_LEVELS], ["adults", ...ADULT_LEVELS]];
 
 const elements = {
   status: document.getElementById("status"),
@@ -43,46 +46,35 @@ function saveFilters() {
   }
 }
 
-// A row of buttons, the chosen one pressed; each shows how many questions it has.
-function renderButtons(row, choices, chosen, count, choose) {
-  row.replaceChildren(
-    ...choices.map((choice) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "filter";
-      button.setAttribute("aria-pressed", String(choice.id === chosen));
-      if (choice.title) button.title = choice.title;
-      const label = document.createElement("span");
-      label.textContent = choice.label;
-      const number = document.createElement("small");
-      number.textContent = count(choice);
-      button.append(label, number);
-      button.addEventListener("click", () => choose(choice.id));
-      return button;
-    }),
-  );
+// A filter button, pressed when chosen.
+function filterButton(choice, chosen, choose) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "filter";
+  button.textContent = choice.label;
+  button.setAttribute("aria-pressed", String(choice.id === chosen));
+  if (choice.title) button.title = choice.title;
+  button.addEventListener("click", () => choose(choice.id));
+  return button;
 }
 
 function render() {
   const group = LEVEL_GROUPS.find((one) => one.id === filters.level);
   const ofLevel = questions.filter((question) => group.levels.includes(question.level));
-  const ofTopic = (topic) => (topic === "all" ? ofLevel : ofLevel.filter((question) => question.topic === topic));
-  const shown = ofTopic(filters.topic);
+  const shown = filters.topic === "all" ? ofLevel : ofLevel.filter((question) => question.topic === filters.topic);
 
-  renderButtons(
-    elements.levels,
-    LEVEL_GROUPS,
-    filters.level,
-    (choice) => questions.filter((question) => choice.levels.includes(question.level)).length,
-    (id) => choose({ level: id }),
+  elements.levels.replaceChildren(
+    ...LEVEL_ROW.map((ids) => {
+      const block = document.createElement("span");
+      block.className = "filters__block";
+      block.append(
+        ...ids.map((id) => filterButton(LEVEL_GROUPS.find((one) => one.id === id), filters.level, (level) => choose({ level }))),
+      );
+      return block;
+    }),
   );
-  renderButtons(
-    elements.topics,
-    [{ id: "all", label: "Todos los temas" }, ...TOPICS.map((topic) => ({ id: topic, label: TOPIC_NAMES[topic] }))],
-    filters.topic,
-    (choice) => ofTopic(choice.id).length,
-    (id) => choose({ topic: id }),
-  );
+  const topics = [{ id: "all", label: "Todos los temas" }, ...TOPICS.map((topic) => ({ id: topic, label: TOPIC_NAMES[topic] }))];
+  elements.topics.replaceChildren(...topics.map((topic) => filterButton(topic, filters.topic, (id) => choose({ topic: id }))));
 
   const trueOnes = shown.filter((question) => question.answer === "Verdadero").length;
   const falseOnes = shown.filter((question) => question.answer === "Falso").length;

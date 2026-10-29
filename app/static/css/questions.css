@@ -13,46 +13,84 @@
   text-align: center;
 }
 
-/* The filters: a row of levels and a row of topics, wrapping on narrow screens. */
+/* The filters, on top while scrolling: a row of levels and a row of topics. A row that
+   does not fit slides sideways instead of wrapping. */
 .filters {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--space-s);
+  gap: 0.5rem;
+  margin: 0 calc(var(--space-m) * -1) var(--space-s);
+  padding: var(--space-s) var(--space-m) 0.3rem;
+  background: var(--color-page);
 }
 
 .filters__row {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
-.filter {
+/* Centred when it fits; when it does not, it still starts at the left edge. */
+.filters__row > :first-child {
+  margin-left: auto;
+}
+
+.filters__row > :last-child {
+  margin-right: auto;
+}
+
+.filters__row::-webkit-scrollbar {
+  display: none;
+}
+
+/* "Niños 🐣 🐣🐣 🐣🐣🐣": one block, the buttons joined. */
+.filters__block {
   display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  min-height: var(--touch-min);
-  padding: 0.3rem 0.9rem;
+  flex: none;
+  overflow: hidden;
   border: 2px solid var(--color-border);
   border-radius: 999px;
   background: var(--color-bg);
-  font-size: 1rem;
 }
 
-.filter small {
-  color: var(--color-muted);
-  font-size: 0.8rem;
+.filters__block .filter + .filter {
+  border-left: 2px solid var(--color-border);
 }
 
-.filter[aria-pressed="true"] {
+.filter {
+  flex: none;
+  min-height: 2.6rem;
+  padding: 0 0.9rem;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+/* The topics: one pill each. */
+.filters__row:not(#levels) .filter {
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-bg);
+}
+
+.filter[aria-pressed="true"],
+.filters__row:not(#levels) .filter[aria-pressed="true"] {
   border-color: var(--color-focus);
-  background: #dbe8fb;
+  background: var(--color-focus);
+  color: #ffffff;
   font-weight: 700;
 }
 
 .summary {
-  margin: var(--space-m) 0 var(--space-s);
+  margin: 0;
   color: var(--color-muted);
+  font-size: 0.9rem;
   text-align: center;
 }
 
