@@ -72,3 +72,39 @@ body.games {
   color: #ffb4b4;
   font-weight: 700;
 }
+
+/* Test pages, under the games: a quieter list of links. */
+.games__subtitle {
+  margin: calc(var(--space-l) * 2) 0 var(--space-m);
+  font-size: 1.3rem;
+  text-align: center;
+  opacity: 0.8;
+}
+
+.games__tests {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-m);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.games__test {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: var(--touch-min);
+  padding: 0.7rem 1.4rem;
+  border: 2px dashed rgb(255 255 255 / 35%);
+  border-radius: 1.2rem;
+  color: inherit;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.games__test small {
+  font-weight: 400;
+  opacity: 0.75;
+}
