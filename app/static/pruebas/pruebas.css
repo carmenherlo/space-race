@@ -1,6 +1,6 @@
 /*
- * The last galaxy (galaxia.html): the test page around its minigames (minigames.css).
- * Loaded after base.css and minigames.css.
+ * The test pages (pruebas/, under "Pruebas" in the menu): their page, title and buttons.
+ * Loaded after base.css and what each one tries out (minigames.css, celebrations.css…).
  */
 
 .galaxy {
