@@ -1,7 +1,9 @@
 // Ways to celebrate the winner, over the whole screen, to try out (celebracion.html) before
 // one goes into the game. ✨ Podio y Luna: the podium with fireworks; the winner, jumping,
 // rises, the podium goes down and the Moon comes down behind them, and the party goes on
-// there. 🌕 Luna brillante: the winner on a big shining Moon, fireworks around it. 🎆 Fuegos artificiales: the winner in the middle, fireworks all over and a
+// there, Valencian style: a traca around the Moon, a boom, and a great finale of fireworks
+// in three layers (far, behind the Moon; middle; near, over everything).
+// 🌕 Luna brillante: the winner on a big shining Moon, fireworks around it. 🎆 Fuegos artificiales: the winner in the middle, fireworks all over and a
 // rain of stars. 🏆 Podio: the winner on top, the others below, confetti falling.
 // Their look is in css/celebrations.css.
 
@@ -19,6 +21,14 @@ const BURST_PIECES = 18;
 const SKY_STARS = 110;
 const PODIUM_MS = 4000; // "Podio y Luna": the podium, before the winner rises
 const RISE_MS = 2600; // the rise (as long as its transitions in celebrations.css)
+const TRACA_BANGERS = 40; // around the Moon, faster and faster
+const FINALE_MS = 7000; // the great finale, before the calmer fireworks
+// The layers of a firework: how far its sparks fly (vmin) and how loud it sounds.
+const LAYERS = {
+  far: { reach: [5, 8], loud: 0.4 },
+  middle: { reach: [11, 17], loud: 0.8 },
+  near: { reach: [22, 32], loud: 1.3 },
+};
 
 // Shows one: `winner` and `others` (2nd, 3rd…) are { name, avatar } (an .avatar element).
 // Resolves when the button is tapped (`button`: its text).
@@ -65,7 +75,15 @@ export function celebrate(id, winner, others = [], button = "¡Otra partida!") {
     later(PODIUM_MS + RISE_MS, () => {
       screen.dataset.phase = "moon";
       title.hidden = false;
-      aroundTheMoon();
+      const end = traca(screen, moon, later);
+      later(end, () => {
+        // The great finale: fireworks one after another, far, middle and near.
+        const finale = every(230, () => firework(screen));
+        later(FINALE_MS, () => {
+          clearInterval(finale);
+          every(900, () => firework(screen));
+        });
+      });
     });
   } else if (id === "moon") {
     const moon = silverMoon();
@@ -108,6 +126,46 @@ function seat(player, className) {
   box.className = className;
   box.append(player.avatar.cloneNode(true));
   return box;
+}
+
+// 🧨 A traca around the Moon: bangers one after another, faster and faster, each a flash
+// and a puff of smoke; at the end, a boom that shakes the screen. Returns how long it lasts.
+function traca(screen, moon, later) {
+  const box = moon.getBoundingClientRect();
+  const centre = { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+  const radius = box.width / 2 + 12;
+  let at = 0;
+  for (let i = 0; i < TRACA_BANGERS; i += 1) {
+    const angle = -Math.PI / 2 + (i / TRACA_BANGERS) * Math.PI * 2; // from the top, clockwise
+    later(at, () => {
+      const flash = document.createElement("span");
+      flash.className = "traca__flash";
+      flash.style.left = `${centre.x + Math.cos(angle) * radius}px`;
+      flash.style.top = `${centre.y + Math.sin(angle) * radius}px`;
+      screen.append(flash);
+      party.crack();
+      setTimeout(() => flash.remove(), 1200);
+    });
+    at += 25 + 110 * (1 - i / TRACA_BANGERS) ** 1.5;
+  }
+  later(at + 150, () => {
+    party.boom();
+    screen.dataset.shake = "";
+    setTimeout(() => delete screen.dataset.shake, 700);
+  });
+  return at + 400;
+}
+
+// One firework of the finale, anywhere: far, middle or near, of one colour, of many, or a
+// golden willow.
+function firework(screen) {
+  const layer = ["far", "far", "middle", "middle", "middle", "near"][Math.floor(Math.random() * 6)];
+  const kind = Math.random();
+  burst(screen, 8 + Math.random() * 84, 6 + Math.random() * 60, {
+    layer,
+    multi: kind < 0.3,
+    willow: kind > 0.8,
+  });
 }
 
 // The Moon of the board: silver, with a light blue glow and some craters.
@@ -175,29 +233,38 @@ function podium(winner, others, { apart = false } = {}) {
   return box;
 }
 
-// A firework at x%, y% of the screen: coloured sparks flying out in a circle.
-function burst(screen, x, y) {
-  const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+// A firework at x%, y% of the screen: sparks flying out in two rings. Its layer (far,
+// behind the Moon; middle; near, over everything) sets its size and how loud it is; `multi`:
+// every spark its own colour; `willow`: golden sparks falling slowly, like a willow.
+function burst(screen, x, y, { layer = "middle", multi = false, willow = false } = {}) {
+  const { reach: [least, most], loud } = LAYERS[layer];
+  const reach = least + Math.random() * (most - least);
+  const color = willow ? "#ffd27a" : COLORS[Math.floor(Math.random() * COLORS.length)];
   const spot = document.createElement("span");
   spot.className = "burst";
+  spot.dataset.layer = layer;
+  if (willow) {
+    spot.dataset.willow = "";
+  }
   spot.style.left = `${x}%`;
   spot.style.top = `${y}%`;
   // Two rings: a wide one and a smaller one, a little turned.
-  for (const [reach, turn] of [[16, 0], [9, 0.5]]) {
+  for (const [distance, turn] of [[reach, 0], [reach * 0.55, 0.5]]) {
     for (let i = 0; i < BURST_PIECES; i += 1) {
       const angle = ((i + turn) / BURST_PIECES) * Math.PI * 2;
       const spark = document.createElement("span");
+      const sparkColor = multi ? COLORS[Math.floor(Math.random() * COLORS.length)] : color;
       spark.className = "burst__spark";
-      spark.style.background = color;
-      spark.style.color = color; // its glow
-      spark.style.setProperty("--tx", `${Math.cos(angle) * reach}vmin`);
-      spark.style.setProperty("--ty", `${Math.sin(angle) * reach}vmin`);
+      spark.style.background = sparkColor;
+      spark.style.color = sparkColor; // its glow
+      spark.style.setProperty("--tx", `${Math.cos(angle) * distance}vmin`);
+      spark.style.setProperty("--ty", `${Math.sin(angle) * distance}vmin`);
       spot.append(spark);
     }
   }
   screen.append(spot);
-  party.pop();
-  setTimeout(() => spot.remove(), 1300);
+  party.pop(loud);
+  setTimeout(() => spot.remove(), willow ? 2800 : 1500);
 }
 
 // Something falling from the top (a star, a piece of confetti), at a random place.

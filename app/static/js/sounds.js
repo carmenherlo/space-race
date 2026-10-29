@@ -218,11 +218,26 @@ export const sounds = {
 
 // For the celebrations (celebrations.js): a firework, and a longer, happy tune.
 export const party = {
-  // A firework bursting: a soft "pff" and a twinkle.
-  pop() {
+  // A firework bursting: a soft "pff" and a twinkle; `loud`: about 0.4 (far) to 1.3 (near).
+  pop(loud = 1) {
     play((ctx, out, now) => {
-      noise(ctx, out, { at: now, length: 0.3, volume: 0.3 });
-      blip(ctx, out, { at: now + 0.05, freq: 1500 + Math.random() * 900, length: 0.25, type: "sine", volume: 0.25 });
+      noise(ctx, out, { at: now, length: 0.3, volume: 0.3 * loud });
+      blip(ctx, out, { at: now + 0.05, freq: 1500 + Math.random() * 900, length: 0.25, type: "sine", volume: 0.25 * loud });
+    });
+  },
+
+  // One banger of the traca: a sharp crack.
+  crack() {
+    play((ctx, out, now) => {
+      noise(ctx, out, { at: now, length: 0.05, volume: 0.7 });
+    });
+  },
+
+  // The end of the traca: a deep boom that shakes everything.
+  boom() {
+    play((ctx, out, now) => {
+      noise(ctx, out, { at: now, length: 0.9, volume: 0.8 });
+      blip(ctx, out, { at: now, freq: 95, to: 35, length: 1, type: "sine", volume: 1 });
     });
   },
 
