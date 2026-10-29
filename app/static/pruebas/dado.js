@@ -1,7 +1,8 @@
 // The die (dado.html): a test page for what makes a roll easy to follow (as in the game,
 // js/game/moves.js), on the short board with a random avatar. Each can be switched off:
 //   1. the number, big in the middle of the board, before the token moves;
-//   2. then a bright halo around the ring of the token, for a moment, before it moves;
+//   2. then a glint runs around the ring of the token, like a ring catching the light, and
+//      after a short pause it moves;
 //   3. slower steps.
 // Nothing here touches a game: it is only to try them out.
 
@@ -10,7 +11,8 @@ import { randomPlayers } from "./players.js";
 
 const ROLL_MS = 900; // the die keeps changing (as DIE_ROLL_MS in the game)
 const NUMBER_MS = 1100; // idea 1: the big number stays this long (DIE_NUMBER_MS in the game)
-const HALO_MS = 1400; // idea 2: the halo around the ring (as long as in dado.css)
+const SHINE_MS = 1300; // idea 2: the glint around the ring (as long as in dado.css)…
+const SHINE_PAUSE_MS = 450; // …then a short pause before moving
 const STEP_MS = 280; // a step, as it was…
 const SLOW_STEP_MS = 480; // …and slower (idea 3, STEP_MS in the game)
 
@@ -37,7 +39,6 @@ async function start() {
   places = game.places;
   const [{ avatar }] = await randomPlayers(["Tú"]);
   token.append(avatar);
-  token.style.setProperty("--halo-color", avatar.style.getPropertyValue("--avatar-color"));
   board.append(token);
   put();
   die.addEventListener("click", roll);
@@ -65,9 +66,10 @@ async function roll() {
     number.hidden = true;
   }
   if (ideas.ring.checked) {
-    token.dataset.halo = "";
-    await wait(HALO_MS);
-    delete token.dataset.halo;
+    token.dataset.shine = "";
+    await wait(SHINE_MS);
+    delete token.dataset.shine;
+    await wait(SHINE_PAUSE_MS);
   }
   const slow = ideas.slow.checked;
   token.dataset.speed = slow ? "slow" : "usual";
