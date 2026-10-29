@@ -235,10 +235,10 @@ const WHEEL_MS = 6000; // as long as the wheel's transition in galaxia.css
 // and back down. Harder: more taps, less time or a bigger leak.
 const FUEL_MS = 5000; // time to fill it, from the first tap
 const FUEL_TAPS = 18; // taps for a full tank
-const LEAK_PER_SECOND = 3; // taps' worth of fuel lost each second
+const LEAK_PER_SECOND = 1.5; // taps' worth of fuel lost each second
 
 function playRocket() {
-  result.textContent = "¡Toca el cohete muy rápido para llenar el depósito!";
+  result.textContent = "¡Toca muy rápido para llenar el depósito!";
   const goal = document.createElement("span");
   goal.className = "launch__moon";
   goal.textContent = "🌕";
@@ -247,10 +247,8 @@ function playRocket() {
   const fuelLevel = document.createElement("span");
   fuelLevel.className = "launch__fuel";
   tank.append(fuelLevel);
-  const rocket = document.createElement("button");
-  rocket.type = "button";
+  const rocket = document.createElement("span");
   rocket.className = "launch__rocket";
-  rocket.setAttribute("aria-label", "Llenar el depósito");
   const ship = document.createElement("span");
   ship.className = "launch__ship";
   ship.textContent = "🚀";
@@ -262,7 +260,12 @@ function playRocket() {
   count.className = "launch__count";
   const time = document.createElement("span");
   time.className = "launch__time";
-  stage.replaceChildren(goal, tank, count, rocket, time);
+  // Taps anywhere in the box count, not only on the rocket.
+  const pad = document.createElement("button");
+  pad.type = "button";
+  pad.className = "launch__pad";
+  pad.setAttribute("aria-label", "Llenar el depósito");
+  stage.replaceChildren(goal, tank, count, rocket, time, pad);
 
   return new Promise((resolve) => {
     let fuel = 0;
@@ -289,7 +292,7 @@ function playRocket() {
       }
     };
 
-    rocket.addEventListener("pointerdown", () => {
+    pad.addEventListener("pointerdown", () => {
       if (!filling || full()) {
         return;
       }
@@ -311,7 +314,7 @@ function playRocket() {
 
     async function launch() {
       filling = false;
-      rocket.disabled = true;
+      pad.disabled = true;
       ship.style.marginLeft = "0";
       result.textContent = "";
       for (const number of ["3", "2", "1"]) {
