@@ -80,10 +80,11 @@ function showLights() {
   lights.title.toggleAttribute("data-on", switches.title.checked);
   lights.start.toggleAttribute("data-on", switches.start.checked && place === 0);
   const away = goal - place;
-  const near = switches.near.checked && place > 0 && away > 0 && away <= NEAR;
+  // On the Moon too (touching it on a bounce, or there for good): it stays lit.
+  const near = switches.near.checked && place > 0 && away <= NEAR;
   lights.moon.toggleAttribute("data-near", near);
   // Closer, brighter: from a glimmer six squares away to a glow next to it.
-  lights.moon.style.setProperty("--near", near ? String(0.25 + (0.6 * (NEAR - away)) / (NEAR - 1)) : "0");
+  lights.moon.style.setProperty("--near", near ? String(Math.min(1, 0.25 + (0.6 * (NEAR - away)) / (NEAR - 1))) : "0");
   lights.moon_sign.toggleAttribute("data-on", near);
 }
 
