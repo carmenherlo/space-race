@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>El dado</title>
-  <!-- A test page (in the menu, under "Pruebas"): ideas so a roll is easy to follow. -->
+  <title>El dado y las luces</title>
+  <!-- A test page (in the menu, under "Pruebas"): a roll easy to follow, and the board's lights. -->
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="pruebas.css">
   <link rel="stylesheet" href="dado.css">
@@ -13,22 +13,37 @@
 <body class="galaxy">
   <a class="close-x galaxy__close" href="../games.html" aria-label="Salir">✕</a>
   <main class="galaxy__main dice-test">
-    <!-- The ideas to see (they can be combined), and the die. -->
+    <!-- The die, the last galaxy, back to the start, and every option (they can be combined). -->
     <div class="dice-test__ideas">
-      <label><input type="checkbox" id="idea-square" checked> Casilla</label>
-      <label><input type="checkbox" id="idea-pulse" checked> Latido</label>
-      <label><input type="checkbox" id="idea-pulse-shine" checked> …brillar</label>
-      <label><input type="checkbox" id="idea-roll-hops" checked> Salta</label>
-      <label><input type="checkbox" id="idea-number" checked> Número</label>
-      <label>
-        <select id="idea-find">
-          <option value="none">Nada</option>
-          <option value="hops">Dos saltitos</option>
-          <option value="shine">Brillo</option>
-        </select>
-      </label>
-      <label><input type="checkbox" id="idea-slow" checked> Lento</label>
       <button class="dice-test__die" id="die" type="button" aria-label="Tirar el dado">🎲</button>
+      <button class="galaxy__button" id="galaxy" type="button">🌌 Última galaxia</button>
+      <button class="galaxy__button" id="reset" type="button">↺ A la salida</button>
+      <details class="dice-test__options">
+        <summary>⚙ Opciones</summary>
+        <div class="dice-test__option-list">
+          <b>Tirada</b>
+          <label><input type="checkbox" id="idea-roll-hops" checked> Salta mientras rueda el dado</label>
+          <label><input type="checkbox" id="idea-number" checked> Número grande</label>
+          <label>Antes de andar:
+            <select id="idea-find">
+              <option value="shine">Brillo</option>
+              <option value="hops">Dos saltitos</option>
+              <option value="none">Nada</option>
+            </select>
+          </label>
+          <label><input type="checkbox" id="idea-slow" checked> Pasos lentos</label>
+          <b>Ficha</b>
+          <label><input type="checkbox" id="idea-pulse" checked> Latido</label>
+          <label><input type="checkbox" id="idea-pulse-shine" checked> Latido también al brillar</label>
+          <b>Luces del tablero</b>
+          <label><input type="checkbox" id="idea-square" checked> Casilla iluminada</label>
+          <label><input type="checkbox" id="light-title" checked> Título</label>
+          <label><input type="checkbox" id="light-start" checked> Start (en la salida)</label>
+          <label><input type="checkbox" id="light-trail" checked> Estela (última galaxia)</label>
+          <label><input type="checkbox" id="light-arrive" checked> Luna al llegar</label>
+          <label><input type="checkbox" id="light-near" checked> Luna cerca</label>
+        </div>
+      </details>
     </div>
     <div class="dice-test__board" id="board">
       <img class="dice-test__image" id="board-image" alt="">

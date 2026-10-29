@@ -1,18 +1,20 @@
-// The die (dado.html): a test page for what makes a roll easy to follow, on the short
-// board with a random avatar. Each idea can be switched off:
-//   1. the number, big in the middle of the board, before the token moves;
-//   2. then, so everybody finds the token before it moves, one of: two little hops (as at
-//      the start of a turn in the game), or a shine (a little bigger, its ring thicker,
-//      and a glowing reflection goes round the ring, like a gold ring turned in the light);
-//      a short pause, and it moves;
-//   3. slower steps.
-// "Casilla": the square the token is on lights up, with its real shape (from the board's
-// squares picture, squares_image in game.yaml): whiter and brighter, glowing from its edges.
-// While the die rolls, the token can hop twice (as in the game when the die is tapped as
-// soon as the turn starts).
-// And, as in the game all through a turn, the glowing pulse behind the token (it can be
-// switched off, to see the ideas with and without it; "Latido al brillar" keeps it while
-// the token shines, else it fades away meanwhile).
+// The die and the lights (dado.html): a test page for a roll easy to follow and for the
+// board's lights, all together, on the short board with a token and a random avatar. Each
+// one can be switched off (⚙ Opciones):
+//   Tirada  the token hops while the die rolls; the number, big in the middle of the board;
+//           before moving, the token shines (a little bigger, its ring thicker and glowing,
+//           a reflection going round it like a gold ring in the light) or hops twice; then
+//           slower steps. At the Moon only with the exact number, else it bounces back.
+//   Ficha   the glowing pulse behind the token, as in the game all through a turn ("también
+//           al brillar" keeps it while the token shines, else it fades away meanwhile).
+//   Luces   the square the token is on lights up, with its real shape (squares_image in
+//           game.yaml): whiter and brighter where it is bare, glowing from its edges; and the
+//           board's lights (lights in game.yaml, its own pictures, brighter and glowing):
+//           the title breathing softly; "Start here" beating while the token is at the start;
+//           the last galaxy (🌌) lights the star trail towards the Moon, then the Moon shines
+//           with its sign, flags and the silver stars behind it, as it does when the token
+//           gets there; close to the Moon (or touching it on a bounce), it glows softly, more
+//           the closer, and its sign beats.
 // Nothing here touches a game: it is only to try them out.
 
 import { sounds } from "../js/sounds.js";
@@ -25,6 +27,9 @@ const HOPS_MS = 1000; // or two little hops (as TOKEN_CALL_MS in the game)
 const FIND_PAUSE_MS = 400; // then a short pause before moving
 const STEP_MS = 280; // a step, as it was…
 const SLOW_STEP_MS = 480; // …and slower (idea 3, STEP_MS in the game)
+const NEAR = 6; // "Luna cerca": from this many squares away
+const MOON_SHINE_MS = 2600; // the Moon shining strongly (lights-shine in dado.css, 4 × 0.65 s)
+const MOON_PARTS = ["moon", "moon_sign", "moon_flags", "moon_stars"];
 
 const die = document.getElementById("die");
 const board = document.getElementById("board");
@@ -37,6 +42,11 @@ const ideas = {
   square: document.getElementById("idea-square"),
   rollHops: document.getElementById("idea-roll-hops"),
   pulseShine: document.getElementById("idea-pulse-shine"),
+  title: document.getElementById("light-title"),
+  start: document.getElementById("light-start"),
+  trail: document.getElementById("light-trail"),
+  arrive: document.getElementById("light-arrive"),
+  near: document.getElementById("light-near"),
 };
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -45,6 +55,8 @@ let boardUrl = "";
 let squareShapes = new Map(); // square number → { left, top, width, height (in %), mask }
 let lit = null; // the lit square on the board
 let place = 0;
+let busy = false;
+const lights = {}; // part of the board (title, start…) → its light
 const token = document.createElement("span");
 token.className = "dice-test__token";
 
@@ -58,7 +70,15 @@ async function start() {
   if (game.squares_image_url) {
     squareShapes = await shapesOfTheSquares(`../${game.squares_image_url}`, boardUrl);
   }
-  ideas.square.addEventListener("change", lightUp);
+  for (const [part, url] of Object.entries(game.lights ?? {})) {
+    const picture = document.createElement("img");
+    picture.className = "lights__piece";
+    picture.dataset.kind = part;
+    picture.alt = "";
+    picture.src = `../${url}`;
+    lights[part] = picture;
+    board.append(picture);
+  }
   const [{ avatar }] = await randomPlayers(["Tú"]);
   // The glow of the reflection: a blurred copy of it (blurred as a whole, so the glow spills
   // out of the ring; see dado.css).
@@ -67,11 +87,24 @@ async function start() {
   glow.append(document.createElement("span"));
   token.append(avatar, glow);
   token.style.setProperty("--player-color", avatar.style.getPropertyValue("--avatar-color"));
-  showPulse();
-  ideas.pulse.addEventListener("change", showPulse);
-  board.append(token);
+  board.append(token); // over the lights
   put();
   die.addEventListener("click", roll);
+  document.getElementById("galaxy").addEventListener("click", lastGalaxy);
+  document.getElementById("reset").addEventListener("click", () => {
+    if (!busy) {
+      place = 0;
+      put();
+    }
+  });
+  for (const box of Object.values(ideas)) {
+    box.addEventListener("change", () => {
+      showPulse();
+      lightUp();
+      showLights();
+    });
+  }
+  showPulse();
 }
 
 // The pulse of the player whose turn it is (as .token[data-current] in game.css).
@@ -84,6 +117,54 @@ function put() {
   token.style.left = `${x}%`;
   token.style.top = `${y}%`;
   lightUp();
+  showLights();
+}
+
+// The board's lights that depend on where the token is.
+function showLights() {
+  if (!lights.moon) {
+    return; // a board without lights
+  }
+  lights.title.toggleAttribute("data-on", ideas.title.checked);
+  lights.start.toggleAttribute("data-on", ideas.start.checked && place === 0);
+  const away = places.length - 1 - place;
+  // On the Moon too (touching it on a bounce, or there for good): it stays lit.
+  const near = ideas.near.checked && place > 0 && away <= NEAR;
+  lights.moon.toggleAttribute("data-near", near);
+  // Closer, brighter: from a glimmer six squares away to a glow next to it.
+  lights.moon.style.setProperty("--near", near ? String(Math.min(1, 0.25 + (0.6 * (NEAR - away)) / (NEAR - 1))) : "0");
+  lights.moon_sign.toggleAttribute("data-on", near);
+}
+
+// The Moon shining strongly, with its sign, its flags and the stars behind it.
+async function moonShines() {
+  for (const part of MOON_PARTS) {
+    lights[part]?.setAttribute("data-shine", "");
+  }
+  sounds.good();
+  await wait(MOON_SHINE_MS);
+  for (const part of MOON_PARTS) {
+    lights[part]?.removeAttribute("data-shine");
+  }
+}
+
+// The last galaxy: the token on it, the trail lights up towards the Moon, then the Moon.
+async function lastGalaxy() {
+  if (busy || !lights.trail) {
+    return;
+  }
+  busy = true;
+  place = 25;
+  put();
+  await wait(600);
+  if (ideas.trail.checked) {
+    sounds.fly();
+    lights.trail.dataset.on = "";
+    await wait(1400);
+    await moonShines();
+    delete lights.trail.dataset.on;
+  }
+  busy = false;
 }
 
 // The square the token is on, lit up (the previous one fades out).
@@ -202,6 +283,10 @@ async function shapesOfTheSquares(url, boardUrl) {
 }
 
 async function roll() {
+  if (busy) {
+    return;
+  }
+  busy = true;
   die.disabled = true;
   const rolled = 1 + Math.floor(Math.random() * 6);
   sounds.dice();
@@ -230,13 +315,23 @@ async function roll() {
   }
   const slow = ideas.slow.checked;
   token.dataset.speed = slow ? "slow" : "usual";
+  const goal = places.length - 1;
+  let direction = 1;
   for (let step = 1; step <= rolled; step += 1) {
-    place = (place + 1) % places.length; // after the Moon, back to the start
+    if (place === goal) {
+      direction = -1; // too far: back from the Moon
+      sounds.bounce();
+    }
+    place += direction;
     put();
     sounds.hop();
     await wait(slow ? SLOW_STEP_MS : STEP_MS);
   }
+  if (place === goal && ideas.arrive.checked && lights.moon) {
+    await moonShines(); // at the Moon for good (before the celebration, in the game)
+  }
   await wait(600);
   die.textContent = "🎲";
   die.disabled = false;
+  busy = false;
 }
