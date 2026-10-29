@@ -125,6 +125,16 @@ body.game {
   animation: token-pulse 1.1s ease-in-out infinite alternate;
 }
 
+/* A new turn (see callToken): that player's token jumps twice. Same length as TOKEN_CALL_MS. */
+.board-game__tokens[data-calling] .token[data-current] .avatar {
+  animation: token-call 1s ease-in-out;
+}
+
+@keyframes token-call {
+  0%, 50%, 100% { transform: translateY(0); }
+  25%, 75% { transform: translateY(-60%) scale(1.15); }
+}
+
 @keyframes token-pulse {
   from { opacity: 0.35; transform: scale(0.9); }
   to { opacity: 1; transform: scale(1.1); }

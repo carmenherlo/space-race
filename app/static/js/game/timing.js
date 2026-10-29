@@ -9,6 +9,7 @@ export const FLIGHT_MS = 900; // a token flies to another square (keep in sync w
 export const LAND_PAUSE_MS = 900; // the token rests on its square before a card shows, to see where
 export const START_PAUSE_MS = 1500; // the board alone for a moment before the first turn
 export const TURN_PAUSE_MS = 1100; // between two turns: the turn bar goes away, then comes back
+export const TOKEN_CALL_MS = 1000; // a new turn: that player's token jumps (keep in sync with game.css)
 export const BOARD_LOOK_MS = 2000; // "Sabelotodo", after a move: every token stands out, to see who is where
 export const DRAW_SHUFFLES = 9; // who starts: the avatars change places this many times…
 export const DRAW_SHUFFLE_MS = 140; // …this fast

@@ -17,6 +17,7 @@ export async function swapPlaces(player, other) {
 export function rollDie() {
   const roll = 1 + Math.floor(Math.random() * 6);
   sounds.dice();
+  delete elements.tokens.dataset.calling; // the token is about to move: no more jumping
   elements.die.disabled = true;
   elements.die.dataset.rolling = "";
   const shuffle = setInterval(() => {

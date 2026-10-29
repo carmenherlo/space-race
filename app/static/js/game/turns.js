@@ -8,7 +8,7 @@ import { askTurnQuestion, rollAfterQuestion } from "./questions.js";
 import { playTurn } from "./race.js";
 import { chosenMode, exactFinish } from "./setup.js";
 import { currentPlayer, elements, game } from "./state.js";
-import { DRAW_SHOW_MS, DRAW_SHUFFLES, DRAW_SHUFFLE_MS, START_PAUSE_MS, TURN_PAUSE_MS, wait } from "./timing.js";
+import { DRAW_SHOW_MS, DRAW_SHUFFLES, DRAW_SHUFFLE_MS, START_PAUSE_MS, TOKEN_CALL_MS, TURN_PAUSE_MS, wait } from "./timing.js";
 
 export async function startGame(players) {
   music.start(); // after a tap ("¡A jugar!"), so the browser allows it
@@ -44,6 +44,7 @@ export async function startGame(players) {
 
 // The first turn, once who starts is decided: in "Sabelotodo", it begins with a question.
 function beginFirstTurn() {
+  callToken();
   renderTurn();
   if (game.mode === "questions") {
     askTurnQuestion();
@@ -133,7 +134,14 @@ async function passTurnTo(index) {
   await wait(TURN_PAUSE_MS);
   game.turn = index;
   game.busy = false;
+  delete elements.tokens.dataset.changing;
+  callToken();
   renderTurn();
   delete elements.turn.dataset.changing;
-  delete elements.tokens.dataset.changing;
+}
+
+// The token of the player whose turn it is jumps twice, so everybody sees whose it is.
+function callToken() {
+  elements.tokens.dataset.calling = "";
+  setTimeout(() => delete elements.tokens.dataset.calling, TOKEN_CALL_MS);
 }
