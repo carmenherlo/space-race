@@ -236,6 +236,7 @@ export const music = {
   nextAt: 0, // when the next note starts (audio clock)
   timer: null,
   output: null,
+  beat: BEAT, // seconds per note: faster in the final stretch (see tense)
 
   // Starts the loop (unless the music is off). Before any tap, a browser may keep the
   // sound waiting: calling it again after a tap wakes it up.
@@ -274,6 +275,11 @@ export const music = {
     }
   },
 
+  // The final stretch (someone close to the Moon): the same tune, faster.
+  tense(on) {
+    this.beat = on ? BEAT * 0.72 : BEAT;
+  },
+
   // Silences it for now; start() or switching it back on brings it back.
   pause() {
     clearInterval(this.timer);
@@ -288,14 +294,14 @@ export const music = {
       const bar = Math.floor(this.step / 8) % CHORDS.length;
       const beat = this.step % 8;
       const chord = CHORDS[bar];
-      blip(ctx, this.output, { at: this.nextAt, freq: chord[ARPEGGIO[beat]], length: BEAT * 1.8, type: "triangle", volume: 0.6 });
+      blip(ctx, this.output, { at: this.nextAt, freq: chord[ARPEGGIO[beat]], length: this.beat * 1.8, type: "triangle", volume: 0.6 });
       if (beat === 0) {
-        blip(ctx, this.output, { at: this.nextAt, freq: chord[0] / 2, length: BEAT * 7.5, type: "sine", volume: 0.9 });
+        blip(ctx, this.output, { at: this.nextAt, freq: chord[0] / 2, length: this.beat * 7.5, type: "sine", volume: 0.9 });
       }
       if (beat === 4 && bar % 2 === 1) {
-        blip(ctx, this.output, { at: this.nextAt, freq: chord[3] * 2, length: BEAT * 2, type: "sine", volume: 0.35 });
+        blip(ctx, this.output, { at: this.nextAt, freq: chord[3] * 2, length: this.beat * 2, type: "sine", volume: 0.35 });
       }
-      this.nextAt += BEAT;
+      this.nextAt += this.beat;
       this.step = (this.step + 1) % (8 * CHORDS.length);
     }
   },

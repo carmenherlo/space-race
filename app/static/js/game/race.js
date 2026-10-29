@@ -24,7 +24,7 @@ export async function playTurn() {
   }
   if (bounced) {
     await wait(LAND_PAUSE_MS);
-    await showBounce(bounced);
+    await showBounce(bounced, player);
     if (!pack.backwardsCounts) {
       nextTurn(); // where the bounce leaves you does nothing
       return;

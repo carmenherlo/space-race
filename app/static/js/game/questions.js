@@ -1,7 +1,7 @@
 // "Sabelotodo": the levels, the questions, and a turn (a question first; right, roll).
 
 import { sounds } from "../sounds.js";
-import { renderTurn } from "./board.js";
+import { react, renderTurn } from "./board.js";
 import { drawFrom, showBounce, showWinner } from "./cards.js";
 import { shuffled, speak } from "./helpers.js";
 import { moveBy, rollDie } from "./moves.js";
@@ -33,7 +33,9 @@ export async function askTurnQuestion() {
   elements.die.disabled = true;
   await wait(700); // a moment to see whose turn it is
   const player = currentPlayer();
-  if (!(await askQuestion(drawQuestion(player.level)))) {
+  const right = await askQuestion(drawQuestion(player.level));
+  react(player, right ? "good" : "bad");
+  if (!right) {
     nextTurn();
     return;
   }
@@ -59,7 +61,7 @@ export async function rollAfterQuestion() {
   let landed = true;
   if (bounced) {
     await wait(LAND_PAUSE_MS);
-    await showBounce(bounced);
+    await showBounce(bounced, player);
     landed = pack.backwardsCounts; // where the bounce leaves you may do nothing
   }
   if (landed) {

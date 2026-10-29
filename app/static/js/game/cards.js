@@ -3,7 +3,7 @@
 
 import { flyToTheMoon, playMinigame } from "../minigames.js";
 import { sounds } from "../sounds.js";
-import { createAvatar, placeName, renderTurn } from "./board.js";
+import { createAvatar, placeName, react, renderTurn } from "./board.js";
 import { shuffled, speak } from "./helpers.js";
 import { elements, game, pack } from "./state.js";
 
@@ -14,7 +14,8 @@ const CONFETTI_PIECES = 90;
 const CARD_TITLES = { good: "¡Qué suerte!", bad: "¡Oh, no!", challenge: "¡Reto!" };
 const CARD_BUTTONS = { good: "¡Bien!", bad: "Vale…", challenge: "¡Hecho!" };
 
-export function showBounce(bounced) {
+export function showBounce(bounced, player) {
+  react(player, "bad");
   return showCard({
     kind: "bad",
     emoji: "🌕",

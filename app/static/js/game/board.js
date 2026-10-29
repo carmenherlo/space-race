@@ -1,6 +1,11 @@
 // The board: the turn bar, the tokens on their places, the avatars.
 
+import { music } from "../sounds.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
+
+// The final stretch: this close to the Moon, the token glows and the music speeds up.
+const NEAR_MOON = 6; // squares
+const MOOD_MS = 1200; // a token's hop of joy or tremble (see game.css)
 
 // Where each token sits when several share a square, in token sizes from the centre.
 const TOKEN_MAX = 4.2; // % of the board's width
@@ -53,6 +58,9 @@ export function renderTokens({ flying = [] } = {}) {
     if (player === currentPlayer() && !game.players.some((p) => p.place === pack.goal)) {
       token.dataset.current = "";
     }
+    if (nearTheMoon(player)) {
+      token.dataset.near = "";
+    }
     token.append(createAvatar(player));
     if (player.stars > 0) {
       const badge = document.createElement("span");
@@ -66,6 +74,21 @@ export function renderTokens({ flying = [] } = {}) {
   });
   elements.tokens.replaceChildren(...tokens);
   renderRanking();
+  music.tense(game.players.some(nearTheMoon));
+}
+
+function nearTheMoon(player) {
+  return player.place > 0 && player.place < pack.goal && pack.goal - player.place <= NEAR_MOON;
+}
+
+// A token that reacts: a hop of joy ("good") or a tremble ("bad").
+export function react(player, mood) {
+  const token = elements.tokens.children[game.players.indexOf(player)];
+  if (!token) {
+    return;
+  }
+  token.dataset.mood = mood;
+  setTimeout(() => delete token.dataset.mood, MOOD_MS);
 }
 
 // Everybody in order, from the furthest on: their position (a tie shares it), avatar and

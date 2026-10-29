@@ -1,6 +1,6 @@
 // The special squares: what each one does (the rules come from the game's game.yaml).
 
-import { renderTurn } from "./board.js";
+import { react, renderTurn } from "./board.js";
 import { chooseSwap, offerStar, playMinigameFor, showCard } from "./cards.js";
 import { jumpTo, moveBy, rollDie, swapPlaces } from "./moves.js";
 import { game, pack } from "./state.js";
@@ -17,6 +17,7 @@ export async function landOn(player) {
     return { again: false, punished: false };
   }
   await wait(LAND_PAUSE_MS); // first see where the token landed
+  react(player, square.kind); // a hop of joy, or a tremble
   const others = game.players.filter((p) => p !== player);
   if (square.starSaves && player.stars > 0) {
     if (await offerStar(player, square)) {

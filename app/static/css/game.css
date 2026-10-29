@@ -91,6 +91,47 @@ body.game {
   --avatar-size: var(--token);
 }
 
+/* A token that reacts (react in board.js, MOOD_MS): a hop of joy on a good square or a
+   right answer; a tremble on a bad one. */
+.token[data-mood="good"] .avatar {
+  animation: token-joy 0.6s ease-out 2;
+}
+
+@keyframes token-joy {
+  0%, 100% { transform: translateY(0) scale(1); }
+  20% { transform: translateY(0) scale(1.15, 0.85); }
+  50% { transform: translateY(-55%) scale(0.95, 1.1); }
+  80% { transform: translateY(0) scale(1.1, 0.9); }
+}
+
+.token[data-mood="bad"] .avatar {
+  animation: token-tremble 0.12s linear 10;
+}
+
+@keyframes token-tremble {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  25% { transform: translateX(-8%) rotate(-6deg); }
+  75% { transform: translateX(8%) rotate(6deg); }
+}
+
+/* The final stretch (NEAR_MOON in board.js): a glow in the player's colour, pulsing. */
+.token[data-near]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 0 calc(var(--token) * 0.5) calc(var(--token) * 0.15) var(--player-color);
+  animation: token-near 1s ease-in-out infinite alternate;
+}
+
+@keyframes token-near {
+  from { opacity: 0.35; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.25); }
+}
+
 /* Wildcard stars (Space Race Expanded): a little badge on the token. */
 .token__stars {
   position: absolute;
