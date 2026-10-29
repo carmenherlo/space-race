@@ -1,6 +1,6 @@
 // "Sabelotodo": the levels, the questions, and a turn (a question first; right, roll).
 
-import { LEVEL_NAMES, LEVEL_STARS, TRUE_FALSE_LEVELS } from "../levels.js";
+import { LEVEL_NAMES, LEVEL_STARS, TOPIC_NAMES, TRUE_FALSE_LEVELS } from "../levels.js";
 import { sounds } from "../sounds.js";
 import { react, renderTurn } from "./board.js";
 import { drawFrom, showBounce, showWinner } from "./cards.js";
@@ -97,6 +97,7 @@ function drawQuestion(level) {
 function askQuestion(question) {
   elements.questionLevel.textContent = LEVEL_STARS[question.level];
   elements.questionLevel.setAttribute("aria-label", `Nivel ${LEVEL_NAMES[question.level]}`);
+  elements.questionTopic.textContent = TOPIC_NAMES[question.topic];
   elements.questionEmoji.textContent = question.emoji;
   elements.questionText.textContent = question.text;
   // True or false: always "Verdadero", "Falso". The others: four answers, shuffled.

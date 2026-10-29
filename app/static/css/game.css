@@ -1007,6 +1007,19 @@ body.game[data-mode="questions"] .ranking {
   letter-spacing: -0.15em;
 }
 
+/* Its topic, in the other top corner. */
+.question__topic {
+  position: absolute;
+  top: var(--space-s);
+  right: var(--space-m);
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: var(--color-track);
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
 .question__quiet {
   width: 2.8rem;
   height: 2.8rem;

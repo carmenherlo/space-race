@@ -17,7 +17,7 @@ export const pack = {
   maxStars: Infinity, // wildcard stars a player can keep at once
   voice: false, // a voice reads the cards aloud (see speak)
   challenges: [], // funny things to do (mode "Retos locos"): { kind, emoji, text }
-  questions: [], // the questions (mode "Sabelotodo"): { emoji, text, answer, wrong, note, level }
+  questions: [], // the questions (mode "Sabelotodo"): { emoji, text, answer, wrong, note, level, topic }
   avatars: [], // the pictures players choose from: { id, url, color } (data/avatars)
 };
 
@@ -63,6 +63,7 @@ export const elements = {
   questionEmoji: document.getElementById("question-emoji"),
   questionText: document.getElementById("question-text"),
   questionLevel: document.getElementById("question-level"),
+  questionTopic: document.getElementById("question-topic"),
   questionQuiet: document.getElementById("question-quiet"),
   questionAnswers: document.getElementById("question-answers"),
   questionResult: document.getElementById("question-result"),
