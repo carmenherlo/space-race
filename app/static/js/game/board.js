@@ -78,9 +78,9 @@ export function renderTokens({ flying = [] } = {}) {
   music.tense(game.players.some(nearTheMoon));
 }
 
-// The token of a player shines for a moment, so everybody finds it before it moves: a
-// little bigger (its pulse too), its ring thicker and glowing, and a reflection goes round
-// the ring with a comet of light, like a gold ring turned in the light (see game.css).
+// The token of a player shines for a moment (landing on a galaxy): a little bigger (its
+// pulse too), its ring thicker and glowing, and a reflection goes round the ring with a
+// comet of light, like a gold ring turned in the light (see game.css).
 export async function shine(player) {
   const token = elements.tokens.children[game.players.indexOf(player)];
   if (!token) {

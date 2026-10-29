@@ -74,6 +74,7 @@ Por número de casilla. Lo que hace cada una:
 | `again` | `true`: vuelve a tirar. |
 | `skip` | Pierde turnos: `true` = 1, o un número (`skip: 2`). |
 | `others_move` | Todos los DEMÁS avanzan (+) o retroceden (−) esas casillas. |
+| `shine` | `true`: la ficha brilla al caer aquí (el aro como un anillo de oro). En las galaxias. |
 | `star` | `true`: coge una estrella comodín ⭐. |
 | `star_saves` | `true`: con una estrella, puede usarla aquí y no le pasa nada. |
 

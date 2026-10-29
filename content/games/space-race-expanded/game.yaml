@@ -109,6 +109,7 @@ squares:
   6:
     kind: good
     emoji: "🌌"
+    shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
     text: "…¡y tiro porque me toca! Una galaxia con forma de remolino te centrifuga como una lavadora y te escupe la galaxia de la casilla 11. ¡Vuelve a tirar!"
     go_to: 11
@@ -116,6 +117,7 @@ squares:
   11:
     kind: good
     emoji: "🌌"
+    shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
     text: "…¡y tiro porque me toca! Te subes a una estrella fugaz que pasaba por ahí y te deja la galaxia de la casilla 15. ¡Vuelve a tirar!"
     go_to: 15
@@ -123,6 +125,7 @@ squares:
   15:
     kind: good
     emoji: "🌌"
+    shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
     text: "…¡y tiro porque me toca! Un pulpo espacial te pasa de brazo en brazo, ¡tiene ocho!, hasta la galaxia de la casilla 20. ¡Vuelve a tirar!"
     go_to: 20
@@ -130,6 +133,7 @@ squares:
   20:
     kind: good
     emoji: "🌌"
+    shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
     text: "…¡y tiro porque me toca! Estornudas tan fuerte con el polvo de estrellas que sales disparado hasta la galaxia de la casilla 24. ¡Vuelve a tirar!"
     go_to: 24
@@ -137,6 +141,7 @@ squares:
   24:
     kind: good
     emoji: "🌌"
+    shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
     text: "…¡y tiro porque me toca! Una ballena cósmica te lleva a caballito hasta la galaxia de la casilla 29. ¡Vuelve a tirar!"
     go_to: 29
@@ -144,6 +149,7 @@ squares:
   29:
     kind: good
     emoji: "🌌"
+    shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
     text: "…¡y tiro porque me toca! Te tiras por un tobogán de luces de colores y aterrizas de culete en la galaxia de la casilla 33. ¡Vuelve a tirar!"
     go_to: 33
@@ -151,6 +157,7 @@ squares:
   33:
     kind: good
     emoji: "🌌"
+    shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
     text: "…¡y tiro porque me toca! Unos cometas juegan contigo al pilla-pilla y te dejan en la galaxia de la casilla 38. ¡Vuelve a tirar!"
     go_to: 38
@@ -158,6 +165,7 @@ squares:
   38:
     kind: good
     emoji: "🌌"
+    shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
     text: "…¡y tiro porque me toca! Un robot taxista te pregunta «¿Adónde le llevo?» y te deja en la galaxia de la casilla 42. ¡Vuelve a tirar!"
     go_to: 42
@@ -165,6 +173,7 @@ squares:
   42:
     kind: good
     emoji: "🌌"
+    shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
     text: "…¡y tiro porque me toca! Saltas en una cama elástica hecha de nubes de estrellas y botas hasta la galaxia de la casilla 47. ¡Vuelve a tirar!"
     go_to: 47
@@ -172,6 +181,7 @@ squares:
   47:
     kind: good
     emoji: "🌌"
+    shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
     text: "…¡y tiro porque me toca! Un dragón de estrellas te lleva volando, con mucho cuidado, hasta la galaxia de la casilla 51. ¡Vuelve a tirar!"
     go_to: 51
@@ -179,6 +189,7 @@ squares:
   51:
     kind: good
     emoji: "🌌"
+    shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
     text: "…¡y tiro porque me toca! Te pones unas botas cohete que corren solas y no paran hasta la galaxia de la casilla 56. ¡Vuelve a tirar!"
     go_to: 56
@@ -186,6 +197,7 @@ squares:
   56:
     kind: good
     emoji: "🌌"
+    shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
     text: "…¡y tiro porque me toca! Un agujero de gusano con cosquillas te hace reír tanto que sales rodando en la galaxia de la casilla 60. ¡Vuelve a tirar!"
     go_to: 60
@@ -193,6 +205,7 @@ squares:
   60:
     kind: good
     emoji: "🌌"
+    shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
     text: "…¡y tiro porque me toca! Una nave de reparto te mete en una caja con lazo y te entrega en la galaxia de la casilla 65. ¡Vuelve a tirar!"
     go_to: 65
@@ -201,6 +214,7 @@ squares:
     kind: good
     emoji: "🌕"
     title: "¡Galaxia lunar!"
+    shine: true
     text: "La última galaxia tiene tanta magia que te reta a un minijuego. Si ganas, ¡te lanza directo a la Luna!"
     minigame: true
     trail: [[79.5, 85.5], [82.0, 84.0], [84.2, 81.5], [85.8, 78.0], [87.5, 74.5]]  # the star trail to the Moon (in % of the picture)

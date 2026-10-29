@@ -40,6 +40,7 @@ export async function loadPack() {
         starSaves: square.star_saves,
         swap: square.swap,
         minigame: square.minigame,
+        shine: square.shine,
         trail: square.trail ?? null,
       },
     ]),

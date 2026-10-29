@@ -71,6 +71,7 @@ class Square(StrictModel):
     star: bool = False  # the player gets a wildcard star ⭐
     star_saves: bool = False  # a player with a star can use it here: nothing happens
     swap: bool = False  # the player may swap places with another one of their choice
+    shine: bool = False  # the token shines when it lands here (the galaxies)
     minigame: bool = False  # the player chooses a minigame: win it, straight to the Moon
     trail: list[Place] | None = None  # with minigame: the way to the Moon, [x, y] in % of the picture
 
