@@ -9,7 +9,8 @@
 // While the die rolls, the token can hop twice (as in the game when the die is tapped as
 // soon as the turn starts).
 // And, as in the game all through a turn, the glowing pulse behind the token (it can be
-// switched off, to see the ideas with and without it).
+// switched off, to see the ideas with and without it; "Latido al brillar" keeps it while
+// the token shines, else it fades away meanwhile).
 // Nothing here touches a game: it is only to try them out.
 
 import { sounds } from "../js/sounds.js";
@@ -32,6 +33,7 @@ const ideas = {
   slow: document.getElementById("idea-slow"),
   pulse: document.getElementById("idea-pulse"),
   rollHops: document.getElementById("idea-roll-hops"),
+  pulseShine: document.getElementById("idea-pulse-shine"),
 };
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -94,6 +96,7 @@ async function roll() {
   const find = ideas.find.value;
   if (find !== "none") {
     token.dataset[find] = "";
+    token.toggleAttribute("data-calm", !ideas.pulseShine.checked); // no pulse while it shines
     await wait(find === "shine" ? SHINE_MS : HOPS_MS);
     delete token.dataset[find];
     await wait(FIND_PAUSE_MS);
