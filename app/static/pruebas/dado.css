@@ -82,49 +82,18 @@
   --avatar-size: var(--token);
 }
 
-/* Idea 2: a big hop where it is, before walking. */
-.dice-test__token[data-hop] .avatar {
-  animation: dice-test-hop 0.8s ease-in-out;
+/* Idea 2: the ring of the token lights up (as .token[data-rolled] in game.css). */
+.dice-test__token[data-ring] .avatar {
+  box-shadow:
+    0 0 0 calc(var(--token) * 0.08) var(--avatar-color),
+    0 0 calc(var(--token) * 0.5) calc(var(--token) * 0.12) #fff,
+    0 0 calc(var(--token) * 0.9) calc(var(--token) * 0.2) var(--avatar-color);
+  animation: dice-test-ring 0.8s ease-in-out infinite alternate;
 }
 
-@keyframes dice-test-hop {
-  0%, 100% { transform: translateY(0) scale(1); }
-  25%, 75% { transform: translateY(-70%) scale(1.25); }
-  50% { transform: translateY(0) scale(1.1, 0.9); }
-}
-
-/* Idea 3: the step count over the token. */
-.dice-test__counter {
-  position: absolute;
-  bottom: 110%;
-  left: 50%;
-  display: grid;
-  place-items: center;
-  width: calc(var(--token) * 0.8);
-  height: calc(var(--token) * 0.8);
-  margin-left: calc(var(--token) * -0.4);
-  border-radius: 50%;
-  background: #fff;
-  color: #141a3d;
-  font-size: calc(var(--token) * 0.5);
-  font-weight: 900;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 40%);
-}
-
-.dice-test__counter[data-pop="0"] {
-  animation: dice-test-pop 0.3s ease-out;
-}
-
-.dice-test__counter[data-pop="1"] {
-  animation: dice-test-pop2 0.3s ease-out;
-}
-
-@keyframes dice-test-pop {
-  from { transform: scale(1.6); }
-}
-
-@keyframes dice-test-pop2 {
-  from { transform: scale(1.6); }
+@keyframes dice-test-ring {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.25); }
 }
 
 /* Idea 1: the number, big in the middle of the board. */
