@@ -5,6 +5,8 @@
 //      ring thicker, and a soft reflection goes round the ring, like a gold ring turned
 //      in the light, glowing; it settles, a short pause, and it moves;
 //   3. slower steps.
+// And, as in the game all through a turn, the glowing pulse behind the token (it can be
+// switched off, to see the ideas with and without it).
 // Nothing here touches a game: it is only to try them out.
 
 import { sounds } from "../js/sounds.js";
@@ -24,6 +26,7 @@ const ideas = {
   number: document.getElementById("idea-number"),
   shine: document.getElementById("idea-shine"),
   slow: document.getElementById("idea-slow"),
+  pulse: document.getElementById("idea-pulse"),
 };
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -45,9 +48,17 @@ async function start() {
   glow.className = "dice-test__glow";
   glow.append(document.createElement("span"));
   token.append(avatar, glow);
+  token.style.setProperty("--player-color", avatar.style.getPropertyValue("--avatar-color"));
+  showPulse();
+  ideas.pulse.addEventListener("change", showPulse);
   board.append(token);
   put();
   die.addEventListener("click", roll);
+}
+
+// The pulse of the player whose turn it is (as .token[data-current] in game.css).
+function showPulse() {
+  token.toggleAttribute("data-current", ideas.pulse.checked);
 }
 
 function put() {

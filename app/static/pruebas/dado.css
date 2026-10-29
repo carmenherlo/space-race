@@ -168,6 +168,26 @@
   100% { opacity: 0; transform: scale(1.2) rotate(360deg); }
 }
 
+/* The turn's glowing pulse behind the token, as in the game (.token[data-current]::before
+   in game.css; here ::after, as ::before is the reflection). */
+.dice-test__token[data-current]::after {
+  content: "";
+  position: absolute;
+  z-index: -1; /* behind the avatar */
+  top: -35%;
+  left: -35%;
+  width: 170%;
+  height: 170%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--player-color) 55%, transparent);
+  animation: dice-test-pulse 1.1s ease-in-out infinite alternate;
+}
+
+@keyframes dice-test-pulse {
+  from { opacity: 0.35; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1.1); }
+}
+
 /* Idea 1: the number, big in the middle of the board. */
 .dice-test__number {
   position: absolute;
