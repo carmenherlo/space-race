@@ -21,8 +21,8 @@ const TRUE_FALSE = [
   { answer: "Falso", icon: "👎", tone: "false" }, // red
 ];
 
-// The turn starts with a question of the player's level, by itself. Right: the die is
-// theirs (see rollAfterQuestion). Wrong: they stay where they are, next player.
+// The turn starts with a question of the player's level, by itself. Right: "¡A tirar el
+// dado!" rolls it at once (see rollAfterQuestion). Wrong: they stay where they are, next player.
 export async function askTurnQuestion() {
   game.busy = true;
   elements.die.disabled = true;
@@ -34,8 +34,7 @@ export async function askTurnQuestion() {
   }
   game.mayRoll = true;
   game.busy = false;
-  elements.die.disabled = false;
-  elements.turnName.textContent = `${player.name}: ¡tira el dado!`;
+  rollAfterQuestion();
 }
 
 // Roll and move; the squares do nothing here (only the exact finish at the Moon).
