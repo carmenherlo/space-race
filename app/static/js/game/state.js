@@ -17,7 +17,7 @@ export const pack = {
   maxStars: Infinity, // wildcard stars a player can keep at once
   voice: false, // a voice reads the cards aloud (see speak)
   challenges: [], // funny things to do (mode "Retos locos"): { kind, emoji, text }
-  questions: [], // space questions (mode "Sabelotodo"): { kind, emoji, text, answer, wrong, note }
+  questions: [], // the questions (mode "Sabelotodo"): { emoji, text, answer, wrong, note, level }
   avatars: [], // the pictures players choose from: { id, url, color } (data/avatars)
 };
 
