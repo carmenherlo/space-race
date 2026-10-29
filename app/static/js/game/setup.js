@@ -18,37 +18,39 @@ export function showSetup() {
   elements.setup.showModal();
 }
 
-// Every avatar: a tap puts it in the game (it gets its number in the turn order) or takes it
-// out. Without avatars, six coloured circles with a number instead.
+// The avatars still free, in full colour: a tap puts one in the game (it moves to the
+// players, "2. Nombre y nivel"; a tap there takes it out). Without avatars, six coloured
+// circles with a number instead.
 function renderChoices() {
   const full = game.chosen.length >= MAX_PLAYERS;
-  const buttons = choices().map((avatar, index) => {
-    const position = game.chosen.indexOf(avatar.id);
+  const buttons = choices().flatMap((avatar, index) => {
+    if (game.chosen.includes(avatar.id)) {
+      return [];
+    }
     const button = document.createElement("button");
     button.type = "button";
     button.className = "setup__choice";
-    button.setAttribute("aria-pressed", String(position >= 0));
-    button.disabled = position < 0 && full;
+    button.disabled = full;
     button.append(createAvatar(avatarPerson(avatar, index)));
-    if (position >= 0) {
-      const badge = document.createElement("span");
-      badge.className = "setup__turn";
-      badge.textContent = String(position + 1);
-      button.append(badge);
-    }
-    const label = avatar.id.replace(/\.[^.]+$/, ""); // "pez-globo.png" → "pez-globo"
-    button.setAttribute("aria-label", position >= 0 ? `${label}: juega (${position + 1}º)` : `${label}: no juega`);
-    button.addEventListener("click", () => {
-      game.chosen = position >= 0 ? game.chosen.filter((id) => id !== avatar.id) : [...game.chosen, avatar.id];
-      saveSetup();
-      renderChoices();
-      renderSeats();
-      renderSummary();
-    });
-    return button;
+    button.setAttribute("aria-label", `${avatarLabel(avatar.id)}: jugar`);
+    button.addEventListener("click", () => choose(avatar.id));
+    return [button];
   });
   elements.setupChoices.replaceChildren(...buttons);
   elements.start.disabled = game.chosen.length === 0;
+}
+
+// In the game, or out of it again.
+function choose(id) {
+  game.chosen = game.chosen.includes(id) ? game.chosen.filter((one) => one !== id) : [...game.chosen, id];
+  saveSetup();
+  renderChoices();
+  renderSeats();
+  renderSummary();
+}
+
+function avatarLabel(id) {
+  return id.replace(/\.[^.]+$/, ""); // "pez-globo.png" → "pez-globo"
 }
 
 // What can be chosen: the avatars, or (without any) one numbered circle per seat.
@@ -59,12 +61,17 @@ export function choices() {
   return PLAYER_COLORS.map((color, index) => ({ id: `${index + 1}`, url: null, color }));
 }
 
-// One row per player, in turn order: their avatar, their name (optional) and their stars.
+// One row per player, in turn order: their avatar (a tap takes it out of the game), their
+// name (optional) and their stars.
 function renderSeats() {
   const items = chosenPlayers().map((person, index) => {
-    const profile = profileOf(game.chosen[index]);
+    const id = game.chosen[index];
+    const profile = profileOf(id);
     const node = elements.playerTemplate.content.firstElementChild.cloneNode(true);
-    node.querySelector(".setup__avatar").replaceChildren(createAvatar(person));
+    const avatar = node.querySelector(".setup__avatar");
+    avatar.replaceChildren(createAvatar(person));
+    avatar.setAttribute("aria-label", `${avatarLabel(id)}: no jugar`);
+    avatar.addEventListener("click", () => choose(id));
     const name = node.querySelector(".setup__name");
     name.value = profile.name;
     name.placeholder = defaultName(index);
