@@ -152,7 +152,8 @@ export function createAvatar(person) {
   avatar.setAttribute("aria-hidden", "true");
   const color = person.color ?? "#d6e4f5";
   avatar.style.setProperty("--avatar-color", color);
-  avatar.style.setProperty("--avatar-inside", lighter(color));
+  // A picture: nothing behind it (see-through drawings look best); an initial: its colour, light.
+  avatar.style.setProperty("--avatar-inside", person.photoUrl ? "transparent" : lighter(color));
   const initial = person.emoji ?? person.name.charAt(0).toUpperCase();
   avatar.textContent = initial;
   if (person.photoUrl) {

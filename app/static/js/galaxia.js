@@ -31,7 +31,7 @@ async function randomAvatar() {
     const circle = document.createElement("span");
     circle.className = "avatar";
     circle.style.setProperty("--avatar-color", chosen.color ?? "#d6e4f5");
-    circle.style.setProperty("--avatar-inside", "#ffffff");
+    circle.style.setProperty("--avatar-inside", "transparent");
     const img = document.createElement("img");
     img.className = "avatar__photo";
     img.alt = "";

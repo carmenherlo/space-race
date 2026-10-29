@@ -34,7 +34,7 @@ function avatarOf(avatar, name) {
   const circle = document.createElement("span");
   circle.className = "avatar";
   circle.style.setProperty("--avatar-color", avatar?.color ?? "#c3a6ff");
-  circle.style.setProperty("--avatar-inside", "#ffffff");
+  circle.style.setProperty("--avatar-inside", "transparent");
   if (avatar) {
     const img = document.createElement("img");
     img.className = "avatar__photo";
