@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/game.css">
   <link rel="stylesheet" href="css/minigames.css">
+  <link rel="stylesheet" href="css/celebrations.css">
   <link rel="stylesheet" href="css/sound-panel.css">
   <script type="module" src="js/game.js"></script>
 </head>
@@ -177,20 +178,6 @@
   <dialog class="game-dialog minigame" id="minigame" data-in-game aria-label="Minijuego">
     <div id="minigame-host"></div>
     <button class="game-button" id="minigame-next" type="button" hidden>Seguir</button>
-  </dialog>
-
-  <!-- Someone reached the Moon. -->
-  <!-- The whole screen in the winner's colour, with confetti falling (set from js). -->
-  <dialog class="winner" id="winner" aria-labelledby="winner-title">
-    <div class="winner__confetti" id="winner-confetti" aria-hidden="true"></div>
-    <div class="game-dialog winner__panel">
-      <a class="close-x" href="games.html" aria-label="Salir">✕</a>
-      <span class="winner__avatar" id="winner-avatar"></span>
-      <h2 class="winner__title" id="winner-title"></h2>
-      <div class="game-actions">
-        <button class="game-button" id="again" type="button">Otra partida</button>
-      </div>
-    </div>
   </dialog>
 
   <!-- Paused: everything stops (die, tokens, music, voice) until one of these. -->

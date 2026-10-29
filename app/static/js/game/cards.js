@@ -1,16 +1,14 @@
 // The cards: what happens on a square, the wildcard star, the spy satellite, the shared
 // decks, and the winner.
 
+import { celebrate } from "../celebrations.js";
 import { flyToTheMoon, playMinigame } from "../minigames.js";
-import { sounds } from "../sounds.js";
+import { music, sounds } from "../sounds.js";
 import { createAvatar, placeName, react, renderTokens, renderTurn } from "./board.js";
 import { shuffled, speak } from "./helpers.js";
 import { elements, game, pack } from "./state.js";
 import { MOON_ARRIVAL_MS, wait } from "./timing.js";
-
-// The confetti of the winner's screen: their colour and these.
-const CONFETTI_COLORS = ["#ffd166", "#ef476f", "#06d6a0", "#118ab2", "#c3a6ff", "#ffffff"];
-const CONFETTI_PIECES = 90;
+import { startGame } from "./turns.js";
 
 const CARD_TITLES = { good: "¡Qué suerte!", bad: "¡Oh, no!", challenge: "¡Reto!" };
 const CARD_BUTTONS = { good: "¡Bien!", bad: "Vale…", challenge: "¡Hecho!" };
@@ -137,35 +135,21 @@ export function showCard(card) {
 }
 
 // Someone reached the Moon: first everybody sees their token there, hopping for joy, then
-// the celebration.
+// the celebration (js/celebrations.js: the podium, up to the Moon, the traca, fireworks).
+// "¡Otra partida!": the same players again.
 export async function showWinner(player) {
   elements.turn.hidden = true;
   renderTokens();
   react(player, "good");
   sounds.good();
   await wait(MOON_ARRIVAL_MS);
-  elements.winner.style.setProperty("--player-color", player.color);
-  dropConfetti(player.color);
-  elements.winnerAvatar.replaceChildren(createAvatar(player));
-  elements.winnerTitle.textContent = `¡${player.name} ha llegado a la Luna! 🌕`;
-  sounds.win();
-  elements.winner.showModal();
-  speak(elements.winnerTitle.textContent);
-}
-
-// Confetti in the winner's colour and others, each piece at its own place, pace and spin.
-function dropConfetti(color) {
-  const colors = [color, color, ...CONFETTI_COLORS];
-  const pieces = Array.from({ length: CONFETTI_PIECES }, () => {
-    const piece = document.createElement("span");
-    piece.className = "confetti";
-    piece.style.left = `${Math.random() * 100}%`;
-    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-    piece.style.setProperty("--fall", `${2.5 + Math.random() * 2.5}s`);
-    piece.style.setProperty("--delay", `${-Math.random() * 5}s`); // already falling at the start
-    piece.style.setProperty("--drift", `${(Math.random() - 0.5) * 20}vw`);
-    piece.style.setProperty("--spin", `${(Math.random() < 0.5 ? -1 : 1) * (360 + Math.random() * 720)}deg`);
-    return piece;
-  });
-  elements.winnerConfetti.replaceChildren(...pieces);
+  music.pause(); // the celebration has its own tune
+  const others = game.players
+    .filter((other) => other !== player)
+    .sort((a, b) => b.place - a.place)
+    .map((other) => ({ name: other.name, avatar: createAvatar(other) }));
+  const title = `¡${player.name} ha llegado a la Luna!`;
+  speak(title);
+  await celebrate("rise", { name: player.name, avatar: createAvatar(player) }, others, "¡Otra partida!", { exit: "games.html" });
+  startGame(game.players);
 }

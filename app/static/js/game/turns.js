@@ -27,7 +27,6 @@ export async function startGame(players) {
   game.turn = 0;
   game.busy = false;
   elements.setup.close();
-  elements.winner.close();
   delete elements.turnAvatar.dataset.player; // a new game: same ids, new players
   game.mayRoll = false;
   game.busy = true; // nothing to tap yet

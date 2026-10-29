@@ -41,7 +41,6 @@ async function init() {
   }
   elements.questionNext.addEventListener("click", () => elements.question.close());
   elements.questionQuiet.addEventListener("click", quiet);
-  elements.again.addEventListener("click", () => startGame(game.players));
   elements.cardOk.addEventListener("click", () => elements.card.close());
   elements.starUse.addEventListener("click", () => elements.starOffer.close("use"));
   elements.starKeep.addEventListener("click", () => elements.starOffer.close("keep"));
@@ -55,13 +54,13 @@ async function init() {
     resumeGame(); // Escape: go on playing
   });
   // The voice stops with its card, and when leaving the page.
-  for (const dialog of [elements.card, elements.question, elements.starOffer, elements.swap, elements.winner]) {
+  for (const dialog of [elements.card, elements.question, elements.starOffer, elements.swap]) {
     dialog.addEventListener("close", quiet);
   }
   window.addEventListener("pagehide", quiet);
 
   // The setup and the cards wait for their button: Escape does not skip them.
-  for (const dialog of [elements.setup, elements.card, elements.question, elements.winner, elements.starOffer, elements.swap]) {
+  for (const dialog of [elements.setup, elements.card, elements.question, elements.starOffer, elements.swap]) {
     dialog.addEventListener("cancel", (event) => event.preventDefault());
   }
   // The music from the menu on. Browsers allow sound only after a tap: some count the tap

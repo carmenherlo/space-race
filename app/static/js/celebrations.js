@@ -32,8 +32,8 @@ const LAYERS = {
 };
 
 // Shows one: `winner` and `others` (2nd, 3rd…) are { name, avatar } (an .avatar element).
-// Resolves when the button is tapped (`button`: its text).
-export function celebrate(id, winner, others = [], button = "¡Otra partida!") {
+// Resolves when the button is tapped (`button`: its text); `exit`: an ✕ to that page.
+export function celebrate(id, winner, others = [], button = "¡Otra partida!", { exit = null } = {}) {
   const screen = document.createElement("div");
   screen.className = "party";
   screen.dataset.kind = id;
@@ -107,6 +107,14 @@ export function celebrate(id, winner, others = [], button = "¡Otra partida!") {
     every(1100, () => burst(screen, 20 + Math.random() * 60, 12 + Math.random() * 20));
   }
   screen.append(title, ok);
+  if (exit) {
+    const close = document.createElement("a");
+    close.className = "close-x party__exit";
+    close.href = exit;
+    close.setAttribute("aria-label", "Salir");
+    close.textContent = "✕";
+    screen.append(close);
+  }
   document.body.append(screen);
   if (id === "rise") {
     // The winner starts where their place on the podium is.
