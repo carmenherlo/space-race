@@ -949,6 +949,11 @@ body.game[data-mode="questions"] .question__answers[data-kind="choice"] {
   grid-template-columns: minmax(0, 1fr); /* one under the other: the column is narrow */
 }
 
+/* True or false in the narrow column: a smaller word, so "Verdadero" fits. */
+body.game[data-mode="questions"] .question__answers[data-kind="true-false"] .answer {
+  font-size: clamp(1.2rem, 0.6rem + 1.3vw, 2rem);
+}
+
 @media (orientation: portrait) {
   body.game[data-mode="questions"] .ranking {
     top: var(--space-s);
