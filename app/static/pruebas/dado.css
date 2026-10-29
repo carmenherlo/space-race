@@ -82,18 +82,52 @@
   --avatar-size: var(--token);
 }
 
-/* Idea 2: the ring of the token lights up (as .token[data-rolled] in game.css). */
-.dice-test__token[data-ring] .avatar {
-  box-shadow:
-    0 0 0 calc(var(--token) * 0.08) var(--avatar-color),
-    0 0 calc(var(--token) * 0.5) calc(var(--token) * 0.12) #fff,
-    0 0 calc(var(--token) * 0.9) calc(var(--token) * 0.2) var(--avatar-color);
-  animation: dice-test-ring 0.8s ease-in-out infinite alternate;
+/* Idea 2: a bright halo around the ring, for a moment (HALO_MS): the ring glows and
+   waves of light spread out from it, twice. */
+.dice-test__token::before,
+.dice-test__token::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border: calc(var(--token) * 0.1) solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 calc(var(--token) * 0.4) calc(var(--token) * 0.1) var(--halo-color, #fff);
+  opacity: 0;
+  pointer-events: none;
 }
 
-@keyframes dice-test-ring {
-  from { filter: brightness(1); }
-  to { filter: brightness(1.25); }
+.dice-test__token[data-halo]::before {
+  animation: dice-test-wave 0.7s ease-out 2;
+}
+
+.dice-test__token[data-halo]::after {
+  animation: dice-test-wave 0.7s ease-out 0.35s 2;
+}
+
+@keyframes dice-test-wave {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(2.2); }
+}
+
+.dice-test__token[data-halo] .avatar {
+  animation: dice-test-glow 0.35s ease-in-out 4 alternate;
+}
+
+@keyframes dice-test-glow {
+  from {
+    box-shadow: 0 0 0 calc(var(--token) * 0.06) var(--avatar-color);
+  }
+  to {
+    box-shadow:
+      0 0 0 calc(var(--token) * 0.1) var(--avatar-color),
+      0 0 calc(var(--token) * 0.6) calc(var(--token) * 0.2) #fff,
+      0 0 calc(var(--token) * 1.2) calc(var(--token) * 0.35) var(--avatar-color);
+    transform: scale(1.15);
+  }
 }
 
 /* Idea 1: the number, big in the middle of the board. */
