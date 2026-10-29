@@ -26,6 +26,13 @@
   font-weight: 700;
 }
 
+.dice-test__ideas select {
+  min-height: 2.4rem;
+  border-radius: 0.6rem;
+  font: inherit;
+  font-weight: 700;
+}
+
 .dice-test__ideas input {
   width: 1.5rem;
   height: 1.5rem;
@@ -166,6 +173,16 @@
   20% { opacity: 1; }
   80% { opacity: 1; }
   100% { opacity: 0; transform: scale(1.2) rotate(360deg); }
+}
+
+/* Idea 2, two little hops, as at the start of a turn in the game (token-call in game.css). */
+.dice-test__token[data-hops] .avatar {
+  animation: dice-test-hops 1s ease-in-out;
+}
+
+@keyframes dice-test-hops {
+  0%, 50%, 100% { transform: translateY(0); }
+  25%, 75% { transform: translateY(-60%) scale(1.15); }
 }
 
 /* The turn's glowing pulse behind the token, as in the game (.token[data-current]::before

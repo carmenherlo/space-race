@@ -1,9 +1,10 @@
 // The die (dado.html): a test page for what makes a roll easy to follow, on the short
 // board with a random avatar. Each idea can be switched off:
 //   1. the number, big in the middle of the board, before the token moves;
-//   2. then the token shines for a moment, so everybody finds it: a little bigger, its
-//      ring thicker, and a soft reflection goes round the ring, like a gold ring turned
-//      in the light, glowing; it settles, a short pause, and it moves;
+//   2. then, so everybody finds the token before it moves, one of: two little hops (as at
+//      the start of a turn in the game), or a shine (a little bigger, its ring thicker,
+//      and a glowing reflection goes round the ring, like a gold ring turned in the light);
+//      a short pause, and it moves;
 //   3. slower steps.
 // And, as in the game all through a turn, the glowing pulse behind the token (it can be
 // switched off, to see the ideas with and without it).
@@ -15,7 +16,8 @@ import { randomPlayers } from "./players.js";
 const ROLL_MS = 900; // the die keeps changing (as DIE_ROLL_MS in the game)
 const NUMBER_MS = 1100; // idea 1: the big number stays this long (DIE_NUMBER_MS in the game)
 const SHINE_MS = 1700; // idea 2: the token shines (as long as in dado.css)…
-const SHINE_PAUSE_MS = 400; // …then settles, and a short pause before moving
+const HOPS_MS = 1000; // or two little hops (as TOKEN_CALL_MS in the game)
+const FIND_PAUSE_MS = 400; // then a short pause before moving
 const STEP_MS = 280; // a step, as it was…
 const SLOW_STEP_MS = 480; // …and slower (idea 3, STEP_MS in the game)
 
@@ -24,7 +26,7 @@ const board = document.getElementById("board");
 const number = document.getElementById("number");
 const ideas = {
   number: document.getElementById("idea-number"),
-  shine: document.getElementById("idea-shine"),
+  find: document.getElementById("idea-find"),
   slow: document.getElementById("idea-slow"),
   pulse: document.getElementById("idea-pulse"),
 };
@@ -82,11 +84,12 @@ async function roll() {
     await wait(NUMBER_MS);
     number.hidden = true;
   }
-  if (ideas.shine.checked) {
-    token.dataset.shine = "";
-    await wait(SHINE_MS);
-    delete token.dataset.shine;
-    await wait(SHINE_PAUSE_MS);
+  const find = ideas.find.value;
+  if (find !== "none") {
+    token.dataset[find] = "";
+    await wait(find === "shine" ? SHINE_MS : HOPS_MS);
+    delete token.dataset[find];
+    await wait(FIND_PAUSE_MS);
   }
   const slow = ideas.slow.checked;
   token.dataset.speed = slow ? "slow" : "usual";

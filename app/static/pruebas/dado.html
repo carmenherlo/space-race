@@ -17,7 +17,13 @@
     <div class="dice-test__ideas">
       <label><input type="checkbox" id="idea-pulse" checked> Latido</label>
       <label><input type="checkbox" id="idea-number" checked> 1. Número</label>
-      <label><input type="checkbox" id="idea-shine" checked> 2. Brillo</label>
+      <label>2.
+        <select id="idea-find">
+          <option value="hops">Dos saltitos</option>
+          <option value="shine">Brillo</option>
+          <option value="none">Nada</option>
+        </select>
+      </label>
       <label><input type="checkbox" id="idea-slow" checked> 3. Lento</label>
       <button class="dice-test__die" id="die" type="button" aria-label="Tirar el dado">🎲</button>
     </div>
