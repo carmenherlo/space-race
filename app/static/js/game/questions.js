@@ -5,7 +5,7 @@ import { drawFrom, showBounce, showWinner } from "./cards.js";
 import { shuffled, speak } from "./helpers.js";
 import { moveBy, rollDie } from "./moves.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
-import { LAND_PAUSE_MS, wait } from "./timing.js";
+import { BOARD_LOOK_MS, LAND_PAUSE_MS, wait } from "./timing.js";
 import { nextTurn } from "./turns.js";
 
 // Levels of the questions (mode "Sabelotodo"), shown as stars.
@@ -55,7 +55,15 @@ export async function rollAfterQuestion() {
     await wait(LAND_PAUSE_MS);
     await showBounce(bounced);
   }
+  await lookAtTheBoard();
   nextTurn();
+}
+
+// A moment to see where everybody is before the next question: every token stands out.
+async function lookAtTheBoard() {
+  elements.tokens.dataset.look = "";
+  await wait(BOARD_LOOK_MS);
+  delete elements.tokens.dataset.look;
 }
 
 // A question of the player's level, from that level's deck (all the questions if the pack

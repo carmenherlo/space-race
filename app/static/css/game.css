@@ -130,6 +130,14 @@ body.game {
   to { opacity: 1; transform: scale(1.1); }
 }
 
+/* "Sabelotodo", after a move (see lookAtTheBoard): every token grows a little, with a ring
+   in its colour, so everybody sees who is where. */
+.board-game__tokens[data-look] .token .avatar {
+  box-shadow: 0 0 0 calc(var(--token) * 0.12) var(--player-color), 0 0 calc(var(--token) * 0.6) var(--player-color);
+  transform: scale(1.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
 /* ---------- Whose turn, and the die (top left) ---------- */
 .turn {
   position: fixed;
