@@ -2,6 +2,7 @@
 
 import { music } from "../sounds.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
+import { SHINE_MS, wait } from "./timing.js";
 
 // The final stretch: this close to the Moon, the token glows and the music speeds up.
 const NEAR_MOON = 6; // squares
@@ -61,9 +62,6 @@ export function renderTokens({ flying = [] } = {}) {
     if (nearTheMoon(player)) {
       token.dataset.near = "";
     }
-    if (player === game.rolled) {
-      token.dataset.rolled = ""; // its ring lights up, from the roll to the next turn
-    }
     token.append(createAvatar(player));
     if (player.stars > 0) {
       const badge = document.createElement("span");
@@ -82,6 +80,27 @@ export function renderTokens({ flying = [] } = {}) {
 
 function nearTheMoon(player) {
   return player.place > 0 && player.place < pack.goal && pack.goal - player.place <= NEAR_MOON;
+}
+
+// The token of a player shines for a moment, so everybody finds it before it moves: a
+// little bigger (its pulse too), its ring thicker and glowing, and a reflection goes round
+// the ring with a comet of light, like a gold ring turned in the light (see game.css).
+export async function shine(player) {
+  const token = elements.tokens.children[game.players.indexOf(player)];
+  if (!token) {
+    return;
+  }
+  const reflection = document.createElement("span");
+  reflection.className = "token__reflection";
+  const glow = document.createElement("span");
+  glow.className = "token__glow";
+  glow.append(document.createElement("span"));
+  token.append(reflection, glow);
+  token.dataset.shine = "";
+  await wait(SHINE_MS);
+  delete token.dataset.shine;
+  reflection.remove();
+  glow.remove();
 }
 
 // A token that reacts: a hop of joy ("good") or a tremble ("bad").

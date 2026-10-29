@@ -1,9 +1,9 @@
 // Moving the tokens: the die, step by step, flying, swapping places.
 
 import { sounds } from "../sounds.js";
-import { renderTokens } from "./board.js";
+import { renderTokens, shine } from "./board.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
-import { DIE_NUMBER_MS, DIE_ROLL_MS, FLIGHT_MS, STEP_MS, TRAIL_STEP_MS, wait } from "./timing.js";
+import { DIE_NUMBER_MS, DIE_ROLL_MS, FLIGHT_MS, SHINE_PAUSE_MS, STEP_MS, TRAIL_STEP_MS, wait } from "./timing.js";
 
 // Two tokens fly to each other's place at the same time.
 export async function swapPlaces(player, other) {
@@ -17,7 +17,8 @@ export async function swapPlaces(player, other) {
 export function rollDie() {
   const roll = 1 + Math.floor(Math.random() * 6);
   sounds.dice();
-  delete elements.tokens.dataset.calling; // the token is about to move: no more jumping
+  delete elements.tokens.dataset.calling; // the hops of the turn's start…
+  elements.tokens.dataset.rolling = ""; // …give way to the hops while the die rolls
   elements.die.disabled = true;
   elements.die.dataset.rolling = "";
   const shuffle = setInterval(() => {
@@ -26,16 +27,18 @@ export function rollDie() {
   return wait(DIE_ROLL_MS).then(async () => {
     clearInterval(shuffle);
     delete elements.die.dataset.rolling;
+    delete elements.tokens.dataset.rolling;
     elements.die.textContent = String(roll);
-    // The number, big on the board, while the ring of the player's token lights up: so
-    // everybody sees what came out, and where that token is, before it moves.
-    game.rolled = currentPlayer();
-    renderTokens();
-    elements.dieNumber.style.setProperty("--player-color", game.rolled.color);
+    // So everybody sees what came out and where that token is before it moves: the number,
+    // big on the board; then the token shines; a short pause.
+    const player = currentPlayer();
+    elements.dieNumber.style.setProperty("--player-color", player.color);
     elements.dieNumber.textContent = String(roll);
     elements.dieNumber.hidden = false;
     await wait(DIE_NUMBER_MS);
     elements.dieNumber.hidden = true;
+    await shine(player);
+    await wait(SHINE_PAUSE_MS);
     return roll;
   });
 }
