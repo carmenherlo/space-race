@@ -1,6 +1,6 @@
 # 🧠 Sabelotodo — Preguntas de cultura general
 
-Preguntas de cultura general, por nivel (el nivel 🐣 "Muy fácil" es para niños de unos 4 años). ✅ es la respuesta correcta y ❌ las incorrectas;
+Preguntas de cultura general, por nivel (🐣 para niños: 🐣 de 3 a 5 años, 🐣🐣 de 6 a 8, 🐣🐣🐣 de 9 a 12; ⭐ para adultos). ✅ es la respuesta correcta y ❌ las incorrectas;
 💡 es el dato curioso que sale al contestar (opcional).
 
 Traducidas y adaptadas de [Open Trivia Database](https://opentdb.com), con licencia
@@ -16,13 +16,13 @@ reiniciar la app.
 **De dónde salen:** se descargaron una vez de la API de Open Trivia Database
 (`https://opentdb.com/api.php?category=…&difficulty=…&type=…&encode=url3986`), con los temas
 General Knowledge, Science & Nature, Geography, History, Art y Animals. Se eligieron 50 por
-nivel, se tradujeron y se corrigieron a mano. Las de 🐣 "Muy fácil" no son de allí: están escritas
+nivel, se tradujeron y se corrigieron a mano. Las de niños (🐣) no son de allí: están escritas
 para el juego. Los archivos descargados no se guardan: para más
 preguntas, se vuelven a descargar.
 
 ---
 
-## 🐣 Muy fácil (verdadero o falso, para los más pequeños) — 40 preguntas
+## 🐣 Niños de 3 a 5 años (verdadero o falso) — 50 preguntas
 
 1. 🐶 **Los perros dicen "miau".**  
    ✅ Falso · ❌ Verdadero  
@@ -164,6 +164,373 @@ preguntas, se vuelven a descargar.
 40. 🌧️ **Cuando llueve, nos mojamos.**  
    ✅ Verdadero · ❌ Falso  
    💡 Por eso llevamos paraguas.
+
+41. 🦖 **Los dinosaurios vivieron hace muchísimo tiempo.**  
+   ✅ Verdadero · ❌ Falso  
+   💡 Mucho antes de que hubiera personas.
+
+42. 🏰 **En los castillos vivían reyes y reinas.**  
+   ✅ Verdadero · ❌ Falso  
+   💡 Y caballeros con armadura.
+
+43. 🎨 **Si mezclamos azul y amarillo, sale verde.**  
+   ✅ Verdadero · ❌ Falso
+
+44. 🐢 **Las tortugas llevan su casa a cuestas.**  
+   ✅ Verdadero · ❌ Falso  
+   💡 Es su caparazón: se esconden dentro.
+
+45. 🐧 **Los pingüinos viven en playas muy calurosas.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 Casi todos viven donde hace mucho frío.
+
+46. 🌞 **Cuando es de día, el cielo está oscuro.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 De día hay luz; de noche, oscuro.
+
+47. 👶 **Los bebés nacen sabiendo hablar.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 Aprenden poco a poco, escuchando.
+
+48. 🌊 **El agua del mar es dulce como el zumo.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 ¡Es salada!
+
+49. 🐙 **El pulpo tiene dos patas.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 Tiene ocho brazos.
+
+50. 🦓 **Las cebras tienen rayas de todos los colores, como el arcoíris.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 Son blancas y negras.
+
+---
+
+## 🐣🐣 Niños de 6 a 8 años — 50 preguntas
+
+1. 🐋 **¿Cuál es el animal más grande del mundo?**  
+   ✅ La ballena azul · ❌ El elefante · ❌ La jirafa · ❌ El tiburón blanco  
+   💡 Es más grande que cualquier dinosaurio.
+
+2. 🕷️ **¿Cuántas patas tiene una araña?**  
+   ✅ Ocho · ❌ Seis · ❌ Cuatro · ❌ Diez  
+   💡 Las arañas no son insectos: los insectos tienen seis.
+
+3. 🐛 **¿En qué se convierte una oruga?**  
+   ✅ En mariposa · ❌ En araña · ❌ En caracol · ❌ En abeja
+
+4. 🦇 **¿Qué animal duerme colgado boca abajo?**  
+   ✅ El murciélago · ❌ El búho · ❌ El mono · ❌ El loro
+
+5. 🐸 **¿Cómo se llama la cría de la rana?**  
+   ✅ Renacuajo · ❌ Pollito · ❌ Cachorro · ❌ Potro
+
+6. 🐪 **¿Qué animal del desierto tiene joroba?**  
+   ✅ El camello · ❌ El caballo · ❌ La vaca · ❌ El burro  
+   💡 En la joroba guarda grasa, no agua.
+
+7. 🐼 **¿Qué come sobre todo el oso panda?**  
+   ✅ Bambú · ❌ Pescado · ❌ Miel · ❌ Plátanos
+
+8. 🐬 **¿Qué respiran los delfines?**  
+   ✅ Aire · ❌ Agua · ❌ Arena · ❌ Algas  
+   💡 Suben a respirar por un agujero que tienen en la cabeza.
+
+9. 🐝 **¿Cómo se llama la casa de las abejas?**  
+   ✅ La colmena · ❌ El nido · ❌ La madriguera · ❌ El establo
+
+10. 🐆 **¿Cuál es el animal de tierra más rápido?**  
+   ✅ El guepardo · ❌ El león · ❌ El caballo · ❌ El conejo
+
+11. ☀️ **¿Qué es el Sol?**  
+   ✅ Una estrella · ❌ Un planeta · ❌ Una luna · ❌ Un cometa
+
+12. 🪐 **¿Qué planeta tiene unos anillos muy famosos?**  
+   ✅ Saturno · ❌ Marte · ❌ La Tierra · ❌ Mercurio
+
+13. 🔴 **¿A qué planeta lo llaman "el planeta rojo"?**  
+   ✅ Marte · ❌ Venus · ❌ Júpiter · ❌ Neptuno
+
+14. 🧊 **¿En qué se convierte el agua cuando se congela?**  
+   ✅ En hielo · ❌ En vapor · ❌ En arena · ❌ En leche
+
+15. ❤️ **¿Qué parte del cuerpo mueve la sangre?**  
+   ✅ El corazón · ❌ El estómago · ❌ Los pulmones · ❌ El cerebro
+
+16. 🌈 **¿Cuántos colores tiene el arcoíris?**  
+   ✅ Siete · ❌ Tres · ❌ Cinco · ❌ Diez
+
+17. 🧲 **¿Qué atrae un imán?**  
+   ✅ El hierro · ❌ La madera · ❌ El papel · ❌ El plástico
+
+18. 🌱 **¿Qué necesitan las plantas para crecer?**  
+   ✅ Agua y luz · ❌ Sal · ❌ Oscuridad · ❌ Zumo
+
+19. 🦷 **¿Cuántos dientes de leche tienen los niños?**  
+   ✅ Veinte · ❌ Diez · ❌ Cien · ❌ Cuarenta  
+   💡 Luego se caen y salen los de mayor.
+
+20. 🌍 **¿Cuánto tarda la Tierra en dar una vuelta al Sol?**  
+   ✅ Un año · ❌ Un día · ❌ Una semana · ❌ Un mes
+
+21. 🏙️ **¿Cuál es la capital de España?**  
+   ✅ Madrid · ❌ Barcelona · ❌ Sevilla · ❌ Valencia
+
+22. 🌊 **¿Cuál es el océano más grande?**  
+   ✅ El Pacífico · ❌ El Atlántico · ❌ El Índico · ❌ El Ártico
+
+23. 🐧 **¿Dónde viven muchos pingüinos?**  
+   ✅ En la Antártida · ❌ En el desierto · ❌ En la selva · ❌ En la ciudad
+
+24. 🗼 **¿En qué ciudad está la torre Eiffel?**  
+   ✅ París · ❌ Londres · ❌ Roma · ❌ Madrid
+
+25. 🏜️ **¿Cómo se llama un lugar con mucha arena y casi sin lluvia?**  
+   ✅ Desierto · ❌ Selva · ❌ Glaciar · ❌ Pantano
+
+26. 🌋 **¿Cómo se llama la montaña que puede echar lava?**  
+   ✅ Volcán · ❌ Iceberg · ❌ Duna · ❌ Colina
+
+27. 🌅 **¿Por dónde sale el Sol?**  
+   ✅ Por el este · ❌ Por el oeste · ❌ Por el norte · ❌ Por el sur
+
+28. 🏝️ **¿Cómo se llama un trozo de tierra rodeado de agua?**  
+   ✅ Isla · ❌ Montaña · ❌ Río · ❌ Valle
+
+29. 🦘 **¿En qué país viven los canguros?**  
+   ✅ Australia · ❌ Brasil · ❌ Francia · ❌ Japón
+
+30. 🐫 **¿En qué continente están las pirámides de Egipto?**  
+   ✅ África · ❌ Europa · ❌ Asia · ❌ América
+
+31. 🦖 **¿Quiénes vivieron hace muchísimo tiempo, antes que las personas?**  
+   ✅ Los dinosaurios · ❌ Los robots · ❌ Los astronautas · ❌ Los piratas
+
+32. 🔺 **¿Quiénes construyeron las pirámides de Egipto?**  
+   ✅ Los antiguos egipcios · ❌ Los romanos · ❌ Los vikingos · ❌ Los piratas
+
+33. ⛵ **¿Qué marino llegó a América en 1492?**  
+   ✅ Cristóbal Colón · ❌ Neil Armstrong · ❌ Julio César · ❌ Marco Polo
+
+34. 🌙 **¿Quién fue la primera persona que pisó la Luna?**  
+   ✅ Neil Armstrong · ❌ Cristóbal Colón · ❌ Yuri Gagarin · ❌ Isaac Newton  
+   💡 Fue en 1969. Yuri Gagarin fue el primero en ir al espacio.
+
+35. 🛡️ **¿Qué llevaban los caballeros para protegerse en las batallas?**  
+   ✅ Una armadura · ❌ Un bañador · ❌ Un pijama · ❌ Un chubasquero
+
+36. 🐉 **¿Quiénes viajaban en barcos con cabeza de dragón?**  
+   ✅ Los vikingos · ❌ Los egipcios · ❌ Los romanos · ❌ Los astronautas
+
+37. 🦣 **¿Quiénes vivían en cuevas y pintaban animales en sus paredes?**  
+   ✅ La gente de la Prehistoria · ❌ Los romanos · ❌ Los caballeros · ❌ Los astronautas
+
+38. 🏰 **¿Para qué se construían los castillos?**  
+   ✅ Para defenderse · ❌ Para nadar · ❌ Para guardar coches · ❌ Para ver películas
+
+39. 🔥 **¿Qué aprendieron a hacer las personas de la Prehistoria para calentarse y cocinar?**  
+   ✅ Fuego · ❌ Televisión · ❌ Electricidad · ❌ Chocolate
+
+40. 🚂 **¿Cuál de estos inventos es el más antiguo?**  
+   ✅ El tren de vapor · ❌ El avión · ❌ El móvil · ❌ El ordenador
+
+41. 🎨 **¿Qué color sale al mezclar rojo y amarillo?**  
+   ✅ Naranja · ❌ Verde · ❌ Morado · ❌ Azul
+
+42. 🎵 **¿Cuántas notas musicales hay?**  
+   ✅ Siete · ❌ Tres · ❌ Cinco · ❌ Diez  
+   💡 Do, re, mi, fa, sol, la y si.
+
+43. 🐺 **En el cuento, ¿a quién se encuentra Caperucita Roja en el bosque?**  
+   ✅ Al lobo · ❌ Al dragón · ❌ A la bruja · ❌ Al gigante
+
+44. 🐷 **En "Los tres cerditos", ¿de qué es la casa que el lobo no puede derribar?**  
+   ✅ De ladrillos · ❌ De paja · ❌ De madera · ❌ De papel
+
+45. 👠 **¿Qué pierde Cenicienta al salir corriendo del baile?**  
+   ✅ Un zapato de cristal · ❌ Un guante · ❌ Su corona · ❌ Un pendiente
+
+46. 🥁 **¿Cuál de estos instrumentos se toca dando golpes?**  
+   ✅ El tambor · ❌ La flauta · ❌ El violín · ❌ La trompeta
+
+47. 🖌️ **¿Con qué pinta un pintor?**  
+   ✅ Con un pincel · ❌ Con un tenedor · ❌ Con una cuchara · ❌ Con un peine
+
+48. 🤥 **¿A quién le crece la nariz cuando miente?**  
+   ✅ A Pinocho · ❌ A Peter Pan · ❌ A Aladino · ❌ A Caperucita
+
+49. ⚽ **¿Cuántos jugadores de cada equipo hay en un campo de fútbol?**  
+   ✅ Once · ❌ Cinco · ❌ Siete · ❌ Veinte
+
+50. 🔺 **¿Cuántos lados tiene un triángulo?**  
+   ✅ Tres · ❌ Cuatro · ❌ Cinco · ❌ Seis
+
+---
+
+## 🐣🐣🐣 Niños de 9 a 12 años — 50 preguntas
+
+1. 🐙 **¿Cuántos corazones tiene un pulpo?**  
+   ✅ Tres · ❌ Uno · ❌ Dos · ❌ Ocho
+
+2. 🦈 **¿Qué tipo de animal es el tiburón?**  
+   ✅ Un pez · ❌ Un mamífero · ❌ Un reptil · ❌ Un anfibio
+
+3. 🐳 **¿Qué tipo de animal es la ballena?**  
+   ✅ Un mamífero · ❌ Un pez · ❌ Un reptil · ❌ Un anfibio  
+   💡 Respira aire y da leche a sus crías.
+
+4. 🐄 **¿Cómo se llaman los animales que solo comen plantas?**  
+   ✅ Herbívoros · ❌ Carnívoros · ❌ Omnívoros · ❌ Insectívoros
+
+5. 🐊 **¿Cuál de estos animales es un reptil?**  
+   ✅ El cocodrilo · ❌ La rana · ❌ El delfín · ❌ El pingüino
+
+6. 🦉 **¿Qué animal puede girar la cabeza casi del todo hacia atrás?**  
+   ✅ El búho · ❌ El perro · ❌ El caballo · ❌ El gato
+
+7. 🐜 **¿Cuántas patas tiene un insecto?**  
+   ✅ Seis · ❌ Ocho · ❌ Cuatro · ❌ Diez
+
+8. 🦩 **¿Por qué son rosas los flamencos?**  
+   ✅ Por lo que comen · ❌ Por el sol · ❌ Porque nacen así · ❌ Por el frío  
+   💡 Las crías nacen grises: se vuelven rosas por las gambitas y algas que comen.
+
+9. 🐨 **¿Qué come el koala?**  
+   ✅ Hojas de eucalipto · ❌ Bambú · ❌ Insectos · ❌ Peces
+
+10. 🐝 **¿Qué llevan las abejas de flor en flor, ayudando a las plantas?**  
+   ✅ El polen · ❌ La savia · ❌ El agua · ❌ Las semillas
+
+11. ♨️ **¿A cuántos grados hierve el agua, a la orilla del mar?**  
+   ✅ 100 °C · ❌ 0 °C · ❌ 50 °C · ❌ 200 °C
+
+12. ☀️ **¿Qué planeta está más cerca del Sol?**  
+   ✅ Mercurio · ❌ Venus · ❌ La Tierra · ❌ Marte
+
+13. 🪐 **¿Cuál es el planeta más grande del sistema solar?**  
+   ✅ Júpiter · ❌ Saturno · ❌ La Tierra · ❌ Neptuno
+
+14. 🌿 **¿Qué gas sueltan las plantas y necesitamos para respirar?**  
+   ✅ El oxígeno · ❌ El dióxido de carbono · ❌ El helio · ❌ El butano
+
+15. 🦴 **¿Cuál es el hueso más largo del cuerpo?**  
+   ✅ El fémur · ❌ La costilla · ❌ El cráneo · ❌ La clavícula  
+   💡 Está en el muslo.
+
+16. 🫁 **¿Con qué órganos respiramos?**  
+   ✅ Los pulmones · ❌ Los riñones · ❌ El hígado · ❌ El estómago
+
+17. 💧 **¿Cuál es la fórmula del agua?**  
+   ✅ H₂O · ❌ CO₂ · ❌ O₂ · ❌ NaCl  
+   💡 Dos átomos de hidrógeno y uno de oxígeno.
+
+18. 🌕 **¿Por qué brilla la Luna?**  
+   ✅ Refleja la luz del Sol · ❌ Tiene luz propia · ❌ Está ardiendo · ❌ Por las estrellas de alrededor
+
+19. ⚡ **¿Qué material deja pasar bien la electricidad?**  
+   ✅ El cobre · ❌ La madera · ❌ El plástico · ❌ La goma  
+   💡 Por eso los cables son de cobre por dentro y de plástico por fuera.
+
+20. 🌍 **¿Cuánto tarda la Tierra en dar una vuelta sobre sí misma?**  
+   ✅ Un día · ❌ Una hora · ❌ Una semana · ❌ Un año
+
+21. 🏔️ **¿Cuál es la montaña más alta del mundo?**  
+   ✅ El Everest · ❌ El Teide · ❌ El Kilimanjaro · ❌ El Mont Blanc
+
+22. 🌋 **¿En qué isla está el Teide, la montaña más alta de España?**  
+   ✅ Tenerife · ❌ Mallorca · ❌ Ibiza · ❌ Gran Canaria
+
+23. 💂 **¿Cuál es la capital del Reino Unido?**  
+   ✅ Londres · ❌ Mánchester · ❌ Liverpool · ❌ Dublín
+
+24. 🧭 **¿Qué país está al oeste de España, a su lado?**  
+   ✅ Portugal · ❌ Francia · ❌ Italia · ❌ Marruecos
+
+25. 🌳 **¿Cómo se llama la selva más grande del mundo?**  
+   ✅ La Amazonia · ❌ El Sáhara · ❌ La Patagonia · ❌ Siberia
+
+26. 🏜️ **¿Cuál es el desierto caliente más grande del mundo?**  
+   ✅ El Sáhara · ❌ El Gobi · ❌ El de Atacama · ❌ El Kalahari  
+   💡 El más grande de todos es la Antártida, ¡que es un desierto frío!
+
+27. 🌐 **¿Qué línea imaginaria divide la Tierra en norte y sur?**  
+   ✅ El ecuador · ❌ El meridiano · ❌ El trópico · ❌ El polo
+
+28. 🗽 **¿En qué país está la Estatua de la Libertad?**  
+   ✅ Estados Unidos · ❌ Francia · ❌ Inglaterra · ❌ Canadá  
+   💡 Fue un regalo de Francia.
+
+29. 🌊 **¿Cuántos océanos hay en la Tierra?**  
+   ✅ Cinco · ❌ Dos · ❌ Tres · ❌ Diez  
+   💡 Pacífico, Atlántico, Índico, Ártico y Antártico.
+
+30. 🏟️ **¿En qué ciudad está el Coliseo?**  
+   ✅ Roma · ❌ Atenas · ❌ París · ❌ Londres
+
+31. 🏛️ **¿Qué idioma hablaban los antiguos romanos?**  
+   ✅ Latín · ❌ Inglés · ❌ Árabe · ❌ Chino  
+   💡 Del latín viene el castellano.
+
+32. 🔺 **¿Para qué se construyeron las pirámides de Egipto?**  
+   ✅ Como tumbas de los faraones · ❌ Para vivir en ellas · ❌ Para guardar grano · ❌ Como faros
+
+33. 👑 **¿Cómo se llamaban los reyes del antiguo Egipto?**  
+   ✅ Faraones · ❌ Emperadores · ❌ Zares · ❌ Sultanes
+
+34. ⛵ **¿Cuántos barcos llevó Colón en su primer viaje?**  
+   ✅ Tres · ❌ Uno · ❌ Diez · ❌ Cien  
+   💡 La Pinta, la Niña y la Santa María.
+
+35. 📖 **¿Qué inventó Gutenberg hacia 1450?**  
+   ✅ La imprenta · ❌ El teléfono · ❌ La rueda · ❌ El reloj  
+   💡 Con ella los libros se podían hacer rápido, sin copiarlos a mano.
+
+36. 🚀 **¿En qué año pisó una persona la Luna por primera vez?**  
+   ✅ 1969 · ❌ 1492 · ❌ 1900 · ❌ 2000
+
+37. 🏅 **En la antigua Grecia, ¿dónde se celebraban los Juegos Olímpicos?**  
+   ✅ En Olimpia · ❌ En Esparta · ❌ En Troya · ❌ En Creta
+
+38. 🐴 **Según la leyenda, ¿cómo entraron los griegos en Troya?**  
+   ✅ Escondidos en un caballo de madera · ❌ Por un túnel · ❌ Volando · ❌ Nadando por un río
+
+39. 💍 **¿Qué reyes ayudaron a Colón en su viaje a América?**  
+   ✅ Los Reyes Católicos · ❌ Felipe II · ❌ Carlos V · ❌ Alfonso X el Sabio  
+   💡 Isabel de Castilla y Fernando de Aragón.
+
+40. 🧱 **¿Qué construyeron los chinos para protegerse de los invasores?**  
+   ✅ La Gran Muralla · ❌ La torre Eiffel · ❌ El Coliseo · ❌ Las pirámides
+
+41. 🖼️ **¿Quién pintó la Mona Lisa (la Gioconda)?**  
+   ✅ Leonardo da Vinci · ❌ Picasso · ❌ Van Gogh · ❌ Velázquez
+
+42. 👸 **¿Quién pintó "Las meninas"?**  
+   ✅ Velázquez · ❌ Goya · ❌ Dalí · ❌ Picasso
+
+43. 🌻 **¿Qué pintor pintó unos girasoles muy famosos?**  
+   ✅ Van Gogh · ❌ Picasso · ❌ Goya · ❌ Velázquez
+
+44. 📚 **¿Quién escribió "Don Quijote de la Mancha"?**  
+   ✅ Miguel de Cervantes · ❌ Lope de Vega · ❌ Shakespeare · ❌ Lorca
+
+45. 🎼 **¿Qué compositor siguió componiendo aunque se quedó sordo?**  
+   ✅ Beethoven · ❌ Mozart · ❌ Vivaldi · ❌ Bach
+
+46. 🎻 **¿Cuál de estos instrumentos es de cuerda?**  
+   ✅ El violín · ❌ La flauta · ❌ La trompeta · ❌ El tambor
+
+47. 🌬️ **¿Con qué confunde Don Quijote los molinos de viento?**  
+   ✅ Con gigantes · ❌ Con dragones · ❌ Con castillos · ❌ Con caballeros
+
+48. 🔷 **¿Cuántos lados tiene un hexágono?**  
+   ✅ Seis · ❌ Cinco · ❌ Ocho · ❌ Siete  
+   💡 Como las celdas de una colmena.
+
+49. ✖️ **¿Cuánto es 7 × 8?**  
+   ✅ 56 · ❌ 54 · ❌ 48 · ❌ 64
+
+50. 🥇 **¿Cada cuántos años hay Juegos Olímpicos de verano?**  
+   ✅ Cada cuatro años · ❌ Cada año · ❌ Cada dos años · ❌ Cada diez años
 
 ---
 

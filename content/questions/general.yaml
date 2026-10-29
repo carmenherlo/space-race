@@ -19,7 +19,7 @@
 # Texts IN QUOTES: some have a colon (:), which YAML would misread without them.
 
 questions:
-  # ---------- very_easy (40) ----------
+  # ---------- very_easy (50) ----------
   - emoji: "🐶"
     text: "Los perros dicen \"miau\"."
     answer: "Falso"
@@ -241,6 +241,590 @@ questions:
     wrong: ["Falso"]
     note: "Por eso llevamos paraguas."
     level: very_easy
+
+  - emoji: "🦖"
+    text: "Los dinosaurios vivieron hace muchísimo tiempo."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "Mucho antes de que hubiera personas."
+    level: very_easy
+  - emoji: "🏰"
+    text: "En los castillos vivían reyes y reinas."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "Y caballeros con armadura."
+    level: very_easy
+  - emoji: "🎨"
+    text: "Si mezclamos azul y amarillo, sale verde."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🐢"
+    text: "Las tortugas llevan su casa a cuestas."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "Es su caparazón: se esconden dentro."
+    level: very_easy
+  - emoji: "🐧"
+    text: "Los pingüinos viven en playas muy calurosas."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Casi todos viven donde hace mucho frío."
+    level: very_easy
+  - emoji: "🌞"
+    text: "Cuando es de día, el cielo está oscuro."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "De día hay luz; de noche, oscuro."
+    level: very_easy
+  - emoji: "👶"
+    text: "Los bebés nacen sabiendo hablar."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Aprenden poco a poco, escuchando."
+    level: very_easy
+  - emoji: "🌊"
+    text: "El agua del mar es dulce como el zumo."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "¡Es salada!"
+    level: very_easy
+  - emoji: "🐙"
+    text: "El pulpo tiene dos patas."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Tiene ocho brazos."
+    level: very_easy
+  - emoji: "🦓"
+    text: "Las cebras tienen rayas de todos los colores, como el arcoíris."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Son blancas y negras."
+    level: very_easy
+
+  # ---------- kids_medium (50) ----------
+  - emoji: "🐋"
+    text: "¿Cuál es el animal más grande del mundo?"
+    answer: "La ballena azul"
+    wrong: ["El elefante", "La jirafa", "El tiburón blanco"]
+    note: "Es más grande que cualquier dinosaurio."
+    level: kids_medium
+  - emoji: "🕷️"
+    text: "¿Cuántas patas tiene una araña?"
+    answer: "Ocho"
+    wrong: ["Seis", "Cuatro", "Diez"]
+    note: "Las arañas no son insectos: los insectos tienen seis."
+    level: kids_medium
+  - emoji: "🐛"
+    text: "¿En qué se convierte una oruga?"
+    answer: "En mariposa"
+    wrong: ["En araña", "En caracol", "En abeja"]
+    level: kids_medium
+  - emoji: "🦇"
+    text: "¿Qué animal duerme colgado boca abajo?"
+    answer: "El murciélago"
+    wrong: ["El búho", "El mono", "El loro"]
+    level: kids_medium
+  - emoji: "🐸"
+    text: "¿Cómo se llama la cría de la rana?"
+    answer: "Renacuajo"
+    wrong: ["Pollito", "Cachorro", "Potro"]
+    level: kids_medium
+  - emoji: "🐪"
+    text: "¿Qué animal del desierto tiene joroba?"
+    answer: "El camello"
+    wrong: ["El caballo", "La vaca", "El burro"]
+    note: "En la joroba guarda grasa, no agua."
+    level: kids_medium
+  - emoji: "🐼"
+    text: "¿Qué come sobre todo el oso panda?"
+    answer: "Bambú"
+    wrong: ["Pescado", "Miel", "Plátanos"]
+    level: kids_medium
+  - emoji: "🐬"
+    text: "¿Qué respiran los delfines?"
+    answer: "Aire"
+    wrong: ["Agua", "Arena", "Algas"]
+    note: "Suben a respirar por un agujero que tienen en la cabeza."
+    level: kids_medium
+  - emoji: "🐝"
+    text: "¿Cómo se llama la casa de las abejas?"
+    answer: "La colmena"
+    wrong: ["El nido", "La madriguera", "El establo"]
+    level: kids_medium
+  - emoji: "🐆"
+    text: "¿Cuál es el animal de tierra más rápido?"
+    answer: "El guepardo"
+    wrong: ["El león", "El caballo", "El conejo"]
+    level: kids_medium
+  - emoji: "☀️"
+    text: "¿Qué es el Sol?"
+    answer: "Una estrella"
+    wrong: ["Un planeta", "Una luna", "Un cometa"]
+    level: kids_medium
+  - emoji: "🪐"
+    text: "¿Qué planeta tiene unos anillos muy famosos?"
+    answer: "Saturno"
+    wrong: ["Marte", "La Tierra", "Mercurio"]
+    level: kids_medium
+  - emoji: "🔴"
+    text: "¿A qué planeta lo llaman \"el planeta rojo\"?"
+    answer: "Marte"
+    wrong: ["Venus", "Júpiter", "Neptuno"]
+    level: kids_medium
+  - emoji: "🧊"
+    text: "¿En qué se convierte el agua cuando se congela?"
+    answer: "En hielo"
+    wrong: ["En vapor", "En arena", "En leche"]
+    level: kids_medium
+  - emoji: "❤️"
+    text: "¿Qué parte del cuerpo mueve la sangre?"
+    answer: "El corazón"
+    wrong: ["El estómago", "Los pulmones", "El cerebro"]
+    level: kids_medium
+  - emoji: "🌈"
+    text: "¿Cuántos colores tiene el arcoíris?"
+    answer: "Siete"
+    wrong: ["Tres", "Cinco", "Diez"]
+    level: kids_medium
+  - emoji: "🧲"
+    text: "¿Qué atrae un imán?"
+    answer: "El hierro"
+    wrong: ["La madera", "El papel", "El plástico"]
+    level: kids_medium
+  - emoji: "🌱"
+    text: "¿Qué necesitan las plantas para crecer?"
+    answer: "Agua y luz"
+    wrong: ["Sal", "Oscuridad", "Zumo"]
+    level: kids_medium
+  - emoji: "🦷"
+    text: "¿Cuántos dientes de leche tienen los niños?"
+    answer: "Veinte"
+    wrong: ["Diez", "Cien", "Cuarenta"]
+    note: "Luego se caen y salen los de mayor."
+    level: kids_medium
+  - emoji: "🌍"
+    text: "¿Cuánto tarda la Tierra en dar una vuelta al Sol?"
+    answer: "Un año"
+    wrong: ["Un día", "Una semana", "Un mes"]
+    level: kids_medium
+  - emoji: "🏙️"
+    text: "¿Cuál es la capital de España?"
+    answer: "Madrid"
+    wrong: ["Barcelona", "Sevilla", "Valencia"]
+    level: kids_medium
+  - emoji: "🌊"
+    text: "¿Cuál es el océano más grande?"
+    answer: "El Pacífico"
+    wrong: ["El Atlántico", "El Índico", "El Ártico"]
+    level: kids_medium
+  - emoji: "🐧"
+    text: "¿Dónde viven muchos pingüinos?"
+    answer: "En la Antártida"
+    wrong: ["En el desierto", "En la selva", "En la ciudad"]
+    level: kids_medium
+  - emoji: "🗼"
+    text: "¿En qué ciudad está la torre Eiffel?"
+    answer: "París"
+    wrong: ["Londres", "Roma", "Madrid"]
+    level: kids_medium
+  - emoji: "🏜️"
+    text: "¿Cómo se llama un lugar con mucha arena y casi sin lluvia?"
+    answer: "Desierto"
+    wrong: ["Selva", "Glaciar", "Pantano"]
+    level: kids_medium
+  - emoji: "🌋"
+    text: "¿Cómo se llama la montaña que puede echar lava?"
+    answer: "Volcán"
+    wrong: ["Iceberg", "Duna", "Colina"]
+    level: kids_medium
+  - emoji: "🌅"
+    text: "¿Por dónde sale el Sol?"
+    answer: "Por el este"
+    wrong: ["Por el oeste", "Por el norte", "Por el sur"]
+    level: kids_medium
+  - emoji: "🏝️"
+    text: "¿Cómo se llama un trozo de tierra rodeado de agua?"
+    answer: "Isla"
+    wrong: ["Montaña", "Río", "Valle"]
+    level: kids_medium
+  - emoji: "🦘"
+    text: "¿En qué país viven los canguros?"
+    answer: "Australia"
+    wrong: ["Brasil", "Francia", "Japón"]
+    level: kids_medium
+  - emoji: "🐫"
+    text: "¿En qué continente están las pirámides de Egipto?"
+    answer: "África"
+    wrong: ["Europa", "Asia", "América"]
+    level: kids_medium
+  - emoji: "🦖"
+    text: "¿Quiénes vivieron hace muchísimo tiempo, antes que las personas?"
+    answer: "Los dinosaurios"
+    wrong: ["Los robots", "Los astronautas", "Los piratas"]
+    level: kids_medium
+  - emoji: "🔺"
+    text: "¿Quiénes construyeron las pirámides de Egipto?"
+    answer: "Los antiguos egipcios"
+    wrong: ["Los romanos", "Los vikingos", "Los piratas"]
+    level: kids_medium
+  - emoji: "⛵"
+    text: "¿Qué marino llegó a América en 1492?"
+    answer: "Cristóbal Colón"
+    wrong: ["Neil Armstrong", "Julio César", "Marco Polo"]
+    level: kids_medium
+  - emoji: "🌙"
+    text: "¿Quién fue la primera persona que pisó la Luna?"
+    answer: "Neil Armstrong"
+    wrong: ["Cristóbal Colón", "Yuri Gagarin", "Isaac Newton"]
+    note: "Fue en 1969. Yuri Gagarin fue el primero en ir al espacio."
+    level: kids_medium
+  - emoji: "🛡️"
+    text: "¿Qué llevaban los caballeros para protegerse en las batallas?"
+    answer: "Una armadura"
+    wrong: ["Un bañador", "Un pijama", "Un chubasquero"]
+    level: kids_medium
+  - emoji: "🐉"
+    text: "¿Quiénes viajaban en barcos con cabeza de dragón?"
+    answer: "Los vikingos"
+    wrong: ["Los egipcios", "Los romanos", "Los astronautas"]
+    level: kids_medium
+  - emoji: "🦣"
+    text: "¿Quiénes vivían en cuevas y pintaban animales en sus paredes?"
+    answer: "La gente de la Prehistoria"
+    wrong: ["Los romanos", "Los caballeros", "Los astronautas"]
+    level: kids_medium
+  - emoji: "🏰"
+    text: "¿Para qué se construían los castillos?"
+    answer: "Para defenderse"
+    wrong: ["Para nadar", "Para guardar coches", "Para ver películas"]
+    level: kids_medium
+  - emoji: "🔥"
+    text: "¿Qué aprendieron a hacer las personas de la Prehistoria para calentarse y cocinar?"
+    answer: "Fuego"
+    wrong: ["Televisión", "Electricidad", "Chocolate"]
+    level: kids_medium
+  - emoji: "🚂"
+    text: "¿Cuál de estos inventos es el más antiguo?"
+    answer: "El tren de vapor"
+    wrong: ["El avión", "El móvil", "El ordenador"]
+    level: kids_medium
+  - emoji: "🎨"
+    text: "¿Qué color sale al mezclar rojo y amarillo?"
+    answer: "Naranja"
+    wrong: ["Verde", "Morado", "Azul"]
+    level: kids_medium
+  - emoji: "🎵"
+    text: "¿Cuántas notas musicales hay?"
+    answer: "Siete"
+    wrong: ["Tres", "Cinco", "Diez"]
+    note: "Do, re, mi, fa, sol, la y si."
+    level: kids_medium
+  - emoji: "🐺"
+    text: "En el cuento, ¿a quién se encuentra Caperucita Roja en el bosque?"
+    answer: "Al lobo"
+    wrong: ["Al dragón", "A la bruja", "Al gigante"]
+    level: kids_medium
+  - emoji: "🐷"
+    text: "En \"Los tres cerditos\", ¿de qué es la casa que el lobo no puede derribar?"
+    answer: "De ladrillos"
+    wrong: ["De paja", "De madera", "De papel"]
+    level: kids_medium
+  - emoji: "👠"
+    text: "¿Qué pierde Cenicienta al salir corriendo del baile?"
+    answer: "Un zapato de cristal"
+    wrong: ["Un guante", "Su corona", "Un pendiente"]
+    level: kids_medium
+  - emoji: "🥁"
+    text: "¿Cuál de estos instrumentos se toca dando golpes?"
+    answer: "El tambor"
+    wrong: ["La flauta", "El violín", "La trompeta"]
+    level: kids_medium
+  - emoji: "🖌️"
+    text: "¿Con qué pinta un pintor?"
+    answer: "Con un pincel"
+    wrong: ["Con un tenedor", "Con una cuchara", "Con un peine"]
+    level: kids_medium
+  - emoji: "🤥"
+    text: "¿A quién le crece la nariz cuando miente?"
+    answer: "A Pinocho"
+    wrong: ["A Peter Pan", "A Aladino", "A Caperucita"]
+    level: kids_medium
+  - emoji: "⚽"
+    text: "¿Cuántos jugadores de cada equipo hay en un campo de fútbol?"
+    answer: "Once"
+    wrong: ["Cinco", "Siete", "Veinte"]
+    level: kids_medium
+  - emoji: "🔺"
+    text: "¿Cuántos lados tiene un triángulo?"
+    answer: "Tres"
+    wrong: ["Cuatro", "Cinco", "Seis"]
+    level: kids_medium
+
+  # ---------- kids_hard (50) ----------
+  - emoji: "🐙"
+    text: "¿Cuántos corazones tiene un pulpo?"
+    answer: "Tres"
+    wrong: ["Uno", "Dos", "Ocho"]
+    level: kids_hard
+  - emoji: "🦈"
+    text: "¿Qué tipo de animal es el tiburón?"
+    answer: "Un pez"
+    wrong: ["Un mamífero", "Un reptil", "Un anfibio"]
+    level: kids_hard
+  - emoji: "🐳"
+    text: "¿Qué tipo de animal es la ballena?"
+    answer: "Un mamífero"
+    wrong: ["Un pez", "Un reptil", "Un anfibio"]
+    note: "Respira aire y da leche a sus crías."
+    level: kids_hard
+  - emoji: "🐄"
+    text: "¿Cómo se llaman los animales que solo comen plantas?"
+    answer: "Herbívoros"
+    wrong: ["Carnívoros", "Omnívoros", "Insectívoros"]
+    level: kids_hard
+  - emoji: "🐊"
+    text: "¿Cuál de estos animales es un reptil?"
+    answer: "El cocodrilo"
+    wrong: ["La rana", "El delfín", "El pingüino"]
+    level: kids_hard
+  - emoji: "🦉"
+    text: "¿Qué animal puede girar la cabeza casi del todo hacia atrás?"
+    answer: "El búho"
+    wrong: ["El perro", "El caballo", "El gato"]
+    level: kids_hard
+  - emoji: "🐜"
+    text: "¿Cuántas patas tiene un insecto?"
+    answer: "Seis"
+    wrong: ["Ocho", "Cuatro", "Diez"]
+    level: kids_hard
+  - emoji: "🦩"
+    text: "¿Por qué son rosas los flamencos?"
+    answer: "Por lo que comen"
+    wrong: ["Por el sol", "Porque nacen así", "Por el frío"]
+    note: "Las crías nacen grises: se vuelven rosas por las gambitas y algas que comen."
+    level: kids_hard
+  - emoji: "🐨"
+    text: "¿Qué come el koala?"
+    answer: "Hojas de eucalipto"
+    wrong: ["Bambú", "Insectos", "Peces"]
+    level: kids_hard
+  - emoji: "🐝"
+    text: "¿Qué llevan las abejas de flor en flor, ayudando a las plantas?"
+    answer: "El polen"
+    wrong: ["La savia", "El agua", "Las semillas"]
+    level: kids_hard
+  - emoji: "♨️"
+    text: "¿A cuántos grados hierve el agua, a la orilla del mar?"
+    answer: "100 °C"
+    wrong: ["0 °C", "50 °C", "200 °C"]
+    level: kids_hard
+  - emoji: "☀️"
+    text: "¿Qué planeta está más cerca del Sol?"
+    answer: "Mercurio"
+    wrong: ["Venus", "La Tierra", "Marte"]
+    level: kids_hard
+  - emoji: "🪐"
+    text: "¿Cuál es el planeta más grande del sistema solar?"
+    answer: "Júpiter"
+    wrong: ["Saturno", "La Tierra", "Neptuno"]
+    level: kids_hard
+  - emoji: "🌿"
+    text: "¿Qué gas sueltan las plantas y necesitamos para respirar?"
+    answer: "El oxígeno"
+    wrong: ["El dióxido de carbono", "El helio", "El butano"]
+    level: kids_hard
+  - emoji: "🦴"
+    text: "¿Cuál es el hueso más largo del cuerpo?"
+    answer: "El fémur"
+    wrong: ["La costilla", "El cráneo", "La clavícula"]
+    note: "Está en el muslo."
+    level: kids_hard
+  - emoji: "🫁"
+    text: "¿Con qué órganos respiramos?"
+    answer: "Los pulmones"
+    wrong: ["Los riñones", "El hígado", "El estómago"]
+    level: kids_hard
+  - emoji: "💧"
+    text: "¿Cuál es la fórmula del agua?"
+    answer: "H₂O"
+    wrong: ["CO₂", "O₂", "NaCl"]
+    note: "Dos átomos de hidrógeno y uno de oxígeno."
+    level: kids_hard
+  - emoji: "🌕"
+    text: "¿Por qué brilla la Luna?"
+    answer: "Refleja la luz del Sol"
+    wrong: ["Tiene luz propia", "Está ardiendo", "Por las estrellas de alrededor"]
+    level: kids_hard
+  - emoji: "⚡"
+    text: "¿Qué material deja pasar bien la electricidad?"
+    answer: "El cobre"
+    wrong: ["La madera", "El plástico", "La goma"]
+    note: "Por eso los cables son de cobre por dentro y de plástico por fuera."
+    level: kids_hard
+  - emoji: "🌍"
+    text: "¿Cuánto tarda la Tierra en dar una vuelta sobre sí misma?"
+    answer: "Un día"
+    wrong: ["Una hora", "Una semana", "Un año"]
+    level: kids_hard
+  - emoji: "🏔️"
+    text: "¿Cuál es la montaña más alta del mundo?"
+    answer: "El Everest"
+    wrong: ["El Teide", "El Kilimanjaro", "El Mont Blanc"]
+    level: kids_hard
+  - emoji: "🌋"
+    text: "¿En qué isla está el Teide, la montaña más alta de España?"
+    answer: "Tenerife"
+    wrong: ["Mallorca", "Ibiza", "Gran Canaria"]
+    level: kids_hard
+  - emoji: "💂"
+    text: "¿Cuál es la capital del Reino Unido?"
+    answer: "Londres"
+    wrong: ["Mánchester", "Liverpool", "Dublín"]
+    level: kids_hard
+  - emoji: "🧭"
+    text: "¿Qué país está al oeste de España, a su lado?"
+    answer: "Portugal"
+    wrong: ["Francia", "Italia", "Marruecos"]
+    level: kids_hard
+  - emoji: "🌳"
+    text: "¿Cómo se llama la selva más grande del mundo?"
+    answer: "La Amazonia"
+    wrong: ["El Sáhara", "La Patagonia", "Siberia"]
+    level: kids_hard
+  - emoji: "🏜️"
+    text: "¿Cuál es el desierto caliente más grande del mundo?"
+    answer: "El Sáhara"
+    wrong: ["El Gobi", "El de Atacama", "El Kalahari"]
+    note: "El más grande de todos es la Antártida, ¡que es un desierto frío!"
+    level: kids_hard
+  - emoji: "🌐"
+    text: "¿Qué línea imaginaria divide la Tierra en norte y sur?"
+    answer: "El ecuador"
+    wrong: ["El meridiano", "El trópico", "El polo"]
+    level: kids_hard
+  - emoji: "🗽"
+    text: "¿En qué país está la Estatua de la Libertad?"
+    answer: "Estados Unidos"
+    wrong: ["Francia", "Inglaterra", "Canadá"]
+    note: "Fue un regalo de Francia."
+    level: kids_hard
+  - emoji: "🌊"
+    text: "¿Cuántos océanos hay en la Tierra?"
+    answer: "Cinco"
+    wrong: ["Dos", "Tres", "Diez"]
+    note: "Pacífico, Atlántico, Índico, Ártico y Antártico."
+    level: kids_hard
+  - emoji: "🏟️"
+    text: "¿En qué ciudad está el Coliseo?"
+    answer: "Roma"
+    wrong: ["Atenas", "París", "Londres"]
+    level: kids_hard
+  - emoji: "🏛️"
+    text: "¿Qué idioma hablaban los antiguos romanos?"
+    answer: "Latín"
+    wrong: ["Inglés", "Árabe", "Chino"]
+    note: "Del latín viene el castellano."
+    level: kids_hard
+  - emoji: "🔺"
+    text: "¿Para qué se construyeron las pirámides de Egipto?"
+    answer: "Como tumbas de los faraones"
+    wrong: ["Para vivir en ellas", "Para guardar grano", "Como faros"]
+    level: kids_hard
+  - emoji: "👑"
+    text: "¿Cómo se llamaban los reyes del antiguo Egipto?"
+    answer: "Faraones"
+    wrong: ["Emperadores", "Zares", "Sultanes"]
+    level: kids_hard
+  - emoji: "⛵"
+    text: "¿Cuántos barcos llevó Colón en su primer viaje?"
+    answer: "Tres"
+    wrong: ["Uno", "Diez", "Cien"]
+    note: "La Pinta, la Niña y la Santa María."
+    level: kids_hard
+  - emoji: "📖"
+    text: "¿Qué inventó Gutenberg hacia 1450?"
+    answer: "La imprenta"
+    wrong: ["El teléfono", "La rueda", "El reloj"]
+    note: "Con ella los libros se podían hacer rápido, sin copiarlos a mano."
+    level: kids_hard
+  - emoji: "🚀"
+    text: "¿En qué año pisó una persona la Luna por primera vez?"
+    answer: "1969"
+    wrong: ["1492", "1900", "2000"]
+    level: kids_hard
+  - emoji: "🏅"
+    text: "En la antigua Grecia, ¿dónde se celebraban los Juegos Olímpicos?"
+    answer: "En Olimpia"
+    wrong: ["En Esparta", "En Troya", "En Creta"]
+    level: kids_hard
+  - emoji: "🐴"
+    text: "Según la leyenda, ¿cómo entraron los griegos en Troya?"
+    answer: "Escondidos en un caballo de madera"
+    wrong: ["Por un túnel", "Volando", "Nadando por un río"]
+    level: kids_hard
+  - emoji: "💍"
+    text: "¿Qué reyes ayudaron a Colón en su viaje a América?"
+    answer: "Los Reyes Católicos"
+    wrong: ["Felipe II", "Carlos V", "Alfonso X el Sabio"]
+    note: "Isabel de Castilla y Fernando de Aragón."
+    level: kids_hard
+  - emoji: "🧱"
+    text: "¿Qué construyeron los chinos para protegerse de los invasores?"
+    answer: "La Gran Muralla"
+    wrong: ["La torre Eiffel", "El Coliseo", "Las pirámides"]
+    level: kids_hard
+  - emoji: "🖼️"
+    text: "¿Quién pintó la Mona Lisa (la Gioconda)?"
+    answer: "Leonardo da Vinci"
+    wrong: ["Picasso", "Van Gogh", "Velázquez"]
+    level: kids_hard
+  - emoji: "👸"
+    text: "¿Quién pintó \"Las meninas\"?"
+    answer: "Velázquez"
+    wrong: ["Goya", "Dalí", "Picasso"]
+    level: kids_hard
+  - emoji: "🌻"
+    text: "¿Qué pintor pintó unos girasoles muy famosos?"
+    answer: "Van Gogh"
+    wrong: ["Picasso", "Goya", "Velázquez"]
+    level: kids_hard
+  - emoji: "📚"
+    text: "¿Quién escribió \"Don Quijote de la Mancha\"?"
+    answer: "Miguel de Cervantes"
+    wrong: ["Lope de Vega", "Shakespeare", "Lorca"]
+    level: kids_hard
+  - emoji: "🎼"
+    text: "¿Qué compositor siguió componiendo aunque se quedó sordo?"
+    answer: "Beethoven"
+    wrong: ["Mozart", "Vivaldi", "Bach"]
+    level: kids_hard
+  - emoji: "🎻"
+    text: "¿Cuál de estos instrumentos es de cuerda?"
+    answer: "El violín"
+    wrong: ["La flauta", "La trompeta", "El tambor"]
+    level: kids_hard
+  - emoji: "🌬️"
+    text: "¿Con qué confunde Don Quijote los molinos de viento?"
+    answer: "Con gigantes"
+    wrong: ["Con dragones", "Con castillos", "Con caballeros"]
+    level: kids_hard
+  - emoji: "🔷"
+    text: "¿Cuántos lados tiene un hexágono?"
+    answer: "Seis"
+    wrong: ["Cinco", "Ocho", "Siete"]
+    note: "Como las celdas de una colmena."
+    level: kids_hard
+  - emoji: "✖️"
+    text: "¿Cuánto es 7 × 8?"
+    answer: "56"
+    wrong: ["54", "48", "64"]
+    level: kids_hard
+  - emoji: "🥇"
+    text: "¿Cada cuántos años hay Juegos Olímpicos de verano?"
+    answer: "Cada cuatro años"
+    wrong: ["Cada año", "Cada dos años", "Cada diez años"]
+    level: kids_hard
 
   # ---------- easy (50) ----------
   - emoji: "🧱"

@@ -36,9 +36,9 @@ Place = tuple[Percent, Percent]
 Emoji = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=16)]
 
 # How hard a question is, and which questions a player gets (mode "Sabelotodo"), from
-# very_easy (🐣, true or false for the littlest ones, often silly), then 1 to 3 stars: easy
-# (true or false), medium, hard.
-Level = Literal["very_easy", "easy", "medium", "hard"]
+# 1 to 3 chicks for kids: very_easy (🐣, 3 to 5 years, true or false, often silly), kids_medium
+# (6 to 8), kids_hard (9 to 12); then 1 to 3 stars for grown-ups: easy (true or false), medium, hard.
+Level = Literal["very_easy", "kids_medium", "kids_hard", "easy", "medium", "hard"]
 # The levels whose questions are true or false.
 TRUE_FALSE_LEVELS = ("very_easy", "easy")
 # The two answers of a true-or-false question, always in this order on the screen.

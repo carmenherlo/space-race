@@ -82,7 +82,7 @@ Antes de empezar se elige el modo:
 
 ## Sabelotodo 🧠
 
-- Hay 4 niveles: 🐣 muy fácil (verdadero o falso, para los más pequeños) · 1 ⭐ fácil (verdadero o falso) · 2 ⭐⭐ medio · 3 ⭐⭐⭐ difícil.
+- Hay 6 niveles. Niños: 🐣 de 3 a 5 años (verdadero o falso) · 🐣🐣 de 6 a 8 · 🐣🐣🐣 de 9 a 12. Adultos: 1 ⭐ fácil (verdadero o falso) · 2 ⭐⭐ medio · 3 ⭐⭐⭐ difícil.
 - A cada jugador se le asigna un nivel antes de empezar (el pollito o las estrellas bajo su avatar).
 - El orden de los turnos lo decide el sorteo, como en Carrera.
 - En tu turno te hacen una pregunta de tu nivel:
@@ -93,7 +93,7 @@ Antes de empezar se elige el modo:
   - **Pierdes turno** (la fiesta): pierdes los turnos que diga la casilla, y en ellos **no hay pregunta**.
   - **Meteoritos**: tiras y retrocedes; donde caes también cuenta.
 - Hay que llegar a la Luna con el número exacto, como en Carrera: si te pasas, rebotas.
-- Las preguntas tienen 4 respuestas (en un orden distinto cada vez); las de muy fácil y fácil, solo "Verdadero" o "Falso". Algunas traen un dato curioso que se enseña al contestar.
+- Las preguntas tienen 4 respuestas (en un orden distinto cada vez); las de 🐣 y ⭐, solo "Verdadero" o "Falso". Algunas traen un dato curioso que se enseña al contestar.
 - Cada nivel tiene su propio mazo, compartido por todos: no se repite ninguna pregunta hasta que han salido todas las de ese nivel.
 
 Las preguntas están en `docs/questions-general.md` (cultura general, las que se usan) y
