@@ -64,81 +64,56 @@
   --token: calc(var(--board-w) * 0.042);
 
   position: absolute;
+  z-index: 1;
   width: var(--token);
   height: var(--token);
   margin: calc(var(--token) / -2) 0 0 calc(var(--token) / -2);
+  transition:
+    left 0.22s ease-out,
+    top 0.22s ease-out;
+}
+
+.dice-test__token[data-speed="slow"] {
+  transition:
+    left 0.4s ease-out,
+    top 0.4s ease-out;
 }
 
 .dice-test__token .avatar {
   --avatar-size: var(--token);
 }
 
-/* Idea 2: the token grows and a golden glint goes once round its ring, like a gold ring
-   catching the light (SHINE_MS): a bright spot with a fading tail, over the ring only (the
-   mask leaves a band as wide as the ring: the white border and the coloured one). */
-.dice-test__token[data-shine] {
-  z-index: 2;
-  transform: scale(1.6);
-}
-
-.dice-test__token {
-  z-index: 1;
-  transition:
-    left 0.22s ease-out,
-    top 0.22s ease-out,
-    transform 0.5s ease-in-out;
-}
-
-.dice-test__token[data-speed="slow"] {
-  transition:
-    left 0.4s ease-out,
-    top 0.4s ease-out,
-    transform 0.5s ease-in-out;
-}
-
+/* Idea 2: the number flies into the token (dado.js); there it pops a little and sends
+   out one soft wave of its colour, like a drop in water. */
 .dice-test__token::before {
-  --ring: calc(var(--token) * 0.075 + 4px);
-
   content: "";
   position: absolute;
-  top: calc(var(--token) * -0.05 - 2px);
-  left: calc(var(--token) * -0.05 - 2px);
-  width: calc(100% + var(--token) * 0.1 + 4px);
-  height: calc(100% + var(--token) * 0.1 + 4px);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border: calc(var(--token) * 0.08) solid var(--ring-color, #fff);
   border-radius: 50%;
-  background: conic-gradient(rgb(255 214 110 / 0%) 0deg, rgb(255 214 110 / 0%) 220deg, rgb(255 214 110 / 75%) 320deg, #fffbe8 352deg, rgb(255 214 110 / 0%) 360deg);
-  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - var(--ring)), #000 calc(100% - var(--ring) + 1px));
-  mask: radial-gradient(closest-side, transparent calc(100% - var(--ring)), #000 calc(100% - var(--ring) + 1px));
   opacity: 0;
   pointer-events: none;
 }
 
-/* The head of the glint: a bright sparkle on the ring, turning with it (not masked, so
-   it glows beyond the ring). */
-.dice-test__token::after {
-  content: "";
-  position: absolute;
-  top: calc(var(--token) * -0.05 - 2px);
-  left: calc(var(--token) * -0.05 - 2px);
-  width: calc(100% + var(--token) * 0.1 + 4px);
-  height: calc(100% + var(--token) * 0.1 + 4px);
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% calc(var(--token) * 0.04 + 2px), #fff 0, #fffbe8 calc(var(--token) * 0.05), rgb(255 214 110 / 65%) calc(var(--token) * 0.11), rgb(255 214 110 / 0%) calc(var(--token) * 0.24));
-  opacity: 0;
-  pointer-events: none;
+.dice-test__token[data-arrive]::before {
+  animation: dice-test-wave 0.8s ease-out;
 }
 
-/* It starts once the token has grown, and goes round slowly, once. */
-.dice-test__token[data-shine]::before,
-.dice-test__token[data-shine]::after {
-  animation: dice-test-shine 1.5s ease-in-out 0.4s both;
+@keyframes dice-test-wave {
+  from { opacity: 0.9; transform: scale(1); }
+  to { opacity: 0; transform: scale(2.4); }
 }
 
-@keyframes dice-test-shine {
-  0% { opacity: 0; transform: rotate(-40deg); }
-  15% { opacity: 1; }
-  85% { opacity: 1; }
-  100% { opacity: 0; transform: rotate(360deg); }
+.dice-test__token[data-arrive] .avatar {
+  animation: dice-test-pop 0.35s ease-out;
+}
+
+@keyframes dice-test-pop {
+  40% { transform: scale(1.25); }
 }
 
 /* Idea 1: the number, big in the middle of the board. */
