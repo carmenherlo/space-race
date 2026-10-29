@@ -6,7 +6,7 @@ recuerda para la próxima partida en ese mismo dispositivo.
 
 Dos tableros: **Space Race** (28 casillas) y **Space Race Expanded** (68 casillas).
 Modos: **Carrera** (dado y casillas especiales) y **Sabelotodo** (una pregunta de tu nivel;
-si aciertas, tiras el dado). Una voz lee las cartas en voz alta.
+si aciertas, tiras el dado y cuentan las casillas especiales). Una voz lee las cartas en voz alta.
 
 ## Ponerlo en marcha (Docker)
 

@@ -63,7 +63,7 @@ Lo mismo pasa con la nebulosa (44) y el satélite espía (49): en la casilla a l
 - Para ganar hay que caer **exactamente** en Moon (69).
 - Si sacas más de lo que necesitas, llegas a la Luna y **rebotas** hacia atrás las casillas que te sobran.
   - Ejemplo: estás en la 66 y sacas un 5. Necesitabas un 3: avanzas 3 hasta la Luna y retrocedes 2. Acabas en la 67.
-- Si caes en la galaxia 65, saltas directamente a Moon y ganas.
+- Si caes en la galaxia 65, te reta a un minijuego (cometas, ruleta o despegue): si ganas, saltas directamente a Moon y ganas la partida.
 
 ## Fin de la partida
 
@@ -86,7 +86,10 @@ Antes de empezar se elige el modo:
 - En tu turno te hacen una pregunta de tu nivel:
   - **Si aciertas**, pulsas "¡A tirar el dado!": el dado se tira solo y avanzas tantas casillas como indique. Después, turno del siguiente.
   - **Si fallas**, se muestra la respuesta correcta y te quedas donde estás. Turno del siguiente.
-- Las casillas especiales **no tienen efecto**: ni saltos, ni esperas, ni estrella, ni ninguna otra.
+- Las casillas especiales **cuentan**, como en Carrera, después de tirar:
+  - **Vuelve a tirar** (las galaxias): tiras otra vez, **sin pregunta**. Es el premio de esa casilla.
+  - **Pierdes turno** (la fiesta): pierdes los turnos que diga la casilla, y en ellos **no hay pregunta**.
+  - **Meteoritos**: tiras y retrocedes; donde caes no tiene efecto.
 - No hace falta el número exacto: si te pasas, llegas igual a la Luna (sin rebote).
 - Las preguntas tienen 4 respuestas (en un orden distinto cada vez); las de muy fácil y fácil, solo "Verdadero" o "Falso". Algunas traen un dato curioso que se enseña al contestar.
 - Cada nivel tiene su propio mazo, compartido por todos: no se repite ninguna pregunta hasta que han salido todas las de ese nivel.

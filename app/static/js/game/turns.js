@@ -97,10 +97,10 @@ export function tapDie() {
 
 export async function nextTurn() {
   await passTurnTo((game.turn + 1) % game.players.length);
-  if (game.mode === "questions") {
+  if (currentPlayer().skipTurns > 0) {
+    missTurn(); // in every mode: no die, and no question either
+  } else if (game.mode === "questions") {
     askTurnQuestion();
-  } else if (currentPlayer().skipTurns > 0) {
-    missTurn();
   }
 }
 

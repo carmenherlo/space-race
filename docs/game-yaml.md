@@ -76,7 +76,7 @@ Por número de casilla. Lo que hace cada una:
 
 - Una casilla tiene como mucho una forma de moverte: `go_to`, `move`, `back_roll`, `swap` o `minigame`.
 - Solo cuenta la casilla a la que llegas **con el dado**: a donde te manda un viaje (ovni, galaxia…) no hace nada, así nunca hay bucles.
-- En "Sabelotodo" las casillas especiales no hacen nada.
+- En "Sabelotodo" también cuentan, después de acertar la pregunta. "Vuelve a tirar" es tirar sin pregunta; quien pierde turnos tampoco tiene pregunta.
 
 ## Los retos (`challenges`, modo "Retos locos")
 

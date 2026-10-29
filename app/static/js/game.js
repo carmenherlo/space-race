@@ -2,8 +2,8 @@
 // Everybody plays on this tablet, taking turns. The first one to reach the Moon wins.
 // "Carrera" (and "Retos locos"): roll the die and do what your square says (UFOs, galaxies,
 // a black hole…); in "Retos locos", a turn that ends further on brings a funny challenge.
-// "Sabelotodo": first a question of your level; right, roll and move (the squares do
-// nothing); wrong, you stay where you are. In both, a draw decides the order of the turns.
+// "Sabelotodo": first a question of your level; right, roll and do what your square says;
+// wrong, you stay where you are. In both, a draw decides the order of the turns.
 // Nothing is saved on the server: a game lasts while the page is open. Only the setup (how
 // many play, their avatars, names and levels, the mode) is remembered on this device.
 //

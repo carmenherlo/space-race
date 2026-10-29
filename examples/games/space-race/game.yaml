@@ -22,6 +22,7 @@ modes:
     exact_finish: true
   questions:             # "Sabelotodo" (a question every turn)
     exact_finish: false
+backwards_counts: false  # going back (meteorites, bounce): you just stay there
 
 # Where every place is on the picture: [x, y] in % of its width and height.
 # In order: the start, squares 1, 2, 3, … and the goal (the last one, the Moon).

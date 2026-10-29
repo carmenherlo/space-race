@@ -53,7 +53,7 @@ def test_the_short_board_keeps_its_rules() -> None:
     assert pack.playable_modes() == ["race", "questions"]  # "Carrera" and "Sabelotodo"
     assert pack.exact_finish_in("race") is True  # overshooting bounces back
     assert pack.exact_finish_in("questions") is False  # overshooting still reaches the Moon
-    assert (pack.backwards_counts, pack.voice) == (True, True)
+    assert (pack.backwards_counts, pack.voice) == (False, True)  # going back, no square
     assert len(pack.challenges) == 32  # "Retos locos", kept though not in the menu
     assert len(pack.questions) == 190  # the shared bank (see test_both_boards_share…)
 

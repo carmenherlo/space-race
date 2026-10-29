@@ -195,8 +195,7 @@ function renderSummary() {
   if (mode === "questions") {
     elements.setupSummary.textContent = [
       ...opening,
-      "🧠 En tu turno, una pregunta de tu nivel: si aciertas, tiras el dado y avanzas; si fallas, te quedas donde estás.",
-      "Las casillas especiales no hacen nada.",
+      "🧠 En tu turno, una pregunta de tu nivel: si aciertas, tiras el dado y haces lo que dice tu casilla; si fallas, te quedas donde estás.",
       moon,
     ].join(" ");
     return;
@@ -206,11 +205,13 @@ function renderSummary() {
   if (mode === "challenges") {
     parts.push("🎭 Si acabas más adelante de donde empezaste, ¡reto!");
   }
-  const toTheMoon = [...pack.squares.values()].some((square) => square.goTo === pack.goal);
+  const squares = [...pack.squares.values()];
   parts.push(
-    toTheMoon
-      ? "🌌 Las galaxias te llevan a la siguiente galaxia, y la última ¡a la Luna!"
-      : "🌌 Las galaxias te llevan a la siguiente galaxia.",
+    squares.some((square) => square.minigame)
+      ? "🌌 Las galaxias te llevan a la siguiente galaxia, y la última te reta a un minijuego: si ganas, ¡a la Luna!"
+      : squares.some((square) => square.goTo === pack.goal)
+        ? "🌌 Las galaxias te llevan a la siguiente galaxia, y la última ¡a la Luna!"
+        : "🌌 Las galaxias te llevan a la siguiente galaxia.",
   );
   if ([...pack.squares.values()].some((square) => square.star)) {
     parts.push("⭐ La estrella comodín te libra de una casilla mala.");

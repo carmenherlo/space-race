@@ -1,9 +1,11 @@
 // "Sabelotodo": the levels, the questions, and a turn (a question first; right, roll).
 
 import { sounds } from "../sounds.js";
+import { renderTurn } from "./board.js";
 import { drawFrom, showBounce, showWinner } from "./cards.js";
 import { shuffled, speak } from "./helpers.js";
 import { moveBy, rollDie } from "./moves.js";
+import { landOn } from "./squares.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
 import { BOARD_LOOK_MS, LAND_PAUSE_MS, wait } from "./timing.js";
 import { nextTurn } from "./turns.js";
@@ -24,7 +26,8 @@ const TRUE_FALSE = [
 ];
 
 // The turn starts with a question of the player's level, by itself. Right: "¡A tirar el
-// dado!" rolls it at once (see rollAfterQuestion). Wrong: they stay where they are, next player.
+// dado!" rolls it at once (see rollAfterQuestion). Wrong: they stay where they are, next
+// player. A player who must miss turns (the party) gets no question (see nextTurn).
 export async function askTurnQuestion() {
   game.busy = true;
   elements.die.disabled = true;
@@ -39,7 +42,8 @@ export async function askTurnQuestion() {
   rollAfterQuestion();
 }
 
-// Roll and move; the squares do nothing here (only the exact finish at the Moon).
+// Roll and move, and the square does what it says, as in "Carrera". "Roll again" (the
+// galaxies): the die again, with no question (the prize of that square).
 export async function rollAfterQuestion() {
   if (game.busy || !game.mayRoll) {
     return;
@@ -52,9 +56,24 @@ export async function rollAfterQuestion() {
     showWinner(player);
     return;
   }
+  let landed = true;
   if (bounced) {
     await wait(LAND_PAUSE_MS);
     await showBounce(bounced);
+    landed = pack.backwardsCounts; // where the bounce leaves you may do nothing
+  }
+  if (landed) {
+    const outcome = await landOn(player);
+    if (player.place === pack.goal) {
+      showWinner(player);
+      return;
+    }
+    if (outcome.again) {
+      game.mayRoll = true; // same player: tap the die
+      game.busy = false;
+      renderTurn();
+      return;
+    }
   }
   await lookAtTheBoard();
   nextTurn();
