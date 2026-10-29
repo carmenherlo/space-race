@@ -310,4 +310,4 @@ squares:
 
 # The questions (mode "Sabelotodo"): from the shared bank questions/space.yaml (next to
 # the games folder; the levels and every field are explained there).
-questions: space
+questions: general

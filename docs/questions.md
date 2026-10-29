@@ -6,6 +6,9 @@ Las preguntas del modo Sabelotodo, por nivel. ✅ es la respuesta correcta y ❌
 Lo que el juego usa de verdad está en `data/questions/space.yaml` (el banco de preguntas que
 comparten los tableros): si cambias algo aquí, Claude lo pasa allí.
 
+**Ahora sin usar:** los tableros usan las de cultura general (`docs/questions-general.md`).
+Cómo volver a estas: `docs/game-yaml.md`, apartado "Las preguntas".
+
 ---
 
 ## ⭐ Fácil (verdadero o falso) — 32 preguntas

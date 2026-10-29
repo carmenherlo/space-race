@@ -9,7 +9,8 @@ data/
       game.yaml      las casillas, lo que pasa en ellas y las reglas
       board.webp     el dibujo del tablero (16:9, por ejemplo 1920x1080)
   questions/
-    space.yaml       un banco de preguntas, compartido por los juegos que lo nombran
+    general.yaml     un banco de preguntas (cultura general), compartido por los juegos que lo nombran
+    space.yaml       otro banco (preguntas del espacio), ahora sin usar
 ```
 
 - Después de cambiar algo, hay que reiniciar la app (`docker compose restart`; con `bash dev.sh`, guardar un `.py` o reiniciarlo).
@@ -92,8 +93,12 @@ challenges:
 O el nombre de un banco de preguntas compartido (`data/questions/<nombre>.yaml`):
 
 ```yaml
-questions: space
+questions: general
 ```
+
+Los dos tableros usan `general`. Para volver a las del espacio, cambia esa línea por
+`questions: space` en su `game.yaml` (`data/games/space-race/` y `data/games/space-race-expanded/`)
+y reinicia la app.
 
 o las preguntas del propio juego, en una lista con los mismos campos que el banco:
 
@@ -107,4 +112,4 @@ o las preguntas del propio juego, en una lista con los mismos campos que el banc
 
 Cada jugador elige su nivel en el menú. Cada nivel tiene su mazo, compartido por todos: no se
 repite ninguna pregunta hasta que han salido todas. Las preguntas, para leerlas cómodamente:
-`docs/questions.md`.
+`docs/questions-general.md` (las que se usan) y `docs/questions.md` (las del espacio).

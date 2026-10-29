@@ -91,4 +91,5 @@ Antes de empezar se elige el modo:
 - Las preguntas tienen 4 respuestas (en un orden distinto cada vez); las de fácil, solo "Verdadero" o "Falso". Algunas traen un dato curioso que se enseña al contestar.
 - Cada nivel tiene su propio mazo, compartido por todos: no se repite ninguna pregunta hasta que han salido todas las de ese nivel.
 
-Las preguntas están en `docs/questions.md`.
+Las preguntas están en `docs/questions-general.md` (cultura general, las que se usan) y
+`docs/questions.md` (las del espacio, ahora sin usar).

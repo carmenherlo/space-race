@@ -9,7 +9,7 @@ checks the packs, so a typo in a game.yaml only disables that game.
         board.webp               the board picture
       …
     data/questions/
-      space.yaml                 a question bank, shared by the games that name it
+      general.yaml               a question bank, shared by the games that name it
 
 Every field is explained in docs/game-yaml.md; examples in examples/games/.
 """
@@ -223,7 +223,7 @@ class Games:
 
 def load_game_pack(folder: Path) -> GamePack:
     """Read and check folder/game.yaml. Its questions can be its own (a list) or a bank's:
-    "questions: space" → questions/space.yaml, next to the games folder.
+    "questions: general" → questions/general.yaml, next to the games folder.
 
     Raises OSError (a missing file), yaml.YAMLError or pydantic.ValidationError.
     """

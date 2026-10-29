@@ -55,7 +55,7 @@ def test_the_short_board_keeps_its_rules() -> None:
     assert pack.exact_finish_in("questions") is False  # overshooting still reaches the Moon
     assert (pack.backwards_counts, pack.voice) == (True, True)
     assert len(pack.challenges) == 32  # "Retos locos", kept though not in the menu
-    assert len(pack.questions) == 151  # the shared bank (see test_both_boards_share…)
+    assert len(pack.questions) == 150  # the shared bank (see test_both_boards_share…)
 
 
 def test_a_mode_sets_its_own_rules_over_the_games(raw: dict[str, Any]) -> None:
@@ -89,12 +89,12 @@ def test_space_race_expanded_has_its_own_rules() -> None:
     assert pack.squares[49].swap  # the spy satellite
 
 
-def test_both_boards_share_the_space_questions_of_every_level() -> None:
+def test_both_boards_share_the_general_questions_of_every_level() -> None:
     pack = load_game_pack(EXPANDED)
     assert load_game_pack(SPACE_RACE).questions == pack.questions
     assert all(len(q.wrong) == 3 for q in pack.questions if q.level != "easy")
     by_level = {level: sum(q.level == level for q in pack.questions) for level in ("easy", "medium", "hard")}
-    assert by_level == {"easy": 32, "medium": 70, "hard": 49}
+    assert by_level == {"easy": 50, "medium": 50, "hard": 50}
     true_false = [q for q in pack.questions if q.level == "easy"]
     assert all(sorted([q.answer, *q.wrong]) == ["Falso", "Verdadero"] for q in true_false)
 
@@ -102,7 +102,7 @@ def test_both_boards_share_the_space_questions_of_every_level() -> None:
 def test_a_missing_question_bank_only_disables_that_game(tmp_path: Path) -> None:
     copy_examples(tmp_path)
     game_file = tmp_path / "games" / "space-race" / GAME_FILE
-    game_file.write_text(game_file.read_text(encoding="utf-8").replace("questions: space", "questions: nope"), encoding="utf-8")
+    game_file.write_text(game_file.read_text(encoding="utf-8").replace("questions: general", "questions: nope"), encoding="utf-8")
     games = load_games(tmp_path / "games")
     assert not games.games["space-race"].available
     assert "nope.yaml" in games.games["space-race"].error
@@ -241,7 +241,7 @@ def test_a_broken_game_is_listed_as_not_available(tmp_path: Path, client_for: Cl
 
 def test_api_serves_the_questions(client: TestClient) -> None:
     questions = client.get("/api/games/space-race-expanded").json()["questions"]
-    assert questions[0]["answer"] == "Verdadero"  # the first ones are true or false
+    assert questions[0]["answer"] in ("Verdadero", "Falso")  # the first ones are true or false
     question = next(q for q in questions if q["level"] == "medium")
-    assert question["answer"] == "La Tierra"
+    assert question["answer"] == "El Aconcagua"
     assert len(question["wrong"]) == 3
