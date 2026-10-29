@@ -55,7 +55,7 @@ def test_the_short_board_keeps_its_rules() -> None:
     assert pack.exact_finish_in("questions") is False  # overshooting still reaches the Moon
     assert (pack.backwards_counts, pack.voice) == (True, True)
     assert len(pack.challenges) == 32  # "Retos locos", kept though not in the menu
-    assert len(pack.questions) == 150  # the shared bank (see test_both_boards_share…)
+    assert len(pack.questions) == 190  # the shared bank (see test_both_boards_share…)
 
 
 def test_a_mode_sets_its_own_rules_over_the_games(raw: dict[str, Any]) -> None:
@@ -92,10 +92,10 @@ def test_space_race_expanded_has_its_own_rules() -> None:
 def test_both_boards_share_the_general_questions_of_every_level() -> None:
     pack = load_game_pack(EXPANDED)
     assert load_game_pack(SPACE_RACE).questions == pack.questions
-    assert all(len(q.wrong) == 3 for q in pack.questions if q.level != "easy")
-    by_level = {level: sum(q.level == level for q in pack.questions) for level in ("easy", "medium", "hard")}
-    assert by_level == {"easy": 50, "medium": 50, "hard": 50}
-    true_false = [q for q in pack.questions if q.level == "easy"]
+    assert all(len(q.wrong) == 3 for q in pack.questions if q.level not in ("very_easy", "easy"))
+    by_level = {level: sum(q.level == level for q in pack.questions) for level in ("very_easy", "easy", "medium", "hard")}
+    assert by_level == {"very_easy": 40, "easy": 50, "medium": 50, "hard": 50}
+    true_false = [q for q in pack.questions if q.level in ("very_easy", "easy")]
     assert all(sorted([q.answer, *q.wrong]) == ["Falso", "Verdadero"] for q in true_false)
 
 

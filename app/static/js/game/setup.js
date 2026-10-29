@@ -143,7 +143,7 @@ export function loadSetup() {
   const profiles = saved.profiles && typeof saved.profiles === "object" ? saved.profiles : {};
   game.profiles = {};
   for (const [id, profile] of Object.entries(profiles)) {
-    const level = saved.levels === LEVELS.length ? profile?.level : OLD_LEVELS[profile?.level];
+    const level = saved.levels ? profile?.level : OLD_LEVELS[profile?.level];
     game.profiles[id] = {
       name: typeof profile?.name === "string" ? profile.name.slice(0, 14) : "",
       level: LEVELS.includes(level) ? level : "medium",

@@ -1,6 +1,6 @@
 # 🧠 Sabelotodo — Preguntas de cultura general
 
-Preguntas de cultura general, por nivel. ✅ es la respuesta correcta y ❌ las incorrectas;
+Preguntas de cultura general, por nivel (el nivel 🐣 "Muy fácil" es para niños de unos 4 años). ✅ es la respuesta correcta y ❌ las incorrectas;
 💡 es el dato curioso que sale al contestar (opcional).
 
 Traducidas y adaptadas de [Open Trivia Database](https://opentdb.com), con licencia
@@ -17,8 +17,154 @@ reiniciar la app.
 **De dónde salen:** se descargaron una vez de la API de Open Trivia Database
 (`https://opentdb.com/api.php?category=…&difficulty=…&type=…&encode=url3986`), con los temas
 General Knowledge, Science & Nature, Geography, History, Art y Animals. Se eligieron 50 por
-nivel, se tradujeron y se corrigieron a mano. Los archivos descargados no se guardan: para más
+nivel, se tradujeron y se corrigieron a mano. Las de 🐣 "Muy fácil" no son de allí: están escritas
+para el juego. Los archivos descargados no se guardan: para más
 preguntas, se vuelven a descargar.
+
+---
+
+## 🐣 Muy fácil (verdadero o falso, para los más pequeños) — 40 preguntas
+
+1. 🐶 **Los perros dicen "miau".**  
+   ✅ Falso · ❌ Verdadero  
+   💡 ¡Los perros dicen "guau, guau"!
+
+2. 🐄 **Las vacas dan leche.**  
+   ✅ Verdadero · ❌ Falso
+
+3. 🧀 **La Luna está hecha de queso.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 Está hecha de roca y polvo gris. ¡Aunque tenga agujeros como el queso!
+
+4. 🐟 **Los peces viven en el agua.**  
+   ✅ Verdadero · ❌ Falso
+
+5. 🐘 **Un elefante cabe en un bolsillo.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 ¡Los elefantes son enormes!
+
+6. 🍌 **Los plátanos son azules.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 Son amarillos.
+
+7. 🐦 **Los pájaros pueden volar.**  
+   ✅ Verdadero · ❌ Falso
+
+8. 🐷 **Los cerditos vuelan para ir al colegio.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 ¡Los cerditos no vuelan… ni van al colegio!
+
+9. 🌍 **Vivimos en el planeta Tierra.**  
+   ✅ Verdadero · ❌ Falso
+
+10. 🍦 **El helado está calentito, como la sopa.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 ¡El helado está frío!
+
+11. 🦒 **La jirafa tiene el cuello muy largo.**  
+   ✅ Verdadero · ❌ Falso
+
+12. 🦷 **Nos lavamos los dientes con chocolate.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 Con pasta de dientes. ¡El chocolate, mejor en la merienda!
+
+13. 🐔 **Las gallinas ponen huevos.**  
+   ✅ Verdadero · ❌ Falso
+
+14. 🐟 **En el espacio hay peces nadando.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 En el espacio no hay agua ni aire: los peces no podrían vivir.
+
+15. 🐸 **Las ranas dicen "croac".**  
+   ✅ Verdadero · ❌ Falso
+
+16. 🚗 **Los coches tienen ruedas.**  
+   ✅ Verdadero · ❌ Falso
+
+17. 👟 **Los zapatos se ponen en las orejas.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 ¡Se ponen en los pies!
+
+18. ⭐ **Por la noche vemos estrellas en el cielo.**  
+   ✅ Verdadero · ❌ Falso
+
+19. ❄️ **La nieve es blanca y fría.**  
+   ✅ Verdadero · ❌ Falso
+
+20. 🐱 **Los gatos ladran: "guau, guau".**  
+   ✅ Falso · ❌ Verdadero  
+   💡 Los gatos maúllan: "¡miau!"
+
+21. 🔥 **El Sol está frío como el hielo.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 ¡Al revés! El Sol está muchísimo más caliente que un horno.
+
+22. 🌳 **Los árboles tienen hojas.**  
+   ✅ Verdadero · ❌ Falso
+
+23. 🐌 **Los caracoles corren más que un coche.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 Van despacito, despacito.
+
+24. 🚀 **Los astronautas viajan al espacio en cohete.**  
+   ✅ Verdadero · ❌ Falso
+
+25. 🛁 **Nos bañamos con agua.**  
+   ✅ Verdadero · ❌ Falso
+
+26. 🍕 **Los peces comen pizza en el mar.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 ¡En el mar no hay pizzerías!
+
+27. 😴 **Por la noche nos vamos a dormir.**  
+   ✅ Verdadero · ❌ Falso
+
+28. 👽 **En Marte viven marcianos verdes.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 Allí solo han ido robots, y no han encontrado marcianos… ¡de momento!
+
+29. 🦁 **El león hace "muuu".**  
+   ✅ Falso · ❌ Verdadero  
+   💡 El león ruge: "¡grrr!". La que hace "muuu" es la vaca.
+
+30. 🍎 **Las manzanas crecen en los árboles.**  
+   ✅ Verdadero · ❌ Falso
+
+31. 🐝 **Las abejas hacen miel.**  
+   ✅ Verdadero · ❌ Falso
+
+32. 👃 **Tenemos la nariz en el pie.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 ¡La tenemos en la cara!
+
+33. 🧑‍🚀 **Los astronautas flotan dentro de la nave.**  
+   ✅ Verdadero · ❌ Falso
+
+34. 🦆 **Los patos nadan en el agua.**  
+   ✅ Verdadero · ❌ Falso
+
+35. 🐄 **Una vaca saltó por encima de la Luna.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 ¡Eso solo pasa en las canciones!
+
+36. 🎂 **En los cumpleaños soplamos las velas.**  
+   ✅ Verdadero · ❌ Falso
+
+37. 🧦 **Los calcetines se comen con cuchara.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 ¡Los calcetines se ponen en los pies!
+
+38. 🌙 **La Luna a veces está redonda y a veces parece un plátano.**  
+   ✅ Verdadero · ❌ Falso  
+   💡 No cambia de verdad: vemos más o menos parte iluminada por el Sol.
+
+39. 🐻 **Los osos llevan gafas para leer cuentos.**  
+   ✅ Falso · ❌ Verdadero  
+   💡 ¡Solo en los dibujos!
+
+40. 🌧️ **Cuando llueve, nos mojamos.**  
+   ✅ Verdadero · ❌ Falso  
+   💡 Por eso llevamos paraguas.
 
 ---
 

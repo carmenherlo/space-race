@@ -36,9 +36,12 @@ Place = tuple[Percent, Percent]
 Emoji = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=16)]
 
 # How hard a question is, and which questions a player gets (mode "Sabelotodo"), from
-# 1 to 3 stars: easy (true or false, the littlest ones), medium (kids who read), hard (adults).
-Level = Literal["easy", "medium", "hard"]
-# The two answers of an "easy" question, always in this order on the screen.
+# very_easy (🐣, true or false for the littlest ones, often silly), then 1 to 3 stars: easy
+# (true or false), medium, hard.
+Level = Literal["very_easy", "easy", "medium", "hard"]
+# The levels whose questions are true or false.
+TRUE_FALSE_LEVELS = ("very_easy", "easy")
+# The two answers of a true-or-false question, always in this order on the screen.
 TRUE_FALSE = ("Verdadero", "Falso")
 # What comes at the end of a turn: nothing ("Carrera"), a funny challenge ("Retos locos")
 # or a question ("Sabelotodo").
@@ -86,7 +89,7 @@ class Challenge(StrictModel):
 
 class Question(StrictModel):
     """A question at the end of a turn (mode "Sabelotodo"): four answers to choose from,
-    shuffled each time; the right one, roll again. At level "easy" it is a sentence that
+    shuffled each time; the right one, roll again. At levels "very_easy" and "easy" it is a sentence that
     is true or false: two answers, "Verdadero" and "Falso"."""
 
     emoji: Emoji
@@ -99,10 +102,10 @@ class Question(StrictModel):
     @model_validator(mode="after")
     def answers_for_the_level(self) -> "Question":
         answers = [self.answer, *self.wrong]
-        if self.level == "easy":
+        if self.level in TRUE_FALSE_LEVELS:
             if sorted(answers) != sorted(TRUE_FALSE):
                 raise ValueError(
-                    f"{self.text!r} is easy: its answers are {TRUE_FALSE[0]!r} and {TRUE_FALSE[1]!r}"
+                    f"{self.text!r} is true or false: its answers are {TRUE_FALSE[0]!r} and {TRUE_FALSE[1]!r}"
                 )
         elif len(self.wrong) != 3 or len({answer.lower() for answer in answers}) != 4:
             raise ValueError(f"the four answers to {self.text!r} must all be different")

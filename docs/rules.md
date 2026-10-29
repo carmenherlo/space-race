@@ -80,8 +80,8 @@ Antes de empezar se elige el modo:
 
 ## Sabelotodo 🧠
 
-- Hay 3 niveles: 1 ⭐ fácil (verdadero o falso) · 2 ⭐⭐ medio · 3 ⭐⭐⭐ difícil.
-- A cada jugador se le asigna un nivel antes de empezar (las estrellas bajo su avatar).
+- Hay 4 niveles: 🐣 muy fácil (verdadero o falso, para los más pequeños) · 1 ⭐ fácil (verdadero o falso) · 2 ⭐⭐ medio · 3 ⭐⭐⭐ difícil.
+- A cada jugador se le asigna un nivel antes de empezar (el pollito o las estrellas bajo su avatar).
 - El orden de los turnos lo decide el sorteo, como en Carrera.
 - En tu turno te hacen una pregunta de tu nivel:
   - **Si aciertas**, tiras el dado y avanzas tantas casillas como indique. Después, turno del siguiente.

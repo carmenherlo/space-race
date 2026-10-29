@@ -8,13 +8,15 @@ import { currentPlayer, elements, game, pack } from "./state.js";
 import { BOARD_LOOK_MS, LAND_PAUSE_MS, wait } from "./timing.js";
 import { nextTurn } from "./turns.js";
 
-// Levels of the questions (mode "Sabelotodo"), shown as stars.
-export const LEVELS = ["easy", "medium", "hard"];
-export const LEVEL_STARS = { easy: "⭐", medium: "⭐⭐", hard: "⭐⭐⭐" };
-export const LEVEL_NAMES = { easy: "fácil", medium: "medio", hard: "difícil" };
-// A setup remembered from when there were 4 levels: each old level, as one of these.
+// Levels of the questions (mode "Sabelotodo"), shown as a chick and stars.
+export const LEVELS = ["very_easy", "easy", "medium", "hard"];
+export const LEVEL_STARS = { very_easy: "🐣", easy: "⭐", medium: "⭐⭐", hard: "⭐⭐⭐" };
+export const LEVEL_NAMES = { very_easy: "muy fácil", easy: "fácil", medium: "medio", hard: "difícil" };
+// The levels whose questions are true or false.
+const TRUE_FALSE_LEVELS = ["very_easy", "easy"];
+// A setup remembered from before levels were saved (it had 4 others): each old level, as one of these.
 export const OLD_LEVELS = { very_easy: "easy", easy: "medium", medium: "medium", hard: "hard" };
-// "easy" questions are true or false: these two answers, in this order, with a hand
+// True-or-false questions: these two answers, in this order, with a hand
 // for those who cannot read yet.
 const TRUE_FALSE = [
   { answer: "Verdadero", icon: "👍", tone: "true" }, // green
@@ -82,7 +84,7 @@ function askQuestion(question) {
   elements.questionEmoji.textContent = question.emoji;
   elements.questionText.textContent = question.text;
   // True or false: always "Verdadero", "Falso". The others: four answers, shuffled.
-  const trueFalse = question.level === "easy";
+  const trueFalse = TRUE_FALSE_LEVELS.includes(question.level);
   const options = trueFalse
     ? TRUE_FALSE
     : shuffled([question.answer, ...question.wrong]).map((answer) => ({ answer }));

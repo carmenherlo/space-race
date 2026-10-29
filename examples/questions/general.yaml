@@ -3,13 +3,14 @@
 # start of every turn; right, roll the die. The answers are shuffled each time.
 # For people, the same questions: docs/questions-general.md. After editing, restart the app.
 #
-# Translated and adapted from Open Trivia Database (https://opentdb.com),
+# Levels easy, medium and hard: translated and adapted from Open Trivia Database (https://opentdb.com),
 # licensed CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).
 #
 #   emoji, text: the question
 #   answer: the right one   ·   wrong: three wrong ones
 #   note: optional, a curious fact shown once answered
-#   level, from 1 to 3 stars, chosen for each player before playing:
+#   level, chosen for each player before playing:
+#     very_easy (🐣, about 4 years old) true or false, often silly: answers as in easy
 #     easy   (⭐) true or false: answer "Verdadero" or "Falso", and the other one as the
 #            only wrong one
 #     medium (⭐⭐)
@@ -18,6 +19,229 @@
 # Texts IN QUOTES: some have a colon (:), which YAML would misread without them.
 
 questions:
+  # ---------- very_easy (40) ----------
+  - emoji: "🐶"
+    text: "Los perros dicen \"miau\"."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "¡Los perros dicen \"guau, guau\"!"
+    level: very_easy
+  - emoji: "🐄"
+    text: "Las vacas dan leche."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🧀"
+    text: "La Luna está hecha de queso."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Está hecha de roca y polvo gris. ¡Aunque tenga agujeros como el queso!"
+    level: very_easy
+  - emoji: "🐟"
+    text: "Los peces viven en el agua."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🐘"
+    text: "Un elefante cabe en un bolsillo."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "¡Los elefantes son enormes!"
+    level: very_easy
+  - emoji: "🍌"
+    text: "Los plátanos son azules."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Son amarillos."
+    level: very_easy
+  - emoji: "🐦"
+    text: "Los pájaros pueden volar."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🐷"
+    text: "Los cerditos vuelan para ir al colegio."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "¡Los cerditos no vuelan… ni van al colegio!"
+    level: very_easy
+  - emoji: "🌍"
+    text: "Vivimos en el planeta Tierra."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🍦"
+    text: "El helado está calentito, como la sopa."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "¡El helado está frío!"
+    level: very_easy
+  - emoji: "🦒"
+    text: "La jirafa tiene el cuello muy largo."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🦷"
+    text: "Nos lavamos los dientes con chocolate."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Con pasta de dientes. ¡El chocolate, mejor en la merienda!"
+    level: very_easy
+  - emoji: "🐔"
+    text: "Las gallinas ponen huevos."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🐟"
+    text: "En el espacio hay peces nadando."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "En el espacio no hay agua ni aire: los peces no podrían vivir."
+    level: very_easy
+  - emoji: "🐸"
+    text: "Las ranas dicen \"croac\"."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🚗"
+    text: "Los coches tienen ruedas."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "👟"
+    text: "Los zapatos se ponen en las orejas."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "¡Se ponen en los pies!"
+    level: very_easy
+  - emoji: "⭐"
+    text: "Por la noche vemos estrellas en el cielo."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "❄️"
+    text: "La nieve es blanca y fría."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🐱"
+    text: "Los gatos ladran: \"guau, guau\"."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Los gatos maúllan: \"¡miau!\""
+    level: very_easy
+  - emoji: "🔥"
+    text: "El Sol está frío como el hielo."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "¡Al revés! El Sol está muchísimo más caliente que un horno."
+    level: very_easy
+  - emoji: "🌳"
+    text: "Los árboles tienen hojas."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🐌"
+    text: "Los caracoles corren más que un coche."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Van despacito, despacito."
+    level: very_easy
+  - emoji: "🚀"
+    text: "Los astronautas viajan al espacio en cohete."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🛁"
+    text: "Nos bañamos con agua."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🍕"
+    text: "Los peces comen pizza en el mar."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "¡En el mar no hay pizzerías!"
+    level: very_easy
+  - emoji: "😴"
+    text: "Por la noche nos vamos a dormir."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "👽"
+    text: "En Marte viven marcianos verdes."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Allí solo han ido robots, y no han encontrado marcianos… ¡de momento!"
+    level: very_easy
+  - emoji: "🦁"
+    text: "El león hace \"muuu\"."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "El león ruge: \"¡grrr!\". La que hace \"muuu\" es la vaca."
+    level: very_easy
+  - emoji: "🍎"
+    text: "Las manzanas crecen en los árboles."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🐝"
+    text: "Las abejas hacen miel."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "👃"
+    text: "Tenemos la nariz en el pie."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "¡La tenemos en la cara!"
+    level: very_easy
+  - emoji: "🧑‍🚀"
+    text: "Los astronautas flotan dentro de la nave."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🦆"
+    text: "Los patos nadan en el agua."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🐄"
+    text: "Una vaca saltó por encima de la Luna."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "¡Eso solo pasa en las canciones!"
+    level: very_easy
+  - emoji: "🎂"
+    text: "En los cumpleaños soplamos las velas."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: very_easy
+  - emoji: "🧦"
+    text: "Los calcetines se comen con cuchara."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "¡Los calcetines se ponen en los pies!"
+    level: very_easy
+  - emoji: "🌙"
+    text: "La Luna a veces está redonda y a veces parece un plátano."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "No cambia de verdad: vemos más o menos parte iluminada por el Sol."
+    level: very_easy
+  - emoji: "🐻"
+    text: "Los osos llevan gafas para leer cuentos."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "¡Solo en los dibujos!"
+    level: very_easy
+  - emoji: "🌧️"
+    text: "Cuando llueve, nos mojamos."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "Por eso llevamos paraguas."
+    level: very_easy
+
   # ---------- easy (50) ----------
   - emoji: "🧱"
     text: "La Gran Muralla China se ve desde la Luna."

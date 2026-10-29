@@ -106,9 +106,9 @@ o las preguntas del propio juego, en una lista con los mismos campos que el banc
 |---|---|
 | `emoji`, `text` | La pregunta. |
 | `answer` | La respuesta correcta. |
-| `wrong` | Tres respuestas incorrectas (en `easy`, solo la otra de "Verdadero"/"Falso"). |
+| `wrong` | Tres respuestas incorrectas (en `very_easy` y `easy`, solo la otra de "Verdadero"/"Falso"). |
 | `note` | Opcional: un dato curioso que sale al contestar. |
-| `level` | `easy` ⭐ (verdadero o falso, los más pequeños) · `medium` ⭐⭐ (los que ya leen) · `hard` ⭐⭐⭐ (adultos). |
+| `level` | `very_easy` 🐣 (verdadero o falso, para niños de unos 4 años; muchas, de risa) · `easy` ⭐ (verdadero o falso) · `medium` ⭐⭐ · `hard` ⭐⭐⭐. |
 
 Cada jugador elige su nivel en el menú. Cada nivel tiene su mazo, compartido por todos: no se
 repite ninguna pregunta hasta que han salido todas. Las preguntas, para leerlas cómodamente:
