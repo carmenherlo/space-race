@@ -87,44 +87,85 @@
   font-weight: 800;
 }
 
-/* ☄️ Three comets drifting across the sky: tap one. */
-.comet {
+/* ☄️ Dodge the comets: three lanes (tap one to move there), comets falling, your token
+   at the bottom and a bar with the time left. */
+.dodge__lane {
   position: absolute;
-  left: -12%;
+  top: 0;
+  bottom: 0;
+  width: 33.34%;
   border: 0;
+  border-right: 2px dashed rgb(255 255 255 / 12%);
   background: none;
-  font-size: clamp(3rem, calc(var(--screen-h) * 0.1), 5.5rem);
-  animation: comet-drift linear infinite;
 }
 
-@keyframes comet-drift {
-  from { transform: translateX(0) rotate(-115deg); }
-  to { transform: translateX(var(--across)) rotate(-115deg); }
+.dodge__lane:last-of-type {
+  border-right: 0;
 }
 
-.comet[data-open] {
-  animation-play-state: paused;
+.dodge__token,
+.dodge__comet {
+  position: absolute;
+  transform: translateX(-50%);
+  pointer-events: none; /* the taps go to the lanes */
 }
 
-.comet[data-open="star"] {
-  filter: drop-shadow(0 0 1.2rem #ffd60a);
+.dodge__token {
+  bottom: 0.8rem;
+  transition: left 0.12s ease-out;
 }
 
-.comet[data-open="smoke"] {
-  opacity: 0.5;
+.dodge__token .avatar {
+  --avatar-size: clamp(3rem, calc(var(--screen-h) * 0.09), 4.5rem);
 }
 
-/* 🎡 The wheel: six slices, two of them the Moon; the arrow on top says where it stops. */
-.wheel {
+.dodge__comet {
+  font-size: clamp(2.5rem, calc(var(--screen-h) * 0.08), 4rem);
+  line-height: 1;
+  transition: left 0.35s ease-in-out; /* the crazy ones swerve */
+}
+
+/* The emoji's head points down-left: turned, it falls head first. */
+.dodge__comet {
+  transform: translateX(-50%) rotate(-45deg);
+}
+
+.dodge__comet[data-crazy] {
+  filter: hue-rotate(140deg) drop-shadow(0 0 0.6rem #ff6fa8);
+}
+
+.dodge__comet[data-hit] {
+  transform: translateX(-50%) scale(1.5);
+  filter: none;
+}
+
+.dodge__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 0.5rem;
+  border-radius: 0 999px 999px 0;
+  background: #ffd60a;
+}
+
+/* 🎡 The wheel: six slices, two of them the Moon; the arrow on top says where it stops,
+   the button in the middle spins it (very fast at first, then slower and slower). */
+.wheel-box {
   position: relative;
   width: calc(var(--screen-h) * 0.36);
   height: calc(var(--screen-h) * 0.36);
   min-width: 13rem;
   min-height: 13rem;
+}
+
+.wheel {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
   border: 6px solid #fff;
   border-radius: 50%;
   background: conic-gradient(#ffd60a 0deg 60deg, #6a4fd6 60deg 120deg, #1abc9c 120deg 180deg, #ffd60a 180deg 240deg, #ff6fa8 240deg 300deg, #1e90ff 300deg 360deg);
-  transition: transform 4.5s cubic-bezier(0.15, 0.7, 0.25, 1);
+  transition: transform 6s cubic-bezier(0.05, 0.75, 0.15, 1); /* WHEEL_MS in galaxia.js */
 }
 
 .wheel__slice {
@@ -139,9 +180,31 @@
   transform-origin: 50% 100%;
 }
 
+.wheel__spin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: 6.5rem;
+  height: 6.5rem;
+  margin: -3.25rem 0 0 -3.25rem;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background: #141a3d;
+  color: #fff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.wheel__spin:disabled {
+  font-size: 2.2rem;
+}
+
 .wheel__arrow {
   position: absolute;
-  top: 0.3rem;
+  top: -1.4rem;
   left: 50%;
   z-index: 1;
   margin-left: -1rem;

@@ -1,7 +1,7 @@
-// The last galaxy (galaxia.html): a test page for its games of chance. Whoever lands on the
-// last galaxy chooses one; if they win, their token flies straight to the Moon. Each game
-// wins one time in three: one comet of three, two slices of six, one launch in three.
-// Nothing here touches a game: it is only to try them out.
+// The last galaxy (galaxia.html): a test page for its little games. Whoever lands on the
+// last galaxy chooses one; if they win, their token flies straight to the Moon. The comets
+// are a game of skill (dodge them); the wheel (two slices of six) and the rocket (one launch
+// in three) are luck. Nothing here touches a game: it is only to try them out.
 
 import { sounds } from "./sounds.js";
 
@@ -53,52 +53,143 @@ function reset() {
   choices.hidden = false;
 }
 
-// ☄️ Three comets drift across the sky; one carries a star. Tap one.
+// ☄️ Dodge the comets: tap a lane to move your token there. Slow at first, then fast, and
+// then a surprise: crazy comets that swerve to the next lane. Last until the bar runs out.
+const DODGE_MS = 12000; // how long to last
+const FAST_AT = 4500; // from here, faster and more of them
+const SURPRISE_AT = 8000; // from here, some swerve
+const LANES = 3;
+
 function playComets() {
-  result.textContent = "Toca un cometa";
-  const lucky = Math.floor(Math.random() * 3);
-  return new Promise((resolve) => {
-    const comets = [0, 1, 2].map((index) => {
-      const comet = document.createElement("button");
-      comet.type = "button";
-      comet.className = "comet";
-      comet.textContent = "☄️";
-      comet.style.top = `${10 + index * 28}%`;
-      comet.style.setProperty("--across", `${stage.clientWidth * 1.15}px`);
-      comet.style.animationDuration = `${5 + index * 1.3}s`;
-      comet.style.animationDelay = `${-index * 2.1}s`;
-      comet.setAttribute("aria-label", `Cometa ${index + 1}`);
-      comet.addEventListener("click", async () => {
-        for (const one of comets) {
-          one.disabled = true;
-        }
-        sounds.hop();
-        open(comet, index === lucky);
-        const won = index === lucky;
-        (won ? sounds.good : sounds.bad)();
-        await wait(1200);
-        comets.forEach((one, i) => i !== index && open(one, i === lucky)); // and what the others had
-        resolve(won);
-      });
-      return comet;
+  result.textContent = "¡Esquiva los cometas! Toca un carril para moverte";
+  let lane = 1;
+  const place = (element, at) => (element.style.left = `${((at + 0.5) * 100) / LANES}%`);
+  const player = document.createElement("span");
+  player.className = "dodge__token";
+  player.append(token.firstElementChild?.cloneNode(true) ?? "🚀");
+  place(player, lane);
+  const lanes = Array.from({ length: LANES }, (_, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "dodge__lane";
+    button.style.left = `${(index * 100) / LANES}%`;
+    button.setAttribute("aria-label", `Carril ${index + 1}`);
+    button.addEventListener("pointerdown", () => {
+      lane = index;
+      place(player, lane);
     });
-    stage.replaceChildren(...comets);
+    return button;
+  });
+  const keys = (event) => {
+    const step = { ArrowLeft: -1, ArrowRight: 1 }[event.key];
+    if (step) {
+      lane = Math.min(LANES - 1, Math.max(0, lane + step));
+      place(player, lane);
+    }
+  };
+  document.addEventListener("keydown", keys);
+  const bar = document.createElement("span");
+  bar.className = "dodge__bar";
+  stage.replaceChildren(...lanes, player, bar);
+
+  return new Promise((resolve) => {
+    const comets = [];
+    let started = null;
+    let last = null;
+    let nextComet = 0;
+    let news = 0; // what has been announced: 1 "faster", 2 "surprise"
+
+    const spawn = (time) => {
+      const comet = { lane: Math.floor(Math.random() * LANES), y: -15, element: document.createElement("span") };
+      comet.speed = time >= FAST_AT ? 95 : 42; // % of the stage per second
+      if (time >= SURPRISE_AT && Math.random() < 0.5) {
+        comet.swerve = comet.lane === 0 ? 1 : comet.lane === LANES - 1 ? LANES - 2 : comet.lane + (Math.random() < 0.5 ? -1 : 1);
+        comet.element.dataset.crazy = "";
+      }
+      comet.element.className = "dodge__comet";
+      comet.element.textContent = "☄️";
+      place(comet.element, comet.lane);
+      stage.append(comet.element);
+      comets.push(comet);
+    };
+
+    const finish = (won, hit) => {
+      document.removeEventListener("keydown", keys);
+      for (const button of lanes) {
+        button.disabled = true;
+      }
+      if (hit) {
+        hit.element.textContent = "💥";
+        hit.element.dataset.hit = "";
+      }
+      resolve(won);
+    };
+
+    const frame = (now) => {
+      started ??= now;
+      const time = now - started;
+      const seconds = last === null ? 0 : (now - last) / 1000;
+      last = now;
+      bar.style.width = `${100 * Math.max(0, 1 - time / DODGE_MS)}%`;
+      if (time >= DODGE_MS) {
+        result.textContent = "¡Lo has conseguido!";
+        sounds.good();
+        finish(true);
+        return;
+      }
+      if (time >= FAST_AT && news === 0) {
+        news = 1;
+        result.textContent = "¡Más rápido!";
+        sounds.hop();
+      }
+      if (time >= SURPRISE_AT && news === 1) {
+        news = 2;
+        result.textContent = "¡Sorpresa: cometas locos!";
+        sounds.challenge();
+      }
+      if (time >= nextComet && time < DODGE_MS - 1000) {
+        spawn(time);
+        nextComet = time + (time >= FAST_AT ? 520 : 1100);
+      }
+      const you = player.getBoundingClientRect();
+      for (const comet of [...comets]) {
+        comet.y += comet.speed * seconds;
+        if (comet.swerve !== undefined && comet.y > 30) {
+          comet.lane = comet.swerve;
+          delete comet.swerve;
+          place(comet.element, comet.lane);
+        }
+        comet.element.style.top = `${comet.y}%`;
+        if (comet.lane === lane && touching(comet.element.getBoundingClientRect(), you)) {
+          finish(false, comet);
+          return;
+        }
+        if (comet.y > 110) {
+          comet.element.remove();
+          comets.splice(comets.indexOf(comet), 1);
+        }
+      }
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
   });
 }
 
-function open(comet, star) {
-  comet.dataset.open = star ? "star" : "smoke";
-  comet.textContent = star ? "⭐" : "💨";
+// Two boxes overlap, forgiving the edges a little.
+function touching(a, b) {
+  const margin = Math.min(b.width, b.height) * 0.2;
+  return a.bottom - margin > b.top && a.top + margin < b.bottom;
 }
 
-// 🎡 A wheel of six slices, two of them the Moon. Tap to spin.
+// 🎡 A wheel of six slices, two of them the Moon. Tap the middle: it spins very fast, then
+// slows down until it stops.
 function playWheel() {
-  result.textContent = "Toca la ruleta para girarla";
+  result.textContent = "";
   const slices = ["🌕", "💫", "🪐", "🌕", "💫", "🪐"];
-  const wheel = document.createElement("button");
-  wheel.type = "button";
+  const box = document.createElement("div");
+  box.className = "wheel-box";
+  const wheel = document.createElement("div");
   wheel.className = "wheel";
-  wheel.setAttribute("aria-label", "Girar la ruleta");
   slices.forEach((emoji, index) => {
     const slice = document.createElement("span");
     slice.className = "wheel__slice";
@@ -109,24 +200,35 @@ function playWheel() {
   const arrow = document.createElement("span");
   arrow.className = "wheel__arrow";
   arrow.textContent = "🔻";
-  stage.replaceChildren(arrow, wheel);
+  const spin = document.createElement("button");
+  spin.type = "button";
+  spin.className = "wheel__spin";
+  spin.textContent = "Toca para girar";
+  box.append(wheel, arrow, spin);
+  stage.replaceChildren(box);
   return new Promise((resolve) => {
-    wheel.addEventListener("click", async () => {
-      wheel.disabled = true;
-      result.textContent = "";
+    spin.addEventListener("click", async () => {
+      spin.disabled = true;
+      spin.textContent = "…";
       const landing = Math.floor(Math.random() * slices.length);
-      // Five turns, then the middle of that slice under the arrow.
-      wheel.style.transform = `rotate(${5 * 360 - (landing * 60 + 30)}deg)`;
-      sounds.dice();
-      await wait(1500);
-      sounds.dice();
-      await wait(3200);
+      // Many turns, then the middle of that slice under the arrow.
+      wheel.style.transform = `rotate(${14 * 360 - (landing * 60 + 30)}deg)`;
+      // A tick for each slice going by: quick at first, slower and slower.
+      let at = 0;
+      for (let tick = 0; at < WHEEL_MS - 600; tick += 1) {
+        setTimeout(sounds.hop, at);
+        at += 45 + tick * tick * 0.9;
+      }
+      await wait(WHEEL_MS + 200);
       const won = slices[landing] === "🌕";
+      spin.textContent = slices[landing];
       (won ? sounds.good : sounds.bad)();
       resolve(won);
     }, { once: true });
   });
 }
+
+const WHEEL_MS = 6000; // as long as the wheel's transition in galaxia.css
 
 // 🚀 Light the rocket: 3, 2, 1… it flies up. Will it reach the Moon?
 function playRocket() {
