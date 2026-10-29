@@ -6,6 +6,8 @@
 //      and a glowing reflection goes round the ring, like a gold ring turned in the light);
 //      a short pause, and it moves;
 //   3. slower steps.
+// While the die rolls, the token can hop twice (as in the game when the die is tapped as
+// soon as the turn starts).
 // And, as in the game all through a turn, the glowing pulse behind the token (it can be
 // switched off, to see the ideas with and without it).
 // Nothing here touches a game: it is only to try them out.
@@ -29,6 +31,7 @@ const ideas = {
   find: document.getElementById("idea-find"),
   slow: document.getElementById("idea-slow"),
   pulse: document.getElementById("idea-pulse"),
+  rollHops: document.getElementById("idea-roll-hops"),
 };
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -74,8 +77,12 @@ async function roll() {
   const rolled = 1 + Math.floor(Math.random() * 6);
   sounds.dice();
   const shuffle = setInterval(() => (die.textContent = String(1 + Math.floor(Math.random() * 6))), 80);
+  if (ideas.rollHops.checked) {
+    token.dataset.hops = ""; // while the die rolls
+  }
   await wait(ROLL_MS);
   clearInterval(shuffle);
+  delete token.dataset.hops;
   die.textContent = String(rolled);
 
   if (ideas.number.checked) {
