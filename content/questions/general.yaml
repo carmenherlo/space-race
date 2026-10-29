@@ -982,7 +982,7 @@ questions:
     level: kids_hard
     topic: general
 
-  # ---------- easy (50) ----------
+  # ---------- easy (100) ----------
   - emoji: "🧱"
     text: "La Gran Muralla China se ve desde la Luna."
     answer: "Falso"
@@ -1318,7 +1318,350 @@ questions:
     level: easy
     topic: animals
 
-  # ---------- medium (50) ----------
+  - emoji: "🦆"
+    text: "El ornitorrinco es un mamífero."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "Un mamífero que pone huevos."
+    level: easy
+    topic: animals
+  - emoji: "🐈"
+    text: "Las hienas son más parientes de los perros que de los gatos."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Al revés: son más parientes de los gatos."
+    level: easy
+    topic: animals
+  - emoji: "🐛"
+    text: "Una oruga tiene más músculos que una persona."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "Unos 4000; nosotros, unos 650."
+    level: easy
+    topic: animals
+  - emoji: "🦘"
+    text: "Los canguros guardan comida en la bolsa, junto a su cría."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "La bolsa es solo para la cría."
+    level: easy
+    topic: animals
+  - emoji: "🐞"
+    text: "La edad de una mariquita se sabe contando sus puntos."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Los puntos dependen de la especie, no de la edad."
+    level: easy
+    topic: animals
+  - emoji: "🐯"
+    text: "Los tigres tienen la piel de un solo color, aunque el pelo tenga rayas."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "La piel también tiene rayas."
+    level: easy
+    topic: animals
+  - emoji: "🦦"
+    text: "Las nutrias tienen una especie de bolsillo bajo el brazo para guardar comida y piedras."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: easy
+    topic: animals
+  - emoji: "🐙"
+    text: "Un pulpo puede pasar por cualquier agujero más grande que su pico."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "El pico es lo único duro de su cuerpo."
+    level: easy
+    topic: animals
+  - emoji: "🧽"
+    text: "Las esponjas de mar tienen corazón."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "No tienen corazón, ni cerebro, ni estómago."
+    level: easy
+    topic: animals
+  - emoji: "📖"
+    text: "La novela \"1984\", de George Orwell, se publicó en 1984."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Se publicó en 1949."
+    level: easy
+    topic: art
+  - emoji: "🔍"
+    text: "Sherlock Holmes dice \"Elemental, querido Watson\" en los libros de Conan Doyle."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Esa frase exacta nunca sale en los libros: es del cine."
+    level: easy
+    topic: art
+  - emoji: "🧛"
+    text: "En la novela de Bram Stoker, la luz del sol destruye a Drácula."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "En el libro, Drácula anda de día: solo pierde parte de sus poderes."
+    level: easy
+    topic: art
+  - emoji: "🎷"
+    text: "El saxofón es un instrumento de viento metal."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Aunque es de metal, es de viento madera: suena con una caña."
+    level: easy
+    topic: art
+  - emoji: "🎬"
+    text: "La música de \"La guerra de las galaxias\" es de Hans Zimmer."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Es de John Williams."
+    level: easy
+    topic: art
+  - emoji: "🎧"
+    text: "El dúo Daft Punk es británico."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Es francés."
+    level: easy
+    topic: art
+  - emoji: "🎤"
+    text: "Frank Sinatra no compuso \"My Way\"."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "La letra es de Paul Anka, sobre una canción francesa."
+    level: easy
+    topic: art
+  - emoji: "🚗"
+    text: "En la portada de \"Abbey Road\", de los Beatles, se ve un Volkswagen Escarabajo."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: easy
+    topic: art
+  - emoji: "🗿"
+    text: "Los escultores de la antigua Grecia y Roma pintaban muchas de sus estatuas."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "Con los siglos, la pintura se fue borrando."
+    level: easy
+    topic: art
+  - emoji: "🌅"
+    text: "El nombre \"impresionismo\" salió de una crítica que se burlaba de un cuadro de Monet."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "El cuadro era \"Impresión, sol naciente\"."
+    level: easy
+    topic: art
+  - emoji: "👸"
+    text: "\"Las meninas\" las pintó Goya."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Las pintó Velázquez, en 1656."
+    level: easy
+    topic: art
+  - emoji: "🗽"
+    text: "El nombre oficial de la Estatua de la Libertad es \"La Libertad iluminando el mundo\"."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: easy
+    topic: art
+  - emoji: "✏️"
+    text: "La mina de un lápiz es de grafito, no de plomo."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: easy
+    topic: general
+  - emoji: "⏱️"
+    text: "Un día tiene 100 000 segundos."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Tiene 86 400."
+    level: easy
+    topic: general
+  - emoji: "🗣️"
+    text: "El rumano es una lengua romance, como el español."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "Viene del latín, como el francés, el italiano o el portugués."
+    level: easy
+    topic: general
+  - emoji: "🇫🇷"
+    text: "En francés, \"glace\" significa \"vaso\"."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "\"Glace\" es helado o hielo; vaso es \"verre\"."
+    level: easy
+    topic: general
+  - emoji: "👙"
+    text: "El biquini se llama así por el atolón Bikini, donde Estados Unidos probaba bombas atómicas."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: easy
+    topic: general
+  - emoji: "🎰"
+    text: "Si sumas todos los números de una ruleta de casino, sale 777."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Sale 666."
+    level: easy
+    topic: general
+  - emoji: "🧭"
+    text: "La palabra inglesa \"news\" viene de las iniciales de los cuatro puntos cardinales."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Viene de \"new\", nuevo."
+    level: easy
+    topic: general
+  - emoji: "🍓"
+    text: "Todas las fresas son rojas."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Hay variedades blancas."
+    level: easy
+    topic: general
+  - emoji: "🥤"
+    text: "La Coca-Cola al principio era verde."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Siempre ha sido de color caramelo."
+    level: easy
+    topic: general
+  - emoji: "🧮"
+    text: "Einstein suspendía matemáticas en el colegio."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Es un mito: se le daban muy bien."
+    level: easy
+    topic: general
+  - emoji: "🌌"
+    text: "Las auroras del hemisferio sur se llaman auroras australes."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "Las del norte, auroras boreales."
+    level: easy
+    topic: general
+  - emoji: "🎃"
+    text: "Las primeras linternas de Halloween se hacían con nabos, no con calabazas."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "En Irlanda y Escocia."
+    level: easy
+    topic: general
+  - emoji: "🗡️"
+    text: "En la mitología griega, el dios de la guerra se llama Marte."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Es Ares; Marte es su nombre romano."
+    level: easy
+    topic: history
+  - emoji: "🐍"
+    text: "Según la mitología griega, quien mira a la Gorgona Medusa se convierte en piedra."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: easy
+    topic: history
+  - emoji: "🌾"
+    text: "En la mitología griega, Hera es la diosa de la cosecha."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Es la diosa del matrimonio; la de la cosecha es Deméter."
+    level: easy
+    topic: history
+  - emoji: "🎓"
+    text: "La Universidad de Oxford es más antigua que el Imperio azteca."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "Ya se enseñaba en Oxford en 1096; los aztecas fundaron Tenochtitlan en 1325."
+    level: easy
+    topic: history
+  - emoji: "⚔️"
+    text: "La guerra de los Cien Años duró más de cien años."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "116 años, de 1337 a 1453."
+    level: easy
+    topic: history
+  - emoji: "🚽"
+    text: "Thomas Crapper inventó el váter con cisterna."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Lo mejoró y lo vendió, pero ya existía."
+    level: easy
+    topic: history
+  - emoji: "🇧🇷"
+    text: "Brasil fue un imperio."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "El Imperio de Brasil duró de 1822 a 1889."
+    level: easy
+    topic: history
+  - emoji: "❄️"
+    text: "La Guerra Fría terminó con la muerte de Stalin."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Stalin murió en 1953; la Guerra Fría acabó hacia 1991."
+    level: easy
+    topic: history
+  - emoji: "🔊"
+    text: "El sonido puede viajar por el vacío."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Necesita aire, agua u otra materia: en el espacio no se oye nada."
+    level: easy
+    topic: science
+  - emoji: "⛅"
+    text: "Te puedes quemar con el sol en un día nublado."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: easy
+    topic: science
+  - emoji: "🔩"
+    text: "El acero es una mezcla de hierro y carbono."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    level: easy
+    topic: science
+  - emoji: "🔴"
+    text: "Marte tiene dos lunas."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "Fobos y Deimos."
+    level: easy
+    topic: science
+  - emoji: "🌟"
+    text: "La estrella Polar es la más brillante del cielo del norte."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "La más brillante es Sirio."
+    level: easy
+    topic: science
+  - emoji: "➕"
+    text: "La suma de dos números impares siempre es impar."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Siempre es par: 3 + 5 = 8."
+    level: easy
+    topic: science
+  - emoji: "🇨🇦"
+    text: "El francés es lengua oficial en Canadá."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "Junto con el inglés."
+    level: easy
+    topic: geography
+  - emoji: "🇪🇨"
+    text: "Ecuador usa el peso mexicano como moneda."
+    answer: "Falso"
+    wrong: ["Verdadero"]
+    note: "Usa el dólar estadounidense."
+    level: easy
+    topic: geography
+  - emoji: "🇸🇰"
+    text: "Eslovaquia es parte de la Unión Europea."
+    answer: "Verdadero"
+    wrong: ["Falso"]
+    note: "Desde 2004."
+    level: easy
+    topic: geography
+
+  # ---------- medium (100) ----------
   - emoji: "🏔️"
     text: "¿Cuál es la montaña más alta de América del Sur?"
     answer: "El Aconcagua"
@@ -1624,7 +1967,317 @@ questions:
     level: medium
     topic: animals
 
-  # ---------- hard (50) ----------
+  - emoji: "🍽️"
+    text: "¿Quién pintó el mural \"La última cena\"?"
+    answer: "Leonardo da Vinci"
+    wrong: ["Miguel Ángel", "Rafael", "Botticelli"]
+    level: medium
+    topic: art
+  - emoji: "🌌"
+    text: "¿Quién pintó \"La noche estrellada\"?"
+    answer: "Van Gogh"
+    wrong: ["Monet", "Gauguin", "Cézanne"]
+    level: medium
+    topic: art
+  - emoji: "☝️"
+    text: "¿Quién pintó \"La creación de Adán\", en la Capilla Sixtina?"
+    answer: "Miguel Ángel"
+    wrong: ["Leonardo da Vinci", "Rafael", "Donatello"]
+    level: medium
+    topic: art
+  - emoji: "🗿"
+    text: "¿Quién esculpió el gran \"David\" de mármol de Florencia?"
+    answer: "Miguel Ángel"
+    wrong: ["Rodin", "Canova", "Cellini"]
+    level: medium
+    topic: art
+  - emoji: "🔴"
+    text: "¿Qué pintor hacía sus cuadros con puntitos de colores (puntillismo)?"
+    answer: "Georges Seurat"
+    wrong: ["Claude Monet", "Henri Matisse", "Paul Cézanne"]
+    level: medium
+    topic: art
+  - emoji: "🧟"
+    text: "¿Quién escribió \"Frankenstein\"?"
+    answer: "Mary Shelley"
+    wrong: ["Bram Stoker", "Edgar Allan Poe", "Jane Austen"]
+    note: "La empezó con 18 años."
+    level: medium
+    topic: art
+  - emoji: "🐋"
+    text: "¿Qué novela empieza con \"Llamadme Ismael\"?"
+    answer: "Moby Dick"
+    wrong: ["La isla del tesoro", "Robinson Crusoe", "Veinte mil leguas de viaje submarino"]
+    level: medium
+    topic: art
+  - emoji: "🌹"
+    text: "¿Quién escribió \"El principito\"?"
+    answer: "Antoine de Saint-Exupéry"
+    wrong: ["Julio Verne", "Victor Hugo", "Albert Camus"]
+    level: medium
+    topic: art
+  - emoji: "🐻"
+    text: "En sus cuentos, ¿de qué país viene el oso Paddington?"
+    answer: "De Perú"
+    wrong: ["De Canadá", "De Rusia", "De Escocia"]
+    level: medium
+    topic: art
+  - emoji: "🚢"
+    text: "¿Cómo se llama el submarino del capitán Nemo?"
+    answer: "Nautilus"
+    wrong: ["Argo", "Kraken", "Leviatán"]
+    level: medium
+    topic: art
+  - emoji: "⛪"
+    text: "¿Qué arco es típico de las catedrales góticas?"
+    answer: "El arco apuntado"
+    wrong: ["El arco de herradura", "El arco de medio punto", "El arco lobulado"]
+    level: medium
+    topic: art
+  - emoji: "🦢"
+    text: "¿Qué arte japonés consiste en doblar papel para hacer figuras?"
+    answer: "Origami"
+    wrong: ["Ikebana", "Bonsái", "Haiku"]
+    level: medium
+    topic: art
+  - emoji: "🐻‍❄️"
+    text: "¿De qué color es la piel del oso polar, debajo del pelo?"
+    answer: "Negra"
+    wrong: ["Blanca", "Rosa", "Gris"]
+    note: "Su pelo es transparente y hueco: parece blanco."
+    level: medium
+    topic: animals
+  - emoji: "🦏"
+    text: "¿De qué está hecho el cuerno del rinoceronte?"
+    answer: "De queratina, como las uñas"
+    wrong: ["De hueso", "De marfil", "De cartílago"]
+    level: medium
+    topic: animals
+  - emoji: "🐕"
+    text: "¿Qué raza de perro lleva el nombre de una región de Croacia?"
+    answer: "El dálmata"
+    wrong: ["El dóberman", "El bóxer", "El gran danés"]
+    level: medium
+    topic: animals
+  - emoji: "🦜"
+    text: "¿De qué país es el kakapo, un loro grande que no vuela?"
+    answer: "Nueva Zelanda"
+    wrong: ["Brasil", "Madagascar", "Indonesia"]
+    level: medium
+    topic: animals
+  - emoji: "🦊"
+    text: "¿Qué animal se domesticó en un experimento ruso que empezó en 1959?"
+    answer: "El zorro"
+    wrong: ["El lobo", "El oso", "El reno"]
+    note: "En pocas generaciones se volvieron mansos como perros."
+    level: medium
+    topic: animals
+  - emoji: "🦅"
+    text: "¿Cuál es el animal más rápido del mundo?"
+    answer: "El halcón peregrino"
+    wrong: ["El guepardo", "El pez vela", "El águila real"]
+    note: "En picado pasa de 300 km/h."
+    level: medium
+    topic: animals
+  - emoji: "🐍"
+    text: "¿Cuál es la serpiente venenosa más larga del mundo?"
+    answer: "La cobra real"
+    wrong: ["La mamba negra", "La pitón reticulada", "La víbora del Gabón"]
+    level: medium
+    topic: animals
+  - emoji: "🌊"
+    text: "\"Hippocampus\" es el nombre en latín de… ¿qué animal?"
+    answer: "El caballito de mar"
+    wrong: ["El hipopótamo", "La morsa", "El narval"]
+    level: medium
+    topic: animals
+  - emoji: "🐯"
+    text: "¿Cuál es el animal nacional de la India?"
+    answer: "El tigre"
+    wrong: ["El elefante", "El león", "El pavo real"]
+    level: medium
+    topic: animals
+  - emoji: "👅"
+    text: "¿Para qué sacan la lengua las serpientes y los lagartos?"
+    answer: "Para oler"
+    wrong: ["Para beber", "Para refrescarse", "Para asustar"]
+    level: medium
+    topic: animals
+  - emoji: "🌋"
+    text: "¿En qué año destruyó el Vesubio la ciudad de Pompeya?"
+    answer: "En el 79 d. C."
+    wrong: ["En el 44 a. C.", "En el 410 d. C.", "En el 1066"]
+    level: medium
+    topic: history
+  - emoji: "👑"
+    text: "¿Quién coronó a Carlomagno emperador en el año 800?"
+    answer: "El papa León III"
+    wrong: ["El papa Gregorio I", "El emperador de Bizancio", "El arzobispo de Toledo"]
+    level: medium
+    topic: history
+  - emoji: "🧱"
+    text: "¿En qué año cayó el muro de Berlín?"
+    answer: "1989"
+    wrong: ["1961", "1979", "1991"]
+    level: medium
+    topic: history
+  - emoji: "🚩"
+    text: "¿En qué año se deshizo la Unión Soviética?"
+    answer: "1991"
+    wrong: ["1985", "1989", "1999"]
+    level: medium
+    topic: history
+  - emoji: "⚒️"
+    text: "¿Quién dirigió la revolución comunista rusa de 1917?"
+    answer: "Lenin"
+    wrong: ["Stalin", "Gorbachov", "Rasputín"]
+    level: medium
+    topic: history
+  - emoji: "🇫🇷"
+    text: "¿En qué año empezó la Revolución francesa?"
+    answer: "1789"
+    wrong: ["1689", "1815", "1848"]
+    level: medium
+    topic: history
+  - emoji: "🐕"
+    text: "¿Quién fue el primer mamífero que dio vueltas a la Tierra en órbita?"
+    answer: "La perra Laika"
+    wrong: ["El mono Albert", "Yuri Gagarin", "La gata Félicette"]
+    note: "Fue en 1957, a bordo del Sputnik 2."
+    level: medium
+    topic: history
+  - emoji: "🐎"
+    text: "¿Cuál era el nombre verdadero de Gengis Kan?"
+    answer: "Temuyín"
+    wrong: ["Kublai", "Tamerlán", "Atila"]
+    level: medium
+    topic: history
+  - emoji: "🏺"
+    text: "¿Cuál se considera la civilización más antigua que se conoce?"
+    answer: "Sumeria"
+    wrong: ["El antiguo Egipto", "La antigua Grecia", "Roma"]
+    level: medium
+    topic: history
+  - emoji: "🎶"
+    text: "En la mitología griega, ¿quién bajó al inframundo para rescatar a su esposa Eurídice?"
+    answer: "Orfeo"
+    wrong: ["Hércules", "Ulises", "Perseo"]
+    level: medium
+    topic: history
+  - emoji: "🟤"
+    text: "¿Qué órgano produce la bilis?"
+    answer: "El hígado"
+    wrong: ["El páncreas", "El riñón", "El bazo"]
+    level: medium
+    topic: science
+  - emoji: "🩹"
+    text: "¿Qué parte de la sangre forma un tapón cuando te haces una herida?"
+    answer: "Las plaquetas"
+    wrong: ["Los glóbulos rojos", "Los glóbulos blancos", "El plasma"]
+    level: medium
+    topic: science
+  - emoji: "🧍"
+    text: "¿Cuál es el órgano más grande del cuerpo humano?"
+    answer: "La piel"
+    wrong: ["El hígado", "El intestino", "El cerebro"]
+    level: medium
+    topic: science
+  - emoji: "🔭"
+    text: "¿Cómo se llama el famoso telescopio espacial que la NASA lanzó en 1990?"
+    answer: "Hubble"
+    wrong: ["Kepler", "Galileo", "Copérnico"]
+    level: medium
+    topic: science
+  - emoji: "💊"
+    text: "¿Contra qué sirven los antibióticos?"
+    answer: "Contra las bacterias"
+    wrong: ["Contra los virus", "Contra las alergias", "Contra el dolor"]
+    note: "Contra los virus, como el de la gripe, no hacen nada."
+    level: medium
+    topic: science
+  - emoji: "🥧"
+    text: "¿Cuánto vale el número pi, redondeando?"
+    answer: "3,14"
+    wrong: ["2,71", "1,61", "9,81"]
+    level: medium
+    topic: science
+  - emoji: "⚓"
+    text: "¿Cómo llaman los marineros al lado izquierdo de un barco?"
+    answer: "Babor"
+    wrong: ["Estribor", "Proa", "Popa"]
+    level: medium
+    topic: general
+  - emoji: "🃏"
+    text: "¿Cuántas cartas tiene una baraja de póker, sin comodines?"
+    answer: "52"
+    wrong: ["40", "48", "54"]
+    level: medium
+    topic: general
+  - emoji: "🇪🇺"
+    text: "¿Cuántas estrellas tiene la bandera de la Unión Europea?"
+    answer: "12"
+    wrong: ["10", "15", "27"]
+    note: "No depende del número de países: el 12 significa unión y perfección."
+    level: medium
+    topic: general
+  - emoji: "🎤"
+    text: "¿De qué país vienen el sushi y el karaoke?"
+    answer: "Japón"
+    wrong: ["China", "Corea del Sur", "Tailandia"]
+    level: medium
+    topic: general
+  - emoji: "📶"
+    text: "¿A quién debe su nombre la tecnología Bluetooth?"
+    answer: "A un rey vikingo"
+    wrong: ["A su inventor", "A un pirata", "A un dentista"]
+    note: "Harald \"Diente Azul\", rey de Dinamarca y Noruega en el siglo X."
+    level: medium
+    topic: general
+  - emoji: "🧀"
+    text: "¿De qué país es el queso gouda?"
+    answer: "Países Bajos"
+    wrong: ["Suiza", "Francia", "Bélgica"]
+    level: medium
+    topic: general
+  - emoji: "🏅"
+    text: "¿En qué ciudad fueron los Juegos Olímpicos de 1992?"
+    answer: "Barcelona"
+    wrong: ["Madrid", "Sevilla", "Atenas"]
+    level: medium
+    topic: general
+  - emoji: "🌸"
+    text: "¿Cuántas sílabas tiene un haiku?"
+    answer: "17"
+    wrong: ["12", "14", "21"]
+    note: "Tres versos de 5, 7 y 5."
+    level: medium
+    topic: general
+  - emoji: "🛑"
+    text: "¿Qué forma tienen las señales de stop?"
+    answer: "Octógono"
+    wrong: ["Hexágono", "Círculo", "Triángulo"]
+    level: medium
+    topic: general
+  - emoji: "🌊"
+    text: "¿Qué canal une el Mediterráneo con el mar Rojo?"
+    answer: "El canal de Suez"
+    wrong: ["El canal de Panamá", "El canal de Corinto", "El canal de Kiel"]
+    level: medium
+    topic: geography
+  - emoji: "🇨🇭"
+    text: "¿Qué idioma habla más gente en Suiza?"
+    answer: "El alemán"
+    wrong: ["El francés", "El italiano", "El romanche"]
+    level: medium
+    topic: geography
+  - emoji: "🚗"
+    text: "¿En cuál de estos países se conduce por la izquierda?"
+    answer: "Japón"
+    wrong: ["Francia", "Brasil", "China"]
+    level: medium
+    topic: geography
+
+  # ---------- hard (100) ----------
   - emoji: "💛"
     text: "La xantofobia es el miedo a… ¿qué color?"
     answer: "Al amarillo"
@@ -1930,3 +2583,318 @@ questions:
     wrong: ["Un pollo", "Un caballo", "Una mosca"]
     level: hard
     topic: animals
+  - emoji: "🦀"
+    text: "¿Cuál de estos NO es un decápodo, un crustáceo de diez patas?"
+    answer: "El krill"
+    wrong: ["El cangrejo", "La langosta", "La gamba"]
+    level: hard
+    topic: animals
+  - emoji: "🐦"
+    text: "¿De qué color es la hembra del mirlo común?"
+    answer: "Marrón"
+    wrong: ["Negra", "Gris", "Azul"]
+    note: "El macho es el negro, con el pico amarillo."
+    level: hard
+    topic: animals
+  - emoji: "🌊"
+    text: "¿Dónde vive un animal abisopelágico?"
+    answer: "En las profundidades del océano"
+    wrong: ["En la copa de los árboles", "En cuevas", "En el desierto"]
+    level: hard
+    topic: animals
+  - emoji: "🐍"
+    text: "¿De qué están hechas las escamas de las serpientes?"
+    answer: "De queratina"
+    wrong: ["De calcio", "De quitina", "De hueso"]
+    level: hard
+    topic: animals
+  - emoji: "🐺"
+    text: "¿Dónde vivía el tilacino, el \"tigre de Tasmania\", ya extinguido?"
+    answer: "En Australia"
+    wrong: ["En Sudáfrica", "En la India", "En Nueva Zelanda"]
+    note: "El último murió en un zoo en 1936."
+    level: hard
+    topic: animals
+  - emoji: "🐾"
+    text: "¿Cuántas especies de hienas viven hoy?"
+    answer: "Cuatro"
+    wrong: ["Dos", "Siete", "Diez"]
+    note: "Una es el proteles, que come termitas."
+    level: hard
+    topic: animals
+  - emoji: "🦦"
+    text: "¿Cuánta comida toma una nutria marina al día, comparada con su peso?"
+    answer: "Una cuarta parte"
+    wrong: ["La mitad", "Una décima parte", "El doble"]
+    level: hard
+    topic: animals
+  - emoji: "🦎"
+    text: "¿Cuál de estos animales NO es un lagarto?"
+    answer: "El tuátara"
+    wrong: ["La iguana", "El camaleón", "El dragón de Komodo"]
+    note: "Es el último de un grupo de reptiles de la época de los dinosaurios."
+    level: hard
+    topic: animals
+  - emoji: "🐙"
+    text: "¿Cómo se llama la proteína con cobre que hace azul la sangre de los pulpos?"
+    answer: "Hemocianina"
+    wrong: ["Hemoglobina", "Clorofila", "Melanina"]
+    level: hard
+    topic: animals
+  - emoji: "🪶"
+    text: "¿Qué ave nace con garras en las alas?"
+    answer: "El hoatzín"
+    wrong: ["El kiwi", "El avestruz", "El colibrí"]
+    note: "Las usan las crías para trepar; luego las pierden."
+    level: hard
+    topic: animals
+  - emoji: "🐆"
+    text: "¿Cuál es el nombre científico del guepardo?"
+    answer: "Acinonyx jubatus"
+    wrong: ["Panthera onca", "Panthera pardus", "Felis catus"]
+    level: hard
+    topic: animals
+  - emoji: "🐇"
+    text: "¿Cuántos dientes tiene un conejo adulto?"
+    answer: "28"
+    wrong: ["16", "20", "32"]
+    level: hard
+    topic: animals
+  - emoji: "🌰"
+    text: "¿Qué come un animal \"nucívoro\"?"
+    answer: "Frutos secos"
+    wrong: ["Insectos", "Peces", "Hojas"]
+    level: hard
+    topic: animals
+  - emoji: "📜"
+    text: "¿Cuál es la obra de ficción más antigua que se conoce?"
+    answer: "El poema de Gilgamesh"
+    wrong: ["La Odisea", "La Ilíada", "El Mahabharata"]
+    level: hard
+    topic: art
+  - emoji: "🏛️"
+    text: "¿Qué escultor griego hizo la gran estatua de Atenea del Partenón?"
+    answer: "Fidias"
+    wrong: ["Praxíteles", "Mirón", "Policleto"]
+    level: hard
+    topic: art
+  - emoji: "🌃"
+    text: "¿Quién pintó \"Nighthawks\" (Noctámbulos)?"
+    answer: "Edward Hopper"
+    wrong: ["Andy Warhol", "Jackson Pollock", "Norman Rockwell"]
+    level: hard
+    topic: art
+  - emoji: "🐇"
+    text: "¿Quién pintó en 1502 la famosa \"Liebre joven\"?"
+    answer: "Alberto Durero"
+    wrong: ["Rembrandt", "Holbein", "Brueghel"]
+    level: hard
+    topic: art
+  - emoji: "✒️"
+    text: "¿Qué escritora firmaba como George Eliot?"
+    answer: "Mary Ann Evans"
+    wrong: ["Charlotte Brontë", "Jane Austen", "Virginia Woolf"]
+    level: hard
+    topic: art
+  - emoji: "🐳"
+    text: "¿Quién escribió \"Moby Dick\"?"
+    answer: "Herman Melville"
+    wrong: ["Mark Twain", "Jack London", "Robert L. Stevenson"]
+    level: hard
+    topic: art
+  - emoji: "📚"
+    text: "¿Quién escribió \"Guerra y paz\"?"
+    answer: "León Tolstói"
+    wrong: ["Fiódor Dostoievski", "Antón Chéjov", "Aleksandr Pushkin"]
+    level: hard
+    topic: art
+  - emoji: "🔥"
+    text: "¿Quién escribió \"Fahrenheit 451\"?"
+    answer: "Ray Bradbury"
+    wrong: ["Isaac Asimov", "Aldous Huxley", "George Orwell"]
+    level: hard
+    topic: art
+  - emoji: "🚲"
+    text: "¿Qué eran los \"ready-mades\" de Marcel Duchamp?"
+    answer: "Objetos corrientes presentados como arte"
+    wrong: ["Cuadros pintados muy deprisa", "Esculturas de hielo", "Fotos retocadas"]
+    note: "El más famoso es un urinario, \"La fuente\" (1917)."
+    level: hard
+    topic: art
+  - emoji: "📅"
+    text: "¿En qué año se empezó a usar el calendario gregoriano?"
+    answer: "1582"
+    wrong: ["1492", "1648", "1700"]
+    note: "Para ajustarlo, se saltaron diez días: del 4 de octubre se pasó al 15."
+    level: hard
+    topic: history
+  - emoji: "🌍"
+    text: "¿Qué país africano resistió mejor la colonización europea?"
+    answer: "Etiopía"
+    wrong: ["Egipto", "Kenia", "Nigeria"]
+    note: "Venció a Italia en la batalla de Adua, en 1896."
+    level: hard
+    topic: history
+  - emoji: "⚔️"
+    text: "¿Qué estratega chino escribió \"El arte de la guerra\"?"
+    answer: "Sun Tzu"
+    wrong: ["Confucio", "Lao Tse", "Mencio"]
+    level: hard
+    topic: history
+  - emoji: "🌀"
+    text: "¿Qué frenó las invasiones mongolas de Japón, en el siglo XIII?"
+    answer: "Los tifones"
+    wrong: ["Una muralla", "La peste", "Un tratado de paz"]
+    note: "Los japoneses los llamaron \"kamikaze\", viento divino."
+    level: hard
+    topic: history
+  - emoji: "🏛️"
+    text: "¿Quién fue el último de los cuatro emperadores romanos del año 69?"
+    answer: "Vespasiano"
+    wrong: ["Galba", "Otón", "Vitelio"]
+    level: hard
+    topic: history
+  - emoji: "💡"
+    text: "¿Por qué ganó Einstein el premio Nobel de Física de 1921?"
+    answer: "Por el efecto fotoeléctrico"
+    wrong: ["Por la teoría de la relatividad", "Por la bomba atómica", "Por E = mc²"]
+    level: hard
+    topic: science
+  - emoji: "⚛️"
+    text: "¿Qué físico predijo que existía la antimateria?"
+    answer: "Paul Dirac"
+    wrong: ["Niels Bohr", "Max Planck", "Enrico Fermi"]
+    level: hard
+    topic: science
+  - emoji: "❗"
+    text: "¿Cuánto es 0! (cero factorial)?"
+    answer: "1"
+    wrong: ["0", "Infinito", "No existe"]
+    level: hard
+    topic: science
+  - emoji: "🔺"
+    text: "¿Cuánto mide cada ángulo de un triángulo equilátero?"
+    answer: "60°"
+    wrong: ["30°", "45°", "90°"]
+    level: hard
+    topic: science
+  - emoji: "🧪"
+    text: "¿Cuál es el símbolo químico del potasio?"
+    answer: "K"
+    wrong: ["P", "Po", "Pt"]
+    note: "Viene de su nombre en latín, kalium."
+    level: hard
+    topic: science
+  - emoji: "🦴"
+    text: "Además de con los neandertales, ¿con qué otros humanos se cruzó el Homo sapiens?"
+    answer: "Con los denisovanos"
+    wrong: ["Con los australopitecos", "Con el Homo habilis", "Con los parántropos"]
+    level: hard
+    topic: science
+  - emoji: "💍"
+    text: "¿Qué aniversario de boda se celebra a los 15 años?"
+    answer: "Cristal"
+    wrong: ["Plata", "Oro", "Papel"]
+    level: hard
+    topic: general
+  - emoji: "🃏"
+    text: "En la baraja de póker, ¿qué rey no tiene bigote?"
+    answer: "El de corazones"
+    wrong: ["El de picas", "El de tréboles", "El de diamantes"]
+    level: hard
+    topic: general
+  - emoji: "🎯"
+    text: "En una diana de dardos, ¿qué número está justo enfrente del 1?"
+    answer: "19"
+    wrong: ["3", "11", "20"]
+    level: hard
+    topic: general
+  - emoji: "🇧🇷"
+    text: "Sin contar Japón, ¿qué país tiene más gente de origen japonés?"
+    answer: "Brasil"
+    wrong: ["Estados Unidos", "Perú", "China"]
+    level: hard
+    topic: general
+  - emoji: "🔤"
+    text: "¿Qué símbolo se llegó a considerar la letra 27 del alfabeto inglés?"
+    answer: "&"
+    wrong: ["ñ", "@", "#"]
+    level: hard
+    topic: general
+  - emoji: "🗣️"
+    text: "¿Cuál de estos idiomas NO es indoeuropeo?"
+    answer: "El húngaro"
+    wrong: ["El hindi", "El persa", "El irlandés"]
+    level: hard
+    topic: general
+  - emoji: "🐎"
+    text: "¿A qué familia de lenguas pertenece el kazajo?"
+    answer: "A las túrquicas"
+    wrong: ["A las eslavas", "A las indoeuropeas", "A las mongólicas"]
+    level: hard
+    topic: general
+  - emoji: "👗"
+    text: "¿Dónde tiene su sede Inditex, la empresa de Zara?"
+    answer: "En Arteixo (A Coruña)"
+    wrong: ["En Barcelona", "En Madrid", "En Vigo"]
+    level: hard
+    topic: general
+  - emoji: "🏆"
+    text: "¿Cada cuántos años se entrega la medalla Fields de matemáticas?"
+    answer: "Cada 4 años"
+    wrong: ["Cada año", "Cada 2 años", "Cada 10 años"]
+    level: hard
+    topic: general
+  - emoji: "🏍️"
+    text: "¿Cuál de estas marcas NO fabrica coches?"
+    answer: "Ducati"
+    wrong: ["Seat", "Škoda", "Lancia"]
+    note: "Ducati hace motos."
+    level: hard
+    topic: general
+  - emoji: "🎨"
+    text: "Si alguien tiene el pelo \"color Tiziano\", ¿de qué color lo tiene?"
+    answer: "Rojizo"
+    wrong: ["Rubio", "Negro", "Castaño"]
+    note: "Por el pintor Tiziano, que pintaba así a muchas mujeres."
+    level: hard
+    topic: general
+  - emoji: "🇵🇱"
+    text: "¿Cuál es la moneda de Polonia?"
+    answer: "El esloti"
+    wrong: ["El euro", "La corona", "El florín"]
+    level: hard
+    topic: geography
+  - emoji: "🇪🇹"
+    text: "¿Cuál es la moneda de Etiopía?"
+    answer: "El birr"
+    wrong: ["El rand", "El chelín", "El dinar"]
+    level: hard
+    topic: geography
+  - emoji: "🌐"
+    text: "¿Cuál es el idioma más hablado del hemisferio sur?"
+    answer: "El portugués"
+    wrong: ["El español", "El inglés", "El suajili"]
+    note: "Por Brasil."
+    level: hard
+    topic: geography
+  - emoji: "🏔️"
+    text: "¿Cuál es el pico más alto de América del Norte?"
+    answer: "El Denali"
+    wrong: ["El monte Logan", "El Popocatépetl", "El monte Whitney"]
+    note: "Está en Alaska: 6190 metros."
+    level: hard
+    topic: geography
+  - emoji: "🚉"
+    text: "¿En qué país está la estación de tren de nombre más largo de Europa, Llanfair…gogogoch?"
+    answer: "Gales"
+    wrong: ["Islandia", "Finlandia", "Irlanda"]
+    note: "Su nombre completo tiene 58 letras."
+    level: hard
+    topic: geography
+  - emoji: "🏞️"
+    text: "¿Por qué ciudad escocesa pasa el río Clyde?"
+    answer: "Glasgow"
+    wrong: ["Edimburgo", "Aberdeen", "Inverness"]
+    level: hard
+    topic: geography

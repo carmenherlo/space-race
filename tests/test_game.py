@@ -57,7 +57,7 @@ def test_the_short_board_keeps_its_rules() -> None:
     assert pack.exact_finish_in("questions") is True  # in both modes
     assert (pack.backwards_counts, pack.voice) == (True, True)  # going back, the square counts
     assert len(pack.challenges) == 32  # "Retos locos", kept though not in the menu
-    assert len(pack.questions) == 300  # the shared bank (see test_both_boards_share…)
+    assert len(pack.questions) == 450  # the shared bank (see test_both_boards_share…)
 
 
 def test_a_mode_sets_its_own_rules_over_the_games(raw: dict[str, Any]) -> None:
@@ -98,7 +98,7 @@ def test_both_boards_share_the_general_questions_of_every_level() -> None:
     assert load_game_pack(SPACE_RACE).questions == pack.questions
     assert all(len(q.wrong) == 3 for q in pack.questions if q.level not in ("very_easy", "easy"))
     by_level = {level: sum(q.level == level for q in pack.questions) for level in ("very_easy", "kids_medium", "kids_hard", "easy", "medium", "hard")}
-    assert by_level == {"very_easy": 50, "kids_medium": 50, "kids_hard": 50, "easy": 50, "medium": 50, "hard": 50}
+    assert by_level == {"very_easy": 50, "kids_medium": 50, "kids_hard": 50, "easy": 100, "medium": 100, "hard": 100}
     true_false = [q for q in pack.questions if q.level in ("very_easy", "easy")]
     assert all(sorted([q.answer, *q.wrong]) == ["Falso", "Verdadero"] for q in true_false)
 
