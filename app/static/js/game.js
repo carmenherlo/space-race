@@ -64,7 +64,9 @@ async function init() {
   for (const dialog of [elements.setup, elements.card, elements.question, elements.winner, elements.starOffer, elements.swap]) {
     dialog.addEventListener("cancel", (event) => event.preventDefault());
   }
-  // The music from the menu on: browsers only allow sound after a first tap.
+  // The music from the menu on. Browsers allow sound only after a tap: some count the tap
+  // that chose the game (it plays now); others wait for the first tap on this page.
+  music.start();
   document.addEventListener("pointerdown", () => music.start(), { once: true });
   for (const type of ["pointerdown", "keydown"]) {
     document.addEventListener(type, restartIdleTimer, { capture: true, passive: true });

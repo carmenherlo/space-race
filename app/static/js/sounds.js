@@ -237,14 +237,15 @@ export const music = {
   timer: null,
   output: null,
 
-  // Starts the loop (unless the music is off). Call it after a tap.
+  // Starts the loop (unless the music is off). Before any tap, a browser may keep the
+  // sound waiting: calling it again after a tap wakes it up.
   start() {
     this.wanted = true;
-    if (isOff("music") || this.playing) {
+    if (isOff("music")) {
       return;
     }
-    const ctx = context();
-    if (!ctx) {
+    const ctx = context(); // also wakes up a waiting audio engine
+    if (!ctx || this.playing) {
       return;
     }
     this.output = ctx.createGain();
