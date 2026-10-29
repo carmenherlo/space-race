@@ -16,12 +16,19 @@
     <!-- The ideas to see (they can be combined), and the die. -->
     <div class="dice-test__ideas">
       <label><input type="checkbox" id="idea-number" checked> 1. Número grande</label>
-      <label><input type="checkbox" id="idea-ring" checked> 2. El número vuela a tu ficha</label>
+      <label>2.
+        <select id="idea-find">
+          <option value="spot">Foco de luz en tu ficha</option>
+          <option value="fly">El número vuela a tu ficha</option>
+          <option value="none">Nada</option>
+        </select>
+      </label>
       <label><input type="checkbox" id="idea-slow" checked> 3. Más lento</label>
       <button class="dice-test__die" id="die" type="button" aria-label="Tirar el dado">🎲</button>
     </div>
     <div class="dice-test__board" id="board">
       <img class="dice-test__image" id="board-image" alt="">
+      <span class="dice-test__spot" id="spot"></span>
       <span class="dice-test__number" id="number" hidden></span>
     </div>
   </main>

@@ -1,8 +1,9 @@
 // The die (dado.html): a test page for what makes a roll easy to follow (as in the game,
 // js/game/moves.js), on the short board with a random avatar. Each can be switched off:
 //   1. the number, big in the middle of the board, before the token moves;
-//   2. the number flies into the token: it pops a little and sends out one soft wave of its
-//      colour, so the eye goes from the number to the token; a short pause, and it moves;
+//   2. how to find the token, one of: a spotlight on it (the board darkens around it, and
+//      the light follows it while it moves), or the number flying into it (it pops with a
+//      soft wave of its colour); then it moves;
 //   3. slower steps.
 // Nothing here touches a game: it is only to try them out.
 
@@ -14,15 +15,17 @@ const NUMBER_MS = 1100; // idea 1: the big number stays this long (DIE_NUMBER_MS
 const FLY_MS = 600; // idea 2: the number flies into the token…
 const ARRIVE_MS = 800; // …which pops and sends out a wave (as long as in dado.css)…
 const ARRIVE_PAUSE_MS = 250; // …and a short pause before moving
+const SPOT_MS = 900; // the spotlight on the token before it moves (fading in: dado.css)
 const STEP_MS = 280; // a step, as it was…
 const SLOW_STEP_MS = 480; // …and slower (idea 3, STEP_MS in the game)
 
 const die = document.getElementById("die");
 const board = document.getElementById("board");
 const number = document.getElementById("number");
+const spot = document.getElementById("spot");
 const ideas = {
   number: document.getElementById("idea-number"),
-  ring: document.getElementById("idea-ring"),
+  find: document.getElementById("idea-find"),
   slow: document.getElementById("idea-slow"),
 };
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -48,8 +51,10 @@ async function start() {
 
 function put() {
   const [x, y] = places[place];
-  token.style.left = `${x}%`;
-  token.style.top = `${y}%`;
+  for (const element of [token, spot]) {
+    element.style.left = `${x}%`;
+    element.style.top = `${y}%`;
+  }
 }
 
 async function roll() {
@@ -65,7 +70,7 @@ async function roll() {
     number.textContent = String(rolled);
     number.hidden = false;
     await wait(NUMBER_MS);
-    if (ideas.ring.checked) {
+    if (ideas.find.value === "fly") {
       await flyIntoTheToken();
     }
     number.hidden = true;
@@ -73,7 +78,10 @@ async function roll() {
     number.style.transform = "";
     number.style.opacity = "";
   }
-  if (ideas.ring.checked) {
+  if (ideas.find.value === "spot") {
+    spot.dataset.on = "";
+    await wait(SPOT_MS);
+  } else if (ideas.find.value === "fly") {
     token.dataset.arrive = "";
     sounds.hop();
     await wait(ARRIVE_MS);
@@ -82,6 +90,7 @@ async function roll() {
   }
   const slow = ideas.slow.checked;
   token.dataset.speed = slow ? "slow" : "usual";
+  spot.dataset.speed = token.dataset.speed;
   for (let step = 1; step <= rolled; step += 1) {
     place = (place + 1) % places.length; // after the Moon, back to the start
     put();
@@ -89,6 +98,7 @@ async function roll() {
     await wait(slow ? SLOW_STEP_MS : STEP_MS);
   }
   await wait(600);
+  delete spot.dataset.on;
   die.textContent = "🎲";
   die.disabled = false;
 }
