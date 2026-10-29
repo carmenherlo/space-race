@@ -46,6 +46,7 @@ export const elements = {
   boardImage: document.getElementById("board-image"),
   marks: document.getElementById("marks"),
   tokens: document.getElementById("tokens"),
+  lights: document.getElementById("lights"),
   dieNumber: document.getElementById("die-number"),
   ranking: document.getElementById("ranking"),
   turn: document.getElementById("turn"),

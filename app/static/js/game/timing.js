@@ -4,9 +4,10 @@
 import { game } from "./state.js";
 
 export const DIE_ROLL_MS = 900; // the die keeps changing before it stops
-export const DIE_NUMBER_MS = 1100; // then its number, big on the board…
-export const SHINE_MS = 1700; // …then the token shines, so everybody finds it (game.css)…
-export const SHINE_PAUSE_MS = 400; // …and a short pause before it moves
+export const DIE_NUMBER_MS = 1100; // then its number, big on the board, before the token moves
+export const SHINE_MS = 1700; // a token shines (shine in board.js; game.css)
+export const MOOD_MS = 1200; // a token's hop of joy or tremble (react in board.js; game.css)
+export const MOON_SHINE_MS = 2600; // the Moon shining strongly (lights.js; board-light-shine in game.css)
 export const STEP_MS = 480; // a token hops one square (keep in sync with game.css)
 export const FLIGHT_MS = 900; // a token flies to another square (keep in sync with game.css)
 export const LAND_PAUSE_MS = 900; // the token rests on its square before a card shows, to see where

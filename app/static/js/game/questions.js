@@ -29,11 +29,12 @@ export async function askTurnQuestion() {
   await wait(700); // a moment to see whose turn it is
   const player = currentPlayer();
   const right = await askQuestion(drawQuestion(player.level));
-  react(player, right ? "good" : "bad");
   if (!right) {
+    await react(player, "bad"); // a tremble, still with its pulse, then the next one
     nextTurn();
     return;
   }
+  react(player, "good");
   game.mayRoll = true;
   game.busy = false;
   rollAfterQuestion();

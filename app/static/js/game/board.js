@@ -1,12 +1,9 @@
 // The board: the turn bar, the tokens on their places, the avatars.
 
 import { music } from "../sounds.js";
+import { nearTheMoon, showLights } from "./lights.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
-import { SHINE_MS, wait } from "./timing.js";
-
-// The final stretch: this close to the Moon, the token glows and the music speeds up.
-const NEAR_MOON = 6; // squares
-const MOOD_MS = 1200; // a token's hop of joy or tremble (see game.css)
+import { MOOD_MS, SHINE_MS, wait } from "./timing.js";
 
 // Where each token sits when several share a square, in token sizes from the centre.
 const TOKEN_MAX = 4.2; // % of the board's width
@@ -42,9 +39,11 @@ export function renderTokens({ flying = [] } = {}) {
   const flyingPlayers = [flying].flat();
   const byPlace = new Map();
   const tokens = game.players.map((player) => {
-    const sharing = byPlace.get(player.place) ?? 0;
-    byPlace.set(player.place, sharing + 1);
-    const [x, y] = pack.places[player.place];
+    const spot = player.place === 0 && pack.waitingPlace && player !== currentPlayer() ? "waiting" : player.place;
+    const sharing = byPlace.get(spot) ?? 0;
+    byPlace.set(spot, sharing + 1);
+    // At the start, only whose turn it is is on the start; the others wait aside.
+    const [x, y] = spot === "waiting" ? pack.waitingPlace : pack.places[player.place];
     const [dx, dy] = SHARED_SQUARE_OFFSETS[sharing % SHARED_SQUARE_OFFSETS.length];
     const token = document.createElement("span");
     token.className = "token";
@@ -75,11 +74,8 @@ export function renderTokens({ flying = [] } = {}) {
   });
   elements.tokens.replaceChildren(...tokens);
   renderRanking();
+  showLights();
   music.tense(game.players.some(nearTheMoon));
-}
-
-function nearTheMoon(player) {
-  return player.place > 0 && player.place < pack.goal && pack.goal - player.place <= NEAR_MOON;
 }
 
 // The token of a player shines for a moment, so everybody finds it before it moves: a
@@ -103,14 +99,15 @@ export async function shine(player) {
   glow.remove();
 }
 
-// A token that reacts: a hop of joy ("good") or a tremble ("bad").
-export function react(player, mood) {
+// A token that reacts: a hop of joy ("good") or a tremble ("bad"). Resolves when it is over.
+export async function react(player, mood) {
   const token = elements.tokens.children[game.players.indexOf(player)];
   if (!token) {
     return;
   }
   token.dataset.mood = mood;
-  setTimeout(() => delete token.dataset.mood, MOOD_MS);
+  await wait(MOOD_MS);
+  delete token.dataset.mood;
 }
 
 // Everybody in order, from the furthest on: their position (a tie shares it), avatar and

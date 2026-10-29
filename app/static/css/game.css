@@ -91,6 +91,150 @@ body.game {
   --avatar-size: var(--token);
 }
 
+/* ---------- The board's lights (lights.js): its own pictures, brighter and glowing,
+   under the tokens. The square of whose turn it is, cut out with its real shape. ---------- */
+.board-game__lights {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.board-light {
+  --glow: rgb(255 252 230);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+/* The square: the board's own picture of it, brighter and whiter where it is bare, and a
+   warm glow from its edges (drop-shadow follows the shape). */
+.board-light--square {
+  opacity: 1;
+  filter:
+    drop-shadow(0 0 calc(var(--board-width) * 0.006) rgb(255 252 230 / 95%))
+    drop-shadow(0 0 calc(var(--board-width) * 0.018) rgb(255 245 200 / 70%));
+  animation: board-light-in 0.3s ease-out;
+  transition: opacity 0.4s ease;
+}
+
+.board-light--square[data-off] {
+  opacity: 0;
+}
+
+@keyframes board-light-in {
+  from { opacity: 0; }
+}
+
+.board-light__picture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: brightness(1.45) saturate(0.85);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+/* The title: very soft, breathing slowly (not to steal the show). */
+.board-light[data-kind="title"] {
+  --glow: rgb(190 255 240);
+
+  filter: brightness(1.25) drop-shadow(0 0 calc(var(--board-width) * 0.006) var(--glow));
+}
+
+.board-light[data-kind="title"][data-on] {
+  animation: board-light-breathe 4s ease-in-out infinite alternate;
+}
+
+@keyframes board-light-breathe {
+  from { opacity: 0.15; }
+  to { opacity: 0.55; }
+}
+
+/* "Start here" (while whose turn it is is at the start) and the sign "MOON" (while the Moon
+   glows): lit and beating, like a token's pulse. */
+.board-light[data-kind="start"],
+.board-light[data-kind="moon_sign"] {
+  --glow: rgb(190 255 240);
+
+  filter:
+    brightness(1.3)
+    drop-shadow(0 0 calc(var(--board-width) * 0.005) var(--glow))
+    drop-shadow(0 0 calc(var(--board-width) * 0.014) var(--glow));
+}
+
+.board-light[data-kind="start"][data-on],
+.board-light[data-kind="moon_sign"][data-on],
+.board-light[data-kind="moon_sign"][data-shine] {
+  animation: board-light-beat 1.1s ease-in-out infinite alternate;
+}
+
+@keyframes board-light-beat {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+
+/* The trail: the stars light up from the galaxy towards the Moon. */
+.board-light[data-kind="trail"] {
+  --glow: rgb(210 235 255);
+
+  filter:
+    brightness(1.4)
+    drop-shadow(0 0 calc(var(--board-width) * 0.004) var(--glow))
+    drop-shadow(0 0 calc(var(--board-width) * 0.012) var(--glow));
+  clip-path: inset(0 100% 0 0);
+}
+
+.board-light[data-kind="trail"][data-on] {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+  transition:
+    opacity 0.3s ease,
+    clip-path 1.3s ease-in-out;
+}
+
+/* The Moon: close, a soft glow (stronger the closer, --near); shining (someone got there),
+   strongly, with its flags and the silver stars behind it twinkling. */
+.board-light[data-kind="moon"],
+.board-light[data-kind="moon_flags"] {
+  --glow: rgb(220 245 255);
+
+  filter:
+    brightness(1.3)
+    drop-shadow(0 0 calc(var(--board-width) * 0.008) var(--glow))
+    drop-shadow(0 0 calc(var(--board-width) * 0.025) var(--glow));
+}
+
+.board-light[data-kind="moon_stars"] {
+  --glow: rgb(230 235 255);
+
+  filter: brightness(1.8) drop-shadow(0 0 calc(var(--board-width) * 0.004) var(--glow));
+}
+
+.board-light[data-kind="moon"][data-near] {
+  opacity: var(--near);
+}
+
+.board-light[data-kind="moon"][data-shine],
+.board-light[data-kind="moon_flags"][data-shine],
+.board-light[data-kind="moon_stars"][data-shine] {
+  animation: board-light-shine 0.65s ease-in-out 4 alternate; /* MOON_SHINE_MS in timing.js */
+}
+
+@keyframes board-light-shine {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+
 /* A token that shines (shine in board.js, SHINE_MS), so everybody finds it before it moves:
    a little bigger, its ring thicker and glowing in its colour, and a reflection going round
    the ring with a comet of light, like a gold ring turned in the light (two highlights,

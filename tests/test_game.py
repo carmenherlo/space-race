@@ -49,6 +49,7 @@ def test_the_short_board_keeps_its_rules() -> None:
     galaxies = [n for n, sq in pack.squares.items() if sq.emoji == "🌌"]
     assert [pack.squares[n].go_to for n in galaxies] == [10, 15, 20, 25, None]  # each to the next one
     assert not any(pack.squares[n].again for n in galaxies)  # no extra roll: no chains
+    assert pack.waiting_place == (9, 22)  # at the start, the others wait on the rocket
     assert pack.squares[25].minigame  # the last galaxy: win a minigame, the Moon
     assert pack.squares[25].trail  # along the star trail
     assert pack.playable_modes() == ["race", "questions"]  # "Carrera" and "Sabelotodo"

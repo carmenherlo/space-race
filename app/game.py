@@ -142,6 +142,9 @@ class GamePack(StrictModel):
     lights: dict[Light, ImageName] = Field(default_factory=dict)
     # The start, squares 1, 2, … and the goal (the last one), in order.
     places: list[Place] = Field(min_length=3)
+    # Optional: where the tokens at the start wait while it is not their turn (only whose
+    # turn it is stands on the start).
+    waiting_place: Place | None = None
     squares: dict[int, Square] = Field(default_factory=dict)
     # The modes of this game, each with the rules it changes (see ModeRules), in the order
     # they are shown. A plain list ("modes: [race, questions]") changes nothing.

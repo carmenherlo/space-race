@@ -1,9 +1,10 @@
 // Moving the tokens: the die, step by step, flying, swapping places.
 
 import { sounds } from "../sounds.js";
-import { renderTokens, shine } from "./board.js";
+import { renderTokens } from "./board.js";
+import { lightTheTrail } from "./lights.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
-import { DIE_NUMBER_MS, DIE_ROLL_MS, FLIGHT_MS, SHINE_PAUSE_MS, STEP_MS, TRAIL_STEP_MS, wait } from "./timing.js";
+import { DIE_NUMBER_MS, DIE_ROLL_MS, FLIGHT_MS, STEP_MS, TRAIL_STEP_MS, wait } from "./timing.js";
 
 // Two tokens fly to each other's place at the same time.
 export async function swapPlaces(player, other) {
@@ -29,16 +30,14 @@ export function rollDie() {
     delete elements.die.dataset.rolling;
     delete elements.tokens.dataset.rolling;
     elements.die.textContent = String(roll);
-    // So everybody sees what came out and where that token is before it moves: the number,
-    // big on the board; then the token shines; a short pause.
+    // So everybody sees what came out before the token moves: the number, big on the board
+    // (the token is easy to find: its square is lit, and it pulses).
     const player = currentPlayer();
     elements.dieNumber.style.setProperty("--player-color", player.color);
     elements.dieNumber.textContent = String(roll);
     elements.dieNumber.hidden = false;
     await wait(DIE_NUMBER_MS);
     elements.dieNumber.hidden = true;
-    await shine(player);
-    await wait(SHINE_PAUSE_MS);
     return roll;
   });
 }
@@ -48,6 +47,7 @@ export function rollDie() {
 export async function followTrail(player, trail, place) {
   const token = elements.tokens.children[game.players.indexOf(player)];
   sounds.fly();
+  lightTheTrail(true);
   if (token) {
     token.dataset.trail = ""; // a slower, smooth glide (see game.css)
     for (const [x, y] of trail) {
@@ -60,6 +60,7 @@ export async function followTrail(player, trail, place) {
   player.place = place;
   renderTokens();
   await wait(TRAIL_STEP_MS);
+  lightTheTrail(false);
 }
 
 // A sparkle on the board, fading away.

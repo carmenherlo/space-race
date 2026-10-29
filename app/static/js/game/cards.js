@@ -7,6 +7,7 @@ import { music, sounds } from "../sounds.js";
 import { createAvatar, placeName, react, renderTokens, renderTurn } from "./board.js";
 import { shuffled, speak } from "./helpers.js";
 import { elements, game, pack } from "./state.js";
+import { moonShines } from "./lights.js";
 import { MOON_ARRIVAL_MS, wait } from "./timing.js";
 import { startGame } from "./turns.js";
 
@@ -142,7 +143,7 @@ export async function showWinner(player) {
   renderTokens();
   react(player, "good");
   sounds.good();
-  await wait(MOON_ARRIVAL_MS);
+  await Promise.all([wait(MOON_ARRIVAL_MS), moonShines()]); // the Moon shines with them
   music.pause(); // the celebration has its own tune
   const others = game.players
     .filter((other) => other !== player)

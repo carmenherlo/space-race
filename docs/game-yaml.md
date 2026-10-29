@@ -31,6 +31,7 @@ Ejemplos completos: `content/games/space-race/game.yaml` (tablero corto) y
 | `squares_image` | Opcional: el mismo dibujo con solo las casillas y la meta (lo demás transparente), del mismo tamaño. Sirve para iluminar la casilla de una ficha. |
 | `lights` | Opcional: dibujos de partes del tablero que se iluminan, del mismo tamaño (lo demás transparente): `title`, `start`, `trail` (la estela), `moon`, `moon_sign` (el letrero), `moon_flags`, `moon_stars`. |
 | `voice` | `true`: una voz lee las cartas y las preguntas (para quien aún no lee). El 🔊 la apaga. |
+| `waiting_place` | Opcional: `[x, y]` donde esperan las fichas en la salida mientras no es su turno; solo baja a la salida la que va a tirar. |
 | `places` | Dónde está cada sitio en el dibujo: `[x, y]` en % del ancho y del alto. En orden: la salida, la casilla 1, 2, 3… y la meta (la Luna, el último). Otro tablero necesita los suyos. |
 
 ## Las reglas
