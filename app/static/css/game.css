@@ -784,13 +784,33 @@ body.game[data-mode="questions"] .ranking {
   border-top-color: #ffd166;
 }
 
-/* The level of the question, in the corner: ⭐ easy, ⭐⭐ medium, ⭐⭐⭐ hard. */
-.question__level {
+/* In the top corner: the level, and 🤫 to stop the voice. */
+.question__top {
   position: absolute;
   top: var(--space-s);
-  right: var(--space-m);
+  left: var(--space-m);
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.question__level {
   font-size: 1.1rem;
   letter-spacing: -0.15em;
+}
+
+.question__quiet {
+  width: 2.8rem;
+  height: 2.8rem;
+  padding: 0;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-bg);
+  font-size: 1.4rem;
+}
+
+.question__quiet[hidden] {
+  display: none;
 }
 
 .question {
@@ -948,11 +968,6 @@ body.game[data-mode="questions"] .question[open] {
   border-left: 12px solid #ffd166;
   border-radius: 2rem 0 0 2rem;
   box-shadow: none;
-}
-
-body.game[data-mode="questions"] .question__level {
-  right: auto;
-  left: var(--space-m);
 }
 
 body.game[data-mode="questions"] .question__answers[data-kind="choice"] {

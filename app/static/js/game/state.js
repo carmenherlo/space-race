@@ -62,6 +62,7 @@ export const elements = {
   questionEmoji: document.getElementById("question-emoji"),
   questionText: document.getElementById("question-text"),
   questionLevel: document.getElementById("question-level"),
+  questionQuiet: document.getElementById("question-quiet"),
   questionAnswers: document.getElementById("question-answers"),
   questionResult: document.getElementById("question-result"),
   questionNext: document.getElementById("question-next"),

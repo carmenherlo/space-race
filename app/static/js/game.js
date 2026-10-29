@@ -40,6 +40,7 @@ async function init() {
     mode.addEventListener("click", () => selectMode(mode));
   }
   elements.questionNext.addEventListener("click", () => elements.question.close());
+  elements.questionQuiet.addEventListener("click", quiet);
   elements.again.addEventListener("click", () => startGame(game.players));
   elements.cardOk.addEventListener("click", () => elements.card.close());
   elements.starUse.addEventListener("click", () => elements.starOffer.close("use"));
@@ -82,6 +83,7 @@ async function init() {
   }
   // 🔊: music, effects and, in a game with a voice, the voice (see sound-panel.js).
   setUpSoundPanel(elements.sound, elements.soundPanel, { voice: pack.voice });
+  elements.questionQuiet.hidden = !pack.voice;
 
   try {
     const response = await fetch("api/avatars", { cache: "no-store" });

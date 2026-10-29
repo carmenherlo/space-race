@@ -160,7 +160,11 @@
   <!-- Mode "Preguntas": four answers to choose from. The game knows the right one:
        right, the player rolls again; wrong, the right one is shown and the turn passes. -->
   <dialog class="game-dialog question" id="question" data-in-game aria-labelledby="question-text">
-    <span class="question__level" id="question-level"></span>
+    <div class="question__top">
+      <span class="question__level" id="question-level"></span>
+      <!-- For those who read: the voice stops (in a game with a voice). -->
+      <button class="question__quiet" id="question-quiet" type="button" aria-label="Callar la voz" hidden>🤫</button>
+    </div>
     <span class="question__emoji" id="question-emoji" aria-hidden="true"></span>
     <p class="question__text" id="question-text"></p>
     <div class="question__answers" id="question-answers"></div>
