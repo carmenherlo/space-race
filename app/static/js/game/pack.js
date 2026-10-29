@@ -37,6 +37,7 @@ export async function loadPack() {
         star: square.star,
         starSaves: square.star_saves,
         swap: square.swap,
+        minigame: square.minigame,
       },
     ]),
   );

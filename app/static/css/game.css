@@ -1106,3 +1106,18 @@ body.game[data-mode="questions"] .question__answers[data-kind="true-false"] .ans
     display: none;
   }
 }
+
+/* The last galaxy's minigame (css/minigames.css has the games): wide, on the night sky. */
+.game-dialog.minigame {
+  width: min(96vw, 60rem);
+  overflow: auto;
+  border-top-color: #8f7fe0;
+  background: radial-gradient(circle at 30% 20%, #3b2a6e 0%, #141a3d 45%, #070a1c 100%);
+  color: #fff;
+}
+
+.minigame .game-button {
+  margin-top: var(--space-m);
+  background: #fff;
+  color: #141a3d;
+}

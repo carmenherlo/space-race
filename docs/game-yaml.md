@@ -67,13 +67,14 @@ Por número de casilla. Lo que hace cada una:
 | `move` | Avanza (+) o retrocede (−) esas casillas. |
 | `back_roll` | `true`: tira el dado y retrocede lo que salga. |
 | `swap` | `true`: puede cambiarse de sitio con el jugador que elija. |
+| `minigame` | `true`: elige un minijuego (cometas, ruleta o despegue); si gana, ¡directo a la Luna! |
 | `again` | `true`: vuelve a tirar. |
 | `skip` | Pierde turnos: `true` = 1, o un número (`skip: 2`). |
 | `others_move` | Todos los DEMÁS avanzan (+) o retroceden (−) esas casillas. |
 | `star` | `true`: coge una estrella comodín ⭐. |
 | `star_saves` | `true`: con una estrella, puede usarla aquí y no le pasa nada. |
 
-- Una casilla tiene como mucho una forma de moverte: `go_to`, `move`, `back_roll` o `swap`.
+- Una casilla tiene como mucho una forma de moverte: `go_to`, `move`, `back_roll`, `swap` o `minigame`.
 - Solo cuenta la casilla a la que llegas **con el dado**: a donde te manda un viaje (ovni, galaxia…) no hace nada, así nunca hay bucles.
 - En "Sabelotodo" las casillas especiales no hacen nada.
 

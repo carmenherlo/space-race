@@ -204,8 +204,8 @@ squares:
     kind: good
     emoji: "🌕"
     title: "¡Galaxia lunar!"
-    text: "La última galaxia tiene tanta magia que te lanza por los aires directo a la Luna. ¡Has ganado!"
-    go_to: 69
+    text: "La última galaxia tiene tanta magia que te reta a un minijuego. Si ganas, ¡te lanza directo a la Luna!"
+    minigame: true
 
   3:
     kind: good

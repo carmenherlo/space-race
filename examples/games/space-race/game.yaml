@@ -103,9 +103,10 @@ squares:
     go_to: 25
   25:
     kind: good
-    emoji: "😴"
-    title: "¡Galaxia dormida!"
-    text: "Esta galaxia está echando la siesta y no te lleva a ninguna parte. ¡Shhh! A la Luna tendrás que llegar tú solito."
+    emoji: "🌌"
+    title: "¡La última galaxia!"
+    text: "Esta galaxia te reta a un minijuego. Si ganas, ¡te lanza directo a la Luna!"
+    minigame: true
 
   # Trips.
   7:

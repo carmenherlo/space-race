@@ -47,9 +47,9 @@ def test_the_short_board_keeps_its_rules() -> None:
     assert pack.squares[17].go_to == 0  # the black hole sends back to the start
     assert pack.squares[13].back_roll  # meteorites: roll and go back
     galaxies = [n for n, sq in pack.squares.items() if sq.emoji == "🌌"]
-    assert [pack.squares[n].go_to for n in galaxies] == [10, 15, 20, 25]  # each to the next one
+    assert [pack.squares[n].go_to for n in galaxies] == [10, 15, 20, 25, None]  # each to the next one
     assert not any(pack.squares[n].again for n in galaxies)  # no extra roll: no chains
-    assert pack.squares[25].go_to is None  # the last galaxy is asleep: the Moon, on foot
+    assert pack.squares[25].minigame  # the last galaxy: win a minigame, the Moon
     assert pack.playable_modes() == ["race", "questions"]  # "Carrera" and "Sabelotodo"
     assert pack.exact_finish_in("race") is True  # overshooting bounces back
     assert pack.exact_finish_in("questions") is False  # overshooting still reaches the Moon
@@ -76,7 +76,8 @@ def test_space_race_expanded_has_its_own_rules() -> None:
     assert (pack.backwards_counts, pack.voice) == (False, True)
     assert pack.max_stars == 1  # one wildcard star at a time
     galaxies = [6, 11, 15, 20, 24, 29, 33, 38, 42, 47, 51, 56, 60, 65]
-    assert [pack.squares[n].go_to for n in galaxies] == [*galaxies[1:], 69]  # the last one: the Moon
+    assert [pack.squares[n].go_to for n in galaxies] == [*galaxies[1:], None]  # each to the next one
+    assert pack.squares[65].minigame  # the last one: win a minigame, the Moon
     assert all(pack.squares[n].again for n in galaxies[:-1])  # "y tiro porque me toca"
     assert (pack.squares[9].go_to, pack.squares[22].go_to) == (22, 9)  # the wormhole, both ways
     assert (pack.squares[26].go_to, pack.squares[57].go_to) == (57, 26)  # the UFOs, both ways
@@ -116,6 +117,7 @@ INVALID: dict[str, Callable[[dict[str, Any]], None]] = {
     "go_to and move": lambda d: d["squares"][7].update(move=2),
     "go_to and back_roll": lambda d: d["squares"][7].update(back_roll=True),
     "go_to and swap": lambda d: d["squares"][7].update(swap=True),
+    "go_to and minigame": lambda d: d["squares"][7].update(minigame=True),
     "move of 0": lambda d: d["squares"][18].update(go_to=None, move=0),
     "others_move of 0": lambda d: d["squares"][7].update(others_move=0),
     "negative skip": lambda d: d["squares"][7].update(skip=-1),

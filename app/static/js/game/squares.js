@@ -1,7 +1,7 @@
 // The special squares: what each one does (the rules come from the game's game.yaml).
 
 import { renderTurn } from "./board.js";
-import { chooseSwap, offerStar, showCard } from "./cards.js";
+import { chooseSwap, offerStar, playMinigameFor, showCard } from "./cards.js";
 import { jumpTo, moveBy, rollDie, swapPlaces } from "./moves.js";
 import { game, pack } from "./state.js";
 import { LAND_PAUSE_MS, wait } from "./timing.js";
@@ -56,7 +56,11 @@ export async function landOn(player) {
       await moveBy(other, square.othersMove); // not a die landing: their squares do nothing
     }
   }
-  if (square.goTo !== undefined) {
+  if (square.minigame) {
+    if (await playMinigameFor(player)) {
+      await jumpTo(player, pack.goal); // won: they are at the Moon
+    }
+  } else if (square.goTo !== undefined) {
     await jumpTo(player, square.goTo);
   } else if (square.move) {
     await moveBy(player, square.move);

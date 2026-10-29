@@ -49,7 +49,8 @@ Mode = Literal["race", "challenges", "questions"]
 
 
 class Square(StrictModel):
-    """What happens on a special square: at most one way to move (go_to, move, back_roll)."""
+    """What happens on a special square: at most one way to move (go_to, move, back_roll,
+    swap, minigame)."""
 
     kind: Literal["good", "bad"]  # the colour of the card
     emoji: Emoji
@@ -64,6 +65,7 @@ class Square(StrictModel):
     star: bool = False  # the player gets a wildcard star ⭐
     star_saves: bool = False  # a player with a star can use it here: nothing happens
     swap: bool = False  # the player may swap places with another one of their choice
+    minigame: bool = False  # the player chooses a minigame: win it, straight to the Moon
 
     @field_validator("skip", mode="before")
     @classmethod
@@ -72,9 +74,9 @@ class Square(StrictModel):
 
     @model_validator(mode="after")
     def one_way_to_move(self) -> "Square":
-        ways = [self.go_to is not None, self.move is not None, self.back_roll, self.swap]
+        ways = [self.go_to is not None, self.move is not None, self.back_roll, self.swap, self.minigame]
         if sum(ways) > 1:
-            raise ValueError('a square has only one of "go_to", "move", "back_roll" or "swap"')
+            raise ValueError('a square has only one of "go_to", "move", "back_roll", "swap" or "minigame"')
         if self.move == 0 or self.others_move == 0:
             raise ValueError('a move of 0 does nothing: remove it')
         return self

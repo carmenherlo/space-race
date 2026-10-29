@@ -1,6 +1,7 @@
 // The cards: what happens on a square, the wildcard star, the spy satellite, the shared
 // decks, and the winner.
 
+import { flyToTheMoon, playMinigame } from "../minigames.js";
 import { sounds } from "../sounds.js";
 import { createAvatar, placeName, renderTurn } from "./board.js";
 import { shuffled, speak } from "./helpers.js";
@@ -20,6 +21,22 @@ export function showBounce(bounced) {
     title: "¡Rebote lunar!",
     text: `¡Casi! Te has pasado de la Luna y rebotas ${bounced} ${bounced === 1 ? "casilla" : "casillas"} hacia atrás. Hay que llegar con el número justo.`,
   });
+}
+
+// The last galaxy: the player chooses a minigame and plays it; won, the trip to the Moon on
+// the whole screen. Resolves to true if they won (the token is not moved here).
+export async function playMinigameFor(player) {
+  elements.minigameNext.hidden = true;
+  elements.minigame.show();
+  const won = await playMinigame(elements.minigameHost, createAvatar(player));
+  elements.minigameNext.textContent = won ? "¡A la Luna!" : "Vale…";
+  elements.minigameNext.hidden = false;
+  await new Promise((resolve) => elements.minigameNext.addEventListener("click", resolve, { once: true }));
+  elements.minigame.close();
+  if (won) {
+    await flyToTheMoon(createAvatar(player));
+  }
+  return won;
 }
 
 // A player with a wildcard star landed on a square it saves them from: they choose.
