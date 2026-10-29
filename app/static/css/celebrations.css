@@ -11,10 +11,7 @@
   left: 0;
   z-index: 60;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 20% 30%, #fff 0 1px, transparent 2px) 0 0 / 7rem 7rem,
-    radial-gradient(circle at 70% 60%, #fff 0 1px, transparent 2px) 0 0 / 11rem 11rem,
-    radial-gradient(circle at 50% 40%, #3b2a6e 0%, #141a3d 55%, #050816 100%);
+  background: radial-gradient(circle at 50% 40%, #2a2560 0%, #121838 55%, #050816 100%);
   color: #fff;
   text-align: center;
 }
@@ -77,20 +74,86 @@
   50% { transform: translateY(-18%) scale(0.95, 1.05); }
 }
 
-/* 🌕 The Moon, huge and shining, with the winner on it. */
-.party__moon {
+/* A subtle starry sky (starrySky in celebrations.js). */
+.party__sky-star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.party__sky-star[data-twinkle] {
+  animation: party-twinkle 3s ease-in-out infinite;
+}
+
+@keyframes party-twinkle {
+  50% { opacity: 0.1; }
+}
+
+/* The Moon of the board: silver and light blue, shining, with the winner on it. Hidden
+   above the screen until it comes down (data-shown, or the rise of "Podio y Luna"). */
+.party__silver {
   position: absolute;
   top: 42%;
   left: 50%;
-  font-size: min(60vh, 75vw);
-  line-height: 1;
+  width: min(52vh, 72vw);
+  height: min(52vh, 72vw);
+  overflow: hidden;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #e3eaf0 35%, #b3c2cf 72%, #8a9aab 100%);
+  box-shadow: 0 0 4rem 1rem rgb(191 239 255 / 45%);
+  transform: translate(-50%, calc(-50% - 100vh));
+  transition: transform 2.6s ease-out; /* RISE_MS in celebrations.js */
+  animation: party-shine 1.4s ease-in-out infinite alternate;
+}
+
+.party__silver[data-shown],
+.party[data-phase="rise"] .party__silver,
+.party[data-phase="moon"] .party__silver {
   transform: translate(-50%, -50%);
-  animation: party-shine 1.2s ease-in-out infinite alternate;
+}
+
+.party__crater {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #9aa9b8 0%, #a9b8c6 60%, #c2cfda 100%);
+  box-shadow: inset 0.2rem 0.2rem 0.4rem rgb(70 85 100 / 35%);
 }
 
 @keyframes party-shine {
-  from { filter: drop-shadow(0 0 2rem rgb(255 246 176 / 50%)); }
-  to { filter: drop-shadow(0 0 6rem #fff6b0); }
+  from { box-shadow: 0 0 3rem 0.5rem rgb(191 239 255 / 40%); }
+  to { box-shadow: 0 0 7rem 2rem rgb(191 239 255 / 70%); }
+}
+
+/* "Podio y Luna": the winner flies from the podium to the Moon, jumping all the way; the
+   podium goes down and fades. */
+.party__winner--rise {
+  z-index: 2;
+  transition:
+    top 2.6s ease-in-out,
+    left 2.6s ease-in-out,
+    transform 2.6s ease-in-out;
+}
+
+/* Bigger on the way up: the star of the Moon. */
+.party[data-phase="rise"] .party__winner--rise,
+.party[data-phase="moon"] .party__winner--rise {
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+.party .podium {
+  transition:
+    transform 2.6s ease-in,
+    opacity 2.6s ease-in;
+}
+
+.party[data-phase="rise"] .podium,
+.party[data-phase="moon"] .podium {
+  opacity: 0;
+  transform: translate(-50%, 70vh);
+}
+
+.party__title[hidden] {
+  display: none;
 }
 
 /* 🎆 Fireworks: sparks flying out from a spot, fading. */
@@ -192,7 +255,8 @@
   --avatar-size: clamp(3.5rem, calc(var(--screen-h) * 0.1), 6rem);
 }
 
-.podium__column[data-place="1"] .podium__avatar .avatar {
+.podium__column[data-place="1"] .podium__avatar .avatar,
+.party__winner--rise .avatar {
   --avatar-size: clamp(5rem, calc(var(--screen-h) * 0.16), 9rem);
 
   animation: party-jump 0.9s ease-in-out infinite;
