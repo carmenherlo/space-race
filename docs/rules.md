@@ -52,11 +52,13 @@ En tu turno tiras el dado y avanzas tantas casillas como indique. Si caes en una
 
 ## Retroceder
 
-Cuando retrocedes (por los meteoritos, la tormenta solar o el rebote final), **no se aplica la casilla en la que caes**. Te quedas ahí y ya está, aunque sea una galaxia o cualquier otra casilla especial.
+Cuando retrocedes por los meteoritos o por el rebote final, **la casilla en la que caes cuenta**, como si hubieras llegado con el dado.
+
+La tormenta solar (que mueve a los demás una casilla atrás) no activa la casilla de nadie.
 
 Si estás en Start here, no puedes retroceder.
 
-Lo mismo pasa con la nebulosa (44) y el satélite espía (49): en la casilla a la que vas, o a la que te mandan por un intercambio, no se aplica nada.
+Los **viajes** no cuentan: a donde te lleva un ovni, una galaxia, el agujero de gusano, la nebulosa (44) o un intercambio del satélite espía (49), no se aplica nada. Si contaran, habría viajes sin fin (de un ovni al otro y vuelta).
 
 ## Llegar a la Luna 🌕
 
@@ -89,7 +91,7 @@ Antes de empezar se elige el modo:
 - Las casillas especiales **cuentan**, como en Carrera, después de tirar:
   - **Vuelve a tirar** (las galaxias): tiras otra vez, **sin pregunta**. Es el premio de esa casilla.
   - **Pierdes turno** (la fiesta): pierdes los turnos que diga la casilla, y en ellos **no hay pregunta**.
-  - **Meteoritos**: tiras y retrocedes; donde caes no tiene efecto.
+  - **Meteoritos**: tiras y retrocedes; donde caes también cuenta.
 - No hace falta el número exacto: si te pasas, llegas igual a la Luna (sin rebote).
 - Las preguntas tienen 4 respuestas (en un orden distinto cada vez); las de muy fácil y fácil, solo "Verdadero" o "Falso". Algunas traen un dato curioso que se enseña al contestar.
 - Cada nivel tiene su propio mazo, compartido por todos: no se repite ninguna pregunta hasta que han salido todas las de ese nivel.
