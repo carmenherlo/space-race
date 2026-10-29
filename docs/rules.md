@@ -92,4 +92,4 @@ Antes de empezar se elige el modo:
 - Cada nivel tiene su propio mazo, compartido por todos: no se repite ninguna pregunta hasta que han salido todas las de ese nivel.
 
 Las preguntas están en `docs/questions-general.md` (cultura general, las que se usan) y
-`docs/questions.md` (las del espacio, ahora sin usar).
+`docs/questions-space.md` (las del espacio, ahora sin usar).

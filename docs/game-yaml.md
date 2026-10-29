@@ -112,4 +112,4 @@ o las preguntas del propio juego, en una lista con los mismos campos que el banc
 
 Cada jugador elige su nivel en el menú. Cada nivel tiene su mazo, compartido por todos: no se
 repite ninguna pregunta hasta que han salido todas. Las preguntas, para leerlas cómodamente:
-`docs/questions-general.md` (las que se usan) y `docs/questions.md` (las del espacio).
+`docs/questions-general.md` (las que se usan) y `docs/questions-space.md` (las del espacio).

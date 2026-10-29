@@ -1,7 +1,7 @@
 # Space questions: a question bank, for every game that says "questions: space" (the
 # name of this file). Mode "Sabelotodo": a question at the start of every turn; right,
 # roll the die. The answers are shuffled each time.
-# For people, the same questions: docs/questions.md. After editing, restart the app.
+# For people, the same questions: docs/questions-space.md. After editing, restart the app.
 #
 #   emoji, text: the question
 #   answer: the right one   ·   wrong: three wrong ones
