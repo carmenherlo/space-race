@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La última galaxia</title>
+  <!-- A test page, not in the menu: the games of chance for the last galaxy. -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/galaxia.css">
+  <script type="module" src="js/galaxia.js"></script>
+</head>
+<body class="galaxy">
+  <main class="galaxy__main">
+    <h1 class="galaxy__title">🌌 La última galaxia</h1>
+    <p class="galaxy__lead">Un juego de suerte: si ganas, ¡vas directo a la Luna!</p>
+
+    <div class="galaxy__choices" id="choices">
+      <button class="galaxy__choice" type="button" data-game="comets">
+        <span class="galaxy__emoji">☄️</span><b>Cometas</b><small>Toca un cometa: uno lleva una estrella.</small>
+      </button>
+      <button class="galaxy__choice" type="button" data-game="wheel">
+        <span class="galaxy__emoji">🎡</span><b>Ruleta</b><small>Gírala: ¿caerá en la Luna?</small>
+      </button>
+      <button class="galaxy__choice" type="button" data-game="rocket">
+        <span class="galaxy__emoji">🚀</span><b>Despegue</b><small>Enciende el cohete: ¿llegará?</small>
+      </button>
+    </div>
+
+    <section class="galaxy__stage" id="stage" hidden></section>
+    <p class="galaxy__result" id="result" role="status"></p>
+
+    <!-- The trip: the token in the galaxy; if it wins, it flies to the Moon. -->
+    <div class="trip" id="trip">
+      <span class="trip__place">🌌</span>
+      <span class="trip__token" id="token"></span>
+      <span class="trip__place trip__moon" id="moon">🌕</span>
+    </div>
+
+    <div class="galaxy__buttons">
+      <button class="galaxy__button" type="button" id="again" hidden>Otra vez</button>
+      <a class="galaxy__button galaxy__button--quiet" href="games.html">Salir</a>
+    </div>
+  </main>
+</body>
+</html>

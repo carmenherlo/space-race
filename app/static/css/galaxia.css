@@ -1,0 +1,248 @@
+/*
+ * The last galaxy (galaxia.html): a test page for its games of chance.
+ * Loaded after base.css.
+ */
+
+.galaxy {
+  min-height: var(--screen-h);
+  margin: 0;
+  background: radial-gradient(circle at 30% 20%, #3b2a6e 0%, #141a3d 45%, #070a1c 100%);
+  color: #fff;
+}
+
+.galaxy__main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-m);
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: var(--space-l) var(--space-m);
+  text-align: center;
+}
+
+.galaxy__title {
+  margin: 0;
+}
+
+.galaxy__lead {
+  margin: 0;
+  opacity: 0.85;
+}
+
+/* ---------- Choosing a game ---------- */
+.galaxy__choices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-m);
+}
+
+.galaxy__choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  width: 14rem;
+  padding: var(--space-m);
+  border: 3px solid #8f7fe0;
+  border-radius: 1.5rem;
+  background: #221c4d;
+  color: #fff;
+  font: inherit;
+}
+
+.galaxy__choice small {
+  opacity: 0.8;
+  font-size: 0.8em;
+}
+
+.galaxy__emoji {
+  font-size: 3em;
+  line-height: 1.2;
+}
+
+/* ---------- Where a game is played ---------- */
+.galaxy__stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(var(--screen-h) * 0.45);
+  min-height: 16rem;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  background: rgb(255 255 255 / 6%);
+}
+
+.galaxy__stage[hidden] {
+  display: none;
+}
+
+.galaxy__result {
+  min-height: 1.5em;
+  margin: 0;
+  font-size: 1.4em;
+  font-weight: 800;
+}
+
+/* ☄️ Three comets drifting across the sky: tap one. */
+.comet {
+  position: absolute;
+  left: -12%;
+  border: 0;
+  background: none;
+  font-size: clamp(3rem, calc(var(--screen-h) * 0.1), 5.5rem);
+  animation: comet-drift linear infinite;
+}
+
+@keyframes comet-drift {
+  from { transform: translateX(0) rotate(-115deg); }
+  to { transform: translateX(var(--across)) rotate(-115deg); }
+}
+
+.comet[data-open] {
+  animation-play-state: paused;
+}
+
+.comet[data-open="star"] {
+  filter: drop-shadow(0 0 1.2rem #ffd60a);
+}
+
+.comet[data-open="smoke"] {
+  opacity: 0.5;
+}
+
+/* 🎡 The wheel: six slices, two of them the Moon; the arrow on top says where it stops. */
+.wheel {
+  position: relative;
+  width: calc(var(--screen-h) * 0.36);
+  height: calc(var(--screen-h) * 0.36);
+  min-width: 13rem;
+  min-height: 13rem;
+  border: 6px solid #fff;
+  border-radius: 50%;
+  background: conic-gradient(#ffd60a 0deg 60deg, #6a4fd6 60deg 120deg, #1abc9c 120deg 180deg, #ffd60a 180deg 240deg, #ff6fa8 240deg 300deg, #1e90ff 300deg 360deg);
+  transition: transform 4.5s cubic-bezier(0.15, 0.7, 0.25, 1);
+}
+
+.wheel__slice {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 3rem;
+  height: 50%;
+  margin-left: -1.5rem;
+  padding-top: 0.6rem;
+  font-size: 2rem;
+  transform-origin: 50% 100%;
+}
+
+.wheel__arrow {
+  position: absolute;
+  top: 0.3rem;
+  left: 50%;
+  z-index: 1;
+  margin-left: -1rem;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+/* 🚀 The rocket: up from the bottom, towards the Moon at the top. */
+.launch__moon {
+  position: absolute;
+  top: 0.5rem;
+  font-size: 3.5rem;
+}
+
+.launch__rocket {
+  position: absolute;
+  bottom: 0.5rem;
+  border: 0;
+  background: none;
+  font-size: 4rem;
+  transform: rotate(-45deg); /* the emoji points up-right: now straight up */
+  transition: transform 2.2s ease-in;
+}
+
+.launch__count {
+  position: absolute;
+  font-size: 5rem;
+  font-weight: 900;
+}
+
+.launch__rocket[data-wobble] {
+  animation: rocket-wobble 0.15s linear 5;
+}
+
+@keyframes rocket-wobble {
+  0%, 100% { margin-left: 0; }
+  50% { margin-left: 0.4rem; }
+}
+
+/* ---------- The trip: the token, the galaxy and the Moon ---------- */
+.trip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(100%, 30rem);
+  font-size: 3rem;
+}
+
+.trip__token {
+  position: absolute;
+  z-index: 1; /* in front of the Moon when it gets there */
+  left: 3.2rem;
+  transition: transform 1.2s ease-in-out;
+}
+
+.trip__token .avatar {
+  --avatar-size: 3.5rem;
+}
+
+.trip[data-won] .trip__token {
+  transform: translateX(var(--to-moon)) scale(1.3) rotate(360deg);
+}
+
+.trip[data-lost] .trip__token {
+  animation: token-no 0.5s ease-in-out 2;
+}
+
+@keyframes token-no {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-0.4rem); }
+  75% { transform: translateX(0.4rem); }
+}
+
+.trip[data-won] .trip__moon {
+  animation: moon-glow 1s ease-in-out 1.2s 3 alternate;
+}
+
+@keyframes moon-glow {
+  to { transform: scale(1.3); filter: drop-shadow(0 0 1rem #fff6b0); }
+}
+
+/* ---------- Buttons ---------- */
+.galaxy__buttons {
+  display: flex;
+  gap: var(--space-m);
+}
+
+.galaxy__button {
+  min-height: var(--touch-min);
+  padding: 0.5rem 1.6rem;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #141a3d;
+  font: inherit;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.galaxy__button--quiet {
+  background: rgb(255 255 255 / 15%);
+  color: #fff;
+}
