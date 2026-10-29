@@ -1,17 +1,14 @@
 # Space Race Expanded (68 squares and the Moon).
-# Example: without a board picture, the game draws a plain board with numbered dots.
-# With yours, put it in this folder and set "image" (the places below match the
-# household's board; another board needs its own).
+# The full rules, for people: docs/rules.md.
+# The board, board.webp, is 1920x1080.
 #
-# A game is a folder in /data/games with this file and its board picture; the folder's
-# name is the game's id. The avatars to choose from are in /data/games/players/.
 # Every field is explained in docs/game-yaml.md.
 # After editing it, restart the app (docker compose restart).
 #
 # Texts IN QUOTES: some have a colon (:), which YAML would misread without them.
 
 title: "Space Race Expanded"
-# image: board.webp
+image: board.webp
 
 # The rules of this game:
 # The modes, each with its own rules. exact_finish: the Moon only with the exact number

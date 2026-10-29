@@ -1,4 +1,4 @@
-// The games page (games.html): one card per board game in data/games (api/games, see
+// The games page (games.html): one card per board game in content/games (api/games, see
 // app/game.py). A tap opens that game (game.html?game=its-id). A game whose game.yaml has
 // a mistake is shown greyed out, so it is clear why it does not open.
 
@@ -50,7 +50,7 @@ async function init() {
     }
     const games = await response.json();
     if (games.length === 0) {
-      showStatus("No hay ningún juego preparado (falta la carpeta data/games).");
+      showStatus("No hay ningún juego preparado (falta la carpeta content/games).");
       return;
     }
     renderGames(games);

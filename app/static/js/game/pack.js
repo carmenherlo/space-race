@@ -9,9 +9,9 @@ export async function loadPack() {
   if (!response.ok) {
     const reason =
       response.status === 404
-        ? `No existe el juego "${GAME_ID}" (falta data/games/${GAME_ID}/game.yaml).`
+        ? `No existe el juego "${GAME_ID}" (falta content/games/${GAME_ID}/game.yaml).`
         : response.status === 503
-          ? `El juego tiene un error en data/games/${GAME_ID}/game.yaml (los detalles salen en el registro del servidor).`
+          ? `El juego tiene un error en content/games/${GAME_ID}/game.yaml (los detalles salen en el registro del servidor).`
           : "No se ha podido cargar el juego.";
     throw new Error(reason);
   }

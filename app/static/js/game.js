@@ -15,7 +15,7 @@
 //   moves.js     the die and the tokens       cards.js   cards, star, satellite, winner
 //   board.js     drawing the board            pause.js   ⏸, restart, menu, idle timer
 //   timing.js    how long things take (keep)  helpers.js voice, shuffle, status
-// What each game is made of comes from its folder (data/games/<id>/game.yaml, served by
+// What each game is made of comes from its folder (content/games/<id>/game.yaml, served by
 // api/games/<id>, checked by app/game.py): the board picture, where the places are, what
 // happens on the special squares, its rules and cards. The game comes in the address
 // (game.html?game=space-race-expanded, from games.html); the avatars, from api/avatars.

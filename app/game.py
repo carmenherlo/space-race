@@ -3,15 +3,15 @@
 The games themselves run in the browser (app/static/js/game.js); this module only reads and
 checks the packs, so a typo in a game.yaml only disables that game.
 
-    data/games/
+    content/games/
       space-race-expanded/       one folder per game; its name is the game's id
         game.yaml                where the squares are, what happens on them, the rules
         board.webp               the board picture
       …
-    data/questions/
+    content/questions/
       general.yaml               a question bank, shared by the games that name it
 
-Every field is explained in docs/game-yaml.md; examples in examples/games/.
+Every field is explained in docs/game-yaml.md.
 """
 
 import re
@@ -25,7 +25,7 @@ from pydantic import Field, StringConstraints, ValidationError, field_validator,
 from app.config import ImageName, StrictModel, Text
 
 GAME_FILE = "game.yaml"
-# The question banks, a folder next to the games folder (data/questions, next to data/games).
+# The question banks, a folder next to the games folder (content/questions, next to content/games).
 QUESTIONS_DIR = "questions"
 # A question bank's name: its file in the questions folder, without ".yaml".
 BANK_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]*")

@@ -1,25 +1,24 @@
 # Cómo se escribe un juego (`game.yaml`)
 
-Cada juego es una carpeta dentro de `data/games/`. El nombre de la carpeta es el id del juego:
+Cada juego es una carpeta dentro de `content/games/`. El nombre de la carpeta es el id del juego:
 
 ```
-data/
+content/
   games/
     space-race/
       game.yaml      las casillas, lo que pasa en ellas y las reglas
       board.webp     el dibujo del tablero (16:9, por ejemplo 1920x1080)
   questions/
     general.yaml     un banco de preguntas (cultura general), compartido por los juegos que lo nombran
-    space.yaml       otro banco (preguntas del espacio), ahora sin usar
 ```
 
-- Después de cambiar algo, hay que reiniciar la app (`docker compose restart`; con `bash dev.sh`, guardar un `.py` o reiniciarlo).
+- Después de cambiar algo, hay que reiniciar la app (con Docker, `docker compose up -d --build`; con `bash dev.sh`, guardar un `.py` o reiniciarlo).
 - Un error en un `game.yaml` solo desactiva ese juego: los demás siguen funcionando, y el menú lo marca como "Tiene un error".
 - Si un campo no existe (por una errata), el juego no carga: así no pasan desapercibidas.
 - Los textos van **entre comillas**: algunos llevan dos puntos (`:`), que YAML leería mal sin ellas.
 
-Ejemplos completos: `examples/games/space-race/game.yaml` (tablero corto) y
-`examples/games/space-race-expanded/game.yaml` (tablero largo).
+Ejemplos completos: `content/games/space-race/game.yaml` (tablero corto) y
+`content/games/space-race-expanded/game.yaml` (tablero largo).
 
 ---
 
@@ -91,15 +90,14 @@ challenges:
 
 ## Las preguntas (`questions`, modo "Sabelotodo")
 
-O el nombre de un banco de preguntas compartido (`data/questions/<nombre>.yaml`):
+O el nombre de un banco de preguntas compartido (`content/questions/<nombre>.yaml`):
 
 ```yaml
 questions: general
 ```
 
-Los dos tableros usan `general`. Para volver a las del espacio, cambia esa línea por
-`questions: space` en su `game.yaml` (`data/games/space-race/` y `data/games/space-race-expanded/`)
-y reinicia la app.
+Los dos tableros usan `general`. Para otro banco, se añade su archivo en `content/questions/`
+y se cambia esa línea.
 
 o las preguntas del propio juego, en una lista con los mismos campos que el banco:
 

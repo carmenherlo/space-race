@@ -3,7 +3,6 @@ FROM python:3.12-slim
 # No .pyc files in the image; logs are written immediately.
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    SPACE_RACE_GAMES=/data/games \
     SPACE_RACE_AVATARS=/data/avatars \
     SPACE_RACE_CACHE=/data/cache
 
@@ -22,8 +21,9 @@ RUN mkdir -p /opt/voices && python -c "import urllib.request as u; \
  for ext in ('.onnx', '.onnx.json')]"
 
 COPY app/ app/
+COPY content/ content/
 
-# /data: the games and the avatars (mounted from ./data, see docker-compose.yml).
+# /data: the avatars and the voice's cache (mounted from ./data, see docker-compose.yml).
 EXPOSE 8000
 VOLUME ["/data"]
 

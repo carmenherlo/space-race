@@ -9,8 +9,7 @@ comparten con la misma licencia.
 
 Temas: cultura general, ciencia, geografía, historia, arte y animales.
 
-**Dónde se usan:** lo que el juego lee de verdad es `data/questions/general.yaml` (y su copia de
-ejemplo `examples/questions/general.yaml`). Los dos tableros lo eligen con la línea
+**Dónde se usan:** lo que el juego lee de verdad es `content/questions/general.yaml`. Los dos tableros lo eligen con la línea
 `questions: general` de su `game.yaml`. Si cambias algo aquí, Claude lo pasa allí; después,
 reiniciar la app.
 

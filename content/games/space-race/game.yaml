@@ -1,6 +1,5 @@
 # Space Race (28 squares and the Moon): the short board.
-# Example: without a board picture, the game draws a plain board with numbered dots.
-# With yours, put it in this folder and set "image".
+# The board, board.webp, is 1920x1080.
 #
 # Every field is explained in docs/game-yaml.md.
 # After editing it, restart the app (docker compose restart).
@@ -8,7 +7,7 @@
 # Name shown when choosing who plays.
 title: "Space Race"
 
-# image: board.webp
+image: board.webp
 
 # A voice reads the cards aloud, and the questions and their answers in «Sabelotodo», for
 # those who cannot read yet (natural or robot; 🔊 in the game changes it). Optional.

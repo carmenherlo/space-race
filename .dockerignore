@@ -1,5 +1,6 @@
 # Allowlist: send only what the image needs to the Docker build.
 *
 !app/
+!content/
 !requirements.txt
 **/__pycache__

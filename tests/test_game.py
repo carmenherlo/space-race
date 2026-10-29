@@ -12,31 +12,31 @@ from fastapi.testclient import TestClient
 from pydantic import ValidationError
 
 from app.game import GAME_FILE, GamePack, load_game_pack, load_games, load_question_bank
-from tests.conftest import EXAMPLE_GAMES
+from tests.conftest import GAMES
 
-SPACE_RACE = EXAMPLE_GAMES / "space-race"  # the short board
-EXPANDED = EXAMPLE_GAMES / "space-race-expanded"
+SPACE_RACE = GAMES / "space-race"  # the short board
+EXPANDED = GAMES / "space-race-expanded"
 
 ClientFor = Callable[[Path], TestClient]
 
 
-def copy_examples(tmp_path: Path) -> Path:
-    """The example games and their question banks, in tmp_path; returns the games folder."""
-    shutil.copytree(EXAMPLE_GAMES.parent / "questions", tmp_path / "questions")
-    return Path(shutil.copytree(EXAMPLE_GAMES, tmp_path / "games"))
+def copy_games(tmp_path: Path) -> Path:
+    """The games and their question banks, in tmp_path; returns the games folder."""
+    shutil.copytree(GAMES.parent / "questions", tmp_path / "questions")
+    return Path(shutil.copytree(GAMES, tmp_path / "games"))
 
 
 @pytest.fixture
 def raw() -> dict[str, Any]:
     """The short board's game.yaml, with every mode and its bank's questions in it."""
     data = yaml.safe_load((SPACE_RACE / GAME_FILE).read_text(encoding="utf-8"))
-    data["questions"] = load_question_bank(EXAMPLE_GAMES.parent / "questions", data["questions"])
+    data["questions"] = load_question_bank(GAMES.parent / "questions", data["questions"])
     data["modes"] = ["race", "challenges", "questions"]
     return data
 
 
-def test_the_examples_are_the_short_and_the_expanded_boards() -> None:
-    games = load_games(EXAMPLE_GAMES)
+def test_the_games_are_the_short_and_the_expanded_boards() -> None:
+    games = load_games(GAMES)
     assert sorted(games.games) == ["space-race", "space-race-expanded"]
     assert games.available
 
@@ -101,7 +101,7 @@ def test_both_boards_share_the_general_questions_of_every_level() -> None:
 
 
 def test_a_missing_question_bank_only_disables_that_game(tmp_path: Path) -> None:
-    copy_examples(tmp_path)
+    copy_games(tmp_path)
     game_file = tmp_path / "games" / "space-race" / GAME_FILE
     game_file.write_text(game_file.read_text(encoding="utf-8").replace("questions: general", "questions: nope"), encoding="utf-8")
     games = load_games(tmp_path / "games")
@@ -181,7 +181,7 @@ def test_no_games_folder_is_not_an_error(tmp_path: Path) -> None:
 
 
 def test_a_broken_game_is_reported_and_the_others_still_work(tmp_path: Path) -> None:
-    copy_examples(tmp_path)
+    copy_games(tmp_path)
     (tmp_path / "games" / "broken").mkdir()
     (tmp_path / "games" / "broken" / GAME_FILE).write_text("places: [[1, 1]]\n", encoding="utf-8")
     games = load_games(tmp_path / "games")
@@ -194,8 +194,10 @@ def test_a_broken_game_is_reported_and_the_others_still_work(tmp_path: Path) -> 
 
 def test_api_lists_the_games(client: TestClient) -> None:
     assert client.get("/api/games").json() == [
-        {"id": "space-race", "title": "Space Race", "image_url": None, "available": True},
-        {"id": "space-race-expanded", "title": "Space Race Expanded", "image_url": None, "available": True},
+        {"id": "space-race", "title": "Space Race",
+         "image_url": "games-pack/space-race/board.webp", "available": True},
+        {"id": "space-race-expanded", "title": "Space Race Expanded",
+         "image_url": "games-pack/space-race-expanded/board.webp", "available": True},
     ]
 
 
@@ -204,22 +206,13 @@ def test_api_serves_a_game(client: TestClient) -> None:
     assert game["title"] == "Space Race Expanded"
     assert game["modes"] == [{"id": "race", "exact_finish": True}, {"id": "questions", "exact_finish": False}]
     assert game["backwards_counts"] is True
-    assert game["image_url"] is None  # the example has no picture
+    assert game["image_url"] == "games-pack/space-race-expanded/board.webp"
     assert "parents" not in game and "levels" not in game
 
 
-def test_api_serves_the_board_picture_and_nothing_else(tmp_path: Path, client_for: ClientFor) -> None:
-    games_dir = copy_examples(tmp_path)
-    game_file = games_dir / "space-race-expanded" / GAME_FILE
-    text = game_file.read_text(encoding="utf-8")
-    game_file.write_text(text.replace("# image: board.webp", "image: board.webp"), encoding="utf-8")
-    (games_dir / "space-race-expanded" / "board.webp").write_bytes(b"RIFF....WEBP")
-    with client_for(games_dir) as client:
-        url = "games-pack/space-race-expanded/board.webp"
-        assert client.get("/api/games/space-race-expanded").json()["image_url"] == url
-        assert client.get("/api/games").json()[1]["image_url"] == url
-        assert client.get(f"/{url}").status_code == 200
-        assert client.get("/games-pack/space-race-expanded/game.yaml").status_code == 404
+def test_api_serves_the_board_picture_and_nothing_else(client: TestClient) -> None:
+    assert client.get("/games-pack/space-race-expanded/board.webp").status_code == 200
+    assert client.get("/games-pack/space-race-expanded/game.yaml").status_code == 404
 
 
 def test_without_games_there_is_no_game(tmp_path: Path, client_for: ClientFor) -> None:

@@ -1,6 +1,9 @@
 """Runtime settings (read from environment variables) and the value types the game packs use.
 
-Defaults follow the container convention: persistent files live in /data.
+Two places, both overridable:
+- content/ (in the repo): the games and their question banks, the same for everyone.
+- /data (outside the repo, a Docker volume): what is local to one home, the avatars and
+  the voice's cache.
 """
 
 import os
@@ -9,6 +12,9 @@ from pathlib import Path
 from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, StringConstraints
+
+# The repo's content folder: content/games, content/questions.
+CONTENT_DIR = Path(__file__).resolve().parent.parent / "content"
 
 # Human-readable text: surrounding whitespace is removed and it cannot be empty.
 Text = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
@@ -35,7 +41,7 @@ class StrictModel(BaseModel):
 
 @dataclass(frozen=True)
 class Settings:
-    games_dir: Path = Path("/data/games")  # one folder per game
+    games_dir: Path = CONTENT_DIR / "games"  # one folder per game; question banks beside it
     avatars_dir: Path = Path("/data/avatars")  # the pictures players choose from (app/avatars.py)
     cache_dir: Path = Path("/data/cache")  # the voice's WAV files
     # The voice model (app/voice.py); the Docker image brings it. Optional.

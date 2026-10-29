@@ -6,7 +6,7 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 
 from app.avatars import COLORS_FILE, Avatar, list_avatars
-from tests.conftest import EXAMPLE_GAMES
+from tests.conftest import GAMES
 
 
 def avatars_folder(tmp_path: Path, colors: str | None = None) -> Path:
@@ -48,7 +48,7 @@ def test_broken_colours_leave_the_avatars_without_colours(tmp_path: Path) -> Non
 
 def test_api_serves_the_avatars_and_nothing_else(tmp_path: Path, client_for: Callable[..., TestClient]) -> None:
     folder = avatars_folder(tmp_path, 'oso.png: "#bfefff"\n')
-    with client_for(EXAMPLE_GAMES, folder) as client:
+    with client_for(GAMES, folder) as client:
         assert client.get("/api/avatars").json() == [
             {"id": "oso.png", "url": "avatars/oso.png", "color": "#bfefff"},
             {"id": "Gato 2.webp", "url": "avatars/Gato%202.webp", "color": None},
@@ -60,5 +60,5 @@ def test_api_serves_the_avatars_and_nothing_else(tmp_path: Path, client_for: Cal
 
 
 def test_no_avatars_folder_no_avatars(tmp_path: Path, client_for: Callable[..., TestClient]) -> None:
-    with client_for(EXAMPLE_GAMES, tmp_path / "none") as client:
+    with client_for(GAMES, tmp_path / "none") as client:
         assert client.get("/api/avatars").json() == []
