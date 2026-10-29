@@ -1,0 +1,199 @@
+/*
+ * Celebrating the winner (js/celebrations.js), over the whole screen. Loaded after base.css.
+ * No aspect-ratio, :has(), inset or color-mix() here (older tablets, see base.css).
+ */
+
+.party {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 60;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 30%, #fff 0 1px, transparent 2px) 0 0 / 7rem 7rem,
+    radial-gradient(circle at 70% 60%, #fff 0 1px, transparent 2px) 0 0 / 11rem 11rem,
+    radial-gradient(circle at 50% 40%, #3b2a6e 0%, #141a3d 55%, #050816 100%);
+  color: #fff;
+  text-align: center;
+}
+
+.party__title {
+  position: absolute;
+  bottom: 17%;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  margin: 0;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  font-weight: 900;
+  text-shadow: 0 4px 16px rgb(0 0 0 / 60%);
+  animation: party-pop 0.6s ease-out both;
+}
+
+.party__ok {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  z-index: 2;
+  width: 14rem;
+  min-height: var(--touch-min);
+  margin-left: -7rem;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #141a3d;
+  font: inherit;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+@keyframes party-pop {
+  from { opacity: 0; transform: scale(0.4); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* The winner: big, jumping for joy. */
+.party__winner {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+}
+
+.party__winner .avatar {
+  --avatar-size: clamp(6rem, calc(var(--screen-h) * 0.22), 12rem);
+
+  animation: party-jump 0.9s ease-in-out infinite;
+}
+
+@keyframes party-jump {
+  0%, 100% { transform: translateY(0) scale(1); }
+  15% { transform: translateY(0) scale(1.1, 0.9); }
+  50% { transform: translateY(-18%) scale(0.95, 1.05); }
+}
+
+/* 🌕 The Moon, huge and shining, with the winner on it. */
+.party__moon {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  font-size: min(60vh, 75vw);
+  line-height: 1;
+  transform: translate(-50%, -50%);
+  animation: party-shine 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes party-shine {
+  from { filter: drop-shadow(0 0 2rem rgb(255 246 176 / 50%)); }
+  to { filter: drop-shadow(0 0 6rem #fff6b0); }
+}
+
+/* 🎆 Fireworks: sparks flying out from a spot, fading. */
+.burst {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.burst__spark {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  margin: -0.5rem 0 0 -0.5rem;
+  border-radius: 50%;
+  box-shadow: 0 0 1rem 0.2rem currentColor;
+  animation: burst-fly 1.3s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes burst-fly {
+  0% { opacity: 1; transform: translate(0, 0) scale(0.5); }
+  60% { opacity: 1; transform: translate(var(--tx), var(--ty)) scale(1); }
+  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) translateY(4vmin) scale(0.4); }
+}
+
+/* Falling from the top: stars (fireworks) and confetti (podium). */
+.party__star,
+.party__confetti {
+  position: absolute;
+  top: -3rem;
+  pointer-events: none;
+  animation: party-fall linear forwards;
+}
+
+.party__star {
+  font-size: 1.6rem;
+}
+
+.party__confetti {
+  width: 0.7rem;
+  height: 1.1rem;
+  border-radius: 2px;
+}
+
+@keyframes party-fall {
+  to { transform: translateY(115vh) rotate(540deg); }
+}
+
+/* 🏆 The podium: 2nd, 1st (the highest) and 3rd, each with their avatar on top. */
+.podium {
+  position: absolute;
+  bottom: 27%;
+  left: 50%;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  transform: translateX(-50%);
+}
+
+.podium__column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  width: clamp(7rem, 18vw, 11rem);
+}
+
+.podium__step {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding-top: 0.5rem;
+  border-radius: 1rem 1rem 0 0;
+  background: #6a4fd6;
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.podium__column[data-place="1"] .podium__step {
+  height: calc(var(--screen-h) * 0.22);
+  background: #ffd60a;
+  color: #141a3d;
+}
+
+.podium__column[data-place="2"] .podium__step {
+  height: calc(var(--screen-h) * 0.15);
+  background: #c0c8d4;
+  color: #141a3d;
+}
+
+.podium__column[data-place="3"] .podium__step {
+  height: calc(var(--screen-h) * 0.1);
+  background: #d2a06a;
+  color: #141a3d;
+}
+
+.podium__avatar .avatar {
+  --avatar-size: clamp(3.5rem, calc(var(--screen-h) * 0.1), 6rem);
+}
+
+.podium__column[data-place="1"] .podium__avatar .avatar {
+  --avatar-size: clamp(5rem, calc(var(--screen-h) * 0.16), 9rem);
+
+  animation: party-jump 0.9s ease-in-out infinite;
+}

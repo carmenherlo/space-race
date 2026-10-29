@@ -216,6 +216,36 @@ export const sounds = {
   },
 };
 
+// For the celebrations (celebrations.js): a firework, and a longer, happy tune.
+export const party = {
+  // A firework bursting: a soft "pff" and a twinkle.
+  pop() {
+    play((ctx, out, now) => {
+      noise(ctx, out, { at: now, length: 0.3, volume: 0.3 });
+      blip(ctx, out, { at: now + 0.05, freq: 1500 + Math.random() * 900, length: 0.25, type: "sine", volume: 0.25 });
+    });
+  },
+
+  // "¡Hemos llegado!": up the chord, a cheer, then down home (C · F · G · C), with a bass.
+  tune() {
+    play((ctx, out, now) => {
+      const melody = [
+        [392, 0, 0.14], [523, 0.15, 0.14], [659, 0.3, 0.14], [784, 0.45, 0.32],
+        [659, 0.8, 0.14], [784, 0.95, 0.6],
+        [880, 1.6, 0.14], [784, 1.75, 0.14], [698, 1.9, 0.14], [659, 2.05, 0.14],
+        [587, 2.2, 0.14], [659, 2.35, 0.14], [523, 2.5, 1.1],
+      ];
+      for (const [freq, at, length] of melody) {
+        blip(ctx, out, { at: now + at, freq, length, type: "square", volume: 0.3 });
+        blip(ctx, out, { at: now + at, freq: freq * 2, length, type: "sine", volume: 0.15 });
+      }
+      for (const [freq, at, length] of [[131, 0, 1.5], [175, 1.6, 0.6], [196, 2.2, 0.3], [131, 2.5, 1.2]]) {
+        blip(ctx, out, { at: now + at, freq, length, type: "triangle", volume: 0.6 });
+      }
+    });
+  },
+};
+
 // ---------- Background music ----------
 // A calm, spacey tune in a loop: soft arpeggios over a bass, with a twinkle now and
 // then (C · Am · F · G). Notes are scheduled a little ahead, so it never stutters.
