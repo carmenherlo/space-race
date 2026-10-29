@@ -38,6 +38,7 @@ export async function startGame(players) {
   await wait(START_PAUSE_MS); // first, the board with everybody at the start
   game.busy = false;
   elements.turn.hidden = false;
+  elements.ranking.hidden = false;
   beginFirstTurn();
 }
 

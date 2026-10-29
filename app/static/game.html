@@ -20,6 +20,9 @@
     <div class="board-game__tokens" id="tokens"></div>
   </main>
 
+  <!-- Who goes first, second…: everybody, from the furthest on (js/game/board.js). -->
+  <ol class="ranking" id="ranking" aria-label="Posiciones" hidden></ol>
+
   <!-- Whose turn it is and the die, in the top-left corner. -->
   <section class="turn" id="turn" aria-live="polite" hidden>
     <span class="turn__avatar" id="turn-avatar"></span>

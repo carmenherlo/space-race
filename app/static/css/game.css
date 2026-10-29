@@ -138,6 +138,64 @@ body.game {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* ---------- Positions (top centre, over the board's title) ---------- */
+.ranking {
+  --avatar-size: clamp(1.8rem, calc(var(--screen-h) * 0.05), 2.6rem);
+
+  position: fixed;
+  top: var(--space-s);
+  left: 50%;
+  z-index: 4;
+  display: flex;
+  gap: var(--space-s);
+  max-width: calc(100vw - 24rem); /* between the turn bar and ⏸ 🔊 */
+  margin: 0;
+  padding: 0.3rem var(--space-s);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 90%);
+  box-shadow: 0 4px 16px rgb(0 0 0 / 35%);
+  color: var(--game-navy);
+  list-style: none;
+  transform: translateX(-50%);
+}
+
+.ranking[hidden] {
+  display: none;
+}
+
+/* "Sabelotodo": under the board, centred beside the question (there is room there). */
+body.game[data-mode="questions"] .ranking {
+  top: auto;
+  bottom: var(--space-m);
+  left: calc((100vw - var(--question-panel)) / 2);
+  max-width: calc(100vw - var(--question-panel) - 2 * var(--space-s));
+}
+
+.ranking__player {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.1rem 0.3rem;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+/* Whose turn it is: a ring in their colour. */
+.ranking__player[data-current] {
+  border-color: var(--player-color);
+}
+
+.ranking__position {
+  font-size: 0.9rem;
+}
+
+.ranking__place {
+  min-width: 1.4em;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
 /* ---------- Whose turn, and the die (top left) ---------- */
 .turn {
   position: fixed;
@@ -892,6 +950,18 @@ body.game[data-mode="questions"] .question__answers[data-kind="choice"] {
 }
 
 @media (orientation: portrait) {
+  body.game[data-mode="questions"] .ranking {
+    top: var(--space-s);
+    bottom: auto;
+    left: 50%;
+    max-width: calc(100vw - 24rem);
+  }
+
+  /* Narrow: the order says it, without "1º, 2º…". */
+  .ranking__position {
+    display: none;
+  }
+
   body.game[data-mode="questions"] {
     align-items: flex-start;
     padding-right: 0;

@@ -65,6 +65,31 @@ export function renderTokens({ flying = [] } = {}) {
     return token;
   });
   elements.tokens.replaceChildren(...tokens);
+  renderRanking();
+}
+
+// Everybody in order, from the furthest on: their position (a tie shares it), avatar and
+// square. The player whose turn it is stands out.
+function renderRanking() {
+  const ranked = [...game.players].sort((a, b) => b.place - a.place); // a tie keeps the turn order
+  const items = ranked.map((player) => {
+    const item = document.createElement("li");
+    item.className = "ranking__player";
+    item.style.setProperty("--player-color", player.color);
+    if (player === currentPlayer()) {
+      item.dataset.current = "";
+    }
+    const position = document.createElement("span");
+    position.className = "ranking__position";
+    position.textContent = `${ranked.findIndex((other) => other.place === player.place) + 1}º`;
+    const place = document.createElement("span");
+    place.className = "ranking__place";
+    place.textContent = player.place === 0 ? "🚀" : player.place === pack.goal ? "🌕" : String(player.place);
+    item.append(position, createAvatar(player), place);
+    item.setAttribute("aria-label", `${player.name}: ${placeName(player.place)}`);
+    return item;
+  });
+  elements.ranking.replaceChildren(...items);
 }
 
 // Without the board picture: a numbered dot on every place, so the game is still playable.
