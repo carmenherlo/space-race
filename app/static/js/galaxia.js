@@ -234,7 +234,7 @@ const WHEEL_MS = 6000; // as long as the wheel's transition in galaxia.css
 // so stopping empties it. A full tank, straight to the Moon; half a tank, half the way…
 // and back down. Harder: more taps, less time or a bigger leak.
 const FUEL_MS = 5000; // time to fill it, from the first tap
-const FUEL_TAPS = 20; // taps for a full tank
+const FUEL_TAPS = 18; // taps for a full tank
 const LEAK_PER_SECOND = 3; // taps' worth of fuel lost each second
 
 function playRocket() {
