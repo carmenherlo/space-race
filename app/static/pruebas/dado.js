@@ -3,7 +3,7 @@
 //   1. the number, big in the middle of the board, before the token moves;
 //   2. then the token shines for a moment, so everybody finds it: a little bigger, its
 //      ring thicker, and a soft reflection goes round the ring, like a gold ring turned
-//      in the light; it settles, a short pause, and it moves;
+//      in the light, glowing; it settles, a short pause, and it moves;
 //   3. slower steps.
 // Nothing here touches a game: it is only to try them out.
 
@@ -39,7 +39,12 @@ async function start() {
   document.getElementById("board-image").src = `../${game.image_url}`;
   places = game.places;
   const [{ avatar }] = await randomPlayers(["Tú"]);
-  token.append(avatar);
+  // The glow of the reflection: a blurred copy of it (blurred as a whole, so the glow spills
+  // out of the ring; see dado.css).
+  const glow = document.createElement("span");
+  glow.className = "dice-test__glow";
+  glow.append(document.createElement("span"));
+  token.append(avatar, glow);
   board.append(token);
   put();
   die.addEventListener("click", roll);
