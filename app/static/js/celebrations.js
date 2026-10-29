@@ -2,7 +2,8 @@
 // one goes into the game. ✨ Podio y Luna: the podium with fireworks; the winner, jumping,
 // rises, the podium goes down and the Moon comes down behind them, and the party goes on
 // there, Valencian style: a traca around the Moon, a boom, and a great finale of fireworks
-// in three layers (far, behind the Moon; middle; near, over everything).
+// in three layers (far, behind the Moon; middle; near, over everything). On the podium only
+// confetti: no fireworks before the end of the traca.
 // 🌕 Luna brillante: the winner on a big shining Moon, fireworks around it. 🎆 Fuegos artificiales: the winner in the middle, fireworks all over and a
 // rain of stars. 🏆 Podio: the winner on top, the others below, confetti falling.
 // Their look is in css/celebrations.css.
@@ -63,11 +64,10 @@ export function celebrate(id, winner, others = [], button = "¡Otra partida!") {
     screen.append(moon, podium(winner, others, { apart: true }), flyer);
     screen.dataset.phase = "podium";
     title.hidden = true;
+    // On the podium, only confetti: the fireworks wait for the end of the traca.
     const confetti = every(70, () => fall(screen, "party__confetti", ""));
-    const fireworks = every(800, () => burst(screen, 15 + Math.random() * 70, 10 + Math.random() * 25));
     later(PODIUM_MS, () => {
       clearInterval(confetti);
-      clearInterval(fireworks);
       screen.dataset.phase = "rise"; // the podium goes down, the Moon comes down
       flyer.style.left = "50%";
       flyer.style.top = "42%";
@@ -77,10 +77,17 @@ export function celebrate(id, winner, others = [], button = "¡Otra partida!") {
       title.hidden = false;
       const end = traca(screen, moon, later);
       later(end, () => {
-        // The great finale: fireworks one after another, far, middle and near.
-        const finale = every(230, () => firework(screen));
+        // The great finale, a frenzy: fireworks one after another, far, middle and near,
+        // and every now and then a volley of several at once.
+        const finale = every(110, () => firework(screen));
+        const volleys = every(1300, () => {
+          for (let i = 0; i < 4; i += 1) {
+            firework(screen);
+          }
+        });
         later(FINALE_MS, () => {
           clearInterval(finale);
+          clearInterval(volleys);
           every(900, () => firework(screen));
         });
       });
