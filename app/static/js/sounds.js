@@ -14,7 +14,7 @@ const SETTINGS_KEY = "space-race:sound";
 export const CHANNELS = ["music", "voice", "effects"];
 // How loud each channel is at its full level; the usual level (0.8) is as loud as the
 // sounds always were. The tablet's own volume does the rest.
-const LOUDNESS = { music: 0.275, voice: 1.6, effects: 0.75 }; // the voice, after its compressor
+const LOUDNESS = { music: 0.5, voice: 1.6, effects: 0.75 }; // the voice, after its compressor
 const USUAL_LEVEL = 0.8;
 export const VOICE_KINDS = ["natural", "robot"];
 
