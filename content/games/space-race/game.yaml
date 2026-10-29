@@ -40,7 +40,7 @@ backwards_counts: true   # going back (meteorites, bounce): the square you land 
 waiting_place: [9, 22]
 
 places:
-  - [16.5, 12.5]  # start: whose turn it is, over the rocket, apart (clear of "Start here")
+  - [15.4, 35.3]  # start: whose turn it is, after the arrows of "Start here", by square 1
   - [20.6, 33.5]  # 1
   - [28.8, 33.5]  # 2
   - [35.9, 40.7]  # 3
