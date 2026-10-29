@@ -127,7 +127,9 @@ export function createAvatar(person) {
   const avatar = document.createElement("span");
   avatar.className = "avatar";
   avatar.setAttribute("aria-hidden", "true");
-  avatar.style.setProperty("--avatar-color", person.color ?? "#d6e4f5");
+  const color = person.color ?? "#d6e4f5";
+  avatar.style.setProperty("--avatar-color", color);
+  avatar.style.setProperty("--avatar-inside", lighter(color));
   const initial = person.emoji ?? person.name.charAt(0).toUpperCase();
   avatar.textContent = initial;
   if (person.photoUrl) {
@@ -141,4 +143,10 @@ export function createAvatar(person) {
     avatar.replaceChildren(img); // drawings may be see-through: no initial behind them
   }
   return avatar;
+}
+
+// A colour (#rrggbb) mixed with white: 22% of it, the rest white.
+function lighter(color) {
+  const channels = [1, 3, 5].map((start) => parseInt(color.slice(start, start + 2), 16));
+  return `rgb(${channels.map((value) => Math.round(255 - (255 - value) * 0.22)).join(", ")})`;
 }

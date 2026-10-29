@@ -108,8 +108,9 @@ button:active {
      and, outside it, a thicker ring in the player's own colour (first shadow). */
   border: calc(var(--avatar-size, 4rem) * 0.025 + 2px) solid var(--color-bg);
   border-radius: 50%;
-  /* Inside, the colour very light: an animal of that same colour still shows. */
-  background: color-mix(in srgb, var(--avatar-color, var(--color-avatar-default)) 22%, white);
+  /* Inside, the colour very light (set in JS: no color-mix here), so an animal of that
+     same colour still shows. */
+  background: var(--avatar-inside, var(--color-avatar-default));
   box-shadow:
     0 0 0 calc(var(--avatar-size, 4rem) * 0.05 + 2px) var(--avatar-color, var(--color-avatar-default)),
     0 6px 16px var(--color-shadow);
