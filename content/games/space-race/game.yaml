@@ -8,7 +8,16 @@
 title: "Space Race"
 
 image: board.webp
-squares_image: casillas.png  # only the squares: to light up the one a token is on
+squares_image: space-race-squares.png  # only the squares: to light up the one a token is on
+# Parts of the board that light up (the same size as the board, the rest see-through).
+lights:
+  title: space-race-title.png
+  start: space-race-start.png
+  trail: space-race-trail.png
+  moon: space-race-moon-alone.png
+  moon_sign: space-race-moon-sign.png
+  moon_flags: space-race-moon-flags.png
+  moon_stars: space-race-moon-stars-bg.png
 
 # A voice reads the cards aloud, and the questions and their answers in «Sabelotodo», for
 # those who cannot read yet (natural or robot; 🔊 in the game changes it). Optional.

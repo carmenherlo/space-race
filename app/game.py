@@ -50,6 +50,10 @@ TRUE_FALSE = ("Verdadero", "Falso")
 Mode = Literal["race", "challenges", "questions"]
 
 
+# The parts of a board that can light up (see GamePack.lights).
+Light = Literal["title", "start", "trail", "moon", "moon_sign", "moon_flags", "moon_stars"]
+
+
 class Square(StrictModel):
     """What happens on a special square: at most one way to move (go_to, move, back_roll,
     swap, minigame)."""
@@ -133,6 +137,9 @@ class GamePack(StrictModel):
     # Optional: the same picture with only its squares (the rest see-through), to light up
     # the square a token is on.
     squares_image: ImageName | None = None
+    # Optional: pictures of parts of the board (the same size, the rest see-through), to
+    # light them up: the title, the start, the trail to the Moon, the Moon…
+    lights: dict[Light, ImageName] = Field(default_factory=dict)
     # The start, squares 1, 2, … and the goal (the last one), in order.
     places: list[Place] = Field(min_length=3)
     squares: dict[int, Square] = Field(default_factory=dict)
@@ -204,6 +211,10 @@ class GamePack(StrictModel):
     def playable_modes(self) -> list[Mode]:
         """The modes of this game; "questions" only if it has questions."""
         return [mode for mode in self.modes if mode != "questions" or self.questions]
+
+    def pictures(self) -> set[str]:
+        """Every picture of the board (the only files of its folder that are served)."""
+        return {name for name in (self.image, self.squares_image, *self.lights.values()) if name}
 
     def exact_finish_in(self, mode: Mode) -> bool | None:
         """The exact finish in that mode: its own, else the game's (None: the players choose)."""
