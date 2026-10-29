@@ -53,7 +53,7 @@ def test_the_short_board_keeps_its_rules() -> None:
     assert pack.squares[25].trail  # along the star trail
     assert pack.playable_modes() == ["race", "questions"]  # "Carrera" and "Sabelotodo"
     assert pack.exact_finish_in("race") is True  # overshooting bounces back
-    assert pack.exact_finish_in("questions") is False  # overshooting still reaches the Moon
+    assert pack.exact_finish_in("questions") is True  # in both modes
     assert (pack.backwards_counts, pack.voice) == (True, True)  # going back, the square counts
     assert len(pack.challenges) == 32  # "Retos locos", kept though not in the menu
     assert len(pack.questions) == 190  # the shared bank (see test_both_boards_share…)
@@ -73,7 +73,7 @@ def test_space_race_expanded_has_its_own_rules() -> None:
     pack = load_game_pack(EXPANDED)
     assert pack.goal == 69  # start, 68 squares, the Moon
     assert pack.playable_modes() == ["race", "questions"]  # "Carrera" and "Sabelotodo"
-    assert (pack.exact_finish_in("race"), pack.exact_finish_in("questions")) == (True, False)
+    assert (pack.exact_finish_in("race"), pack.exact_finish_in("questions")) == (True, True)
     assert (pack.backwards_counts, pack.voice) == (True, True)  # going back, the square counts
     assert pack.max_stars == 1  # one wildcard star at a time
     galaxies = [6, 11, 15, 20, 24, 29, 33, 38, 42, 47, 51, 56, 60, 65]
@@ -208,7 +208,7 @@ def test_api_lists_the_games(client: TestClient) -> None:
 def test_api_serves_a_game(client: TestClient) -> None:
     game = client.get("/api/games/space-race-expanded").json()
     assert game["title"] == "Space Race Expanded"
-    assert game["modes"] == [{"id": "race", "exact_finish": True}, {"id": "questions", "exact_finish": False}]
+    assert game["modes"] == [{"id": "race", "exact_finish": True}, {"id": "questions", "exact_finish": True}]
     assert game["backwards_counts"] is True
     assert game["image_url"] == "games-pack/space-race-expanded/board.webp"
     assert "parents" not in game and "levels" not in game

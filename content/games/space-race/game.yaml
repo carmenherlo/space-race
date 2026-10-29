@@ -20,7 +20,7 @@ modes:
   race:                  # "Carrera"
     exact_finish: true
   questions:             # "Sabelotodo" (a question every turn)
-    exact_finish: false
+    exact_finish: true
 backwards_counts: true   # going back (meteorites, bounce): the square you land on counts
 
 # Where every place is on the picture: [x, y] in % of its width and height.

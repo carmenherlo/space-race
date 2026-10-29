@@ -92,7 +92,7 @@ Antes de empezar se elige el modo:
   - **Vuelve a tirar** (las galaxias): tiras otra vez, **sin pregunta**. Es el premio de esa casilla.
   - **Pierdes turno** (la fiesta): pierdes los turnos que diga la casilla, y en ellos **no hay pregunta**.
   - **Meteoritos**: tiras y retrocedes; donde caes también cuenta.
-- No hace falta el número exacto: si te pasas, llegas igual a la Luna (sin rebote).
+- Hay que llegar a la Luna con el número exacto, como en Carrera: si te pasas, rebotas.
 - Las preguntas tienen 4 respuestas (en un orden distinto cada vez); las de muy fácil y fácil, solo "Verdadero" o "Falso". Algunas traen un dato curioso que se enseña al contestar.
 - Cada nivel tiene su propio mazo, compartido por todos: no se repite ninguna pregunta hasta que han salido todas las de ese nivel.
 
