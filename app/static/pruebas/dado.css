@@ -67,24 +67,35 @@
   width: var(--token);
   height: var(--token);
   margin: calc(var(--token) / -2) 0 0 calc(var(--token) / -2);
-  transition:
-    left 0.22s ease-out,
-    top 0.22s ease-out;
-}
-
-.dice-test__token[data-speed="slow"] {
-  transition:
-    left 0.4s ease-out,
-    top 0.4s ease-out;
 }
 
 .dice-test__token .avatar {
   --avatar-size: var(--token);
 }
 
-/* Idea 2: a glint running around the ring, like a ring catching the light (SHINE_MS):
-   a bright spot with a fading tail, turning twice over the ring only (the mask leaves a
-   band as wide as the ring: the white border and the coloured one around it). */
+/* Idea 2: the token grows and a golden glint goes once round its ring, like a gold ring
+   catching the light (SHINE_MS): a bright spot with a fading tail, over the ring only (the
+   mask leaves a band as wide as the ring: the white border and the coloured one). */
+.dice-test__token[data-shine] {
+  z-index: 2;
+  transform: scale(1.6);
+}
+
+.dice-test__token {
+  z-index: 1;
+  transition:
+    left 0.22s ease-out,
+    top 0.22s ease-out,
+    transform 0.5s ease-in-out;
+}
+
+.dice-test__token[data-speed="slow"] {
+  transition:
+    left 0.4s ease-out,
+    top 0.4s ease-out,
+    transform 0.5s ease-in-out;
+}
+
 .dice-test__token::before {
   --ring: calc(var(--token) * 0.075 + 4px);
 
@@ -95,7 +106,7 @@
   width: calc(100% + var(--token) * 0.1 + 4px);
   height: calc(100% + var(--token) * 0.1 + 4px);
   border-radius: 50%;
-  background: conic-gradient(rgb(255 255 255 / 0%) 0deg, rgb(255 255 255 / 0%) 250deg, rgb(255 255 255 / 70%) 330deg, #fff 352deg, rgb(255 255 255 / 0%) 360deg);
+  background: conic-gradient(rgb(255 214 110 / 0%) 0deg, rgb(255 214 110 / 0%) 220deg, rgb(255 214 110 / 75%) 320deg, #fffbe8 352deg, rgb(255 214 110 / 0%) 360deg);
   -webkit-mask: radial-gradient(closest-side, transparent calc(100% - var(--ring)), #000 calc(100% - var(--ring) + 1px));
   mask: radial-gradient(closest-side, transparent calc(100% - var(--ring)), #000 calc(100% - var(--ring) + 1px));
   opacity: 0;
@@ -112,21 +123,22 @@
   width: calc(100% + var(--token) * 0.1 + 4px);
   height: calc(100% + var(--token) * 0.1 + 4px);
   border-radius: 50%;
-  background: radial-gradient(circle at 50% calc(var(--token) * 0.04 + 2px), #fff 0, #fff calc(var(--token) * 0.05), rgb(255 255 255 / 60%) calc(var(--token) * 0.1), rgb(255 255 255 / 0%) calc(var(--token) * 0.22));
+  background: radial-gradient(circle at 50% calc(var(--token) * 0.04 + 2px), #fff 0, #fffbe8 calc(var(--token) * 0.05), rgb(255 214 110 / 65%) calc(var(--token) * 0.11), rgb(255 214 110 / 0%) calc(var(--token) * 0.24));
   opacity: 0;
   pointer-events: none;
 }
 
+/* It starts once the token has grown, and goes round slowly, once. */
 .dice-test__token[data-shine]::before,
 .dice-test__token[data-shine]::after {
-  animation: dice-test-shine 1.3s ease-in-out;
+  animation: dice-test-shine 1.5s ease-in-out 0.4s both;
 }
 
 @keyframes dice-test-shine {
-  0% { opacity: 0; transform: rotate(0deg); }
-  12% { opacity: 1; }
-  88% { opacity: 1; }
-  100% { opacity: 0; transform: rotate(720deg); }
+  0% { opacity: 0; transform: rotate(-40deg); }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(360deg); }
 }
 
 /* Idea 1: the number, big in the middle of the board. */
