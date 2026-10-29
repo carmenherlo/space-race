@@ -30,7 +30,13 @@ def test_avatars_are_only_the_pictures_right_in_the_folder(tmp_path: Path) -> No
 
 def test_each_avatar_has_its_colour(tmp_path: Path) -> None:
     folder = avatars_folder(tmp_path, 'oso.png: "#bfefff"\nmissing.png: "#000000"\n')
-    assert list_avatars(folder) == [Avatar("Gato 2.webp", None), Avatar("oso.png", "#bfefff")]
+    assert list_avatars(folder) == [Avatar("oso.png", "#bfefff"), Avatar("Gato 2.webp", None)]
+
+
+def test_the_avatars_come_in_the_order_of_their_colours(tmp_path: Path) -> None:
+    folder = avatars_folder(tmp_path, 'oso.png: "#bfefff"\nGato 2.webp: "#ff8c1a"\n')
+    (folder / "abeja.png").write_bytes(b"\x89PNG")  # no colour: last
+    assert [avatar.name for avatar in list_avatars(folder)] == ["oso.png", "Gato 2.webp", "abeja.png"]
 
 
 def test_broken_colours_leave_the_avatars_without_colours(tmp_path: Path) -> None:
@@ -44,8 +50,8 @@ def test_api_serves_the_avatars_and_nothing_else(tmp_path: Path, client_for: Cal
     folder = avatars_folder(tmp_path, 'oso.png: "#bfefff"\n')
     with client_for(EXAMPLE_GAMES, folder) as client:
         assert client.get("/api/avatars").json() == [
-            {"id": "Gato 2.webp", "url": "avatars/Gato%202.webp", "color": None},
             {"id": "oso.png", "url": "avatars/oso.png", "color": "#bfefff"},
+            {"id": "Gato 2.webp", "url": "avatars/Gato%202.webp", "color": None},
         ]
         assert client.get("/avatars/oso.png").status_code == 200
         assert client.get("/avatars/Gato%202.webp").status_code == 200

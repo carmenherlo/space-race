@@ -3,6 +3,7 @@
     data/avatars/
       pollito.png        one picture each (any names); subfolders are ignored
       colors.yaml        optional: each picture's colour, e.g.  pollito.png: "#ffd60a"
+                         (its order is the order of the avatars in the menu)
 
 The colour is the player's: the ring of their avatar, their token, their glow on their
 turn. A picture without one gets its seat's colour (in the browser, js/game.js).
@@ -32,17 +33,23 @@ class Avatar:
 
 
 def list_avatars(avatars_dir: Path) -> list[Avatar]:
-    """The image files right in the avatars folder, in name order, with their colours."""
+    """The image files right in the avatars folder, with their colours: first those in
+    colors.yaml, in its order, then the rest in name order."""
     if not avatars_dir.is_dir():
         return []
     colors = load_colors(avatars_dir)
-    return [
-        Avatar(path.name, colors.get(path.name))
-        for path in sorted(avatars_dir.iterdir())
-        if path.is_file()
-        and not path.name.startswith(".")
-        and path.suffix.lower().lstrip(".") in IMAGE_EXTENSIONS
-    ]
+    order = {name: place for place, name in enumerate(colors)}
+    names = sorted(
+        (
+            path.name
+            for path in avatars_dir.iterdir()
+            if path.is_file()
+            and not path.name.startswith(".")
+            and path.suffix.lower().lstrip(".") in IMAGE_EXTENSIONS
+        ),
+        key=lambda name: (order.get(name, len(order)), name),
+    )
+    return [Avatar(name, colors.get(name)) for name in names]
 
 
 def load_colors(avatars_dir: Path) -> dict[str, str]:
