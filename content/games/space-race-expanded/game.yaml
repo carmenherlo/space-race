@@ -203,6 +203,7 @@ squares:
     title: "¡Galaxia lunar!"
     text: "La última galaxia tiene tanta magia que te reta a un minijuego. Si ganas, ¡te lanza directo a la Luna!"
     minigame: true
+    trail: [[79.5, 85.5], [82.0, 84.0], [84.2, 81.5], [85.8, 78.0], [87.5, 74.5]]  # the star trail to the Moon (in % of the picture)
 
   3:
     kind: good

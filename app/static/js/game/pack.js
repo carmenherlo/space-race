@@ -38,6 +38,7 @@ export async function loadPack() {
         starSaves: square.star_saves,
         swap: square.swap,
         minigame: square.minigame,
+        trail: square.trail ?? null,
       },
     ]),
   );

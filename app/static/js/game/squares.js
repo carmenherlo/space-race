@@ -2,7 +2,7 @@
 
 import { react, renderTurn } from "./board.js";
 import { chooseSwap, offerStar, playMinigameFor, showCard } from "./cards.js";
-import { jumpTo, moveBy, rollDie, swapPlaces } from "./moves.js";
+import { followTrail, jumpTo, moveBy, rollDie, swapPlaces } from "./moves.js";
 import { game, pack } from "./state.js";
 import { LAND_PAUSE_MS, wait } from "./timing.js";
 
@@ -59,7 +59,8 @@ export async function landOn(player) {
   }
   if (square.minigame) {
     if (await playMinigameFor(player)) {
-      await jumpTo(player, pack.goal); // won: they are at the Moon
+      // Won: to the Moon, along the star trail if the board has one.
+      await (square.trail ? followTrail(player, square.trail, pack.goal) : jumpTo(player, pack.goal));
     }
   } else if (square.goTo !== undefined) {
     await jumpTo(player, square.goTo);

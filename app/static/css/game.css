@@ -91,6 +91,32 @@ body.game {
   --avatar-size: var(--token);
 }
 
+/* Along the star trail to the Moon: a smooth glide from point to point (TRAIL_STEP_MS). */
+.token[data-trail] {
+  z-index: 2;
+  transition:
+    left 0.38s linear,
+    top 0.38s linear;
+}
+
+.token[data-trail] .avatar {
+  transform: scale(1.25);
+}
+
+.board-sparkle {
+  position: absolute;
+  z-index: 1;
+  font-size: calc(var(--token) * 0.6);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: board-sparkle 1.2s ease-out forwards;
+}
+
+@keyframes board-sparkle {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  to { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(90deg); }
+}
+
 /* A token that reacts (react in board.js, MOOD_MS): a hop of joy on a good square or a
    right answer; a tremble on a bad one. */
 .token[data-mood="good"] .avatar {

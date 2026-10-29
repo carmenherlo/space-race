@@ -3,7 +3,7 @@
 import { sounds } from "../sounds.js";
 import { renderTokens } from "./board.js";
 import { elements, game, pack } from "./state.js";
-import { DIE_ROLL_MS, FLIGHT_MS, STEP_MS, wait } from "./timing.js";
+import { DIE_ROLL_MS, FLIGHT_MS, STEP_MS, TRAIL_STEP_MS, wait } from "./timing.js";
 
 // Two tokens fly to each other's place at the same time.
 export async function swapPlaces(player, other) {
@@ -29,6 +29,36 @@ export function rollDie() {
     elements.die.textContent = String(roll);
     return roll;
   });
+}
+
+// Glides a token along a trail ([x, y] points in % of the board, like the star trail to
+// the Moon), leaving sparkles, and puts it on that place at the end.
+export async function followTrail(player, trail, place) {
+  const token = elements.tokens.children[game.players.indexOf(player)];
+  sounds.fly();
+  if (token) {
+    token.dataset.trail = ""; // a slower, smooth glide (see game.css)
+    for (const [x, y] of trail) {
+      token.style.left = `${x}%`;
+      token.style.top = `${y}%`;
+      sparkle(x, y);
+      await wait(TRAIL_STEP_MS);
+    }
+  }
+  player.place = place;
+  renderTokens();
+  await wait(TRAIL_STEP_MS);
+}
+
+// A sparkle on the board, fading away.
+function sparkle(x, y) {
+  const star = document.createElement("span");
+  star.className = "board-sparkle";
+  star.textContent = "✨";
+  star.style.left = `${x}%`;
+  star.style.top = `${y}%`;
+  elements.tokens.after(star);
+  setTimeout(() => star.remove(), 1200);
 }
 
 // Flies a token straight to another square (UFOs, galaxies, the black hole…).

@@ -107,6 +107,7 @@ squares:
     title: "¡La última galaxia!"
     text: "Esta galaxia te reta a un minijuego. Si ganas, ¡te lanza directo a la Luna!"
     minigame: true
+    trail: [[72.2, 67.5], [76.3, 71.8], [80.2, 73.8], [84.0, 75.5]]  # the star trail to the Moon (in % of the picture)
 
   # Trips.
   7:

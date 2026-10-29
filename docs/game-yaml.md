@@ -67,6 +67,7 @@ Por número de casilla. Lo que hace cada una:
 | `back_roll` | `true`: tira el dado y retrocede lo que salga. |
 | `swap` | `true`: puede cambiarse de sitio con el jugador que elija. |
 | `minigame` | `true`: elige un minijuego (cometas, ruleta o despegue); si gana, ¡directo a la Luna! |
+| `trail` | Con `minigame`: el camino a la Luna al ganar, puntos `[x, y]` en % del dibujo (como `places`). La ficha lo recorre dejando brillitos; sin él, vuela recta. |
 | `again` | `true`: vuelve a tirar. |
 | `skip` | Pierde turnos: `true` = 1, o un número (`skip: 2`). |
 | `others_move` | Todos los DEMÁS avanzan (+) o retroceden (−) esas casillas. |
