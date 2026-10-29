@@ -230,10 +230,12 @@ function playWheel() {
 
 const WHEEL_MS = 6000; // as long as the wheel's transition in galaxia.css
 
-// 🚀 Fill the rocket's tank: tap it as fast as you can before the time runs out. A full
-// tank, straight to the Moon; half a tank, half the way… and back down.
+// 🚀 Fill the rocket's tank: tap it as fast as you can before the time runs out; it leaks,
+// so stopping empties it. A full tank, straight to the Moon; half a tank, half the way…
+// and back down. Harder: more taps, less time or a bigger leak.
 const FUEL_MS = 5000; // time to fill it, from the first tap
-const FUEL_TAPS = 25; // taps for a full tank
+const FUEL_TAPS = 20; // taps for a full tank
+const LEAK_PER_SECOND = 3; // taps' worth of fuel lost each second
 
 function playRocket() {
   result.textContent = "¡Toca el cohete muy rápido para llenar el depósito!";
@@ -268,8 +270,20 @@ function playRocket() {
     let filling = true;
     const full = () => fuel >= FUEL_TAPS;
 
+    let last = null;
+    const showFuel = () => {
+      fuelLevel.style.height = `${(100 * fuel) / FUEL_TAPS}%`;
+      flame.style.transform = `rotate(180deg) scale(${0.4 + (1.2 * fuel) / FUEL_TAPS})`;
+    };
+
+    // The time left, and the leak (none once it is full).
     const timeLeft = (now) => {
       time.style.width = `${100 * Math.max(0, 1 - (now - started) / FUEL_MS)}%`;
+      if (last !== null && !full()) {
+        fuel = Math.max(0, fuel - (LEAK_PER_SECOND * (now - last)) / 1000);
+        showFuel();
+      }
+      last = now;
       if (filling) {
         requestAnimationFrame(timeLeft);
       }
@@ -284,10 +298,9 @@ function playRocket() {
         requestAnimationFrame(timeLeft);
         setTimeout(launch, FUEL_MS);
       }
-      fuel += 1;
+      fuel = Math.min(FUEL_TAPS, fuel + 1);
       sounds.hop();
-      fuelLevel.style.height = `${(100 * fuel) / FUEL_TAPS}%`;
-      flame.style.transform = `rotate(180deg) scale(${0.4 + (1.2 * fuel) / FUEL_TAPS})`;
+      showFuel();
       ship.style.marginLeft = `${Math.random() * 8 - 4}px`; // it shakes
       if (full()) {
         tank.dataset.full = "";
