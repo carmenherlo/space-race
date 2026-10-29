@@ -1,7 +1,7 @@
 // The last galaxy (galaxia.html): a test page for its little games. Whoever lands on the
 // last galaxy chooses one; if they win, their token flies straight to the Moon. The comets
-// are a game of skill (dodge them); the wheel (two slices of six) and the rocket (one launch
-// in three) are luck. Nothing here touches a game: it is only to try them out.
+// are a game of skill (dodge them), and so is the rocket (fill its tank, tapping fast); the
+// wheel (two slices of six) is luck. Nothing here touches a game: it is only to try them out.
 
 import { sounds } from "./sounds.js";
 
@@ -230,23 +230,76 @@ function playWheel() {
 
 const WHEEL_MS = 6000; // as long as the wheel's transition in galaxia.css
 
-// 🚀 Light the rocket: 3, 2, 1… it flies up. Will it reach the Moon?
+// 🚀 Fill the rocket's tank: tap it as fast as you can before the time runs out. A full
+// tank, straight to the Moon; half a tank, half the way… and back down.
+const FUEL_MS = 5000; // time to fill it, from the first tap
+const FUEL_TAPS = 25; // taps for a full tank
+
 function playRocket() {
-  result.textContent = "Toca el cohete para encenderlo";
+  result.textContent = "¡Toca el cohete muy rápido para llenar el depósito!";
   const goal = document.createElement("span");
   goal.className = "launch__moon";
   goal.textContent = "🌕";
+  const tank = document.createElement("span");
+  tank.className = "launch__tank";
+  const fuelLevel = document.createElement("span");
+  fuelLevel.className = "launch__fuel";
+  tank.append(fuelLevel);
   const rocket = document.createElement("button");
   rocket.type = "button";
   rocket.className = "launch__rocket";
-  rocket.textContent = "🚀";
-  rocket.setAttribute("aria-label", "Encender el cohete");
+  rocket.setAttribute("aria-label", "Llenar el depósito");
+  const ship = document.createElement("span");
+  ship.className = "launch__ship";
+  ship.textContent = "🚀";
+  const flame = document.createElement("span");
+  flame.className = "launch__flame";
+  flame.textContent = "🔥";
+  rocket.append(ship, flame);
   const count = document.createElement("span");
   count.className = "launch__count";
-  stage.replaceChildren(goal, count, rocket);
+  const time = document.createElement("span");
+  time.className = "launch__time";
+  stage.replaceChildren(goal, tank, count, rocket, time);
+
   return new Promise((resolve) => {
-    rocket.addEventListener("click", async () => {
+    let fuel = 0;
+    let started = null;
+    let filling = true;
+    const full = () => fuel >= FUEL_TAPS;
+
+    const timeLeft = (now) => {
+      time.style.width = `${100 * Math.max(0, 1 - (now - started) / FUEL_MS)}%`;
+      if (filling) {
+        requestAnimationFrame(timeLeft);
+      }
+    };
+
+    rocket.addEventListener("pointerdown", () => {
+      if (!filling || full()) {
+        return;
+      }
+      if (started === null) {
+        started = performance.now();
+        requestAnimationFrame(timeLeft);
+        setTimeout(launch, FUEL_MS);
+      }
+      fuel += 1;
+      sounds.hop();
+      fuelLevel.style.height = `${(100 * fuel) / FUEL_TAPS}%`;
+      flame.style.transform = `rotate(180deg) scale(${0.4 + (1.2 * fuel) / FUEL_TAPS})`;
+      ship.style.marginLeft = `${Math.random() * 8 - 4}px`; // it shakes
+      if (full()) {
+        tank.dataset.full = "";
+        result.textContent = "¡Depósito lleno!";
+        sounds.good();
+      }
+    });
+
+    async function launch() {
+      filling = false;
       rocket.disabled = true;
+      ship.style.marginLeft = "0";
       result.textContent = "";
       for (const number of ["3", "2", "1"]) {
         count.textContent = number;
@@ -254,25 +307,25 @@ function playRocket() {
         await wait(700);
       }
       count.textContent = "";
-      const won = Math.random() < 1 / 3;
       const top = stage.clientHeight - rocket.offsetHeight - goal.offsetHeight;
-      // Not far enough: it stops somewhere between a third and three quarters of the way.
-      const height = won ? top : top * (0.35 + Math.random() * 0.4);
+      const won = full();
+      // Not full: as far as its fuel takes it (never quite to the Moon).
       sounds.fly();
-      rocket.style.transform = `translateY(${-height}px) rotate(-45deg)`;
+      rocket.style.transform = `translateY(${-top * (won ? 1 : (0.9 * fuel) / FUEL_TAPS)}px)`;
       await wait(2300);
       if (won) {
         sounds.good();
       } else {
+        result.textContent = "¡Sin gasolina!";
         rocket.dataset.wobble = "";
         await wait(800);
         sounds.bounce();
         rocket.style.transition = "transform 1s ease-in";
-        rocket.style.transform = "translateY(0) rotate(135deg)";
+        rocket.style.transform = "translateY(0) rotate(180deg)";
         await wait(1000);
       }
       resolve(won);
-    }, { once: true });
+    }
   });
 }
 

@@ -139,7 +139,8 @@
   filter: none;
 }
 
-.dodge__bar {
+.dodge__bar,
+.launch__time {
   position: absolute;
   top: 0;
   left: 0;
@@ -212,21 +213,63 @@
   line-height: 1;
 }
 
-/* 🚀 The rocket: up from the bottom, towards the Moon at the top. */
+/* 🚀 The rocket: tap it fast to fill its tank (on the left), then up towards the Moon. */
 .launch__moon {
   position: absolute;
   top: 0.5rem;
   font-size: 3.5rem;
 }
 
+.launch__tank {
+  position: absolute;
+  top: 4.5rem;
+  bottom: 1rem;
+  left: 1.5rem;
+  width: 1.6rem;
+  overflow: hidden;
+  border: 3px solid #fff;
+  border-radius: 999px;
+}
+
+.launch__fuel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: #ff8c1a;
+  transition: height 0.1s ease-out;
+}
+
+.launch__tank[data-full] .launch__fuel {
+  background: #2ecc40;
+}
+
 .launch__rocket {
   position: absolute;
   bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border: 0;
   background: none;
-  font-size: 4rem;
-  transform: rotate(-45deg); /* the emoji points up-right: now straight up */
+  touch-action: manipulation; /* fast taps: no double-tap zoom */
   transition: transform 2.2s ease-in;
+}
+
+.launch__ship {
+  font-size: 4.5rem;
+  line-height: 1;
+  transform: rotate(-45deg); /* the emoji points up-right: now straight up */
+}
+
+/* Bigger with every tap (scale set in JS); upside down, under the rocket. */
+.launch__flame {
+  margin-top: -0.6rem;
+  font-size: 2.5rem;
+  line-height: 1;
+  transform: rotate(180deg) scale(0.4);
+  transition: transform 0.1s ease-out;
 }
 
 .launch__count {
