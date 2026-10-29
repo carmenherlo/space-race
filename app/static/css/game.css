@@ -65,8 +65,8 @@ body.game {
   margin: calc(var(--token) / -2) 0 0 calc(var(--token) / -2);
   transform: translate(calc(var(--dx) * var(--token)), calc(var(--dy) * var(--token)));
   transition:
-    left 0.22s ease-out,
-    top 0.22s ease-out;
+    left 0.4s ease-out,
+    top 0.4s ease-out; /* STEP_MS in timing.js */
 }
 
 /* Flying to another square (UFOs, galaxies, the black hole): slower, with a little
@@ -89,6 +89,53 @@ body.game {
 
 .token .avatar {
   --avatar-size: var(--token);
+}
+
+/* The player who rolled: the ring of their token lights up, pulsing, until the next turn. */
+.token[data-rolled] {
+  z-index: 3;
+}
+
+.token[data-rolled] .avatar {
+  box-shadow:
+    0 0 0 calc(var(--token) * 0.08) var(--player-color),
+    0 0 calc(var(--token) * 0.5) calc(var(--token) * 0.12) #fff,
+    0 0 calc(var(--token) * 0.9) calc(var(--token) * 0.2) var(--player-color);
+  animation: token-rolled 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes token-rolled {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.25); }
+}
+
+/* The number the die gave, big in the middle of the board, for a moment. */
+.board-game__number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: calc(var(--token) * 3);
+  height: calc(var(--token) * 3);
+  margin: calc(var(--token) * -1.5) 0 0 calc(var(--token) * -1.5);
+  border: calc(var(--token) * 0.12) solid var(--player-color, var(--game-lilac));
+  border-radius: calc(var(--token) * 0.6);
+  background: var(--color-bg);
+  color: var(--game-navy);
+  font-size: calc(var(--token) * 2);
+  font-weight: 900;
+  box-shadow: 0 10px 40px rgb(0 0 0 / 50%);
+  animation: die-number 0.4s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+
+.board-game__number[hidden] {
+  display: none;
+}
+
+@keyframes die-number {
+  from { transform: scale(0.2) rotate(-30deg); }
 }
 
 /* Along the star trail to the Moon: a smooth glide from point to point (TRAIL_STEP_MS). */

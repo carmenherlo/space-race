@@ -132,6 +132,7 @@ async function passTurnTo(index) {
   elements.tokens.dataset.changing = "";
   await wait(TURN_PAUSE_MS);
   game.turn = index;
+  game.rolled = null;
   game.busy = false;
   delete elements.tokens.dataset.changing;
   callToken();

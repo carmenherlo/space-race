@@ -4,7 +4,8 @@
 import { game } from "./state.js";
 
 export const DIE_ROLL_MS = 900; // the die keeps changing before it stops
-export const STEP_MS = 280; // a token hops one square
+export const DIE_NUMBER_MS = 1100; // then its number, big on the board, before the token moves
+export const STEP_MS = 480; // a token hops one square (keep in sync with game.css)
 export const FLIGHT_MS = 900; // a token flies to another square (keep in sync with game.css)
 export const LAND_PAUSE_MS = 900; // the token rests on its square before a card shows, to see where
 export const START_PAUSE_MS = 1500; // the board alone for a moment before the first turn

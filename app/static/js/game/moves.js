@@ -2,8 +2,8 @@
 
 import { sounds } from "../sounds.js";
 import { renderTokens } from "./board.js";
-import { elements, game, pack } from "./state.js";
-import { DIE_ROLL_MS, FLIGHT_MS, STEP_MS, TRAIL_STEP_MS, wait } from "./timing.js";
+import { currentPlayer, elements, game, pack } from "./state.js";
+import { DIE_NUMBER_MS, DIE_ROLL_MS, FLIGHT_MS, STEP_MS, TRAIL_STEP_MS, wait } from "./timing.js";
 
 // Two tokens fly to each other's place at the same time.
 export async function swapPlaces(player, other) {
@@ -23,10 +23,19 @@ export function rollDie() {
   const shuffle = setInterval(() => {
     elements.die.textContent = String(1 + Math.floor(Math.random() * 6));
   }, 80);
-  return wait(DIE_ROLL_MS).then(() => {
+  return wait(DIE_ROLL_MS).then(async () => {
     clearInterval(shuffle);
     delete elements.die.dataset.rolling;
     elements.die.textContent = String(roll);
+    // The number, big on the board, while the ring of the player's token lights up: so
+    // everybody sees what came out, and where that token is, before it moves.
+    game.rolled = currentPlayer();
+    renderTokens();
+    elements.dieNumber.style.setProperty("--player-color", game.rolled.color);
+    elements.dieNumber.textContent = String(roll);
+    elements.dieNumber.hidden = false;
+    await wait(DIE_NUMBER_MS);
+    elements.dieNumber.hidden = true;
     return roll;
   });
 }

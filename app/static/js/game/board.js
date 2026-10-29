@@ -61,6 +61,9 @@ export function renderTokens({ flying = [] } = {}) {
     if (nearTheMoon(player)) {
       token.dataset.near = "";
     }
+    if (player === game.rolled) {
+      token.dataset.rolled = ""; // its ring lights up, from the roll to the next turn
+    }
     token.append(createAvatar(player));
     if (player.stars > 0) {
       const badge = document.createElement("span");

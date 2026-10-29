@@ -32,6 +32,7 @@ export const game = {
   busy: false, // a roll, a move or a card is in progress
   mayRoll: false, // "Sabelotodo": the question was right, the die is the player's
   paused: false, // ⏸: every wait stops (see wait) until "Seguir jugando"
+  rolled: null, // the player who rolled this turn: the ring of their token lights up
   // What was chosen before playing (the setup):
   mode: "challenges", // the end of each turn: "race" (nothing), "challenges" or "questions"
   exactFinish: false, // the Moon only with the exact number: overshooting bounces back
@@ -46,6 +47,7 @@ export const elements = {
   boardImage: document.getElementById("board-image"),
   marks: document.getElementById("marks"),
   tokens: document.getElementById("tokens"),
+  dieNumber: document.getElementById("die-number"),
   ranking: document.getElementById("ranking"),
   turn: document.getElementById("turn"),
   turnAvatar: document.getElementById("turn-avatar"),
