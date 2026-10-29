@@ -1,5 +1,6 @@
 // "Sabelotodo": the levels, the questions, and a turn (a question first; right, roll).
 
+import { LEVEL_NAMES, LEVEL_STARS, TRUE_FALSE_LEVELS } from "../levels.js";
 import { sounds } from "../sounds.js";
 import { react, renderTurn } from "./board.js";
 import { drawFrom, showBounce, showWinner } from "./cards.js";
@@ -10,26 +11,6 @@ import { currentPlayer, elements, game, pack } from "./state.js";
 import { BOARD_LOOK_MS, LAND_PAUSE_MS, wait } from "./timing.js";
 import { nextTurn } from "./turns.js";
 
-// Levels of the questions (mode "Sabelotodo"): chicks for kids, stars for grown-ups.
-export const LEVELS = ["very_easy", "kids_medium", "kids_hard", "easy", "medium", "hard"];
-export const LEVEL_STARS = {
-  very_easy: "🐣",
-  kids_medium: "🐣🐣",
-  kids_hard: "🐣🐣🐣",
-  easy: "⭐",
-  medium: "⭐⭐",
-  hard: "⭐⭐⭐",
-};
-export const LEVEL_NAMES = {
-  very_easy: "niños de 3 a 5 años",
-  kids_medium: "niños de 6 a 8 años",
-  kids_hard: "niños de 9 a 12 años",
-  easy: "fácil",
-  medium: "medio",
-  hard: "difícil",
-};
-// The levels whose questions are true or false.
-const TRUE_FALSE_LEVELS = ["very_easy", "easy"];
 // A setup remembered from before levels were saved (it had 4 others): each old level, as one of these.
 export const OLD_LEVELS = { very_easy: "easy", easy: "medium", medium: "medium", hard: "hard" };
 // True-or-false questions: these two answers, in this order, with a hand

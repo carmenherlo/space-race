@@ -1,0 +1,116 @@
+/* The questions page (questions.html). Uses the tokens of base.css. */
+
+.questions-page__main {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: var(--space-l) var(--space-m);
+  font-size: 1rem;
+}
+
+.questions-page__title {
+  margin: 0 0 var(--space-m);
+  font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.4rem);
+  text-align: center;
+}
+
+/* The filters: a row of levels and a row of topics, wrapping on narrow screens. */
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.filters__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: var(--touch-min);
+  padding: 0.3rem 0.9rem;
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-bg);
+  font-size: 1rem;
+}
+
+.filter small {
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+
+.filter[aria-pressed="true"] {
+  border-color: var(--color-focus);
+  background: #dbe8fb;
+  font-weight: 700;
+}
+
+.summary {
+  margin: var(--space-m) 0 var(--space-s);
+  color: var(--color-muted);
+  text-align: center;
+}
+
+/* One card per question: its emoji, the question and its answers, and its level and topic. */
+.question-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.question-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-s);
+  padding: var(--space-s) var(--space-m);
+  border-radius: 1rem;
+  background: var(--color-bg);
+  box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.question-item__emoji {
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+
+.question-item__body {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.question-item__body p {
+  margin: 0.15rem 0;
+}
+
+.question-item__text {
+  font-weight: 700;
+}
+
+.question-item__answers {
+  color: var(--color-muted);
+  white-space: pre-wrap;
+}
+
+.question-item__right {
+  color: #166534;
+  font-weight: 700;
+}
+
+.question-item__note {
+  font-size: 0.9rem;
+}
+
+.question-item__tags {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}

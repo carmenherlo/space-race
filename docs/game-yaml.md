@@ -109,8 +109,9 @@ o las preguntas del propio juego, en una lista con los mismos campos que el banc
 | `answer` | La respuesta correcta. |
 | `wrong` | Tres respuestas incorrectas (en `very_easy` y `easy`, solo la otra de "Verdadero"/"Falso"). |
 | `note` | Opcional: un dato curioso que sale al contestar. |
+| `topic` | El tema: `animals` · `science` · `geography` · `history` · `art` · `general` (cultura general). |
 | `level` | Niños: `very_easy` 🐣 (3 a 5 años; verdadero o falso, muchas de risa) · `kids_medium` 🐣🐣 (6 a 8 años) · `kids_hard` 🐣🐣🐣 (9 a 12 años). Adultos: `easy` ⭐ (verdadero o falso) · `medium` ⭐⭐ · `hard` ⭐⭐⭐. |
 
 Cada jugador elige su nivel en el menú. Cada nivel tiene su mazo, compartido por todos: no se
-repite ninguna pregunta hasta que han salido todas. Las preguntas, para leerlas cómodamente:
-`docs/questions-general.md` (las que se usan) y `docs/questions-space.md` (las del espacio).
+repite ninguna pregunta hasta que han salido todas. Las preguntas, para leerlas
+cómodamente y filtrarlas por nivel y tema: la página "Preguntas" del menú (`questions.html`).

@@ -1,20 +1,26 @@
 # General knowledge questions: a question bank, for every game that says
 # "questions: general" (the name of this file). Mode "Sabelotodo": a question at the
 # start of every turn; right, roll the die. The answers are shuffled each time.
-# For people, the same questions: docs/questions-general.md. After editing, restart the app.
+# To read them, filtered by level and topic: the page "Preguntas" of the games menu
+# (questions.html). After editing, restart the app.
 #
 # Levels easy, medium and hard: translated and adapted from Open Trivia Database (https://opentdb.com),
-# licensed CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).
+# licensed CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/): they are shared
+# under the same licence. The kids' levels are written for the game.
 #
 #   emoji, text: the question
 #   answer: the right one   ·   wrong: three wrong ones
 #   note: optional, a curious fact shown once answered
-#   level, chosen for each player before playing:
-#     very_easy (🐣, about 4 years old) true or false, often silly: answers as in easy
+#   level, chosen for each player before playing. Kids:
+#     very_easy   (🐣, 3 to 5 years) true or false, often silly: answers as in easy
+#     kids_medium (🐣🐣, 6 to 8 years)
+#     kids_hard   (🐣🐣🐣, 9 to 12 years)
+#   grown-ups:
 #     easy   (⭐) true or false: answer "Verdadero" or "Falso", and the other one as the
 #            only wrong one
 #     medium (⭐⭐)
 #     hard   (⭐⭐⭐)
+#   topic: animals, science, geography, history, art or general
 #
 # Texts IN QUOTES: some have a colon (:), which YAML would misread without them.
 
@@ -26,221 +32,261 @@ questions:
     wrong: ["Verdadero"]
     note: "¡Los perros dicen \"guau, guau\"!"
     level: very_easy
+    topic: animals
   - emoji: "🐄"
     text: "Las vacas dan leche."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: animals
   - emoji: "🧀"
     text: "La Luna está hecha de queso."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Está hecha de roca y polvo gris. ¡Aunque tenga agujeros como el queso!"
     level: very_easy
+    topic: science
   - emoji: "🐟"
     text: "Los peces viven en el agua."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: animals
   - emoji: "🐘"
     text: "Un elefante cabe en un bolsillo."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "¡Los elefantes son enormes!"
     level: very_easy
+    topic: animals
   - emoji: "🍌"
     text: "Los plátanos son azules."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Son amarillos."
     level: very_easy
+    topic: general
   - emoji: "🐦"
     text: "Los pájaros pueden volar."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: animals
   - emoji: "🐷"
     text: "Los cerditos vuelan para ir al colegio."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "¡Los cerditos no vuelan… ni van al colegio!"
     level: very_easy
+    topic: animals
   - emoji: "🌍"
     text: "Vivimos en el planeta Tierra."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: science
   - emoji: "🍦"
     text: "El helado está calentito, como la sopa."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "¡El helado está frío!"
     level: very_easy
+    topic: general
   - emoji: "🦒"
     text: "La jirafa tiene el cuello muy largo."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: animals
   - emoji: "🦷"
     text: "Nos lavamos los dientes con chocolate."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Con pasta de dientes. ¡El chocolate, mejor en la merienda!"
     level: very_easy
+    topic: general
   - emoji: "🐔"
     text: "Las gallinas ponen huevos."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: animals
   - emoji: "🐟"
     text: "En el espacio hay peces nadando."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "En el espacio no hay agua ni aire: los peces no podrían vivir."
     level: very_easy
+    topic: science
   - emoji: "🐸"
     text: "Las ranas dicen \"croac\"."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: animals
   - emoji: "🚗"
     text: "Los coches tienen ruedas."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: general
   - emoji: "👟"
     text: "Los zapatos se ponen en las orejas."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "¡Se ponen en los pies!"
     level: very_easy
+    topic: general
   - emoji: "⭐"
     text: "Por la noche vemos estrellas en el cielo."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: science
   - emoji: "❄️"
     text: "La nieve es blanca y fría."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: science
   - emoji: "🐱"
     text: "Los gatos ladran: \"guau, guau\"."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Los gatos maúllan: \"¡miau!\""
     level: very_easy
+    topic: animals
   - emoji: "🔥"
     text: "El Sol está frío como el hielo."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "¡Al revés! El Sol está muchísimo más caliente que un horno."
     level: very_easy
+    topic: science
   - emoji: "🌳"
     text: "Los árboles tienen hojas."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: science
   - emoji: "🐌"
     text: "Los caracoles corren más que un coche."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Van despacito, despacito."
     level: very_easy
+    topic: animals
   - emoji: "🚀"
     text: "Los astronautas viajan al espacio en cohete."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: science
   - emoji: "🛁"
     text: "Nos bañamos con agua."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: general
   - emoji: "🍕"
     text: "Los peces comen pizza en el mar."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "¡En el mar no hay pizzerías!"
     level: very_easy
+    topic: animals
   - emoji: "😴"
     text: "Por la noche nos vamos a dormir."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: general
   - emoji: "👽"
     text: "En Marte viven marcianos verdes."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Allí solo han ido robots, y no han encontrado marcianos… ¡de momento!"
     level: very_easy
+    topic: science
   - emoji: "🦁"
     text: "El león hace \"muuu\"."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "El león ruge: \"¡grrr!\". La que hace \"muuu\" es la vaca."
     level: very_easy
+    topic: animals
   - emoji: "🍎"
     text: "Las manzanas crecen en los árboles."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: science
   - emoji: "🐝"
     text: "Las abejas hacen miel."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: animals
   - emoji: "👃"
     text: "Tenemos la nariz en el pie."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "¡La tenemos en la cara!"
     level: very_easy
+    topic: science
   - emoji: "🧑‍🚀"
     text: "Los astronautas flotan dentro de la nave."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: science
   - emoji: "🦆"
     text: "Los patos nadan en el agua."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: animals
   - emoji: "🐄"
     text: "Una vaca saltó por encima de la Luna."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "¡Eso solo pasa en las canciones!"
     level: very_easy
+    topic: art
   - emoji: "🎂"
     text: "En los cumpleaños soplamos las velas."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: general
   - emoji: "🧦"
     text: "Los calcetines se comen con cuchara."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "¡Los calcetines se ponen en los pies!"
     level: very_easy
+    topic: general
   - emoji: "🌙"
     text: "La Luna a veces está redonda y a veces parece un plátano."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "No cambia de verdad: vemos más o menos parte iluminada por el Sol."
     level: very_easy
+    topic: science
   - emoji: "🐻"
     text: "Los osos llevan gafas para leer cuentos."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "¡Solo en los dibujos!"
     level: very_easy
+    topic: animals
   - emoji: "🌧️"
     text: "Cuando llueve, nos mojamos."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "Por eso llevamos paraguas."
     level: very_easy
+    topic: science
 
   - emoji: "🦖"
     text: "Los dinosaurios vivieron hace muchísimo tiempo."
@@ -248,59 +294,69 @@ questions:
     wrong: ["Falso"]
     note: "Mucho antes de que hubiera personas."
     level: very_easy
+    topic: history
   - emoji: "🏰"
     text: "En los castillos vivían reyes y reinas."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "Y caballeros con armadura."
     level: very_easy
+    topic: history
   - emoji: "🎨"
     text: "Si mezclamos azul y amarillo, sale verde."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: very_easy
+    topic: art
   - emoji: "🐢"
     text: "Las tortugas llevan su casa a cuestas."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "Es su caparazón: se esconden dentro."
     level: very_easy
+    topic: animals
   - emoji: "🐧"
     text: "Los pingüinos viven en playas muy calurosas."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Casi todos viven donde hace mucho frío."
     level: very_easy
+    topic: animals
   - emoji: "🌞"
     text: "Cuando es de día, el cielo está oscuro."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "De día hay luz; de noche, oscuro."
     level: very_easy
+    topic: science
   - emoji: "👶"
     text: "Los bebés nacen sabiendo hablar."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Aprenden poco a poco, escuchando."
     level: very_easy
+    topic: science
   - emoji: "🌊"
     text: "El agua del mar es dulce como el zumo."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "¡Es salada!"
     level: very_easy
+    topic: geography
   - emoji: "🐙"
     text: "El pulpo tiene dos patas."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Tiene ocho brazos."
     level: very_easy
+    topic: animals
   - emoji: "🦓"
     text: "Las cebras tienen rayas de todos los colores, como el arcoíris."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Son blancas y negras."
     level: very_easy
+    topic: animals
 
   # ---------- kids_medium (50) ----------
   - emoji: "🐋"
@@ -309,257 +365,307 @@ questions:
     wrong: ["El elefante", "La jirafa", "El tiburón blanco"]
     note: "Es más grande que cualquier dinosaurio."
     level: kids_medium
+    topic: animals
   - emoji: "🕷️"
     text: "¿Cuántas patas tiene una araña?"
     answer: "Ocho"
     wrong: ["Seis", "Cuatro", "Diez"]
     note: "Las arañas no son insectos: los insectos tienen seis."
     level: kids_medium
+    topic: animals
   - emoji: "🐛"
     text: "¿En qué se convierte una oruga?"
     answer: "En mariposa"
     wrong: ["En araña", "En caracol", "En abeja"]
     level: kids_medium
+    topic: animals
   - emoji: "🦇"
     text: "¿Qué animal duerme colgado boca abajo?"
     answer: "El murciélago"
     wrong: ["El búho", "El mono", "El loro"]
     level: kids_medium
+    topic: animals
   - emoji: "🐸"
     text: "¿Cómo se llama la cría de la rana?"
     answer: "Renacuajo"
     wrong: ["Pollito", "Cachorro", "Potro"]
     level: kids_medium
+    topic: animals
   - emoji: "🐪"
     text: "¿Qué animal del desierto tiene joroba?"
     answer: "El camello"
     wrong: ["El caballo", "La vaca", "El burro"]
     note: "En la joroba guarda grasa, no agua."
     level: kids_medium
+    topic: animals
   - emoji: "🐼"
     text: "¿Qué come sobre todo el oso panda?"
     answer: "Bambú"
     wrong: ["Pescado", "Miel", "Plátanos"]
     level: kids_medium
+    topic: animals
   - emoji: "🐬"
     text: "¿Qué respiran los delfines?"
     answer: "Aire"
     wrong: ["Agua", "Arena", "Algas"]
     note: "Suben a respirar por un agujero que tienen en la cabeza."
     level: kids_medium
+    topic: animals
   - emoji: "🐝"
     text: "¿Cómo se llama la casa de las abejas?"
     answer: "La colmena"
     wrong: ["El nido", "La madriguera", "El establo"]
     level: kids_medium
+    topic: animals
   - emoji: "🐆"
     text: "¿Cuál es el animal de tierra más rápido?"
     answer: "El guepardo"
     wrong: ["El león", "El caballo", "El conejo"]
     level: kids_medium
+    topic: animals
   - emoji: "☀️"
     text: "¿Qué es el Sol?"
     answer: "Una estrella"
     wrong: ["Un planeta", "Una luna", "Un cometa"]
     level: kids_medium
+    topic: science
   - emoji: "🪐"
     text: "¿Qué planeta tiene unos anillos muy famosos?"
     answer: "Saturno"
     wrong: ["Marte", "La Tierra", "Mercurio"]
     level: kids_medium
+    topic: science
   - emoji: "🔴"
     text: "¿A qué planeta lo llaman \"el planeta rojo\"?"
     answer: "Marte"
     wrong: ["Venus", "Júpiter", "Neptuno"]
     level: kids_medium
+    topic: science
   - emoji: "🧊"
     text: "¿En qué se convierte el agua cuando se congela?"
     answer: "En hielo"
     wrong: ["En vapor", "En arena", "En leche"]
     level: kids_medium
+    topic: science
   - emoji: "❤️"
     text: "¿Qué parte del cuerpo mueve la sangre?"
     answer: "El corazón"
     wrong: ["El estómago", "Los pulmones", "El cerebro"]
     level: kids_medium
+    topic: science
   - emoji: "🌈"
     text: "¿Cuántos colores tiene el arcoíris?"
     answer: "Siete"
     wrong: ["Tres", "Cinco", "Diez"]
     level: kids_medium
+    topic: science
   - emoji: "🧲"
     text: "¿Qué atrae un imán?"
     answer: "El hierro"
     wrong: ["La madera", "El papel", "El plástico"]
     level: kids_medium
+    topic: science
   - emoji: "🌱"
     text: "¿Qué necesitan las plantas para crecer?"
     answer: "Agua y luz"
     wrong: ["Sal", "Oscuridad", "Zumo"]
     level: kids_medium
+    topic: science
   - emoji: "🦷"
     text: "¿Cuántos dientes de leche tienen los niños?"
     answer: "Veinte"
     wrong: ["Diez", "Cien", "Cuarenta"]
     note: "Luego se caen y salen los de mayor."
     level: kids_medium
+    topic: science
   - emoji: "🌍"
     text: "¿Cuánto tarda la Tierra en dar una vuelta al Sol?"
     answer: "Un año"
     wrong: ["Un día", "Una semana", "Un mes"]
     level: kids_medium
+    topic: science
   - emoji: "🏙️"
     text: "¿Cuál es la capital de España?"
     answer: "Madrid"
     wrong: ["Barcelona", "Sevilla", "Valencia"]
     level: kids_medium
+    topic: geography
   - emoji: "🌊"
     text: "¿Cuál es el océano más grande?"
     answer: "El Pacífico"
     wrong: ["El Atlántico", "El Índico", "El Ártico"]
     level: kids_medium
+    topic: geography
   - emoji: "🐧"
     text: "¿Dónde viven muchos pingüinos?"
     answer: "En la Antártida"
     wrong: ["En el desierto", "En la selva", "En la ciudad"]
     level: kids_medium
+    topic: geography
   - emoji: "🗼"
     text: "¿En qué ciudad está la torre Eiffel?"
     answer: "París"
     wrong: ["Londres", "Roma", "Madrid"]
     level: kids_medium
+    topic: geography
   - emoji: "🏜️"
     text: "¿Cómo se llama un lugar con mucha arena y casi sin lluvia?"
     answer: "Desierto"
     wrong: ["Selva", "Glaciar", "Pantano"]
     level: kids_medium
+    topic: geography
   - emoji: "🌋"
     text: "¿Cómo se llama la montaña que puede echar lava?"
     answer: "Volcán"
     wrong: ["Iceberg", "Duna", "Colina"]
     level: kids_medium
+    topic: geography
   - emoji: "🌅"
     text: "¿Por dónde sale el Sol?"
     answer: "Por el este"
     wrong: ["Por el oeste", "Por el norte", "Por el sur"]
     level: kids_medium
+    topic: geography
   - emoji: "🏝️"
     text: "¿Cómo se llama un trozo de tierra rodeado de agua?"
     answer: "Isla"
     wrong: ["Montaña", "Río", "Valle"]
     level: kids_medium
+    topic: geography
   - emoji: "🦘"
     text: "¿En qué país viven los canguros?"
     answer: "Australia"
     wrong: ["Brasil", "Francia", "Japón"]
     level: kids_medium
+    topic: geography
   - emoji: "🐫"
     text: "¿En qué continente están las pirámides de Egipto?"
     answer: "África"
     wrong: ["Europa", "Asia", "América"]
     level: kids_medium
+    topic: geography
   - emoji: "🦖"
     text: "¿Quiénes vivieron hace muchísimo tiempo, antes que las personas?"
     answer: "Los dinosaurios"
     wrong: ["Los robots", "Los astronautas", "Los piratas"]
     level: kids_medium
+    topic: history
   - emoji: "🔺"
     text: "¿Quiénes construyeron las pirámides de Egipto?"
     answer: "Los antiguos egipcios"
     wrong: ["Los romanos", "Los vikingos", "Los piratas"]
     level: kids_medium
+    topic: history
   - emoji: "⛵"
     text: "¿Qué marino llegó a América en 1492?"
     answer: "Cristóbal Colón"
     wrong: ["Neil Armstrong", "Julio César", "Marco Polo"]
     level: kids_medium
+    topic: history
   - emoji: "🌙"
     text: "¿Quién fue la primera persona que pisó la Luna?"
     answer: "Neil Armstrong"
     wrong: ["Cristóbal Colón", "Yuri Gagarin", "Isaac Newton"]
     note: "Fue en 1969. Yuri Gagarin fue el primero en ir al espacio."
     level: kids_medium
+    topic: history
   - emoji: "🛡️"
     text: "¿Qué llevaban los caballeros para protegerse en las batallas?"
     answer: "Una armadura"
     wrong: ["Un bañador", "Un pijama", "Un chubasquero"]
     level: kids_medium
+    topic: history
   - emoji: "🐉"
     text: "¿Quiénes viajaban en barcos con cabeza de dragón?"
     answer: "Los vikingos"
     wrong: ["Los egipcios", "Los romanos", "Los astronautas"]
     level: kids_medium
+    topic: history
   - emoji: "🦣"
     text: "¿Quiénes vivían en cuevas y pintaban animales en sus paredes?"
     answer: "La gente de la Prehistoria"
     wrong: ["Los romanos", "Los caballeros", "Los astronautas"]
     level: kids_medium
+    topic: history
   - emoji: "🏰"
     text: "¿Para qué se construían los castillos?"
     answer: "Para defenderse"
     wrong: ["Para nadar", "Para guardar coches", "Para ver películas"]
     level: kids_medium
+    topic: history
   - emoji: "🔥"
     text: "¿Qué aprendieron a hacer las personas de la Prehistoria para calentarse y cocinar?"
     answer: "Fuego"
     wrong: ["Televisión", "Electricidad", "Chocolate"]
     level: kids_medium
+    topic: history
   - emoji: "🚂"
     text: "¿Cuál de estos inventos es el más antiguo?"
     answer: "El tren de vapor"
     wrong: ["El avión", "El móvil", "El ordenador"]
     level: kids_medium
+    topic: history
   - emoji: "🎨"
     text: "¿Qué color sale al mezclar rojo y amarillo?"
     answer: "Naranja"
     wrong: ["Verde", "Morado", "Azul"]
     level: kids_medium
+    topic: art
   - emoji: "🎵"
     text: "¿Cuántas notas musicales hay?"
     answer: "Siete"
     wrong: ["Tres", "Cinco", "Diez"]
     note: "Do, re, mi, fa, sol, la y si."
     level: kids_medium
+    topic: art
   - emoji: "🐺"
     text: "En el cuento, ¿a quién se encuentra Caperucita Roja en el bosque?"
     answer: "Al lobo"
     wrong: ["Al dragón", "A la bruja", "Al gigante"]
     level: kids_medium
+    topic: art
   - emoji: "🐷"
     text: "En \"Los tres cerditos\", ¿de qué es la casa que el lobo no puede derribar?"
     answer: "De ladrillos"
     wrong: ["De paja", "De madera", "De papel"]
     level: kids_medium
+    topic: art
   - emoji: "👠"
     text: "¿Qué pierde Cenicienta al salir corriendo del baile?"
     answer: "Un zapato de cristal"
     wrong: ["Un guante", "Su corona", "Un pendiente"]
     level: kids_medium
+    topic: art
   - emoji: "🥁"
     text: "¿Cuál de estos instrumentos se toca dando golpes?"
     answer: "El tambor"
     wrong: ["La flauta", "El violín", "La trompeta"]
     level: kids_medium
+    topic: art
   - emoji: "🖌️"
     text: "¿Con qué pinta un pintor?"
     answer: "Con un pincel"
     wrong: ["Con un tenedor", "Con una cuchara", "Con un peine"]
     level: kids_medium
+    topic: art
   - emoji: "🤥"
     text: "¿A quién le crece la nariz cuando miente?"
     answer: "A Pinocho"
     wrong: ["A Peter Pan", "A Aladino", "A Caperucita"]
     level: kids_medium
+    topic: art
   - emoji: "⚽"
     text: "¿Cuántos jugadores de cada equipo hay en un campo de fútbol?"
     answer: "Once"
     wrong: ["Cinco", "Siete", "Veinte"]
     level: kids_medium
+    topic: general
   - emoji: "🔺"
     text: "¿Cuántos lados tiene un triángulo?"
     answer: "Tres"
     wrong: ["Cuatro", "Cinco", "Seis"]
     level: kids_medium
+    topic: general
 
   # ---------- kids_hard (50) ----------
   - emoji: "🐙"
@@ -567,264 +673,314 @@ questions:
     answer: "Tres"
     wrong: ["Uno", "Dos", "Ocho"]
     level: kids_hard
+    topic: animals
   - emoji: "🦈"
     text: "¿Qué tipo de animal es el tiburón?"
     answer: "Un pez"
     wrong: ["Un mamífero", "Un reptil", "Un anfibio"]
     level: kids_hard
+    topic: animals
   - emoji: "🐳"
     text: "¿Qué tipo de animal es la ballena?"
     answer: "Un mamífero"
     wrong: ["Un pez", "Un reptil", "Un anfibio"]
     note: "Respira aire y da leche a sus crías."
     level: kids_hard
+    topic: animals
   - emoji: "🐄"
     text: "¿Cómo se llaman los animales que solo comen plantas?"
     answer: "Herbívoros"
     wrong: ["Carnívoros", "Omnívoros", "Insectívoros"]
     level: kids_hard
+    topic: animals
   - emoji: "🐊"
     text: "¿Cuál de estos animales es un reptil?"
     answer: "El cocodrilo"
     wrong: ["La rana", "El delfín", "El pingüino"]
     level: kids_hard
+    topic: animals
   - emoji: "🦉"
     text: "¿Qué animal puede girar la cabeza casi del todo hacia atrás?"
     answer: "El búho"
     wrong: ["El perro", "El caballo", "El gato"]
     level: kids_hard
+    topic: animals
   - emoji: "🐜"
     text: "¿Cuántas patas tiene un insecto?"
     answer: "Seis"
     wrong: ["Ocho", "Cuatro", "Diez"]
     level: kids_hard
+    topic: animals
   - emoji: "🦩"
     text: "¿Por qué son rosas los flamencos?"
     answer: "Por lo que comen"
     wrong: ["Por el sol", "Porque nacen así", "Por el frío"]
     note: "Las crías nacen grises: se vuelven rosas por las gambitas y algas que comen."
     level: kids_hard
+    topic: animals
   - emoji: "🐨"
     text: "¿Qué come el koala?"
     answer: "Hojas de eucalipto"
     wrong: ["Bambú", "Insectos", "Peces"]
     level: kids_hard
+    topic: animals
   - emoji: "🐝"
     text: "¿Qué llevan las abejas de flor en flor, ayudando a las plantas?"
     answer: "El polen"
     wrong: ["La savia", "El agua", "Las semillas"]
     level: kids_hard
+    topic: animals
   - emoji: "♨️"
     text: "¿A cuántos grados hierve el agua, a la orilla del mar?"
     answer: "100 °C"
     wrong: ["0 °C", "50 °C", "200 °C"]
     level: kids_hard
+    topic: science
   - emoji: "☀️"
     text: "¿Qué planeta está más cerca del Sol?"
     answer: "Mercurio"
     wrong: ["Venus", "La Tierra", "Marte"]
     level: kids_hard
+    topic: science
   - emoji: "🪐"
     text: "¿Cuál es el planeta más grande del sistema solar?"
     answer: "Júpiter"
     wrong: ["Saturno", "La Tierra", "Neptuno"]
     level: kids_hard
+    topic: science
   - emoji: "🌿"
     text: "¿Qué gas sueltan las plantas y necesitamos para respirar?"
     answer: "El oxígeno"
     wrong: ["El dióxido de carbono", "El helio", "El butano"]
     level: kids_hard
+    topic: science
   - emoji: "🦴"
     text: "¿Cuál es el hueso más largo del cuerpo?"
     answer: "El fémur"
     wrong: ["La costilla", "El cráneo", "La clavícula"]
     note: "Está en el muslo."
     level: kids_hard
+    topic: science
   - emoji: "🫁"
     text: "¿Con qué órganos respiramos?"
     answer: "Los pulmones"
     wrong: ["Los riñones", "El hígado", "El estómago"]
     level: kids_hard
+    topic: science
   - emoji: "💧"
     text: "¿Cuál es la fórmula del agua?"
     answer: "H₂O"
     wrong: ["CO₂", "O₂", "NaCl"]
     note: "Dos átomos de hidrógeno y uno de oxígeno."
     level: kids_hard
+    topic: science
   - emoji: "🌕"
     text: "¿Por qué brilla la Luna?"
     answer: "Refleja la luz del Sol"
     wrong: ["Tiene luz propia", "Está ardiendo", "Por las estrellas de alrededor"]
     level: kids_hard
+    topic: science
   - emoji: "⚡"
     text: "¿Qué material deja pasar bien la electricidad?"
     answer: "El cobre"
     wrong: ["La madera", "El plástico", "La goma"]
     note: "Por eso los cables son de cobre por dentro y de plástico por fuera."
     level: kids_hard
+    topic: science
   - emoji: "🌍"
     text: "¿Cuánto tarda la Tierra en dar una vuelta sobre sí misma?"
     answer: "Un día"
     wrong: ["Una hora", "Una semana", "Un año"]
     level: kids_hard
+    topic: science
   - emoji: "🏔️"
     text: "¿Cuál es la montaña más alta del mundo?"
     answer: "El Everest"
     wrong: ["El Teide", "El Kilimanjaro", "El Mont Blanc"]
     level: kids_hard
+    topic: geography
   - emoji: "🌋"
     text: "¿En qué isla está el Teide, la montaña más alta de España?"
     answer: "Tenerife"
     wrong: ["Mallorca", "Ibiza", "Gran Canaria"]
     level: kids_hard
+    topic: geography
   - emoji: "💂"
     text: "¿Cuál es la capital del Reino Unido?"
     answer: "Londres"
     wrong: ["Mánchester", "Liverpool", "Dublín"]
     level: kids_hard
+    topic: geography
   - emoji: "🧭"
     text: "¿Qué país está al oeste de España, a su lado?"
     answer: "Portugal"
     wrong: ["Francia", "Italia", "Marruecos"]
     level: kids_hard
+    topic: geography
   - emoji: "🌳"
     text: "¿Cómo se llama la selva más grande del mundo?"
     answer: "La Amazonia"
     wrong: ["El Sáhara", "La Patagonia", "Siberia"]
     level: kids_hard
+    topic: geography
   - emoji: "🏜️"
     text: "¿Cuál es el desierto caliente más grande del mundo?"
     answer: "El Sáhara"
     wrong: ["El Gobi", "El de Atacama", "El Kalahari"]
     note: "El más grande de todos es la Antártida, ¡que es un desierto frío!"
     level: kids_hard
+    topic: geography
   - emoji: "🌐"
     text: "¿Qué línea imaginaria divide la Tierra en norte y sur?"
     answer: "El ecuador"
     wrong: ["El meridiano", "El trópico", "El polo"]
     level: kids_hard
+    topic: geography
   - emoji: "🗽"
     text: "¿En qué país está la Estatua de la Libertad?"
     answer: "Estados Unidos"
     wrong: ["Francia", "Inglaterra", "Canadá"]
     note: "Fue un regalo de Francia."
     level: kids_hard
+    topic: geography
   - emoji: "🌊"
     text: "¿Cuántos océanos hay en la Tierra?"
     answer: "Cinco"
     wrong: ["Dos", "Tres", "Diez"]
     note: "Pacífico, Atlántico, Índico, Ártico y Antártico."
     level: kids_hard
+    topic: geography
   - emoji: "🏟️"
     text: "¿En qué ciudad está el Coliseo?"
     answer: "Roma"
     wrong: ["Atenas", "París", "Londres"]
     level: kids_hard
+    topic: geography
   - emoji: "🏛️"
     text: "¿Qué idioma hablaban los antiguos romanos?"
     answer: "Latín"
     wrong: ["Inglés", "Árabe", "Chino"]
     note: "Del latín viene el castellano."
     level: kids_hard
+    topic: history
   - emoji: "🔺"
     text: "¿Para qué se construyeron las pirámides de Egipto?"
     answer: "Como tumbas de los faraones"
     wrong: ["Para vivir en ellas", "Para guardar grano", "Como faros"]
     level: kids_hard
+    topic: history
   - emoji: "👑"
     text: "¿Cómo se llamaban los reyes del antiguo Egipto?"
     answer: "Faraones"
     wrong: ["Emperadores", "Zares", "Sultanes"]
     level: kids_hard
+    topic: history
   - emoji: "⛵"
     text: "¿Cuántos barcos llevó Colón en su primer viaje?"
     answer: "Tres"
     wrong: ["Uno", "Diez", "Cien"]
     note: "La Pinta, la Niña y la Santa María."
     level: kids_hard
+    topic: history
   - emoji: "📖"
     text: "¿Qué inventó Gutenberg hacia 1450?"
     answer: "La imprenta"
     wrong: ["El teléfono", "La rueda", "El reloj"]
     note: "Con ella los libros se podían hacer rápido, sin copiarlos a mano."
     level: kids_hard
+    topic: history
   - emoji: "🚀"
     text: "¿En qué año pisó una persona la Luna por primera vez?"
     answer: "1969"
     wrong: ["1492", "1900", "2000"]
     level: kids_hard
+    topic: history
   - emoji: "🏅"
     text: "En la antigua Grecia, ¿dónde se celebraban los Juegos Olímpicos?"
     answer: "En Olimpia"
     wrong: ["En Esparta", "En Troya", "En Creta"]
     level: kids_hard
+    topic: history
   - emoji: "🐴"
     text: "Según la leyenda, ¿cómo entraron los griegos en Troya?"
     answer: "Escondidos en un caballo de madera"
     wrong: ["Por un túnel", "Volando", "Nadando por un río"]
     level: kids_hard
+    topic: history
   - emoji: "💍"
     text: "¿Qué reyes ayudaron a Colón en su viaje a América?"
     answer: "Los Reyes Católicos"
     wrong: ["Felipe II", "Carlos V", "Alfonso X el Sabio"]
     note: "Isabel de Castilla y Fernando de Aragón."
     level: kids_hard
+    topic: history
   - emoji: "🧱"
     text: "¿Qué construyeron los chinos para protegerse de los invasores?"
     answer: "La Gran Muralla"
     wrong: ["La torre Eiffel", "El Coliseo", "Las pirámides"]
     level: kids_hard
+    topic: history
   - emoji: "🖼️"
     text: "¿Quién pintó la Mona Lisa (la Gioconda)?"
     answer: "Leonardo da Vinci"
     wrong: ["Picasso", "Van Gogh", "Velázquez"]
     level: kids_hard
+    topic: art
   - emoji: "👸"
     text: "¿Quién pintó \"Las meninas\"?"
     answer: "Velázquez"
     wrong: ["Goya", "Dalí", "Picasso"]
     level: kids_hard
+    topic: art
   - emoji: "🌻"
     text: "¿Qué pintor pintó unos girasoles muy famosos?"
     answer: "Van Gogh"
     wrong: ["Picasso", "Goya", "Velázquez"]
     level: kids_hard
+    topic: art
   - emoji: "📚"
     text: "¿Quién escribió \"Don Quijote de la Mancha\"?"
     answer: "Miguel de Cervantes"
     wrong: ["Lope de Vega", "Shakespeare", "Lorca"]
     level: kids_hard
+    topic: art
   - emoji: "🎼"
     text: "¿Qué compositor siguió componiendo aunque se quedó sordo?"
     answer: "Beethoven"
     wrong: ["Mozart", "Vivaldi", "Bach"]
     level: kids_hard
+    topic: art
   - emoji: "🎻"
     text: "¿Cuál de estos instrumentos es de cuerda?"
     answer: "El violín"
     wrong: ["La flauta", "La trompeta", "El tambor"]
     level: kids_hard
+    topic: art
   - emoji: "🌬️"
     text: "¿Con qué confunde Don Quijote los molinos de viento?"
     answer: "Con gigantes"
     wrong: ["Con dragones", "Con castillos", "Con caballeros"]
     level: kids_hard
+    topic: art
   - emoji: "🔷"
     text: "¿Cuántos lados tiene un hexágono?"
     answer: "Seis"
     wrong: ["Cinco", "Ocho", "Siete"]
     note: "Como las celdas de una colmena."
     level: kids_hard
+    topic: general
   - emoji: "✖️"
     text: "¿Cuánto es 7 × 8?"
     answer: "56"
     wrong: ["54", "48", "64"]
     level: kids_hard
+    topic: general
   - emoji: "🥇"
     text: "¿Cada cuántos años hay Juegos Olímpicos de verano?"
     answer: "Cada cuatro años"
     wrong: ["Cada año", "Cada dos años", "Cada diez años"]
     level: kids_hard
+    topic: general
 
   # ---------- easy (50) ----------
   - emoji: "🧱"
@@ -833,284 +989,334 @@ questions:
     wrong: ["Verdadero"]
     note: "Es muy estrecha: desde la Luna no se ve ninguna obra humana."
     level: easy
+    topic: geography
   - emoji: "🐂"
     text: "A los toros les atrae el color rojo."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Los toros apenas distinguen el rojo: lo que les provoca es el movimiento de la capa."
     level: easy
+    topic: animals
   - emoji: "😢"
     text: "Si lloras en el espacio, las lágrimas se te quedan pegadas a la cara."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "Sin gravedad no caen: forman una bola de agua alrededor del ojo."
     level: easy
+    topic: science
   - emoji: "🍫"
     text: "La Nutella la fabrica la empresa alemana Ferrero."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Ferrero es una empresa italiana."
     level: easy
+    topic: general
   - emoji: "🚇"
     text: "El metro de Nueva York es el más antiguo del mundo."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "El más antiguo es el de Londres, de 1863."
     level: easy
+    topic: history
   - emoji: "🦄"
     text: "El animal nacional de Escocia es el unicornio."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: general
   - emoji: "💃"
     text: "El pasodoble es una salsa italiana para la pasta."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Es un baile y una música españoles."
     level: easy
+    topic: general
   - emoji: "🍊"
     text: "El color naranja se llama así por la fruta."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: general
   - emoji: "✋"
     text: "Alrededor del 40 % de la gente del mundo es zurda."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Solo lo es, más o menos, una de cada diez personas."
     level: easy
+    topic: science
   - emoji: "🌅"
     text: "El Sol sale por el norte."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Sale por el este y se pone por el oeste."
     level: easy
+    topic: geography
   - emoji: "🏓"
     text: "El ping-pong nació en Inglaterra."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: general
   - emoji: "🧂"
     text: "La sal está hecha solo de sodio."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Es cloruro de sodio: sodio y cloro."
     level: easy
+    topic: science
   - emoji: "🌍"
     text: "La Tierra y la Luna pesan más o menos lo mismo."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "La Tierra tiene unas 80 veces más masa que la Luna."
     level: easy
+    topic: science
   - emoji: "📏"
     text: "Una unidad astronómica es la distancia entre la Tierra y la Luna."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Es la distancia de la Tierra al Sol: unos 150 millones de kilómetros."
     level: easy
+    topic: science
   - emoji: "🚱"
     text: "Una persona puede pasar dos semanas sin beber agua."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Solo aguanta unos pocos días."
     level: easy
+    topic: science
   - emoji: "⚪"
     text: "La Tierra es una esfera perfecta."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Está un poco achatada por los polos."
     level: easy
+    topic: science
   - emoji: "♨️"
     text: "El agua siempre hierve a 100 °C, estés donde estés."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "En lo alto de una montaña hierve antes, a menos temperatura."
     level: easy
+    topic: science
   - emoji: "🪐"
     text: "Plutón es un planeta."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Desde 2006 se considera un planeta enano."
     level: easy
+    topic: science
   - emoji: "🦷"
     text: "Las personas tenemos dos juegos de dientes a lo largo de la vida."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "Los de leche y los definitivos."
     level: easy
+    topic: science
   - emoji: "⚛️"
     text: "Un átomo tiene un núcleo."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: science
   - emoji: "🥈"
     text: "El nombre de Argentina viene de la palabra latina que significa \"plata\"."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "En latín, plata se dice argentum."
     level: easy
+    topic: geography
   - emoji: "🧊"
     text: "Groenlandia está cubierta de hierba e Islandia de hielo."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Más bien al revés: Groenlandia está casi toda cubierta de hielo."
     level: easy
+    topic: geography
   - emoji: "⛪"
     text: "La Ciudad del Vaticano es un país."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "Es el país más pequeño del mundo."
     level: easy
+    topic: geography
   - emoji: "🐰"
     text: "En Japón hay una isla llena de conejos."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "Se llama Ōkunoshima, \"la isla de los conejos\"."
     level: easy
+    topic: geography
   - emoji: "🏛️"
     text: "Sudáfrica tiene más de una capital."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "Tiene tres: Pretoria, Ciudad del Cabo y Bloemfontein."
     level: easy
+    topic: geography
   - emoji: "🏰"
     text: "San Marino es el único país rodeado por completo por otro país."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "También lo están el Vaticano y Lesoto."
     level: easy
+    topic: geography
   - emoji: "🗺️"
     text: "Groenlandia es casi tan grande como África."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "África es unas 14 veces más grande: los mapas engañan."
     level: easy
+    topic: geography
   - emoji: "🧭"
     text: "Colombia se llama así por Cristóbal Colón."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: geography
   - emoji: "🏝️"
     text: "Un grupo de islas se llama archipiélago."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: geography
   - emoji: "🏺"
     text: "Lo que hoy es Portugal formó parte del Imperio romano."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: history
   - emoji: "🌍"
     text: "África es un país."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Es un continente con 54 países."
     level: easy
+    topic: geography
   - emoji: "🔤"
     text: "Hungría es el único país del mundo que empieza por H."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "También empiezan por H Honduras y Haití."
     level: easy
+    topic: geography
   - emoji: "🗾"
     text: "Tokio es la capital de Japón."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: geography
   - emoji: "⛵"
     text: "Los vikingos fueron los primeros europeos en llegar a América del Norte."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "Leif Erikson llegó hacia el año 1000, casi 500 años antes que Colón."
     level: easy
+    topic: history
   - emoji: "⚖️"
     text: "Hitler fue juzgado en los juicios de Núremberg."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Murió antes de que acabara la guerra."
     level: easy
+    topic: history
   - emoji: "🏯"
     text: "Las protestas de Tiananmén de 1989 fueron en Hong Kong."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Fueron en Pekín."
     level: easy
+    topic: history
   - emoji: "🚀"
     text: "Estados Unidos fue el primer país en mandar a una persona al espacio."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Fue la Unión Soviética, con Yuri Gagarin, en 1961."
     level: easy
+    topic: history
   - emoji: "🏛️"
     text: "La mayoría de la gente del Imperio bizantino se llamaba a sí misma \"romanos\"."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: history
   - emoji: "🐎"
     text: "Kublai Kan era nieto de Gengis Kan."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: history
   - emoji: "🎈"
     text: "En la Segunda Guerra Mundial, Gran Bretaña usó tanques hinchables para engañar a Hitler."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "Así le hicieron creer que el desembarco no sería en Normandía."
     level: easy
+    topic: history
   - emoji: "🖼️"
     text: "La Mona Lisa no tiene cejas."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: art
   - emoji: "😱"
     text: "\"El grito\" lo pintó Edvard Munch."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: art
   - emoji: "🍭"
     text: "El logo de Chupa Chups lo diseñó Salvador Dalí."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: art
   - emoji: "🎨"
     text: "El \"Guernica\" lo pintó Picasso."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: art
   - emoji: "🐇"
     text: "Los conejos son roedores."
     answer: "Falso"
     wrong: ["Verdadero"]
     note: "Son lagomorfos, como las liebres."
     level: easy
+    topic: animals
   - emoji: "🤢"
     text: "Los conejos no pueden vomitar."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: animals
   - emoji: "🦊"
     text: "El navegador Firefox se llama así por el panda rojo."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "En inglés, al panda rojo también lo llaman firefox."
     level: easy
+    topic: animals
   - emoji: "🦎"
     text: "El ajolote puede pasar toda su vida como larva."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "Además, puede regenerar sus patas."
     level: easy
+    topic: animals
   - emoji: "🐋"
     text: "La orca es un tipo de delfín."
     answer: "Verdadero"
     wrong: ["Falso"]
     note: "Es el delfín más grande que existe."
     level: easy
+    topic: animals
   - emoji: "🐘"
     text: "Los elefantes no pueden saltar."
     answer: "Verdadero"
     wrong: ["Falso"]
     level: easy
+    topic: animals
 
   # ---------- medium (50) ----------
   - emoji: "🏔️"
@@ -1118,255 +1324,305 @@ questions:
     answer: "El Aconcagua"
     wrong: ["El Ojos del Salado", "El Monte Pissis", "El Huascarán"]
     level: medium
+    topic: geography
   - emoji: "🏔️"
     text: "¿Cuál es la montaña más alta de Europa?"
     answer: "El Elbrus (Rusia)"
     wrong: ["El Mont Blanc (Francia)", "El Ararat (Turquía)", "El Shkhara (Georgia)"]
     level: medium
+    topic: geography
   - emoji: "🛞"
     text: "¿En qué país se fundó la empresa de neumáticos Michelin, en 1889?"
     answer: "Francia"
     wrong: ["Reino Unido", "Italia", "Alemania"]
     level: medium
+    topic: general
   - emoji: "🍣"
     text: "¿Qué condimento se conoce también como \"rábano picante japonés\"?"
     answer: "El wasabi"
     wrong: ["El ponzu", "El karashi", "El mentsuyu"]
     level: medium
+    topic: general
   - emoji: "⭐"
     text: "¿Cuántas estrellas Michelin puede tener, como máximo, un restaurante?"
     answer: "Tres"
     wrong: ["Cinco", "Cuatro", "Siete"]
     level: medium
+    topic: general
   - emoji: "🍍"
     text: "¿De dónde es originaria la piña?"
     answer: "De América del Sur"
     wrong: ["De Hawái", "De Europa", "De Asia"]
     level: medium
+    topic: general
   - emoji: "📡"
     text: "En código Morse, ¿qué letra son tres puntos?"
     answer: "La S"
     wrong: ["La O", "La A", "La C"]
     level: medium
+    topic: general
   - emoji: "🍦"
     text: "¿Qué país produce cerca del 40 % de la vainilla del mundo?"
     answer: "Madagascar"
     wrong: ["Indonesia", "China", "México"]
     level: medium
+    topic: geography
   - emoji: "🍸"
     text: "¿Qué bebida se hace sobre todo con bayas de enebro?"
     answer: "La ginebra"
     wrong: ["El vodka", "El ron", "El tequila"]
     level: medium
+    topic: general
   - emoji: "🗣️"
     text: "Además del castellano, ¿qué lengua es oficial en Barcelona?"
     answer: "El catalán"
     wrong: ["El gallego", "El francés", "El euskera"]
     level: medium
+    topic: geography
   - emoji: "🌸"
     text: "¿Cuál es la especia más cara del mundo por peso?"
     answer: "El azafrán"
     wrong: ["La canela", "El cardamomo", "La vainilla"]
     level: medium
+    topic: general
   - emoji: "🎈"
     text: "¿Qué elemento químico tiene el punto de ebullición más bajo?"
     answer: "El helio"
     wrong: ["El hidrógeno", "El neón", "El nitrógeno"]
     level: medium
+    topic: science
   - emoji: "🦴"
     text: "¿A qué parte del cuerpo afecta la osteoporosis?"
     answer: "A los huesos"
     wrong: ["A la piel", "Al cerebro", "Al corazón"]
     level: medium
+    topic: science
   - emoji: "👓"
     text: "¿Qué es la miopía?"
     answer: "No ver bien de lejos"
     wrong: ["No ver bien de cerca", "Ver doble", "Ver borroso por una nube en el ojo"]
     level: medium
+    topic: science
   - emoji: "🐞"
     text: "¿Qué estudia la entomología?"
     answer: "Los insectos"
     wrong: ["Las personas", "El cerebro", "Los peces"]
     level: medium
+    topic: science
   - emoji: "🧪"
     text: "¿Cuál es el símbolo químico del plomo?"
     answer: "Pb"
     wrong: ["Pl", "Pm", "Po"]
     level: medium
+    topic: science
   - emoji: "🌌"
     text: "¿Cuántos años tiene el universo?"
     answer: "Unos 13 800 millones"
     wrong: ["Unos 4500 millones", "Unos 7900 millones", "Unos 16 200 millones"]
     level: medium
+    topic: science
   - emoji: "🪐"
     text: "Ganímedes es la luna más grande de… ¿qué planeta?"
     answer: "Júpiter"
     wrong: ["Urano", "Neptuno", "Marte"]
     note: "Es la luna más grande de todo el sistema solar: más que el planeta Mercurio."
     level: medium
+    topic: science
   - emoji: "💨"
     text: "¿Qué parte del aire de la Tierra es oxígeno, más o menos?"
     answer: "El 21 %"
     wrong: ["El 54 %", "El 78 %", "El 7 %"]
     note: "El 78 % es nitrógeno."
     level: medium
+    topic: science
   - emoji: "🔬"
     text: "¿Qué elemento químico tiene el número atómico 7?"
     answer: "El nitrógeno"
     wrong: ["El oxígeno", "El hidrógeno", "El neón"]
     level: medium
+    topic: science
   - emoji: "💪"
     text: "¿Cuál de estos huesos NO está en el brazo?"
     answer: "La tibia"
     wrong: ["El húmero", "El cúbito", "El radio"]
     level: medium
+    topic: science
   - emoji: "☁️"
     text: "¿Cómo se llama la capa más baja de la atmósfera?"
     answer: "Troposfera"
     wrong: ["Estratosfera", "Mesosfera", "Termosfera"]
     level: medium
+    topic: science
   - emoji: "🦘"
     text: "¿Cuál es la capital de Australia?"
     answer: "Canberra"
     wrong: ["Sídney", "Melbourne", "Brisbane"]
     level: medium
+    topic: geography
   - emoji: "🌍"
     text: "¿Cómo se llamaba antes Zimbabue?"
     answer: "Rodesia"
     wrong: ["Zambia", "Mozambique", "Bulawayo"]
     level: medium
+    topic: geography
   - emoji: "🏙️"
     text: "Kuala Lumpur es la capital de… ¿qué país?"
     answer: "Malasia"
     wrong: ["Indonesia", "Singapur", "Tailandia"]
     level: medium
+    topic: geography
   - emoji: "🌊"
     text: "¿Cuál es el lago más grande de África?"
     answer: "El lago Victoria"
     wrong: ["El lago Tanganica", "El lago Malaui", "El lago Turkana"]
     level: medium
+    topic: geography
   - emoji: "⛰️"
     text: "¿Qué pequeño país está entre España y Francia?"
     answer: "Andorra"
     wrong: ["Liechtenstein", "Mónaco", "San Marino"]
     level: medium
+    topic: geography
   - emoji: "🥝"
     text: "¿Cuál es la capital de Nueva Zelanda?"
     answer: "Wellington"
     wrong: ["Auckland", "Christchurch", "Melbourne"]
     level: medium
+    topic: geography
   - emoji: "🏜️"
     text: "¿En qué país está la antigua ciudad de Petra?"
     answer: "Jordania"
     wrong: ["Egipto", "Israel", "Italia"]
     level: medium
+    topic: geography
   - emoji: "🏛️"
     text: "¿Cuál de estas ciudades NO es una capital?"
     answer: "Sídney"
     wrong: ["El Cairo", "Moscú", "Pekín"]
     level: medium
+    topic: geography
   - emoji: "🇧🇷"
     text: "¿Cuál es la capital de Brasil?"
     answer: "Brasilia"
     wrong: ["Río de Janeiro", "São Paulo", "Curitiba"]
     level: medium
+    topic: geography
   - emoji: "🛸"
     text: "¿En qué país están las líneas de Nazca?"
     answer: "Perú"
     wrong: ["Brasil", "Colombia", "Ecuador"]
     level: medium
+    topic: geography
   - emoji: "🔢"
     text: "¿Qué número es la D en números romanos?"
     answer: "500"
     wrong: ["100", "1000", "50"]
     level: medium
+    topic: general
   - emoji: "🕌"
     text: "¿En qué año conquistaron los turcos Constantinopla?"
     answer: "1453"
     wrong: ["1435", "1454", "1440"]
     level: medium
+    topic: history
   - emoji: "📜"
     text: "¿A quién se atribuye el poema épico \"La Odisea\"?"
     answer: "A Homero"
     wrong: ["A Aristóteles", "A Ulises", "A Sócrates"]
     level: medium
+    topic: art
   - emoji: "☀️"
     text: "¿Quién era el dios griego del Sol?"
     answer: "Helios"
     wrong: ["Zeus", "Hades", "Poseidón"]
     level: medium
+    topic: history
   - emoji: "👑"
     text: "¿Qué rey de Francia era conocido como \"el Rey Sol\"?"
     answer: "Luis XIV"
     wrong: ["Luis XIII", "Luis XV", "Luis XVI"]
     level: medium
+    topic: history
   - emoji: "🪖"
     text: "¿Qué hecho marcó el comienzo de la Segunda Guerra Mundial?"
     answer: "La invasión de Polonia (1939)"
     wrong: ["La invasión de Rusia (1942)", "La batalla de Inglaterra (1940)", "El desembarco de Normandía (1944)"]
     level: medium
+    topic: history
   - emoji: "🎓"
     text: "¿Quién fue el maestro de Alejandro Magno?"
     answer: "Aristóteles"
     wrong: ["Sócrates", "Platón", "El rey Filipo"]
     level: medium
+    topic: history
   - emoji: "🕊️"
     text: "¿En qué año acabó la Primera Guerra Mundial?"
     answer: "1918"
     wrong: ["1914", "1916", "1912"]
     level: medium
+    topic: history
   - emoji: "🐘"
     text: "¿Quién fue Aníbal?"
     answer: "Un general cartaginés"
     wrong: ["Un explorador francés", "Un filósofo griego", "Un emperador romano"]
     note: "Cruzó los Alpes con elefantes para atacar Roma."
     level: medium
+    topic: history
   - emoji: "🎩"
     text: "¿Quién pintó \"La traición de las imágenes\", una pipa con la frase \"Esto no es una pipa\"?"
     answer: "Magritte"
     wrong: ["Matisse", "Modigliani", "Munch"]
     level: medium
+    topic: art
   - emoji: "🥫"
     text: "¿El estudio de qué artista se llamaba \"La Fábrica\" (The Factory)?"
     answer: "Andy Warhol"
     wrong: ["Roy Lichtenstein", "David Hockney", "Peter Blake"]
     level: medium
+    topic: art
   - emoji: "🕰️"
     text: "¿De qué nacionalidad era el pintor surrealista Salvador Dalí?"
     answer: "Española"
     wrong: ["Italiana", "Francesa", "Portuguesa"]
     level: medium
+    topic: art
   - emoji: "🐱"
     text: "¿A qué familia de animales pertenece el gato doméstico?"
     answer: "Los félidos"
     wrong: ["Los cánidos", "Los úrsidos", "Los mustélidos"]
     level: medium
+    topic: animals
   - emoji: "🦛"
     text: "¿Qué significa \"hipopótamo\", y en qué idioma?"
     answer: "Caballo de río (en griego)"
     wrong: ["Caballo de río (en latín)", "Cerdo gordo (en griego)", "Cerdo gordo (en latín)"]
     level: medium
+    topic: animals
   - emoji: "🧶"
     text: "¿De qué animal es la lana de cachemira?"
     answer: "De la cabra"
     wrong: ["De la oveja", "Del camello", "De la llama"]
     level: medium
+    topic: animals
   - emoji: "🦖"
     text: "¿Cuál de estos animales NO está extinguido?"
     answer: "El dragón de Komodo"
     wrong: ["El león marino japonés", "El tigre de Tasmania", "La gacela saudí"]
     level: medium
+    topic: animals
   - emoji: "🐡"
     text: "El fugu, un plato japonés, se hace con… ¿qué pez?"
     answer: "El pez globo"
     wrong: ["La lubina", "El salmón", "La caballa"]
     note: "Es venenoso: solo pueden prepararlo cocineros con un permiso especial."
     level: medium
+    topic: animals
   - emoji: "🐝"
     text: "¿Cómo se llama la abeja macho?"
     answer: "Zángano"
     wrong: ["Soldado", "Obrera", "Reina"]
     level: medium
+    topic: animals
 
   # ---------- hard (50) ----------
   - emoji: "💛"
@@ -1374,253 +1630,303 @@ questions:
     answer: "Al amarillo"
     wrong: ["Al azul", "Al rojo", "Al verde"]
     level: hard
+    topic: general
   - emoji: "⛏️"
     text: "El Teniente, en Chile, es la mayor mina subterránea del mundo de… ¿qué metal?"
     answer: "Cobre"
     wrong: ["Hierro", "Níquel", "Plata"]
     level: hard
+    topic: geography
   - emoji: "🧴"
     text: "Las palabras inglesas bungalow y shampoo vienen de las lenguas de… ¿qué país?"
     answer: "La India"
     wrong: ["Papúa Nueva Guinea", "Etiopía", "China"]
     level: hard
+    topic: general
   - emoji: "🌑"
     text: "La esciofobia es el miedo a…"
     answer: "Las sombras"
     wrong: ["Comer", "Las luces fuertes", "Viajar"]
     level: hard
+    topic: general
   - emoji: "🏛️"
     text: "¿Qué significa la frase latina \"Veni, vidi, vici\"?"
     answer: "Llegué, vi, vencí"
     wrong: ["No veo, no oigo, no hablo", "Vida, libertad y felicidad", "Pasado, presente y futuro"]
     note: "La dijo Julio César tras una victoria muy rápida."
     level: hard
+    topic: history
   - emoji: "☁️"
     text: "¿Qué es la nefelococigia?"
     answer: "Buscar formas en las nubes"
     wrong: ["Dormir con los ojos abiertos", "Romper cristales con la voz", "Nadar en agua helada"]
     level: hard
+    topic: general
   - emoji: "🎹"
     text: "¿Cuántas teclas tiene un piano de cola normal?"
     answer: "88"
     wrong: ["98", "108", "78"]
     level: hard
+    topic: art
   - emoji: "📱"
     text: "¿Qué vendía Nokia al principio?"
     answer: "Papel"
     wrong: ["Teléfonos", "Ordenadores", "Procesadores"]
     level: hard
+    topic: general
   - emoji: "🌺"
     text: "El malva, que se llama así por una flor, es un tono de…"
     answer: "Morado"
     wrong: ["Rojo", "Marrón", "Rosa"]
     level: hard
+    topic: art
   - emoji: "🧬"
     text: "En el ADN, ¿con qué base se empareja la guanina?"
     answer: "Citosina"
     wrong: ["Timina", "Adenina", "Uracilo"]
     level: hard
+    topic: science
   - emoji: "☠️"
     text: "¿Cuál es la toxina más potente que se conoce?"
     answer: "La toxina botulínica"
     wrong: ["La ricina", "El cianuro", "El amianto"]
     level: hard
+    topic: science
   - emoji: "🪐"
     text: "¿Qué luna es la única del sistema solar con una atmósfera densa?"
     answer: "Titán"
     wrong: ["Europa", "Miranda", "Calisto"]
     note: "Es una luna de Saturno."
     level: hard
+    topic: science
   - emoji: "🍦"
     text: "¿Cuál es el nombre científico del \"dolor de cabeza por comer helado\"?"
     answer: "Ganglioneuralgia esfenopalatina"
     wrong: ["Hyacinthoides italica", "Amaranthus retroflexus", "Amblyomma americanum"]
     level: hard
+    topic: science
   - emoji: "🤡"
     text: "La coulrofobia es el miedo a…"
     answer: "Los payasos"
     wrong: ["Los cementerios", "Las agujas", "Los túneles"]
     level: hard
+    topic: general
   - emoji: "🦴"
     text: "¿Cuál es el nombre científico de \"Lucy\", la homínida extinguida?"
     answer: "Australopithecus afarensis"
     wrong: ["Australopithecus africanus", "Australopithecus architeuthis", "Australopithecus antaris"]
     level: hard
+    topic: science
   - emoji: "🍬"
     text: "¿Cuál es la fórmula de la glucosa?"
     answer: "C₆H₁₂O₆"
     wrong: ["C₂H₄O₂", "K⁺", "CH₄"]
     level: hard
+    topic: science
   - emoji: "🦵"
     text: "¿Cuál es el nombre científico de la rótula?"
     answer: "Patela"
     wrong: ["Fémur", "Foramen magno", "Escápula"]
     level: hard
+    topic: science
   - emoji: "💥"
     text: "La teoría del Big Bang la propuso por primera vez un sacerdote… ¿de qué religión?"
     answer: "Católica"
     wrong: ["Protestante", "Judía", "Ortodoxa"]
     note: "Fue el belga Georges Lemaître."
     level: hard
+    topic: science
   - emoji: "🌡️"
     text: "¿Qué temperatura es la misma en grados Celsius y en Fahrenheit?"
     answer: "−40"
     wrong: ["32", "−39", "−42"]
     level: hard
+    topic: science
   - emoji: "⚡"
     text: "¿Qué unidad científica lleva el nombre de un noble italiano?"
     answer: "El voltio"
     wrong: ["El pascal", "El ohmio", "El hercio"]
     note: "Por Alessandro Volta, inventor de la pila."
     level: hard
+    topic: science
   - emoji: "🍓"
     text: "Para la botánica, ¿cuál de estas frutas NO es una baya?"
     answer: "La fresa"
     wrong: ["El arándano", "El plátano", "La uva"]
     level: hard
+    topic: science
   - emoji: "💧"
     text: "¿Cuál es el lago de agua dulce con más agua del mundo?"
     answer: "El Baikal"
     wrong: ["El Superior", "El Hurón", "El Míchigan"]
     level: hard
+    topic: geography
   - emoji: "🛵"
     text: "¿Cómo se llamaba antes la ciudad de Ho Chi Minh?"
     answer: "Saigón"
     wrong: ["Hanói", "Dar es-Salam", "Angkor Wat"]
     level: hard
+    topic: geography
   - emoji: "⛵"
     text: "¿Qué tiene de especial el lago Titicaca?"
     answer: "Es el lago navegable más alto del mundo"
     wrong: ["Es el lago más largo del mundo", "Es el lago más profundo del mundo", "Está helado todo el año"]
     level: hard
+    topic: geography
   - emoji: "🦌"
     text: "¿Cómo se dice \"Finlandia\" en finés?"
     answer: "Suomi"
     wrong: ["Eesti", "Magyarország", "Sverige"]
     level: hard
+    topic: geography
   - emoji: "🚩"
     text: "¿Qué país africano tiene un fusil en su bandera?"
     answer: "Mozambique"
     wrong: ["Uganda", "Etiopía", "Nigeria"]
     level: hard
+    topic: geography
   - emoji: "🏜️"
     text: "Bir Tawil, una tierra que no reclama ningún país, está en la frontera entre…"
     answer: "Egipto y Sudán"
     wrong: ["Israel y Jordania", "Chad y Libia", "Irak y Arabia Saudí"]
     level: hard
+    topic: geography
   - emoji: "🌍"
     text: "¿Cuál es la capital de Burkina Faso?"
     answer: "Uagadugú"
     wrong: ["Yaundé", "Yamusukro", "Abiyán"]
     level: hard
+    topic: geography
   - emoji: "👥"
     text: "¿Cuál es el país con menos habitantes del mundo?"
     answer: "La Ciudad del Vaticano"
     wrong: ["Nauru", "Las Islas Marshall", "Liechtenstein"]
     level: hard
+    topic: geography
   - emoji: "⛰️"
     text: "El paso de Khyber, entre montañas, une… ¿qué dos países?"
     answer: "Afganistán y Pakistán"
     wrong: ["India y Nepal", "Pakistán e India", "Tayikistán y Kirguistán"]
     level: hard
+    topic: geography
   - emoji: "🐪"
     text: "¿Dónde está Tombuctú?"
     answer: "En Mali (África)"
     wrong: ["En Azerbaiyán (Asia)", "En Bangladés (Asia)", "En Mauritania (África)"]
     level: hard
+    topic: geography
   - emoji: "⚔️"
     text: "¿En qué año fue la batalla de Hastings?"
     answer: "1066"
     wrong: ["911", "1204", "1420"]
     level: hard
+    topic: history
   - emoji: "👑"
     text: "En 1547, ¿quién fue el primer zar de Rusia?"
     answer: "Iván el Terrible"
     wrong: ["Alejo I", "Miguel Romanov", "Pedro el Grande"]
     level: hard
+    topic: history
   - emoji: "🎯"
     text: "¿El asesinato de qué miembro de la realeza desencadenó la Primera Guerra Mundial?"
     answer: "El archiduque Francisco Fernando"
     wrong: ["Lord Mountbatten", "El rey Carlos I", "El zar Nicolás II"]
     level: hard
+    topic: history
   - emoji: "🇪🇸"
     text: "¿En qué año empezó la Guerra de la Independencia española contra Napoleón?"
     answer: "1808"
     wrong: ["1806", "1810", "1809"]
     level: hard
+    topic: history
   - emoji: "🎖️"
     text: "¿Cómo se llamaba Napoleón Bonaparte antes de cambiarse el nombre?"
     answer: "Napoleone di Buonaparte"
     wrong: ["Naapolion van Bonijpaart", "Napoleão do Boaparte", "Napoleona de Buenoparte"]
     level: hard
+    topic: history
   - emoji: "🐺"
     text: "¿Cuándo se fundó Roma, según la tradición?"
     answer: "En el 753 a. C."
     wrong: ["En el 902 a. C.", "En el 524 a. C.", "En el 697 a. C."]
     level: hard
+    topic: history
   - emoji: "🕌"
     text: "¿Qué emperador bizantino mandó construir Santa Sofía?"
     answer: "Justiniano I"
     wrong: ["Constantino IV", "Arcadio", "Teodosio el Grande"]
     level: hard
+    topic: history
   - emoji: "🏝️"
     text: "¿Dónde nació Napoleón Bonaparte?"
     answer: "En Córcega"
     wrong: ["En Normandía", "En Bretaña", "En París"]
     level: hard
+    topic: history
   - emoji: "💍"
     text: "En 1469, Isabel I de Castilla se casó con Fernando II… ¿de qué reino?"
     answer: "Aragón"
     wrong: ["Galicia", "León", "Navarra"]
     level: hard
+    topic: history
   - emoji: "✊"
     text: "¿En qué país empezó la Primavera Árabe?"
     answer: "Túnez"
     wrong: ["Marruecos", "Siria", "Egipto"]
     level: hard
+    topic: history
   - emoji: "🪟"
     text: "La revuelta de Bohemia (1618) empezó cuando los protestantes de Praga… ¿qué hicieron con los regentes católicos?"
     answer: "Los tiraron por una ventana"
     wrong: ["Insultaron a sus madres", "Los encerraron en el cepo", "Los ahorcaron"]
     note: "Se conoce como la \"defenestración de Praga\"."
     level: hard
+    topic: history
   - emoji: "🕰️"
     text: "¿En qué año terminó Dalí \"La persistencia de la memoria\", la de los relojes blandos?"
     answer: "1931"
     wrong: ["1932", "1929", "1934"]
     level: hard
+    topic: art
   - emoji: "🖼️"
     text: "El \"Guernica\" de Picasso expresa el horror… ¿de qué guerra?"
     answer: "La Guerra Civil española"
     wrong: ["La Primera Guerra Mundial", "La guerra de Crimea", "La guerra de Cuba"]
     level: hard
+    topic: art
   - emoji: "🗽"
     text: "¿Qué escultor francés diseñó la Estatua de la Libertad?"
     answer: "Frédéric Auguste Bartholdi"
     wrong: ["Jean-Léon Gérôme", "Auguste Rodin", "Henri Matisse"]
     level: hard
+    topic: art
   - emoji: "📷"
     text: "¿Cuál fue la primera técnica de fotografía que tuvo éxito y se vendió?"
     answer: "El daguerrotipo"
     wrong: ["El colodión húmedo", "La Sábana Santa", "La película Kodachrome"]
     level: hard
+    topic: art
   - emoji: "🌌"
     text: "\"La noche estrellada\", de Van Gogh, es de… ¿qué movimiento artístico?"
     answer: "Postimpresionismo"
     wrong: ["Romanticismo", "Neoclasicismo", "Impresionismo"]
     level: hard
+    topic: art
   - emoji: "🧊"
     text: "¿Qué movimiento artístico fundó Picasso, junto con Braque?"
     answer: "El cubismo"
     wrong: ["El futurismo", "El expresionismo", "El impresionismo"]
     level: hard
+    topic: art
   - emoji: "🪼"
     text: "¿Cuál de estos animales es una colonia de pólipos y no una medusa?"
     answer: "La carabela portuguesa"
     wrong: ["La avispa de mar", "La medusa irukandji", "La ortiga de mar"]
     level: hard
+    topic: animals
   - emoji: "🐸"
     text: "¿Qué animal es el \"pollo de montaña\"?"
     answer: "Una rana"
     wrong: ["Un pollo", "Un caballo", "Una mosca"]
     level: hard
+    topic: animals

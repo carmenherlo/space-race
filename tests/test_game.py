@@ -139,6 +139,7 @@ INVALID: dict[str, Callable[[dict[str, Any]], None]] = {
     "question repeating an answer": lambda d: d["questions"][0].update(wrong=["la tierra", "B", "C"]),
     "question without answer": lambda d: d["questions"][0].pop("answer"),
     "question level unknown": lambda d: d["questions"][0].update(level="expert"),
+    "question topic unknown": lambda d: d["questions"][0].update(topic="sports"),
     "true or false with other answers": lambda d: d["questions"][0].update(answer="Sí", wrong=["No"], level="easy"),
     "true or false with four answers": lambda d: d["questions"][0].update(answer="Verdadero", wrong=["Falso", "Quizá", "Nunca"], level="easy"),
     "only one wrong answer, not true or false": lambda d: d["questions"][0].update(wrong=["Falso"], level="medium"),

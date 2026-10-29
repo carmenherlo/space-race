@@ -2,7 +2,8 @@
 // on this device.
 
 import { createAvatar } from "./board.js";
-import { LEVELS, LEVEL_NAMES, LEVEL_STARS, OLD_LEVELS } from "./questions.js";
+import { LEVELS, LEVEL_NAMES, LEVEL_STARS } from "../levels.js";
+import { OLD_LEVELS } from "./questions.js";
 import { elements, game, pack } from "./state.js";
 
 const MAX_PLAYERS = 6;

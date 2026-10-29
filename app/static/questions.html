@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Preguntas</title>
+  <!-- Relative paths, so it also works behind a proxy under a sub-path. -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/questions.css">
+  <script type="module" src="js/questions.js"></script>
+</head>
+<body class="questions-page">
+  <a class="close-x" href="games.html" aria-label="Volver a los juegos">✕</a>
+  <p class="status" id="status" role="status" hidden></p>
+
+  <!-- Every question of a game (content/questions, see app/game.py), to read them and
+       check them: filtered by level and topic. -->
+  <main class="questions-page__main">
+    <h1 class="questions-page__title">🧠 Preguntas</h1>
+
+    <div class="filters">
+      <div class="filters__row" id="levels" role="group" aria-label="Nivel"></div>
+      <div class="filters__row" id="topics" role="group" aria-label="Tema"></div>
+    </div>
+
+    <p class="summary" id="summary"></p>
+    <ol class="question-list" id="list"></ol>
+  </main>
+
+  <template id="question-template">
+    <li class="question-item">
+      <span class="question-item__emoji"></span>
+      <div class="question-item__body">
+        <p class="question-item__text"></p>
+        <p class="question-item__answers"></p>
+        <p class="question-item__note" hidden></p>
+      </div>
+      <span class="question-item__tags"></span>
+    </li>
+  </template>
+</body>
+</html>
