@@ -56,7 +56,7 @@ async function start() {
   document.getElementById("board-image").src = boardUrl;
   places = game.places;
   if (game.squares_image_url) {
-    squareShapes = await shapesOfTheSquares(`../${game.squares_image_url}`);
+    squareShapes = await shapesOfTheSquares(`../${game.squares_image_url}`, boardUrl);
   }
   ideas.square.addEventListener("change", lightUp);
   const [{ avatar }] = await randomPlayers(["Tú"]);
@@ -116,24 +116,37 @@ function lightUp() {
   token.before(lit);
 }
 
-// Each square's shape, from the squares picture: from the middle of each square (its place),
-// everything of it that is not see-through (the numbers' holes too). In % of the board,
-// with a mask picture of the shape.
-async function shapesOfTheSquares(url) {
-  const image = new Image();
-  image.src = url;
-  await image.decode();
-  const { naturalWidth: width, naturalHeight: height } = image;
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const context = canvas.getContext("2d", { willReadFrequently: true });
-  context.drawImage(image, 0, 0);
-  const alpha = context.getImageData(0, 0, width, height).data;
+// Each square's shape (and the Moon's), from the squares picture: from the middle of each
+// place, everything of it that is not see-through. In % of the board, with a mask picture
+// of the shape: only where the board shows the square itself, so what is drawn over it (a
+// galaxy, stars, its number) is not lit, and is never cut at the square's edge.
+async function shapesOfTheSquares(url, boardUrl) {
+  const pixelsOf = async (src) => {
+    const image = new Image();
+    image.src = src;
+    await image.decode();
+    const canvas = document.createElement("canvas");
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    context.drawImage(image, 0, 0);
+    return context.getImageData(0, 0, canvas.width, canvas.height);
+  };
+  const squaresPicture = await pixelsOf(url);
+  const { width, height } = squaresPicture;
+  const alpha = squaresPicture.data;
+  const board = (await pixelsOf(boardUrl)).data;
+  // How much of a pixel is the square itself: 1 where the board has the square's colour,
+  // fading to 0 where something else is drawn over it.
+  const bare = (x, y) => {
+    const i = (y * width + x) * 4;
+    const difference = Math.abs(board[i] - alpha[i]) + Math.abs(board[i + 1] - alpha[i + 1]) + Math.abs(board[i + 2] - alpha[i + 2]);
+    return Math.max(0, Math.min(1, (150 - difference) / 90));
+  };
   const solid = (x, y) => alpha[(y * width + x) * 4 + 3] > 127;
   const taken = new Uint8Array(width * height);
   const shapes = new Map();
-  for (let number = 1; number < places.length - 1; number += 1) {
+  for (let number = 0; number < places.length; number += 1) { // the start and the Moon too, if drawn
     const x = Math.round((places[number][0] * width) / 100);
     const y = Math.round((places[number][1] * height) / 100);
     if (!solid(x, y) || taken[y * width + x]) {
@@ -164,10 +177,19 @@ async function shapesOfTheSquares(url) {
     mask.width = right - left + 1;
     mask.height = bottom - top + 1;
     const maskContext = mask.getContext("2d");
-    maskContext.fillStyle = "#000";
+    const shape = maskContext.createImageData(mask.width, mask.height);
+    // A shape that hardly matches the board (the Moon: a plain circle over a drawing) is lit
+    // whole; a square, only where it is bare.
+    let matching = 0;
     for (let i = 0; i < pixels.length; i += 2) {
-      maskContext.fillRect(pixels[i] - left, pixels[i + 1] - top, 1, 1);
+      matching += bare(pixels[i], pixels[i + 1]);
     }
+    const whole = matching / (pixels.length / 2) < 0.5;
+    for (let i = 0; i < pixels.length; i += 2) {
+      const lit = whole ? 1 : bare(pixels[i], pixels[i + 1]);
+      shape.data[((pixels[i + 1] - top) * mask.width + (pixels[i] - left)) * 4 + 3] = Math.round(255 * lit);
+    }
+    maskContext.putImageData(shape, 0, 0);
     shapes.set(number, {
       left: (left / width) * 100,
       top: (top / height) * 100,
