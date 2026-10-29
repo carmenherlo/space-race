@@ -15,18 +15,19 @@
   <main class="galaxy__main dice-test">
     <!-- The ideas to see (they can be combined), and the die. -->
     <div class="dice-test__ideas">
+      <label><input type="checkbox" id="idea-square" checked> Casilla</label>
       <label><input type="checkbox" id="idea-pulse" checked> Latido</label>
-      <label><input type="checkbox" id="idea-pulse-shine" checked> …al brillar</label>
+      <label><input type="checkbox" id="idea-pulse-shine" checked> …brillar</label>
       <label><input type="checkbox" id="idea-roll-hops" checked> Salta</label>
-      <label><input type="checkbox" id="idea-number" checked> 1. Número</label>
-      <label>2.
+      <label><input type="checkbox" id="idea-number" checked> Número</label>
+      <label>
         <select id="idea-find">
           <option value="none">Nada</option>
           <option value="hops">Dos saltitos</option>
           <option value="shine">Brillo</option>
         </select>
       </label>
-      <label><input type="checkbox" id="idea-slow" checked> 3. Lento</label>
+      <label><input type="checkbox" id="idea-slow" checked> Lento</label>
       <button class="dice-test__die" id="die" type="button" aria-label="Tirar el dado">🎲</button>
     </div>
     <div class="dice-test__board" id="board">
