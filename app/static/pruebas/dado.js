@@ -1,7 +1,8 @@
 // The die (dado.html): a test page for what makes a roll easy to follow (as in the game,
 // js/game/moves.js), on the short board with a random avatar. Each can be switched off:
 //   1. the number, big in the middle of the board, before the token moves;
-//   2. how to find the token, one of: a spotlight on it (the board darkens around it, and
+//   2. how to follow the token, one of: a trail (it leaves soft shadows of its colour on
+//      the squares it goes through, fading), a spotlight on it (the board darkens around it, and
 //      the light follows it while it moves), or the number flying into it (it pops with a
 //      soft wave of its colour); then it moves;
 //   3. slower steps.
@@ -92,6 +93,9 @@ async function roll() {
   token.dataset.speed = slow ? "slow" : "usual";
   spot.dataset.speed = token.dataset.speed;
   for (let step = 1; step <= rolled; step += 1) {
+    if (ideas.find.value === "trail") {
+      leaveAShadow();
+    }
     place = (place + 1) % places.length; // after the Moon, back to the start
     put();
     sounds.hop();
@@ -113,4 +117,16 @@ async function flyIntoTheToken() {
   number.style.transform = `translate(${dx}px, ${dy}px) scale(${to.width / from.width})`;
   number.style.opacity = "0.4";
   await wait(FLY_MS);
+}
+
+// The trail: a soft shadow of the token's colour where it was, fading away.
+function leaveAShadow() {
+  const [x, y] = places[place];
+  const shadow = document.createElement("span");
+  shadow.className = "dice-test__shadow";
+  shadow.style.left = `${x}%`;
+  shadow.style.top = `${y}%`;
+  shadow.style.setProperty("--ring-color", token.style.getPropertyValue("--ring-color"));
+  board.insertBefore(shadow, token);
+  setTimeout(() => shadow.remove(), 2000);
 }
