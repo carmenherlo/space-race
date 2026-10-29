@@ -37,7 +37,7 @@ backwards_counts: true   # going back (meteorites, bounce): the square you land 
 # In order: the start, squares 1, 2, 3, … and the goal (the last one, the Moon).
 # They match the household's Space Race board; another board needs its own.
 places:
-  - [11.5, 35.2]  # start ("Start here")
+  - [10.5, 19.5]  # start: on the rocket, over "Start here" (so the sign shows)
   - [20.6, 33.5]  # 1
   - [28.8, 33.5]  # 2
   - [35.9, 40.7]  # 3
