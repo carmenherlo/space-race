@@ -3,9 +3,10 @@
 
 import { flyToTheMoon, playMinigame } from "../minigames.js";
 import { sounds } from "../sounds.js";
-import { createAvatar, placeName, react, renderTurn } from "./board.js";
+import { createAvatar, placeName, react, renderTokens, renderTurn } from "./board.js";
 import { shuffled, speak } from "./helpers.js";
 import { elements, game, pack } from "./state.js";
+import { MOON_ARRIVAL_MS, wait } from "./timing.js";
 
 // The confetti of the winner's screen: their colour and these.
 const CONFETTI_COLORS = ["#ffd166", "#ef476f", "#06d6a0", "#118ab2", "#c3a6ff", "#ffffff"];
@@ -135,8 +136,14 @@ export function showCard(card) {
   });
 }
 
-export function showWinner(player) {
+// Someone reached the Moon: first everybody sees their token there, hopping for joy, then
+// the celebration.
+export async function showWinner(player) {
   elements.turn.hidden = true;
+  renderTokens();
+  react(player, "good");
+  sounds.good();
+  await wait(MOON_ARRIVAL_MS);
   elements.winner.style.setProperty("--player-color", player.color);
   dropConfetti(player.color);
   elements.winnerAvatar.replaceChildren(createAvatar(player));
