@@ -73,7 +73,11 @@
     </section>
 
     <section class="setup__section" aria-labelledby="setup-players-title">
-      <h2 class="setup__heading" id="setup-players-title">2. Nombre y nivel</h2>
+      <h2 class="setup__heading" id="setup-players-title">
+        2. Nombre y nivel
+        <!-- What each level is (only in "Sabelotodo"). -->
+        <button class="setup__info" id="levels-info-open" type="button" aria-label="¿Qué nivel elijo?">ⓘ</button>
+      </h2>
       <ul class="setup__players" id="setup-players"></ul>
     </section>
 
@@ -121,6 +125,14 @@
     <div class="game-actions">
       <button class="game-button" id="start" type="button">¡A jugar!</button>
     </div>
+  </dialog>
+
+  <!-- The levels of the questions, with who each one is for (js/game/setup.js). -->
+  <dialog class="game-dialog levels-info" id="levels-info" aria-labelledby="levels-info-title">
+    <button class="close-x" id="levels-info-close" type="button" aria-label="Cerrar">✕</button>
+    <h2 class="card__title" id="levels-info-title">Niveles de las preguntas</h2>
+    <ul class="levels-info__list" id="levels-info-list"></ul>
+    <p class="levels-info__hint">Cada jugador elige el suyo tocando el botón que hay junto a su nombre.</p>
   </dialog>
 
   <!-- Who starts: the avatars are shuffled, then shown in turn order (js/game.js, drawOrder). -->

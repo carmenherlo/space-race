@@ -26,7 +26,7 @@ import { quiet } from "./voice.js";
 import { showStatus } from "./game/helpers.js";
 import { loadPack } from "./game/pack.js";
 import { backToMenu, pauseGame, restartGame, restartIdleTimer, resumeGame } from "./game/pause.js";
-import { chosenPlayers, loadSetup, selectMode, setUpRules, showSetup, toggleOption } from "./game/setup.js";
+import { chosenPlayers, loadSetup, selectMode, setUpRules, showLevelsInfo, showSetup, toggleOption } from "./game/setup.js";
 import { GAME_ID, elements, game, pack } from "./game/state.js";
 import { startGame, tapDie } from "./game/turns.js";
 
@@ -39,6 +39,8 @@ async function init() {
   for (const mode of elements.modes) {
     mode.addEventListener("click", () => selectMode(mode));
   }
+  elements.levelsInfoOpen.addEventListener("click", showLevelsInfo);
+  elements.levelsInfoClose.addEventListener("click", () => elements.levelsInfo.close());
   elements.questionNext.addEventListener("click", () => elements.question.close());
   elements.questionQuiet.addEventListener("click", quiet);
   elements.cardOk.addEventListener("click", () => elements.card.close());

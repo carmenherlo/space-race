@@ -718,6 +718,58 @@ body.game[data-mode="questions"] .ranking {
   display: block;
 }
 
+/* "ⓘ" beside "2. Nombre y nivel": what each level is, only in "Sabelotodo". */
+.setup__info {
+  display: none;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-left: 0.3rem;
+  padding: 0;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-bg);
+  color: var(--game-navy);
+  font-size: 1.1rem;
+  vertical-align: middle;
+}
+
+.setup[data-mode="questions"] .setup__info {
+  display: inline-block;
+}
+
+.levels-info {
+  position: relative;
+}
+
+.levels-info__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: var(--space-m) 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(1rem, 0.8rem + 0.6vw, 1.3rem);
+  text-align: left;
+}
+
+.levels-info__list li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.levels-info__stars {
+  flex: none;
+  width: 4.5rem;
+  letter-spacing: -0.15em;
+}
+
+.levels-info__hint {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 1rem;
+}
+
 
 .pause {
   border-top-color: var(--game-mint);

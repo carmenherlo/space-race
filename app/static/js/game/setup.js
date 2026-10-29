@@ -2,7 +2,7 @@
 // on this device.
 
 import { createAvatar } from "./board.js";
-import { LEVELS, LEVEL_NAMES, LEVEL_STARS } from "../levels.js";
+import { KIDS_LEVELS, LEVELS, LEVEL_NAMES, LEVEL_STARS, TRUE_FALSE_LEVELS } from "../levels.js";
 import { OLD_LEVELS } from "./questions.js";
 import { elements, game, pack } from "./state.js";
 
@@ -159,6 +159,24 @@ function saveSetup() {
   } catch {
     // private mode: nothing is remembered, the game still works
   }
+}
+
+// "ⓘ": every level, with who it is for ("Niños de 3 a 5 años", "Adultos, medio").
+export function showLevelsInfo() {
+  const rows = LEVELS.map((level) => {
+    const row = document.createElement("li");
+    const stars = document.createElement("span");
+    stars.className = "levels-info__stars";
+    stars.textContent = LEVEL_STARS[level];
+    const name = LEVEL_NAMES[level];
+    const who = KIDS_LEVELS.includes(level) ? name[0].toUpperCase() + name.slice(1) : `Adultos, ${name}`;
+    const text = document.createElement("span");
+    text.textContent = TRUE_FALSE_LEVELS.includes(level) ? `${who} · verdadero o falso` : who;
+    row.append(stars, text);
+    return row;
+  });
+  elements.levelsInfoList.replaceChildren(...rows);
+  elements.levelsInfo.showModal();
 }
 
 export function chosenMode() {
