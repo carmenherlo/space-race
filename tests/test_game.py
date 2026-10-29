@@ -217,6 +217,8 @@ def test_api_serves_a_game(client: TestClient) -> None:
 def test_api_serves_the_board_picture_and_nothing_else(client: TestClient) -> None:
     assert client.get("/games-pack/space-race-expanded/board.webp").status_code == 200
     assert client.get("/games-pack/space-race-expanded/game.yaml").status_code == 404
+    assert client.get("/api/games/space-race").json()["squares_image_url"] == "games-pack/space-race/casillas.png"
+    assert client.get("/games-pack/space-race/casillas.png").status_code == 200  # its squares
 
 
 def test_without_games_there_is_no_game(tmp_path: Path, client_for: ClientFor) -> None:

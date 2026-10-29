@@ -28,6 +28,7 @@ Ejemplos completos: `content/games/space-race/game.yaml` (tablero corto) y
 |---|---|
 | `title` | El nombre que sale en el menú. |
 | `image` | El dibujo del tablero, en la carpeta del juego. Sin él, se dibuja un tablero sencillo de puntos numerados (se puede jugar igual). |
+| `squares_image` | Opcional: el mismo dibujo con solo las casillas (lo demás transparente), del mismo tamaño. Sirve para iluminar la casilla de una ficha. |
 | `voice` | `true`: una voz lee las cartas y las preguntas (para quien aún no lee). El 🔊 la apaga. |
 | `places` | Dónde está cada sitio en el dibujo: `[x, y]` en % del ancho y del alto. En orden: la salida, la casilla 1, 2, 3… y la meta (la Luna, el último). Otro tablero necesita los suyos. |
 

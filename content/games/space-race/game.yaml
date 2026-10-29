@@ -8,6 +8,7 @@
 title: "Space Race"
 
 image: board.webp
+squares_image: casillas.png  # only the squares: to light up the one a token is on
 
 # A voice reads the cards aloud, and the questions and their answers in «Sabelotodo», for
 # those who cannot read yet (natural or robot; 🔊 in the game changes it). Optional.

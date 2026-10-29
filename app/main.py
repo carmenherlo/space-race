@@ -100,6 +100,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         ]
         del content["exact_finish"]
         content["image_url"] = games_url(f"{game.id}/{game.pack.image}") if game.pack.image else None
+        squares = game.pack.squares_image
+        content["squares_image_url"] = games_url(f"{game.id}/{squares}") if squares else None
         return content
 
     @app.get("/api/avatars")
@@ -121,7 +123,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     @app.get("/games-pack/{game_id}/{name:path}")
     def board_picture(game_id: str, name: str, request: Request) -> FileResponse:
         game = request.app.state.games.games.get(game_id)
-        if game is None or game.pack is None or game.pack.image != name:
+        if game is None or game.pack is None or name not in (game.pack.image, game.pack.squares_image):
             raise HTTPException(status_code=404)
         path = resolved.games_dir / game_id / name
         if not path.is_file():

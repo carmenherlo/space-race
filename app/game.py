@@ -39,6 +39,8 @@ Emoji = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, ma
 # 1 to 3 chicks for kids: very_easy (🐣, 3 to 5 years, true or false, often silly), kids_medium
 # (6 to 8), kids_hard (9 to 12); then 1 to 3 stars for grown-ups: easy (true or false), medium, hard.
 Level = Literal["very_easy", "kids_medium", "kids_hard", "easy", "medium", "hard"]
+# What a question is about (shown on the questions page, questions.html).
+Topic = Literal["animals", "science", "geography", "history", "art", "general"]
 # The levels whose questions are true or false.
 TRUE_FALSE_LEVELS = ("very_easy", "easy")
 # The two answers of a true-or-false question, always in this order on the screen.
@@ -103,6 +105,7 @@ class Question(StrictModel):
     wrong: list[Text] = Field(min_length=1, max_length=3)  # three wrong answers (one if true/false)
     note: Text | None = None  # a curious fact, shown once answered
     level: Level
+    topic: Topic
 
     @model_validator(mode="after")
     def answers_for_the_level(self) -> "Question":
@@ -127,6 +130,9 @@ class ModeRules(StrictModel):
 class GamePack(StrictModel):
     title: Text = "Space Race"
     image: ImageName | None = None  # the board picture, in the game's folder
+    # Optional: the same picture with only its squares (the rest see-through), to light up
+    # the square a token is on.
+    squares_image: ImageName | None = None
     # The start, squares 1, 2, … and the goal (the last one), in order.
     places: list[Place] = Field(min_length=3)
     squares: dict[int, Square] = Field(default_factory=dict)
