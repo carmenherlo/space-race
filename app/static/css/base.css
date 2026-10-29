@@ -93,6 +93,26 @@ button:active {
 
 /* ---------- Shared components ---------- */
 
+/* "Salir": an ✕ in the top-right corner of a menu (or of the page). */
+.close-x {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  border-radius: 50%;
+  background: var(--color-track);
+  color: var(--color-text);
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+}
+
 /* Avatar: a player's picture, or their initial on their colour. Its size comes from the
    container (--avatar-size), so the same component is used in the setup, the tokens,
    the turn and the winner. */

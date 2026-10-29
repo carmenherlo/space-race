@@ -21,6 +21,12 @@
   text-align: center;
 }
 
+.galaxy__close {
+  position: fixed; /* on the page, not on a menu */
+  background: rgb(255 255 255 / 15%);
+  color: #fff;
+}
+
 .galaxy__title {
   margin: 0;
 }
@@ -47,7 +53,3 @@
   text-decoration: none;
 }
 
-.galaxy__button--quiet {
-  background: rgb(255 255 255 / 15%);
-  color: #fff;
-}

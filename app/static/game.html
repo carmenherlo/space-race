@@ -61,6 +61,7 @@
   <!-- Before playing: 1. who plays (tap the avatars, in turn order), 2. each one's name and
        level, 3. the mode, and how a turn goes. Remembered on this device (js/game.js). -->
   <dialog class="game-dialog setup" id="setup" aria-labelledby="setup-title">
+    <a class="close-x" href="games.html" aria-label="Salir">✕</a>
     <h1 class="setup__title" id="setup-title">🚀 Space Race</h1>
 
     <section class="setup__section" aria-labelledby="setup-count-title">
@@ -116,7 +117,6 @@
 
     <div class="game-actions">
       <button class="game-button" id="start" type="button">¡A jugar!</button>
-      <a class="game-button game-button--quiet" href="games.html">Salir</a>
     </div>
   </dialog>
 
@@ -184,11 +184,11 @@
   <dialog class="winner" id="winner" aria-labelledby="winner-title">
     <div class="winner__confetti" id="winner-confetti" aria-hidden="true"></div>
     <div class="game-dialog winner__panel">
+      <a class="close-x" href="games.html" aria-label="Salir">✕</a>
       <span class="winner__avatar" id="winner-avatar"></span>
       <h2 class="winner__title" id="winner-title"></h2>
       <div class="game-actions">
         <button class="game-button" id="again" type="button">Otra partida</button>
-        <a class="game-button game-button--quiet" href="games.html">Salir</a>
       </div>
     </div>
   </dialog>
