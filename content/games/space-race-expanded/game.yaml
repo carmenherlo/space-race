@@ -283,8 +283,8 @@ squares:
   57:
     kind: bad
     emoji: "🛸"
-    title: "¡Botón equivocado!"
-    text: "Un marciano despistado pulsa el botón que no era y su ovni te lleva de vuelta a la casilla 26. ¡Y encima estás mareado!"
+    title: "¡Abducción!"
+    text: "¡Unos marcianos te abducen con su rayo de luz! Te llevan de vuelta a la casilla 26… tan mareado que no puedes volver a tirar."
     go_to: 26
     star_saves: true
 

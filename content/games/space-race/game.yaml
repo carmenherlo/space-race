@@ -139,9 +139,9 @@ squares:
     go_to: 11
   11:
     kind: bad
-    emoji: "👽"
-    title: "¡Botón equivocado!"
-    text: "Un marciano despistado pulsa el botón que no era y su ovni te manda de vuelta al ovni de la casilla 7."
+    emoji: "🛸"
+    title: "¡Abducción!"
+    text: "¡Unos ovnis te han abducido! Te llevan de vuelta y aterrizas de culete en la casilla 7."
     go_to: 7
   18:
     kind: good

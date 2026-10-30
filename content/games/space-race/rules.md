@@ -16,7 +16,7 @@ modos, Sabelotodo) están en `content/games/general-rules.md`.
 |---|---|---|
 | 5, 10, 15, 20 | 🌌 **Galaxia** | *"De galaxia a galaxia… ¡y viajo con magia!"* Saltas a la siguiente galaxia. No vuelves a tirar (con galaxias cada 5, un 5 cruzaría el tablero de golpe). |
 | 25 | 🌌 **La última galaxia** | Te reta a un minijuego. Si ganas, ¡a la Luna! |
-| 7 ↔ 11 | 🛸 **Ovni** | El ovni te lleva al otro ovni: de la 7 a la 11 (¡abducción!) o de la 11 a la 7 (botón equivocado). |
+| 7 ↔ 11 | 🛸 **Abducción** | El ovni te lleva al otro ovni: de la 7 a la 11 o de la 11 a la 7. |
 | 18 → 21 | 🛰️ **Héroe espacial** | Arreglas un satélite y avanzas a la 21. |
 | 13 | ☄️ **Zona de meteoritos** | Vuelves a tirar y retrocedes lo que saques. |
 | 17 | 🕳️ **Agujero negro** | Vuelves a Start here. |
