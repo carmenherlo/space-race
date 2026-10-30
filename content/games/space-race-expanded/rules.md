@@ -21,10 +21,10 @@ modos, Sabelotodo) están en `content/games/general-rules.md`.
 | 13 | ⭐ **Estrella comodín** | Coges una estrella, si no tienes ya una. |
 | 17 | ☀️ **Tormenta solar** | Todos los demás retroceden 1 casilla (sin que su casilla cuente). |
 | 23 | ☄️ **Zona de meteoritos** | Vuelves a tirar y retrocedes lo que saques. |
-| 26 ↔ 57 | 🛸 **Abducción** | El ovni te lleva al otro ovni: de la 26 a la 57 o de la 57 a la 26. **No vuelves a tirar**. |
+| 8 ↔ 27, 41 ↔ 55 | 🛸 **Abducción** | El ovni te lleva al otro ovni de su pareja: de la 8 a la 27 o de la 27 a la 8; de la 41 a la 55 o de la 55 a la 41. **No vuelves a tirar**. |
 | 36 | 🛰️ **Estación espacial** | Pierdes 1 turno. |
 | 44 | 🌫️ **Perdido en la nebulosa** | Vuelves a la casilla 30. |
 | 49 | 🔭 **Satélite espía** | Si quieres, cambias tu posición con el jugador que elijas. |
 | 52 | 🥳 **Fiesta en la base** | Pierdes 2 turnos. |
-| 58 | 🕳️ **Agujero negro** | Vuelves a Start here. |
+| 58 | 🕳️ **Agujero negro** | Vuelves a la casilla 31. |
 | 69 | 🌕 **Luna** | ¡Meta! |

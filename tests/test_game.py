@@ -94,19 +94,23 @@ def test_space_race_expanded_has_its_own_rules() -> None:
     assert pack.squares[65].trail  # along the star trail
     assert all(pack.squares[n].again for n in galaxies[:-1])  # "y tiro porque me toca"
     assert (pack.squares[9].go_to, pack.squares[22].go_to) == (22, 9)  # the wormhole, both ways
-    assert (pack.squares[26].go_to, pack.squares[57].go_to) == (57, 26)  # the UFOs, both ways
-    assert not pack.squares[26].again  # dizzy from the trip
+    assert (pack.squares[8].go_to, pack.squares[27].go_to) == (27, 8)  # two pairs of UFOs, both ways
+    assert (pack.squares[41].go_to, pack.squares[55].go_to) == (55, 41)
+    assert not pack.squares[8].again  # dizzy from the trip
     assert pack.squares[13].star
     assert pack.squares[17].others_move == -1  # the solar storm
     assert (pack.squares[36].skip, pack.squares[52].skip) == (1, 2)
-    assert sorted(n for n, sq in pack.squares.items() if sq.kind == "bad") == [22, 23, 36, 44, 52, 57, 58]  # the star saves from them
+    assert sorted(n for n, sq in pack.squares.items() if sq.kind == "bad") == [22, 23, 27, 36, 44, 52, 55, 58]  # the star saves from them
     assert pack.squares[44].go_to == 30  # lost in the nebula
+    assert pack.squares[58].go_to == 31  # the black hole, back to 31 (not to the start)
+    assert "casilla 31" in pack.squares[58].text
     assert pack.squares[49].swap  # the spy satellite
 
 
 def test_the_boards_share_the_square_types() -> None:
     short, expanded = load_game_pack(SPACE_RACE), load_game_pack(EXPANDED)
-    assert short.squares[16] == expanded.squares[58]  # the same black hole on both boards
+    assert short.squares[16].title == expanded.squares[58].title  # the same black hole on both boards…
+    assert (short.squares[16].go_to, expanded.squares[58].go_to) == (0, 31)  # …each with its own way out
     galaxy, galaxy_again = short.squares[5], expanded.squares[6]
     assert galaxy.text == "…¡y acelero con magia! Su magia te lleva hasta la galaxia de la casilla 10."
     assert galaxy_again.text.endswith("casilla 11. ¡Vuelve a tirar!")  # the rule, added by the game

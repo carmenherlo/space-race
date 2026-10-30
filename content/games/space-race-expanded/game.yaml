@@ -9,6 +9,19 @@
 
 title: "Space Race Expanded"
 image: board.webp
+# The board's lights, in lights/, each file named after its part.
+squares_image: lights/squares.png  # only the squares: to light up the one a token is on
+# Parts of the board that light up (the same size as the board, the rest see-through).
+lights:
+  title: lights/title.png
+  start: lights/start.png
+  trail: lights/trail.png
+  moon: lights/moon_v2_no_bright.png  # the Moon alone (lights/moon.png has its glow: the game adds its own)
+  moon_sign: lights/moon_sign.png
+  moon_flags: lights/moon_flags.png
+  moon_stars: lights/moon_stars.png
+# The rocket that brings each token to the start, drawn where it stops (the same size).
+rocket: lights/rocketship_position.png
 
 # The rules of this game:
 # The modes, each with its own rules. exact_finish: the Moon only with the exact number
@@ -120,8 +133,10 @@ squares:
   # Trips, both ways.
   9:  { type: wormhole, go_to: 22 }
   22: { type: wormhole_back, go_to: 9 }
-  26: { type: abduction, go_to: 57 }
-  57: { type: abduction_back, go_to: 26 }
+  8:  { type: abduction, go_to: 27 }
+  27: { type: abduction_back, go_to: 8 }
+  41: { type: abduction, go_to: 55 }
+  55: { type: abduction_back, go_to: 41 }
   44: { type: nebula, go_to: 30 }
 
   # The rest.
@@ -132,7 +147,10 @@ squares:
   36: { type: space_station }
   49: { type: spy_satellite }
   52: { type: party, skip: 2 }  # the party lasts 2 turns here
-  58: { type: black_hole }
+  58:  # back to 31, not to the start
+    type: black_hole
+    go_to: 31
+    text: "Un agujero negro te absorbe, te da tres vueltas y te escupe… ¡en la casilla {to}! Jijiji."
 
 # The questions (mode "Sabelotodo"): from the shared bank content/questions/general.yaml
 # (the levels and every field are explained there).
