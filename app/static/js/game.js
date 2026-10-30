@@ -26,7 +26,7 @@ import { quiet } from "./voice.js";
 import { showStatus } from "./game/helpers.js";
 import { loadPack } from "./game/pack.js";
 import { backToMenu, pauseGame, restartGame, restartIdleTimer, resumeGame } from "./game/pause.js";
-import { chosenPlayers, loadSetup, selectMode, setUpRules, showLevelsInfo, showSetup, toggleOption } from "./game/setup.js";
+import { chosenPlayers, loadSetup, loadSharedProfiles, selectMode, setUpRules, showLevelsInfo, showSetup, toggleOption } from "./game/setup.js";
 import { GAME_ID, elements, game, pack } from "./game/state.js";
 import { startGame, tapDie } from "./game/turns.js";
 
@@ -99,6 +99,7 @@ async function init() {
     showStatus("No se han podido cargar los avatares.", error);
   }
   const saved = loadSetup();
+  await loadSharedProfiles();
   setUpRules(saved.mode);
   const params = new URLSearchParams(window.location.search);
   if (params.has("start") && game.chosen.length > 0) {

@@ -4,6 +4,7 @@
 import { createAvatar } from "./board.js";
 import { KIDS_LEVELS, LEVELS, LEVEL_NAMES, LEVEL_STARS, TRUE_FALSE_LEVELS } from "../levels.js";
 import { OLD_LEVELS } from "./questions.js";
+import { loadProfiles, saveProfile } from "../profiles.js";
 import { elements, game, pack } from "./state.js";
 
 const MAX_PLAYERS = 6;
@@ -33,6 +34,14 @@ function renderChoices() {
     button.className = "setup__choice";
     button.disabled = full;
     button.append(createAvatar(avatarPerson(avatar, index)));
+    // Someone's avatar (their profile): their name under it, to find it.
+    const name = game.profiles[avatar.id]?.name.trim();
+    if (name && hasProfiles()) {
+      const label = document.createElement("span");
+      label.className = "setup__choice-name";
+      label.textContent = name;
+      button.append(label);
+    }
     button.setAttribute("aria-label", `${avatarLabel(avatar.id)}: jugar`);
     button.addEventListener("click", () => choose(avatar.id));
     return [button];
@@ -80,6 +89,7 @@ function renderSeats() {
     name.addEventListener("input", () => {
       profile.name = name.value;
       saveSetup();
+      shareProfile(id, { later: true });
     });
     const level = node.querySelector(".setup__level");
     renderLevel(level, person);
@@ -87,6 +97,7 @@ function renderSeats() {
       // ⭐ → ⭐⭐ → ⭐⭐⭐ → ⭐ …
       profile.level = LEVELS[(LEVELS.indexOf(profile.level) + 1) % LEVELS.length];
       saveSetup();
+      shareProfile(id);
       renderLevel(level, chosenPlayers()[index]);
     });
     return node;
@@ -97,6 +108,39 @@ function renderSeats() {
 function renderLevel(button, person) {
   button.textContent = LEVEL_STARS[person.level];
   button.setAttribute("aria-label", `Preguntas de nivel ${LEVEL_NAMES[person.level]} para ${person.name}`);
+}
+
+// Profiles belong to the avatars (data/avatars): the numbered circles have none.
+function hasProfiles() {
+  return pack.avatars.length > 0;
+}
+
+function shareProfile(id, options) {
+  if (hasProfiles()) {
+    saveProfile(id, profileOf(id), options);
+  }
+}
+
+// The profiles on the server take the place of this device's own. A name this device
+// remembers for an avatar the server has no profile for goes up to it (the profiles
+// before there were any on the server).
+export async function loadSharedProfiles() {
+  if (!hasProfiles()) {
+    return;
+  }
+  const shared = await loadProfiles();
+  if (shared === null) {
+    return; // no server: this device's own, as before
+  }
+  for (const [id, profile] of Object.entries(game.profiles)) {
+    if (!(id in shared) && profile.name.trim() && pack.avatars.some((avatar) => avatar.id === id)) {
+      saveProfile(id, profile);
+    }
+  }
+  for (const [id, profile] of Object.entries(shared)) {
+    game.profiles[id] = { name: profile.name, level: LEVELS.includes(profile.level) ? profile.level : "medium" };
+  }
+  saveSetup();
 }
 
 function defaultName(index) {

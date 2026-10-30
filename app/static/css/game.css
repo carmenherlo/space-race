@@ -810,6 +810,17 @@ body.game[data-mode="questions"] .ranking {
   --avatar-size: clamp(3rem, calc(var(--screen-h) * 0.09), 5rem);
 }
 
+/* Someone's avatar (their profile): their name under it. */
+.setup__choice-name {
+  display: block;
+  max-width: 6rem;
+  overflow: hidden;
+  font-size: 0.75em;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Six already play: nobody else fits. */
 .setup__choice:disabled {
   opacity: 0.5;
