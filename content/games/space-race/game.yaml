@@ -46,7 +46,7 @@ max_stars: 1             # one wildcard star at a time: with one, square 14 give
 waiting_place: [9, 22]
 
 places:
-  - [15.4, 35.3]  # start: whose turn it is, after the arrows of "Start here", by square 1
+  - [9.6, 32.8]   # start: whose turn it is, on "Start here" (where the rocket drops it)
   - [20.6, 33.5]  # 1
   - [28.8, 33.5]  # 2
   - [35.9, 40.7]  # 3
