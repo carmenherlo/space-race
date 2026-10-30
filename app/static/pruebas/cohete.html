@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>El cohete de la salida</title>
+  <!-- A test page (in the menu, under "Pruebas"): a rocket brings each token to the start. -->
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="pruebas.css">
+  <link rel="stylesheet" href="cohete.css">
+  <script type="module" src="cohete.js"></script>
+</head>
+<body class="galaxy">
+  <a class="close-x galaxy__close" href="../games.html" aria-label="Salir">✕</a>
+  <main class="galaxy__main rocket-test">
+    <div class="galaxy__buttons">
+      <button class="galaxy__button" id="next" type="button">🚀 Siguiente ficha</button>
+      <button class="galaxy__button" id="reset" type="button">↺ Otra vez</button>
+    </div>
+    <div class="rocket-test__board" id="board">
+      <img class="rocket-test__image" id="board-image" alt="">
+      <img class="rocket-test__rocket" id="rocket" alt="" hidden>
+    </div>
+  </main>
+</body>
+</html>

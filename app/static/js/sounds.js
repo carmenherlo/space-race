@@ -196,6 +196,39 @@ export const sounds = {
     });
   },
 
+  // The rocket arrives (`seconds` long): an engine roar that dies down as it brakes.
+  rocketIn(seconds) {
+    play((ctx, out, now) => {
+      engine(ctx, out, { at: now, length: seconds + 0.3, from: 1400, to: 250, volume: 0.6 });
+    });
+  },
+
+  // The rocket wiggles: a little "brrrum" that rattles.
+  rocketWiggle(seconds) {
+    play((ctx, out, now) => {
+      engine(ctx, out, { at: now, length: seconds, from: 300, to: 380, volume: 0.35 });
+      for (let i = 0; i < 6; i += 1) {
+        blip(ctx, out, { at: now + i * (seconds / 6), freq: 160, to: 120, length: 0.08, type: "square", volume: 0.12 });
+      }
+    });
+  },
+
+  // A token drops out of the rocket: a falling "fiu" and a soft "plop" as it lands.
+  rocketDrop(seconds) {
+    play((ctx, out, now) => {
+      blip(ctx, out, { at: now, freq: 1200, to: 300, length: seconds, type: "sine", volume: 0.45 });
+      blip(ctx, out, { at: now + seconds, freq: 520, to: 180, length: 0.18, type: "triangle", volume: 0.8 });
+    });
+  },
+
+  // The rocket leaves: the engine roars again, faster and faster, and fades away.
+  rocketOut(seconds) {
+    play((ctx, out, now) => {
+      engine(ctx, out, { at: now, length: seconds + 0.2, from: 300, to: 3000, volume: 0.6 });
+      blip(ctx, out, { at: now, freq: 200, to: 1600, length: seconds, type: "sine", volume: 0.25 });
+    });
+  },
+
   // Someone reached the Moon: a fanfare.
   win() {
     play((ctx, out, now) => {
@@ -417,6 +450,31 @@ function noise(ctx, out, { at, length, volume }) {
   source.buffer = buffer;
   envelope(gain, at, length, volume);
   source.connect(gain).connect(out);
+  source.start(at);
+}
+
+// A rocket engine: noise through a filter sliding from one pitch (`from`) to another (`to`),
+// fading in and out.
+function engine(ctx, out, { at, length, from, to, volume }) {
+  const samples = Math.floor(ctx.sampleRate * length);
+  const buffer = ctx.createBuffer(1, samples, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < samples; i += 1) {
+    data[i] = Math.random() * 2 - 1;
+  }
+  const source = ctx.createBufferSource();
+  const filter = ctx.createBiquadFilter();
+  const gain = ctx.createGain();
+  source.buffer = buffer;
+  filter.type = "lowpass";
+  filter.Q.value = 4;
+  filter.frequency.setValueAtTime(from, at);
+  filter.frequency.exponentialRampToValueAtTime(to, at + length);
+  gain.gain.setValueAtTime(0.0001, at);
+  gain.gain.exponentialRampToValueAtTime(volume, at + Math.min(0.25, length / 3));
+  gain.gain.setValueAtTime(volume, at + length * 0.7);
+  gain.gain.exponentialRampToValueAtTime(0.0001, at + length);
+  source.connect(filter).connect(gain).connect(out);
   source.start(at);
 }
 

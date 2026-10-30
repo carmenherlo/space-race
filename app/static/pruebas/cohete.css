@@ -1,0 +1,64 @@
+/* The rocket of the start (cohete.html): the board, the tokens and the rocket over them. */
+
+.rocket-test__board {
+  --board-w: min(100vw - 2 * var(--space-m), calc((var(--screen-h) - 7rem) * 16 / 9));
+
+  position: relative;
+  width: var(--board-w);
+  height: calc(var(--board-w) * 9 / 16);
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.rocket-test__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The rocket: a picture as big as the board, drawn where it stops; it moves as a whole. */
+.rocket-test__rocket {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform-origin: 9.8% 14.2%; /* the middle of the rocket, to wiggle round it */
+}
+
+.rocket-test__token {
+  --token: calc(var(--board-w) * 0.042);
+
+  position: absolute;
+  z-index: 1;
+  width: var(--token);
+  height: var(--token);
+  margin: calc(var(--token) / -2) 0 0 calc(var(--token) / -2);
+  transition:
+    left 0.4s ease-out,
+    top 0.4s ease-out;
+}
+
+.rocket-test__token .avatar {
+  --avatar-size: var(--token);
+}
+
+/* Whose turn it is: a soft pulse of their colour behind them (as in the game). */
+.rocket-test__token[data-current]::before {
+  content: "";
+  position: absolute;
+  top: -35%;
+  left: -35%;
+  width: 170%;
+  height: 170%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--player-color) 55%, transparent);
+  animation: rocket-test-pulse 1.1s ease-in-out infinite alternate;
+}
+
+@keyframes rocket-test-pulse {
+  from { opacity: 0.35; }
+  to { opacity: 0.9; }
+}
