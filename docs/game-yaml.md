@@ -108,16 +108,18 @@ challenges:
 
 ## Las preguntas (`questions`, modo "Sabelotodo")
 
-O el nombre de un banco de preguntas compartido (`content/questions/<nombre>.yaml`):
+Hay dos formas de dar las preguntas a un juego:
 
-```yaml
-questions: general
-```
+1. **El nombre de un banco compartido** (`content/questions/<nombre>.yaml`). Es lo que usan los
+   dos tableros:
 
-Los dos tableros usan `general`. Para otro banco, se añade su archivo en `content/questions/`
-y se cambia esa línea.
+   ```yaml
+   questions: general
+   ```
 
-o las preguntas del propio juego, en una lista con los mismos campos que el banco:
+   Para usar otro banco, se añade su archivo en `content/questions/` y se cambia esa línea.
+
+2. **Sus propias preguntas**, en una lista con los mismos campos que un banco:
 
 | Campo | Qué es |
 |---|---|
