@@ -705,26 +705,6 @@ body.game[data-mode="questions"] .ranking {
   right: calc(var(--space-s) * 3 + 3.5rem * 2);
 }
 
-.game-fullscreen[hidden] {
-  display: none;
-}
-
-.game-fullscreen svg {
-  width: 1.7rem;
-  height: 1.7rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* Out of full screen, the arrows that fill it; in it, the ones that leave it. */
-.game-fullscreen[aria-pressed="true"] .game-fullscreen__enter,
-.game-fullscreen[aria-pressed="false"] .game-fullscreen__exit {
-  display: none;
-}
-
 /* The cards and questions open non-modal, so ⏸ and 🔊 stay usable: centred on the screen
    with their own dark veil around them (instead of a ::backdrop). */
 .game-dialog[data-in-game][open] {

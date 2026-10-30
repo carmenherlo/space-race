@@ -2,10 +2,13 @@
 // app/game.py). A tap opens that game (game.html?game=its-id). A game whose game.yaml has
 // a mistake is shown greyed out, so it is clear why it does not open.
 
+import { setUpFullscreen } from "./fullscreen.js";
+
 const elements = {
   status: document.getElementById("status"),
   games: document.getElementById("games"),
   gameTemplate: document.getElementById("game-template"),
+  fullscreen: document.getElementById("fullscreen"),
 };
 
 function renderGames(games) {
@@ -43,6 +46,7 @@ function showStatus(message, error) {
 }
 
 async function init() {
+  setUpFullscreen(elements.fullscreen);
   try {
     const response = await fetch("api/games", { cache: "no-store" });
     if (!response.ok) {

@@ -3,18 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Juegos</title>
+  <title>Space Race</title>
   <!-- Relative paths, so it also works behind a proxy under a sub-path. -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/games.css">
+  <link rel="stylesheet" href="css/fullscreen.css">
   <script type="module" src="js/games.js"></script>
 </head>
 <body class="games">
   <p class="status" id="status" role="status" hidden></p>
 
+  <!-- Full screen: a tap fills the screen, another leaves it (js/fullscreen.js). -->
+  <button class="game-fullscreen" id="fullscreen" type="button" aria-pressed="false" aria-label="Pantalla completa">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path class="game-fullscreen__enter" d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/><path class="game-fullscreen__exit" d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5"/></svg>
+  </button>
+
   <!-- Every board game in content/games (one folder each): a tap opens it in game.html. -->
   <main class="games__main">
-    <h1 class="games__title">🎲 Juegos</h1>
+    <h1 class="games__title">🎲 SPACE RACE</h1>
     <ul class="games__list" id="games"></ul>
 
     <!-- The questions of "Sabelotodo", to read them by level and topic. -->
