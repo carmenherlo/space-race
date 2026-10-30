@@ -19,6 +19,7 @@
 // happens on the special squares, its rules and cards. The game comes in the address
 // (game.html?game=space-race-expanded, from games.html); the avatars, from api/avatars.
 
+import { setUpFullscreen } from "./fullscreen.js";
 import { setUpSoundPanel } from "./sound-panel.js";
 import { music } from "./sounds.js";
 import { quiet } from "./voice.js";
@@ -86,6 +87,7 @@ async function init() {
   // 🔊: music, effects and, in a game with a voice, the voice (see sound-panel.js).
   setUpSoundPanel(elements.sound, elements.soundPanel, { voice: pack.voice });
   elements.questionQuiet.hidden = !pack.voice;
+  setUpFullscreen(elements.fullscreen);
 
   try {
     const response = await fetch("api/avatars", { cache: "no-store" });

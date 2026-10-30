@@ -534,7 +534,7 @@ body.game {
   z-index: 4;
   display: flex;
   gap: var(--space-s);
-  max-width: calc(100vw - 24rem); /* between the turn bar and ⏸ 🔊 */
+  max-width: calc(100vw - 30rem); /* between the turn bar and ⛶ 🔊 ⏸ */
   margin: 0;
   padding: 0.3rem var(--space-s);
   border-radius: 999px;
@@ -673,7 +673,8 @@ body.game[data-mode="questions"] .ranking {
 /* Back to the home screen (top right), and the sound
    switch next to it. */
 .game-exit,
-.game-sound {
+.game-sound,
+.game-fullscreen {
   position: fixed;
   top: var(--space-s);
   right: var(--space-s);
@@ -698,6 +699,30 @@ body.game[data-mode="questions"] .ranking {
 
 .game-exit {
   font-size: 1.5rem;
+}
+
+.game-fullscreen {
+  right: calc(var(--space-s) * 3 + 3.5rem * 2);
+}
+
+.game-fullscreen[hidden] {
+  display: none;
+}
+
+.game-fullscreen svg {
+  width: 1.7rem;
+  height: 1.7rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Out of full screen, the arrows that fill it; in it, the ones that leave it. */
+.game-fullscreen[aria-pressed="true"] .game-fullscreen__enter,
+.game-fullscreen[aria-pressed="false"] .game-fullscreen__exit {
+  display: none;
 }
 
 /* The cards and questions open non-modal, so ⏸ and 🔊 stay usable: centred on the screen

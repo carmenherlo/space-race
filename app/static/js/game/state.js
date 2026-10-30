@@ -109,6 +109,7 @@ export const elements = {
   pauseMenu: document.getElementById("pause-menu"),
   sound: document.getElementById("sound"),
   soundPanel: document.getElementById("sound-panel"),
+  fullscreen: document.getElementById("fullscreen"),
   playerTemplate: document.getElementById("player-template"),
 };
 
