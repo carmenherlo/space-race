@@ -66,7 +66,7 @@ Antes de empezar se elige el modo:
   botón ⓘ lo explica.
 - Cada jugador elige su nivel antes de empezar (el botón junto a su nombre).
 - En tu turno te hacen una pregunta de tu nivel:
-  - **Si aciertas**, pulsas "¡A tirar el dado!": el dado se tira solo y avanzas.
+  - **Si aciertas**, pulsas el dado 🎲 y avanzas.
   - **Si fallas**, se muestra la respuesta correcta y te quedas donde estás.
 - Las casillas especiales **cuentan**, como en Carrera, después de tirar:
   - **Vuelve a tirar**: tiras otra vez, **sin pregunta**. Es el premio de esa casilla.

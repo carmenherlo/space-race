@@ -20,9 +20,9 @@ const TRUE_FALSE = [
   { answer: "Falso", icon: "👎", tone: "false" }, // red
 ];
 
-// The turn starts with a question of the player's level, by itself. Right: "¡A tirar el
-// dado!" rolls it at once (see rollAfterQuestion). Wrong: they stay where they are, next
-// player. A player who must miss turns (the party) gets no question (see nextTurn).
+// The turn starts with a question of the player's level, by itself. Right: the die is
+// theirs, they tap it (see rollAfterQuestion); it is always the die that rolls, never a
+// button on a card. Wrong: they stay where they are, next player. A player who must miss turns (the party) gets no question (see nextTurn).
 export async function askTurnQuestion() {
   game.busy = true;
   elements.die.disabled = true;
@@ -37,7 +37,7 @@ export async function askTurnQuestion() {
   react(player, "good");
   game.mayRoll = true;
   game.busy = false;
-  rollAfterQuestion();
+  renderTurn(); // the die on: tap it
 }
 
 // Roll and move, and the square does what it says, as in "Carrera". "Roll again" (the
@@ -153,7 +153,7 @@ function chooseAnswer(question, chosen) {
   const verdict = right ? "¡Correcto! 🎉" : `¡Casi! Era: ${question.answer}.`;
   elements.questionResult.textContent = question.note ? `${verdict} ${question.note}` : verdict;
   elements.questionResult.hidden = false;
-  elements.questionNext.textContent = right ? "¡A tirar el dado!" : "Vale";
+  elements.questionNext.textContent = right ? "¡Bien!" : "Vale";
   elements.questionNext.hidden = false;
   speak(question.note ? [verdict, question.note] : verdict);
   if (right) {
