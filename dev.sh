@@ -21,6 +21,7 @@ esac
 
 port=8101
 export SPACE_RACE_AVATARS=data/avatars
+export SPACE_RACE_PROFILES=data/profiles.yaml
 export SPACE_RACE_CACHE="${TMPDIR:-/tmp}/space-race-dev-cache"
 export SPACE_RACE_VOICE_MODEL=data/voices/es_ES-sharvard-medium.onnx  # optional
 

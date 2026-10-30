@@ -4,6 +4,7 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     SPACE_RACE_AVATARS=/data/avatars \
+    SPACE_RACE_PROFILES=/data/profiles.yaml \
     SPACE_RACE_CACHE=/data/cache
 
 WORKDIR /app
@@ -23,7 +24,7 @@ RUN mkdir -p /opt/voices && python -c "import urllib.request as u; \
 COPY app/ app/
 COPY content/ content/
 
-# /data: the avatars and the voice's cache (mounted from ./data, see docker-compose.yml).
+# /data: the avatars, the players' profiles and the voice's cache (mounted from ./data, see docker-compose.yml).
 EXPOSE 8000
 VOLUME ["/data"]
 

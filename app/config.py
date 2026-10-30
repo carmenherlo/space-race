@@ -2,8 +2,8 @@
 
 Two places, both overridable:
 - content/ (in the repo): the games and their question banks, the same for everyone.
-- /data (outside the repo, a Docker volume): what is local to one home, the avatars and
-  the voice's cache.
+- /data (outside the repo, a Docker volume): what is local to one home, the avatars, the
+  players' profiles and the voice's cache.
 """
 
 import os
@@ -44,6 +44,7 @@ class Settings:
     games_dir: Path = CONTENT_DIR / "games"  # one folder per game; question banks beside it
     avatars_dir: Path = Path("/data/avatars")  # the pictures players choose from (app/avatars.py)
     cache_dir: Path = Path("/data/cache")  # the voice's WAV files
+    profiles_file: Path = Path("/data/profiles.yaml")  # the players' profiles (app/profiles.py)
     # The voice model (app/voice.py); the Docker image brings it. Optional.
     voice_model: Path = Path("/opt/voices/es_ES-sharvard-medium.onnx")
 
@@ -54,5 +55,6 @@ class Settings:
             games_dir=Path(os.environ.get("SPACE_RACE_GAMES", default.games_dir)),
             avatars_dir=Path(os.environ.get("SPACE_RACE_AVATARS", default.avatars_dir)),
             cache_dir=Path(os.environ.get("SPACE_RACE_CACHE", default.cache_dir)),
+            profiles_file=Path(os.environ.get("SPACE_RACE_PROFILES", default.profiles_file)),
             voice_model=Path(os.environ.get("SPACE_RACE_VOICE_MODEL", default.voice_model)),
         )

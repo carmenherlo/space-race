@@ -17,6 +17,7 @@ from fastapi.staticfiles import StaticFiles
 from app.config import Settings
 from app.avatars import list_avatars
 from app.game import load_games
+from app.profiles import Profile, load_profiles, save_profile
 from app.voice import MAX_TEXT, Voice, VoiceUnavailableError, Who
 
 STATIC_DIR = Path(__file__).parent / "static"
@@ -113,6 +114,27 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             {"id": avatar.name, "url": f"avatars/{quote(avatar.name)}", "color": avatar.color}
             for avatar in list_avatars(resolved.avatars_dir)
         ]
+
+    @app.get("/api/profiles")
+    def profiles() -> dict[str, Profile]:
+        """Each avatar's profile, a name and a level (app/profiles.py)."""
+        return load_profiles(resolved.profiles_file)
+
+    def known_avatar(avatar: str) -> None:
+        if avatar not in {one.name for one in list_avatars(resolved.avatars_dir)}:
+            raise HTTPException(status_code=404, detail=f"there is no avatar {avatar!r}")
+
+    @app.put("/api/profiles/{avatar}")
+    def put_profile(avatar: str, profile: Profile) -> dict[str, Profile]:
+        """Saves one avatar's profile; returns them all."""
+        known_avatar(avatar)
+        return save_profile(resolved.profiles_file, avatar, profile)
+
+    @app.delete("/api/profiles/{avatar}")
+    def delete_profile(avatar: str) -> dict[str, Profile]:
+        """Forgets one avatar's profile; returns the rest."""
+        known_avatar(avatar)
+        return save_profile(resolved.profiles_file, avatar, None)
 
     # Only the files the game needs: the avatars and each game's board picture. Nothing
     # else (subfolders, colors.yaml, a game's rules…) is ever served.

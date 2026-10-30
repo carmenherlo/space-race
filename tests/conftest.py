@@ -21,6 +21,7 @@ def client_for(tmp_path: Path) -> Callable[..., TestClient]:
             games_dir=games_dir,
             avatars_dir=avatars_dir or tmp_path / "no-avatars",
             cache_dir=tmp_path / "cache",
+            profiles_file=tmp_path / "profiles.yaml",
             voice_model=tmp_path / "no-voice.onnx",  # no voice: tests never load a real model
         )
         return TestClient(create_app(settings))
