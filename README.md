@@ -43,7 +43,7 @@ Para tener voz en desarrollo, el modelo de Piper va en `data/voices/`
 | Carpeta | Qué hay | ¿En git? |
 |---|---|---|
 | `app/` | El servidor (Python): `main.py` las rutas · `game.py` lee y comprueba los `game.yaml` · `avatars.py` · `profiles.py` los perfiles · `voice.py` la voz | Sí |
-| `app/static/` | La web: `games.html` (menú) · `game.html` + `js/game.js` y `js/game/` (el juego, un módulo por parte) · `css/` | Sí |
+| `app/static/` | La web: `games.html` (menú) · `profiles.html` (perfiles) · `game.html` + `js/game.js` y `js/game/` (el juego, un módulo por parte) · `css/` | Sí |
 | `content/games/` | `general-rules.md` (las normas comunes a todos los tableros) y `square-types.yaml` (los tipos de casilla especial) | Sí |
 | `content/games/<juego>/` | Cada juego, todos con la misma forma: `game.yaml` (lo que lee el juego), `rules.md` (sus normas), `board.webp` (el tablero) y `lights/` (lo que se ilumina) | Sí |
 | `content/questions/` | Los bancos de preguntas que usan los juegos (`general.yaml`; se leen en la página "Preguntas" del menú) | Sí |

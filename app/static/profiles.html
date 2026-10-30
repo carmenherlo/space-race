@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Perfiles</title>
+  <!-- Relative paths, so it also works behind a proxy under a sub-path. -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/profiles.css">
+  <script type="module" src="js/profiles-page.js"></script>
+</head>
+<body class="profiles-page">
+  <a class="close-x" href="games.html" aria-label="Volver a los juegos">✕</a>
+  <p class="status" id="status" role="status" hidden></p>
+
+  <!-- Each avatar's profile (api/profiles, app/profiles.py): its name and its question
+       level, the same on every device. Changes are saved as they are made. -->
+  <main class="profiles-page__main">
+    <h1 class="profiles-page__title">👤 Perfiles</h1>
+    <p class="profiles-page__hint">Cada avatar con su nombre y su nivel de preguntas. Se guarda solo.</p>
+    <ul class="profile-list" id="list"></ul>
+  </main>
+
+  <template id="profile-template">
+    <li class="profile">
+      <span class="profile__avatar"></span>
+      <input class="profile__name" type="text" maxlength="14" autocomplete="off" spellcheck="false">
+      <!-- A tap changes the level: 🐣 → 🐣🐣 → … → ⭐⭐⭐ → 🐣 -->
+      <button class="profile__level" type="button">
+        <span class="profile__stars"></span>
+        <small class="profile__level-name"></small>
+      </button>
+    </li>
+  </template>
+</body>
+</html>

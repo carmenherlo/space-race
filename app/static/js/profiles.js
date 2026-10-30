@@ -18,28 +18,39 @@ export async function loadProfiles() {
   }
 }
 
-const pending = new Map(); // avatar id → its timer, while a name is being typed
+const pending = new Map(); // avatar id → { timer, send }, while a name is being typed
 
 // Saves one avatar's profile; with `later`, once typing stops.
 export function saveProfile(avatar, { name, level }, { later = false } = {}) {
-  clearTimeout(pending.get(avatar));
-  pending.delete(avatar);
+  cancel(avatar);
   const send = () => {
     pending.delete(avatar);
     return request("PUT", avatar, { name: name.trim(), level });
   };
   if (later) {
-    pending.set(avatar, setTimeout(send, NAME_WAIT_MS));
+    pending.set(avatar, { timer: setTimeout(send, NAME_WAIT_MS), send });
     return Promise.resolve();
   }
   return send();
 }
 
 export function deleteProfile(avatar) {
-  clearTimeout(pending.get(avatar));
-  pending.delete(avatar);
+  cancel(avatar);
   return request("DELETE", avatar);
 }
+
+function cancel(avatar) {
+  clearTimeout(pending.get(avatar)?.timer);
+  pending.delete(avatar);
+}
+
+// Leaving the page while typing: the name goes now, not lost.
+window.addEventListener("pagehide", () => {
+  for (const { timer, send } of [...pending.values()]) {
+    clearTimeout(timer);
+    send();
+  }
+});
 
 async function request(method, avatar, body) {
   try {

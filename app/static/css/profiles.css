@@ -1,0 +1,81 @@
+/* The profiles page (profiles.html). Uses the tokens and the avatar of base.css. */
+
+.profiles-page__main {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: var(--space-l) var(--space-m);
+  font-size: 1rem;
+}
+
+.profiles-page__title {
+  margin: 0 0 var(--space-s);
+  font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.4rem);
+  text-align: center;
+}
+
+.profiles-page__hint {
+  margin: 0 0 var(--space-m);
+  color: var(--color-muted);
+  text-align: center;
+}
+
+/* The avatars side by side, as many as fit. */
+.profile-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: var(--space-s);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--space-s);
+  border-radius: 1rem;
+  background: var(--color-bg);
+  box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.profile__avatar {
+  --avatar-size: 4.5rem;
+}
+
+.profile__name {
+  width: 100%;
+  min-height: 2.2rem;
+  padding: 0 0.6em;
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 800;
+  text-align: center;
+}
+
+.profile__level {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 2.6rem;
+  padding: 0.2rem 0.6em;
+  border: 2px solid var(--color-border);
+  border-radius: 1rem;
+  background: var(--color-track);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.profile__stars {
+  letter-spacing: -0.15em;
+}
+
+.profile__level-name {
+  color: var(--color-muted);
+  font-size: 0.75em;
+}

@@ -4,7 +4,7 @@
 // else knows about it. Touch and mouse keep working as before.
 
 // Pages where the remote is on (more are added one at a time, once tried on the TV).
-const PAGES = ["games.html", "game.html", "pruebas/galaxia.html"];
+const PAGES = ["games.html", "game.html", "profiles.html", "pruebas/galaxia.html"];
 
 const DIRECTIONS = {
   ArrowUp: [0, -1],
