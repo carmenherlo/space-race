@@ -69,6 +69,31 @@ body.game {
     top 0.4s ease-out; /* STEP_MS in timing.js */
 }
 
+.token[hidden] {
+  display: none; /* still in the rocket of the start */
+}
+
+/* The rocket of the start (js/game/rocket.js): a picture as big as the board, drawn where it
+   stops, that moves as a whole, over the tokens; its sky clips it to the board. */
+.board-rocket {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.board-rocket[hidden] {
+  display: none;
+}
+
+.board-rocket__picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 9.8% 14.2%; /* the middle of the short board's rocket, to wiggle round it */
+}
+
 /* Flying to another square (UFOs, galaxies, the black hole): slower, with a little
    jump. Same length as FLIGHT_MS in game.js. */
 .token[data-flying] {

@@ -7,6 +7,7 @@ export const pack = {
   title: "Space Race",
   places: [], // [x, y] in % of the board picture: the start, squares 1, 2, … and the goal
   goal: 0, // the last place: reaching it wins
+  rocket: false, // a rocket brings each token to the start (rocket.js)
   // square number → { kind, emoji, title, text, goTo, move, backRoll, again, skip,
   //                   othersMove, star, swap } (see app/game.py, Square)
   squares: new Map(),
@@ -25,7 +26,8 @@ export const game = {
   // Each avatar's name and level, also of those not playing now, so they come back next
   // time: avatar id → { name, level }
   profiles: {},
-  // who plays this game, in turn order: { ...person, place, stars, skipTurns, skipSquare }
+  // who plays this game, in turn order: { ...person, place, stars, skipTurns, skipSquare,
+  // inRocket }
   players: [],
   turn: 0, // index in players
   busy: false, // a roll, a move or a card is in progress

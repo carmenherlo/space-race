@@ -6,8 +6,9 @@ import { showCard } from "./cards.js";
 import { shuffled, speak } from "./helpers.js";
 import { askTurnQuestion, rollAfterQuestion } from "./questions.js";
 import { playTurn } from "./race.js";
+import { bringFromTheRocket } from "./rocket.js";
 import { chosenMode, exactFinish } from "./setup.js";
-import { currentPlayer, elements, game } from "./state.js";
+import { currentPlayer, elements, game, pack } from "./state.js";
 import { DRAW_SHOW_MS, DRAW_SHUFFLES, DRAW_SHUFFLE_MS, START_PAUSE_MS, TOKEN_CALL_MS, TURN_PAUSE_MS, wait } from "./timing.js";
 
 export async function startGame(players) {
@@ -19,6 +20,7 @@ export async function startGame(players) {
     stars: 0, // wildcard stars ⭐ (see useStar)
     skipTurns: 0, // turns still to miss
     skipSquare: null, // the square that made them miss turns
+    inRocket: pack.rocket, // waiting in the rocket of the start, not on the board yet
   }));
   game.decks = {};
   game.mode = chosenMode();
@@ -34,7 +36,8 @@ export async function startGame(players) {
     await drawOrder(); // playing alone: nothing to decide
   }
   renderTokens();
-  await wait(START_PAUSE_MS); // first, the board with everybody at the start
+  await wait(START_PAUSE_MS); // first, the board with everybody at the start (or in the rocket)
+  await bringFromTheRocket(currentPlayer());
   game.busy = false;
   elements.turn.hidden = false;
   elements.ranking.hidden = false;
@@ -132,6 +135,7 @@ async function passTurnTo(index) {
   elements.tokens.dataset.changing = "";
   await wait(TURN_PAUSE_MS);
   game.turn = index;
+  await bringFromTheRocket(currentPlayer());
   game.busy = false;
   delete elements.tokens.dataset.changing;
   callToken();

@@ -2,6 +2,7 @@
 
 import { renderPlainBoard, sizeTokens } from "./board.js";
 import { setUpLights } from "./lights.js";
+import { setUpRocket } from "./rocket.js";
 import { GAME_ID, elements, pack } from "./state.js";
 
 // Fills `pack` from api/games/<id> and shows the board picture (or a plain board without one).
@@ -60,6 +61,9 @@ export async function loadPack() {
     elements.boardImage.src = content.image_url;
     elements.boardImage.hidden = false;
     await setUpLights(content);
+    if (content.rocket_url) {
+      setUpRocket(content.rocket_url);
+    }
   } else {
     renderPlainBoard();
   }

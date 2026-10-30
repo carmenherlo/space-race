@@ -10,6 +10,7 @@ import { DIE_NUMBER_MS, DIE_ROLL_MS, FLIGHT_MS, STEP_MS, TRAIL_STEP_MS, wait } f
 export async function swapPlaces(player, other) {
   sounds.fly();
   [player.place, other.place] = [other.place, player.place];
+  player.inRocket = other.inRocket = false; // out of the rocket of the start, if one was in it
   renderTokens({ flying: [player, other] });
   await wait(FLIGHT_MS);
 }

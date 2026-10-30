@@ -41,12 +41,15 @@ export function renderTokens({ flying = [] } = {}) {
   const tokens = game.players.map((player) => {
     const spot = player.place === 0 && pack.waitingPlace && player !== currentPlayer() ? "waiting" : player.place;
     const sharing = byPlace.get(spot) ?? 0;
-    byPlace.set(spot, sharing + 1);
+    if (!player.inRocket) {
+      byPlace.set(spot, sharing + 1);
+    }
     // At the start, only whose turn it is is on the start; the others wait aside.
     const [x, y] = spot === "waiting" ? pack.waitingPlace : pack.places[player.place];
     const [dx, dy] = SHARED_SQUARE_OFFSETS[sharing % SHARED_SQUARE_OFFSETS.length];
     const token = document.createElement("span");
     token.className = "token";
+    token.hidden = player.inRocket; // still in the rocket of the start (rocket.js)
     token.style.left = `${x}%`;
     token.style.top = `${y}%`;
     token.style.setProperty("--dx", String(dx));

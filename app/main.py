@@ -102,6 +102,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         content["image_url"] = games_url(f"{game.id}/{game.pack.image}") if game.pack.image else None
         squares = game.pack.squares_image
         content["squares_image_url"] = games_url(f"{game.id}/{squares}") if squares else None
+        content["rocket_url"] = games_url(f"{game.id}/{game.pack.rocket}") if game.pack.rocket else None
         content["lights"] = {part: games_url(f"{game.id}/{name}") for part, name in game.pack.lights.items()}
         return content
 
