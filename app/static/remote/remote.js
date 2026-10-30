@@ -4,7 +4,7 @@
 // else knows about it. Touch and mouse keep working as before.
 
 // Pages where the remote is on (more are added one at a time, once tried on the TV).
-const PAGES = ["games.html"];
+const PAGES = ["games.html", "game.html"];
 
 const DIRECTIONS = {
   ArrowUp: [0, -1],
@@ -20,6 +20,26 @@ function visible(element) {
   return box.width > 0 && box.height > 0 && getComputedStyle(element).visibility !== "hidden";
 }
 
+// Where the arrows look: the window on top (an open modal dialog, e.g. the game's setup),
+// else the whole page. What is behind a modal dialog cannot be pressed.
+function scope() {
+  let modals = [];
+  try {
+    modals = document.querySelectorAll("dialog:modal");
+  } catch {
+    modals = document.querySelectorAll("dialog[open]"); // an older browser without :modal
+  }
+  return modals[modals.length - 1] ?? document;
+}
+
+function candidates() {
+  return [...scope().querySelectorAll(FOCUSABLE)].filter(visible);
+}
+
+// Where the highlight was last, so a button that is redrawn when pressed (e.g. a setup
+// avatar) does not lose the place.
+let lastPoint = null;
+
 function centre(element) {
   const box = element.getBoundingClientRect();
   return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
@@ -30,8 +50,8 @@ function nearest(from, [dx, dy]) {
   const start = centre(from);
   let best = null;
   let bestScore = Infinity;
-  for (const element of document.querySelectorAll(FOCUSABLE)) {
-    if (element === from || !visible(element)) {
+  for (const element of candidates()) {
+    if (element === from) {
       continue;
     }
     const point = centre(element);
@@ -49,34 +69,79 @@ function nearest(from, [dx, dy]) {
   return best;
 }
 
-function first() {
-  return [...document.querySelectorAll(FOCUSABLE)].find(visible) ?? null;
+// The closest element to a point (where the highlight was), else the first one.
+function closest(point) {
+  const elements = candidates();
+  if (!point) {
+    return elements[0] ?? null;
+  }
+  const distance = (element) => {
+    const { x, y } = centre(element);
+    return Math.hypot(x - point.x, y - point.y);
+  };
+  return elements.reduce((best, element) => (best && distance(best) <= distance(element) ? best : element), null);
+}
+
+// A text box: highlighted without focus, so the TV keyboard only opens on the centre button.
+function isTextBox(element) {
+  return element.matches("input:not([type]), input[type='text'], input[type='search'], textarea");
 }
 
 function highlight(element) {
   document.querySelector(".remote-focus")?.classList.remove("remote-focus");
   element.classList.add("remote-focus");
-  element.focus({ preventScroll: true });
+  lastPoint = centre(element);
+  if (isTextBox(element)) {
+    document.activeElement?.blur();
+  } else {
+    element.focus({ preventScroll: true });
+  }
   element.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
 }
 
 function current() {
   const element = document.querySelector(".remote-focus");
-  return element && visible(element) ? element : null;
+  return element && visible(element) && scope().contains(element) ? element : null;
+}
+
+// After a press the page may redraw: the highlight goes back to where it was.
+function keepPlace() {
+  requestAnimationFrame(() => {
+    if (!current()) {
+      const element = closest(lastPoint);
+      if (element) {
+        highlight(element);
+      }
+    }
+  });
 }
 
 function onKey(event) {
   const direction = DIRECTIONS[event.key];
+  const from = current();
   if (direction) {
+    // A slider (e.g. the volume): left and right move it.
+    if (from?.matches("input[type='range']") && direction[1] === 0) {
+      return;
+    }
     event.preventDefault();
-    const from = current();
-    const to = from ? nearest(from, direction) : first();
+    const to = from ? nearest(from, direction) : closest(lastPoint);
     if (to) {
       highlight(to);
     }
-  } else if (event.key === "Enter" && current()) {
+  } else if (event.key === "Enter" && from) {
     event.preventDefault();
-    current().click();
+    if (isTextBox(from)) {
+      // In a text box: the centre button opens the keyboard, and pressed again closes it.
+      if (document.activeElement === from) {
+        from.blur();
+      } else {
+        from.focus();
+      }
+      return;
+    }
+    from.click();
+    keepPlace();
   }
 }
 
