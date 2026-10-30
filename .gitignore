@@ -38,3 +38,8 @@ desktop.ini
 
 # Claude Code's local settings
 .claude/settings.local.json
+
+# Design originals and drafts the game does not use (it uses board.webp and what game.yaml names)
+content/games/*/board.png
+content/games/*/lights/rocketship.png
+content/games/space-race-expanded/lights/moon.png
