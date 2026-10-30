@@ -22,6 +22,12 @@ Los juegos y las preguntas ya vienen con la app. Solo falta lo tuyo:
   pollito.png: "#ffd60a"
   delfin.png: "#1e90ff"
   ```
+- **Nombres por defecto:** opcional, en `data/avatars/names.yaml`. Un avatar sin perfil sale
+  con ese nombre (y nivel 🐣); lo que se cambie en la página Perfiles queda guardado en
+  `data/profiles.yaml` y manda sobre esto:
+  ```yaml
+  pollito.png: "Pipi"
+  ```
 
 Tras cambiar un `game.yaml` o las preguntas: `docker compose up -d --build` (van dentro de
 la imagen). Cómo se escribe un juego: [docs/game-yaml.md](docs/game-yaml.md).

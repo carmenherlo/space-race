@@ -17,7 +17,7 @@ from fastapi.staticfiles import StaticFiles
 from app.config import Settings
 from app.avatars import list_avatars
 from app.game import load_games
-from app.profiles import Profile, load_profiles, save_profile
+from app.profiles import Profile, profiles_with_names, save_profile
 from app.voice import MAX_TEXT, Voice, VoiceUnavailableError, Who
 
 STATIC_DIR = Path(__file__).parent / "static"
@@ -118,7 +118,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     @app.get("/api/profiles")
     def profiles() -> dict[str, Profile]:
         """Each avatar's profile, a name and a level (app/profiles.py)."""
-        return load_profiles(resolved.profiles_file)
+        avatars = {one.name for one in list_avatars(resolved.avatars_dir)}
+        return profiles_with_names(resolved.profiles_file, resolved.avatars_dir, avatars)
 
     def known_avatar(avatar: str) -> None:
         if avatar not in {one.name for one in list_avatars(resolved.avatars_dir)}:

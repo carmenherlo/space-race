@@ -49,3 +49,16 @@ def test_a_broken_profiles_file_means_no_profiles(tmp_path: Path) -> None:
     path = tmp_path / "profiles.yaml"
     path.write_text("oso.png: {level: imposible}\n", encoding="utf-8")
     assert load_profiles(path) == {}
+
+
+def test_an_avatar_without_a_profile_has_its_name_from_names_yaml(
+    tmp_path: Path, client_for: Callable[..., TestClient]
+) -> None:
+    folder = avatars(tmp_path)
+    (folder / "names.yaml").write_text('oso.png: "Keko"\nGato 2.webp: "Pumuki"\nnadie.png: "Nadie"\n', encoding="utf-8")
+    with client_for(GAMES, folder) as client:
+        client.put("/api/profiles/oso.png", json={"name": "Ana", "level": "hard"}).raise_for_status()
+        assert client.get("/api/profiles").json() == {
+            "oso.png": {"name": "Ana", "level": "hard"},  # its own profile comes first
+            "Gato 2.webp": {"name": "Pumuki", "level": "very_easy"},
+        }

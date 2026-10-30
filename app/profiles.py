@@ -6,6 +6,11 @@
 
 One profile per avatar (its file name, see app/avatars.py). They are shared by every device
 that opens the game, and written by the game itself (api/profiles in app/main.py).
+
+An avatar without a profile takes its name, if it has one, from the avatars folder:
+
+    data/avatars/names.yaml
+      oso.png: "Keko"
 """
 
 import logging
@@ -21,6 +26,8 @@ from app.config import StrictModel
 from app.game import Level
 
 MAX_NAME = 14  # as the name box in the game's setup (game.html)
+NAMES_FILE = "names.yaml"  # in the avatars folder: each avatar's name before it has a profile
+DEFAULT_LEVEL = "very_easy"  # of a profile that comes from names.yaml
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +38,7 @@ class Profile(StrictModel):
 
 
 _PROFILES = TypeAdapter(dict[str, Profile])
+_NAMES = TypeAdapter(dict[str, Annotated[str, StringConstraints(strip_whitespace=True, max_length=MAX_NAME)]])
 _lock = threading.Lock()
 
 
@@ -42,6 +50,27 @@ def load_profiles(path: Path) -> dict[str, Profile]:
         return {}
     except (yaml.YAMLError, ValidationError) as error:
         logger.error("%s is not valid, there are no profiles:\n%s", path, error)
+        return {}
+
+
+def profiles_with_names(path: Path, avatars_dir: Path, avatars: set[str]) -> dict[str, Profile]:
+    """The saved profiles and, for the avatars without one, their name from names.yaml."""
+    profiles = load_profiles(path)
+    for avatar, name in load_names(avatars_dir).items():
+        if avatar in avatars and avatar not in profiles:
+            profiles[avatar] = Profile(name=name, level=DEFAULT_LEVEL)
+    return profiles
+
+
+def load_names(avatars_dir: Path) -> dict[str, str]:
+    """names.yaml, or no names if it is missing; a broken one is logged and ignored."""
+    path = avatars_dir / NAMES_FILE
+    try:
+        return _NAMES.validate_python(yaml.safe_load(path.read_text(encoding="utf-8")) or {})
+    except FileNotFoundError:
+        return {}
+    except (yaml.YAMLError, ValidationError) as error:
+        logger.error("%s is not valid, the avatars have no names:\n%s", path, error)
         return {}
 
 
