@@ -132,10 +132,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             raise HTTPException(status_code=404)
         return FileResponse(path)
 
-    # The home screen is the games menu.
+    # The home screen is the app's frame (app.html), which opens the games menu.
     @app.get("/", include_in_schema=False)
     def home() -> RedirectResponse:
-        return RedirectResponse("games.html")
+        return RedirectResponse("app.html")
 
     # The web page, last so it never hides the routes above.
     app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="frontend")

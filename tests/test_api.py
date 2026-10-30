@@ -21,8 +21,9 @@ def test_the_voice_checks_its_text(client: TestClient) -> None:
 def test_home_is_the_games_menu(client: TestClient) -> None:
     response = client.get("/", follow_redirects=False)
     assert response.status_code == 307
-    assert response.headers["location"] == "games.html"
-    assert "SPACE RACE" in client.get("/").text
+    assert response.headers["location"] == "app.html"
+    assert 'src="games.html"' in client.get("/").text
+    assert "SPACE RACE" in client.get("/games.html").text
 
 
 def test_the_pages_are_served_and_always_checked(client: TestClient) -> None:
