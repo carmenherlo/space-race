@@ -6,11 +6,23 @@ Cada juego es una carpeta dentro de `content/games/`. El nombre de la carpeta es
 content/
   games/
     space-race/
-      game.yaml      las casillas, lo que pasa en ellas y las reglas
+      game.yaml      lo que lee el juego: las casillas, lo que pasa en ellas y las reglas
+      rules.md       las normas de este tablero, para personas (misma plantilla en todos)
       board.webp     el dibujo del tablero (16:9, por ejemplo 1920x1080)
+      lights/        opcional: las partes del tablero que se iluminan, del mismo tamaño
+        squares.png    solo las casillas (squares_image)
+        title.png, start.png, trail.png, moon.png, moon_sign.png, moon_flags.png, moon_stars.png
+                       cada una con el nombre de su parte en lights
   questions/
     general.yaml     un banco de preguntas (cultura general), compartido por los juegos que lo nombran
 ```
+
+Todos los juegos tienen la misma forma: lo que sabes de uno vale para todos.
+
+- **`rules.md`** de cada juego: solo lo suyo (el tablero, sus casillas especiales y sus
+  detalles), con la plantilla de `content/games/space-race/rules.md`. Lo que vale para todos
+  los tableros va en `docs/rules.md`, una sola vez.
+- **Dibujos**: el tablero es `board.webp`; las luces, en `lights/`, con el nombre de su parte.
 
 - Después de cambiar algo, hay que reiniciar la app (con Docker, `docker compose up -d --build`; con `bash dev.sh`, guardar un `.py` o reiniciarlo).
 - Un error en un `game.yaml` solo desactiva ese juego: los demás siguen funcionando, y el menú lo marca como "Tiene un error".

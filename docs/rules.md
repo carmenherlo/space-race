@@ -1,75 +1,54 @@
-# 🚀 SPACE RACE — Normas del juego
+# 🚀 SPACE RACE — Normas comunes
 
-¡Carrera espacial hasta la Luna! Gana quien llegue primero a **Moon (casilla 69)**.
+Las normas que valen para **todos los tableros**. Lo propio de cada tablero (sus casillas
+especiales y sus detalles) está en su carpeta: `content/games/<tablero>/rules.md`.
+
+¡Carrera espacial hasta la Luna! Gana quien llegue primero a la **Luna**, la última casilla.
 
 ---
-
-## Material
-
-- El tablero de Space Race (68 casillas + Moon)
-- **1 dado**
-- 1 ficha por jugador
-- Fichas de **estrella comodín** (4–6 estrellas)
 
 ## Preparación
 
-1. Cada jugador coloca su ficha en **Start here**.
-2. Un sorteo automático decide el orden de los turnos: los avatares se barajan solos y quedan en fila, 1º, 2º, 3º… Se juega en ese orden.
+1. Cada jugador elige su avatar (y, si quiere, su nombre y su nivel de preguntas).
+2. Todas las fichas empiezan en **Start here**.
+3. Un sorteo automático decide el orden de los turnos: los avatares se barajan solos y quedan
+   en fila, 1º, 2º, 3º… Se juega en ese orden.
 
 ## Cómo se juega
 
-En tu turno tiras el dado y avanzas tantas casillas como indique. Si caes en una casilla especial, haces lo que dice.
+En tu turno tiras el dado y avanzas tantas casillas como indique. Si caes en una casilla
+especial, haces lo que dice su tarjeta (cada tablero tiene las suyas).
 
----
+## Los viajes y retroceder
 
-## Casillas especiales
-
-| Casilla | Nombre | Qué pasa |
-|---|---|---|
-| 6, 11, 15, 20, 24, 29, 33, 38, 42, 47, 51, 56, 60, 65 | 🌌 **Galaxia** | *"De galaxia a galaxia y tiro porque me toca."* Saltas a la siguiente galaxia y vuelves a tirar. Desde la 65 saltas a Moon y **ganas**. |
-| 3 | 🚀 **Propulsores** | Vuelves a tirar. |
-| 9 ↔ 22 | 🌀 **Agujero de gusano** | Saltas al otro agujero de gusano y vuelves a tirar. Funciona en las dos direcciones: de la 9 a la 22 y de la 22 a la 9. |
-| 13 | ⭐ **Estrella comodín** | Coges una estrella y te la guardas (ver más abajo). |
-| 17 | ☀️ **Tormenta solar** | ¡La tormenta frena a tus rivales! Todos los demás jugadores retroceden 1 casilla. |
-| 23 | ☄️ **Zona de meteoritos** | Vuelves a tirar y retrocedes lo que saques. |
-| 26 ↔ 57 | 🛸 **Ovni** | El ovni te lleva al otro ovni (de la 26 a la 57 o de la 57 a la 26). **No vuelves a tirar**: estás mareado del viaje. |
-| 36 | 🛰️ **Estación espacial** | Te quedas arreglando la estación: pierdes 1 turno. |
-| 44 | 🌫️ **Perdido en una nebulosa** | Te pierdes entre el gas y el polvo: vuelves a la casilla 30. |
-| 49 | 🔭 **Satélite espía** | Si te conviene, puedes intercambiar tu posición con el jugador que elijas. Si no, te quedas donde estás. |
-| 52 | 🥳 **Fiesta alienígena** | Te quedas de fiesta: pierdes 2 turnos. |
-| 58 | ⚫ **Agujero negro** | Te traga el agujero negro: vuelves a **Start here**. |
-| 69 | 🌕 **Moon** | ¡Meta! Hay que llegar con el número exacto (ver "Llegar a la Luna"). |
-
----
+- Los **viajes** no cuentan: a donde te lleva una casilla (una galaxia, un ovni, un agujero…)
+  no se aplica nada. Si contaran, habría viajes sin fin (de un ovni al otro y vuelta).
+- Cuando **retrocedes** por una casilla (los meteoritos) o por el rebote de la Luna, la casilla
+  en la que caes **cuenta**, como si hubieras llegado con el dado (si el tablero lo dice:
+  `backwards_counts`).
+- Si estás en Start here, no puedes retroceder.
 
 ## La estrella comodín ⭐
 
-- Cuando caes en la casilla 13 coges una estrella.
-- Solo puedes tener **una estrella a la vez**: si ya tienes una y caes en la 13, no coges otra.
-- Puedes usarla **una vez** para librarte de una casilla mala: **meteoritos (23), ovni hacia atrás (57), estación espacial (36), nebulosa (44), fiesta alienígena (52) o agujero negro (58)**.
-- Cuando caes en esa casilla dices **"¡Uso mi estrella!"**, la devuelves y no te pasa nada: te quedas en esa casilla y termina tu turno.
-- La estrella no te protege de la tormenta solar de otro jugador.
+Solo en los tableros que tienen una casilla de estrella.
 
-## Retroceder
-
-Cuando retrocedes por los meteoritos o por el rebote final, **la casilla en la que caes cuenta**, como si hubieras llegado con el dado.
-
-La tormenta solar (que mueve a los demás una casilla atrás) no activa la casilla de nadie.
-
-Si estás en Start here, no puedes retroceder.
-
-Los **viajes** no cuentan: a donde te lleva un ovni, una galaxia, el agujero de gusano, la nebulosa (44) o un intercambio del satélite espía (49), no se aplica nada. Si contaran, habría viajes sin fin (de un ovni al otro y vuelta).
+- Al caer en ella coges una estrella y te la guardas (el tablero dice cuántas puedes tener).
+- La usas **una vez** para librarte de una casilla mala (el tablero dice de cuáles): el juego
+  te pregunta si la usas o te la guardas. Si la usas, te quedas en esa casilla y no te pasa nada.
+- La estrella no te protege de lo que hace otro jugador (por ejemplo, una tormenta solar).
 
 ## Llegar a la Luna 🌕
 
-- Para ganar hay que caer **exactamente** en Moon (69).
-- Si sacas más de lo que necesitas, llegas a la Luna y **rebotas** hacia atrás las casillas que te sobran.
-  - Ejemplo: estás en la 66 y sacas un 5. Necesitabas un 3: avanzas 3 hasta la Luna y retrocedes 2. Acabas en la 67.
-- Si caes en la galaxia 65, te reta a un minijuego (cometas, ruleta o despegue): si ganas, saltas directamente a Moon y ganas la partida.
+- Con **llegada exacta** hay que caer justo en la Luna. Si sacas más de lo que necesitas,
+  llegas a la Luna y **rebotas** hacia atrás las casillas que te sobran.
+  - Ejemplo: te faltan 3 y sacas un 5: avanzas 3 hasta la Luna y retrocedes 2.
+- Sin llegada exacta, pasarte también vale.
+- La **última galaxia** te reta a un minijuego (cometas, ruleta o despegue): si ganas,
+  ¡viajas directo a la Luna y ganas la partida!
 
 ## Fin de la partida
 
-Gana el primer jugador que llegue a **Moon**. Si queréis, podéis seguir jugando para ver quién queda segundo y tercero.
+Gana el primer jugador que llegue a la Luna.
 
 ---
 
@@ -77,24 +56,27 @@ Gana el primer jugador que llegue a **Moon**. Si queréis, podéis seguir jugand
 
 Antes de empezar se elige el modo:
 
-- 🏁 **Carrera**: todas las normas de arriba, con llegada exacta a la Luna. Cuentan todas las casillas especiales (también la fiesta alienígena: 2 turnos).
+- 🏁 **Carrera**: tiras, avanzas y haces lo que dice tu casilla.
 - 🧠 **Sabelotodo**: una carrera de preguntas (ver abajo).
+- 🎭 **Retos locos**: como Carrera, y si acabas el turno más adelante, ¡un reto gracioso!
+  (ahora no sale en el menú).
 
 ## Sabelotodo 🧠
 
-- Hay 6 niveles. Niños: 🐣 de 3 a 5 años (verdadero o falso) · 🐣🐣 de 6 a 8 · 🐣🐣🐣 de 9 a 12. Adultos: 1 ⭐ fácil (verdadero o falso) · 2 ⭐⭐ medio · 3 ⭐⭐⭐ difícil.
-- A cada jugador se le asigna un nivel antes de empezar (el pollito o las estrellas bajo su avatar).
-- El orden de los turnos lo decide el sorteo, como en Carrera.
+- Hay 6 niveles. Niños: 🐣 de 3 a 5 años (verdadero o falso) · 🐣🐣 de 6 a 8 · 🐣🐣🐣 de 9
+  a 12. Adultos: ⭐ fácil (verdadero o falso) · ⭐⭐ medio · ⭐⭐⭐ difícil. En el menú, el
+  botón ⓘ lo explica.
+- Cada jugador elige su nivel antes de empezar (el botón junto a su nombre).
 - En tu turno te hacen una pregunta de tu nivel:
-  - **Si aciertas**, pulsas "¡A tirar el dado!": el dado se tira solo y avanzas tantas casillas como indique. Después, turno del siguiente.
-  - **Si fallas**, se muestra la respuesta correcta y te quedas donde estás. Turno del siguiente.
+  - **Si aciertas**, pulsas "¡A tirar el dado!": el dado se tira solo y avanzas.
+  - **Si fallas**, se muestra la respuesta correcta y te quedas donde estás.
 - Las casillas especiales **cuentan**, como en Carrera, después de tirar:
-  - **Vuelve a tirar** (las galaxias): tiras otra vez, **sin pregunta**. Es el premio de esa casilla.
-  - **Pierdes turno** (la fiesta): pierdes los turnos que diga la casilla, y en ellos **no hay pregunta**.
-  - **Meteoritos**: tiras y retrocedes; donde caes también cuenta.
-- Hay que llegar a la Luna con el número exacto, como en Carrera: si te pasas, rebotas.
-- Las preguntas tienen 4 respuestas (en un orden distinto cada vez); las de 🐣 y ⭐, solo "Verdadero" o "Falso". Algunas traen un dato curioso que se enseña al contestar.
-- Cada nivel tiene su propio mazo, compartido por todos: no se repite ninguna pregunta hasta que han salido todas las de ese nivel.
+  - **Vuelve a tirar**: tiras otra vez, **sin pregunta**. Es el premio de esa casilla.
+  - **Pierdes turno**: en esos turnos **no hay pregunta**.
+- Las preguntas tienen 4 respuestas (en un orden distinto cada vez); las de 🐣 y ⭐, solo
+  "Verdadero" o "Falso". Algunas traen un dato curioso al contestar.
+- Cada nivel tiene su mazo, compartido por todos: no se repite ninguna pregunta hasta que han
+  salido todas las de ese nivel.
 
 Las preguntas están en `content/questions/general.yaml`. Para leerlas, filtradas por nivel y
 tema: la página "Preguntas" del menú.

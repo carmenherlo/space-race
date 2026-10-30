@@ -1,4 +1,5 @@
 # Space Race (28 squares and the Moon): the short board.
+# Its rules, for people: rules.md (next to this file); for every board: docs/rules.md.
 # The board, board.webp, is 1920x1080.
 #
 # Every field is explained in docs/game-yaml.md.
@@ -8,16 +9,18 @@
 title: "Space Race"
 
 image: board.webp
-squares_image: space-race-squares.png  # only the squares: to light up the one a token is on
+# The board's lights, in lights/, each file named after its part (lights/moon_full.png,
+# the whole Moon, is a drawing kept for later: nothing uses it).
+squares_image: lights/squares.png  # only the squares: to light up the one a token is on
 # Parts of the board that light up (the same size as the board, the rest see-through).
 lights:
-  title: space-race-title.png
-  start: space-race-start.png
-  trail: space-race-trail.png
-  moon: space-race-moon-alone.png
-  moon_sign: space-race-moon-sign.png
-  moon_flags: space-race-moon-flags.png
-  moon_stars: space-race-moon-stars-bg.png
+  title: lights/title.png
+  start: lights/start.png
+  trail: lights/trail.png
+  moon: lights/moon.png
+  moon_sign: lights/moon_sign.png
+  moon_flags: lights/moon_flags.png
+  moon_stars: lights/moon_stars.png
 
 # A voice reads the cards aloud, and the questions and their answers in «Sabelotodo», for
 # those who cannot read yet (natural or robot; 🔊 in the game changes it). Optional.

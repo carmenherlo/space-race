@@ -221,9 +221,9 @@ def test_api_serves_the_board_picture_and_nothing_else(client: TestClient) -> No
     assert client.get("/games-pack/space-race-expanded/board.webp").status_code == 200
     assert client.get("/games-pack/space-race-expanded/game.yaml").status_code == 404
     short = client.get("/api/games/space-race").json()
-    assert short["squares_image_url"] == "games-pack/space-race/space-race-squares.png"
-    assert short["lights"]["title"] == "games-pack/space-race/space-race-title.png"
-    for picture in ("space-race-squares.png", "space-race-title.png", "space-race-moon-sign.png"):
+    assert short["squares_image_url"] == "games-pack/space-race/lights/squares.png"
+    assert short["lights"]["title"] == "games-pack/space-race/lights/title.png"
+    for picture in ("lights/squares.png", "lights/title.png", "lights/moon_sign.png"):
         assert client.get(f"/games-pack/space-race/{picture}").status_code == 200, picture
 
 
