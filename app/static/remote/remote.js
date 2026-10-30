@@ -13,6 +13,16 @@ const DIRECTIONS = {
   ArrowRight: [1, 0],
 };
 
+// The button most likely pressed next (e.g. "Vale" on a card, the die on the board): the
+// highlight goes there by itself when it appears, while the remote is in use.
+const PRIMARY = [".game-button:not(.game-button--quiet)", ".game-button", "#die"];
+// Never highlighted by themselves: closing or silencing buttons.
+const NOT_FIRST = ".close-x, .question__quiet";
+// Windows that start on their first button (the setup: the avatars come first).
+const STARTS_AT_TOP = "#setup";
+// The remote is in use from the first arrow until a tap or a click (kept between pages).
+const IN_USE_KEY = "space-race:remote";
+
 const FOCUSABLE = "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex='-1'])";
 
 function visible(element) {
@@ -125,6 +135,7 @@ function onKey(event) {
       return;
     }
     event.preventDefault();
+    setInUse(true);
     const to = from ? nearest(from, direction) : closest(lastPoint);
     if (to) {
       highlight(to);
@@ -145,8 +156,69 @@ function onKey(event) {
   }
 }
 
+function inUse() {
+  try {
+    return sessionStorage.getItem(IN_USE_KEY) === "1";
+  } catch {
+    return usingRemote;
+  }
+}
+
+function setInUse(value) {
+  usingRemote = value;
+  try {
+    sessionStorage.setItem(IN_USE_KEY, value ? "1" : "0");
+  } catch {
+    // no storage (e.g. a private window): only this page remembers
+  }
+}
+
+let usingRemote = false;
+
+// The button to start on in the window on top, or null.
+function primary() {
+  const area = scope();
+  const elements = candidates();
+  if (area !== document && area.matches(STARTS_AT_TOP)) {
+    return elements[0] ?? null;
+  }
+  for (const selector of PRIMARY) {
+    const element = elements.find((candidate) => candidate.matches(selector));
+    if (element) {
+      return element;
+    }
+  }
+  return area === document ? null : (elements.find((element) => !element.matches(NOT_FIRST)) ?? null);
+}
+
+// A window opens or a button appears: when the remote is in use and the button to start on
+// is a new one, the highlight goes there.
+let lastPrimary = null;
+let checking = false;
+
+function checkPrimary() {
+  if (checking) {
+    return;
+  }
+  checking = true;
+  requestAnimationFrame(() => {
+    checking = false;
+    const element = primary();
+    // In a window that starts at the top, only its opening counts (its buttons are redrawn).
+    const area = scope();
+    const key = area !== document && area.matches(STARTS_AT_TOP) ? area : element;
+    if (key !== lastPrimary) {
+      lastPrimary = key;
+      if (element && inUse()) {
+        highlight(element);
+      }
+    }
+  });
+}
+
 // A tap or a click: the highlight goes away until the next arrow.
 function onPointer() {
+  setInUse(false);
   document.querySelector(".remote-focus")?.classList.remove("remote-focus");
 }
 
@@ -157,4 +229,10 @@ if (PAGES.some((page) => location.pathname.endsWith(`/${page}`))) {
   document.head.append(style);
   document.addEventListener("keydown", onKey);
   document.addEventListener("pointerdown", onPointer);
+  new MutationObserver(checkPrimary).observe(document.body, {
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["open", "hidden", "disabled"],
+  });
+  checkPrimary();
 }
