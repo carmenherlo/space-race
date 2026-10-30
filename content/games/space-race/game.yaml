@@ -35,6 +35,7 @@ modes:
   questions:             # "Sabelotodo" (a question every turn)
     exact_finish: true
 backwards_counts: true   # going back (meteorites, bounce): the square you land on counts
+max_stars: 1             # one wildcard star at a time: with one, square 14 gives no other
 
 # Where every place is on the picture: [x, y] in % of its width and height.
 # In order: the start, squares 1, 2, 3, … and the goal (the last one, the Moon).
@@ -89,7 +90,7 @@ places:
 #   again: true → roll again (like the Game of the Goose)
 #   skip: true → miss the next turn (or a number: skip: 2 → miss the next 2 turns)
 squares:
-  # Galaxies, every 5 squares: "de galaxia a galaxia… ¡y viajo con magia!". They take you
+  # Galaxies, every 5 squares: "de galaxia a galaxia… ¡y acelero con magia!". They take you
   # to the next galaxy; the last one (25) is asleep: it takes you
   # nowhere, the Moon is reached on foot. No extra roll: with
   # galaxies every 5, a 5 would chain them and cross the board in one turn.
@@ -98,28 +99,28 @@ squares:
     emoji: "🌌"
     shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
-    text: "…¡y viajo con magia! Su magia te lleva hasta la galaxia de la casilla 10."
+    text: "…¡y acelero con magia! Su magia te lleva hasta la galaxia de la casilla 10."
     go_to: 10
   10:
     kind: good
     emoji: "🌌"
     shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
-    text: "…¡y viajo con magia! Su magia te lleva hasta la galaxia de la casilla 15."
+    text: "…¡y acelero con magia! Su magia te lleva hasta la galaxia de la casilla 15."
     go_to: 15
   15:
     kind: good
     emoji: "🌌"
     shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
-    text: "…¡y viajo con magia! Su magia te lleva hasta la galaxia de la casilla 20."
+    text: "…¡y acelero con magia! Su magia te lleva hasta la galaxia de la casilla 20."
     go_to: 20
   20:
     kind: good
     emoji: "🌌"
     shine: true  # the token shines when it lands here (a galaxy)
     title: "De galaxia a galaxia…"
-    text: "…¡y viajo con magia! Su magia te lleva hasta la galaxia de la casilla 25."
+    text: "…¡y acelero con magia! Su magia te lleva hasta la galaxia de la casilla 25."
     go_to: 25
   25:
     kind: good
@@ -130,7 +131,48 @@ squares:
     minigame: true
     trail: [[72.2, 67.5], [76.3, 71.8], [80.2, 73.8], [84.0, 75.5]]  # the star trail to the Moon (in % of the picture)
 
-  # Trips.
+  # Good ones.
+  2:
+    kind: good
+    emoji: "🚀"
+    title: "¡Propulsores a tope!"
+    text: "Pulsas el botón rojo gigante y los propulsores hacen ¡FIUUUU! Sales tan rápido que se te despeina hasta el casco. ¡Vuelve a tirar!"
+    again: true
+  14:
+    kind: good
+    emoji: "⭐"
+    title: "¡Estrella comodín!"
+    text: "¡Atrapas una estrella fugaz con tu red de cazar mariposas! Guárdala bien: te librará de una casilla mala."
+    star: true
+  17:
+    kind: good
+    emoji: "🔭"
+    title: "¡Satélite espía!"
+    text: "Un satélite espía te presta sus prismáticos mágicos y ves dónde está todo el mundo. Si te conviene, ¡cámbiate de sitio con quien quieras!"
+    swap: true
+  22:
+    kind: good
+    emoji: "☀️"
+    title: "¡Tormenta solar!"
+    text: "¡El Sol se ha levantado de mal humor y sopla con todas sus fuerzas! Tus rivales salen volando 1 casilla hacia atrás. Tú, ni te despeinas."
+    others_move: -1
+
+  # Trips, both ways (no extra roll for the UFOs; the wormhole, yes).
+  4:
+    kind: good
+    emoji: "🌀"
+    title: "¡Agujero de gusano!"
+    text: "Te cuelas por un agujero de gusano blandito y pegajoso, ¡puaj!, y sales escurriéndote por la casilla 12. ¡Vuelve a tirar!"
+    go_to: 12
+    again: true
+  12:
+    kind: bad
+    emoji: "🌀"
+    title: "¡Agujero de gusano!"
+    text: "¡Uy! El gusano se da la vuelta, te traga otra vez y te escupe en la casilla 4. Al menos… ¡vuelves a tirar!"
+    go_to: 4
+    again: true
+    star_saves: true
   7:
     kind: good
     emoji: "🛸"
@@ -143,6 +185,7 @@ squares:
     title: "¡Abducción!"
     text: "¡Unos ovnis te han abducido! Te llevan de vuelta y aterrizas de culete en la casilla 7."
     go_to: 7
+    star_saves: true
   18:
     kind: good
     emoji: "🛰️"
@@ -150,25 +193,35 @@ squares:
     text: "Te quedas arreglando un satélite averiado y te dan una medalla de honor. Avanza hasta la casilla 21."
     go_to: 21
 
-  # Punishments.
+  # Punishments: the wildcard star saves you from all of them.
   13:
     kind: bad
     emoji: "☄️"
     title: "¡Zona de meteoritos!"
     text: "Te cruzas con una lluvia de meteoritos y tienes que esquivarlos marcha atrás. Tira el dado y retrocede lo que salga."
     back_roll: true
-  17:
+    star_saves: true
+  16:
     kind: bad
     emoji: "🕳️"
     title: "¡Agujero negro!"
     text: "Un agujero negro te absorbe, te da tres vueltas y te escupe… ¡en la salida! Vuelves a empezar. Jijiji."
     go_to: 0
+    star_saves: true
+  23:
+    kind: bad
+    emoji: "🌫️"
+    title: "¡Perdido en la nebulosa!"
+    text: "Te metes en una nube de gas y polvo tan espesa que no ves ni tu propia nariz. Cuando por fin sales… ¡estás en la casilla 19!"
+    go_to: 19
+    star_saves: true
   24:
     kind: bad
     emoji: "🥳"
     title: "¡Fiesta en la base!"
     text: "En la base espacial te encuentras a unos amigos de hace mucho tiempo y montáis una fiesta. Pierdes el próximo turno."
     skip: true
+    star_saves: true
 
 # The challenges (mode "Retos locos", not in the menu: add "challenges" to the modes to
 # play it): at the end of every turn that ends further on (not after a punishment),

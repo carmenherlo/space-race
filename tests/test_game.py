@@ -44,8 +44,12 @@ def test_the_games_are_the_short_and_the_expanded_boards() -> None:
 def test_the_short_board_keeps_its_rules() -> None:
     pack = load_game_pack(SPACE_RACE)
     assert pack.goal == 29  # start, 28 squares, the Moon
-    assert pack.squares[17].go_to == 0  # the black hole sends back to the start
+    assert pack.squares[16].go_to == 0  # the black hole sends back to the start
     assert pack.squares[13].back_roll  # meteorites: roll and go back
+    assert (pack.squares[4].go_to, pack.squares[12].go_to) == (12, 4)  # the wormhole, both ways
+    assert pack.squares[14].star and pack.max_stars == 1  # one wildcard star at a time
+    bad = sorted(n for n, sq in pack.squares.items() if sq.kind == "bad")
+    assert bad == sorted(n for n, sq in pack.squares.items() if sq.star_saves)  # it saves from every bad one
     galaxies = [n for n, sq in pack.squares.items() if sq.emoji == "🌌"]
     assert [pack.squares[n].go_to for n in galaxies] == [10, 15, 20, 25, None]  # each to the next one
     assert not any(pack.squares[n].again for n in galaxies)  # no extra roll: no chains
