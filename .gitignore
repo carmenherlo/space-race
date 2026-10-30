@@ -43,3 +43,8 @@ desktop.ini
 content/games/*/board.png
 content/games/*/lights/rocketship.png
 content/games/space-race-expanded/lights/moon.png
+
+# Instructions for Claude Code: local only, never in the repo
+CLAUDE.md
+CLAUDE.local.md
+.claude/
