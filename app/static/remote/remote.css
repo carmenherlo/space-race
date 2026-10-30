@@ -1,0 +1,6 @@
+/* TV remote (remote.js): the button the arrows are on, big enough to see from the sofa. */
+.remote-focus {
+  outline: 6px solid #ffd54a !important;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 10px rgb(255 213 74 / 35%), 0 0 28px rgb(255 213 74 / 80%) !important;
+}

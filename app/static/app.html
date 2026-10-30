@@ -19,7 +19,21 @@
     const page = document.getElementById("page");
     page.addEventListener("load", () => {
       document.title = page.contentDocument?.title || "Space Race";
+      addRemote(page.contentDocument);
     });
+
+    // TV remote (remote/remote.js): added to every page opened here, kept apart from them.
+    // The page gets the keyboard focus, so the remote's arrows reach it.
+    function addRemote(doc) {
+      if (!doc) {
+        return;
+      }
+      const script = doc.createElement("script");
+      script.type = "module";
+      script.src = new URL("remote/remote.js", location.href).href;
+      doc.head.append(script);
+      page.contentWindow.focus();
+    }
   </script>
 </body>
 </html>
