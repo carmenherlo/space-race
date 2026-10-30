@@ -21,6 +21,8 @@ lights:
   moon_sign: lights/moon_sign.png
   moon_flags: lights/moon_flags.png
   moon_stars: lights/moon_stars.png
+# The rocket that brings each token to the start, drawn where it stops (the same size).
+rocket: lights/rocketship_position.png
 
 # A voice reads the cards aloud, and the questions and their answers in «Sabelotodo», for
 # those who cannot read yet (natural or robot; 🔊 in the game changes it). Optional.
@@ -75,153 +77,35 @@ places:
   - [78.3, 84.8]  # 28
   - [90.4, 79.6]  # the Moon (goal)
 
-# "Carrera": roll the die and do what your square says. Only squares reached with the
-# die count (the meteorites' roll too): where a trip sends you does nothing (so 7 and 11
-# never loop). "Sabelotodo": a question first; right, roll and move (the squares do
-# nothing); wrong, you stay where you are.
-#
-# What happens on the special squares (the pictures on the board), by square number.
-#   kind:  good or bad (the colour of the card)
-#   emoji, title, text: what the card shows
-#   How it moves you (one of them, or none):
-#     go_to: jump to that square (0 = the start, the last place = the goal: you win)
-#     move: squares forward (+) or back (−)
-#     back_roll: true → roll the die and go back that many squares
-#   again: true → roll again (like the Game of the Goose)
-#   skip: true → miss the next turn (or a number: skip: 2 → miss the next 2 turns)
+# The special squares, by number: which type each one is (content/games/square-types.yaml,
+# shared by every board: the card and what it does) and, for a trip, where to (go_to).
+# Anything else written here wins over the type. Only squares reached with the die count:
+# where a trip sends you does nothing, so trips never loop.
 squares:
-  # Galaxies, every 5 squares: "de galaxia a galaxia… ¡y acelero con magia!". They take you
-  # to the next galaxy; the last one (25) is asleep: it takes you
-  # nowhere, the Moon is reached on foot. No extra roll: with
-  # galaxies every 5, a 5 would chain them and cross the board in one turn.
-  5:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y acelero con magia! Su magia te lleva hasta la galaxia de la casilla 10."
-    go_to: 10
-  10:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y acelero con magia! Su magia te lleva hasta la galaxia de la casilla 15."
-    go_to: 15
-  15:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y acelero con magia! Su magia te lleva hasta la galaxia de la casilla 20."
-    go_to: 20
-  20:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y acelero con magia! Su magia te lleva hasta la galaxia de la casilla 25."
-    go_to: 25
-  25:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "¡La última galaxia!"
-    text: "Esta galaxia te reta a un minijuego. Si ganas, ¡te lanza directo a la Luna!"
-    minigame: true
-    trail: [[72.2, 67.5], [76.3, 71.8], [80.2, 73.8], [84.0, 75.5]]  # the star trail to the Moon (in % of the picture)
+  # Galaxies, every 5 squares: to the next one. No extra roll: with galaxies every 5, a 5
+  # would chain them and cross the board in one turn. The last one: a minigame.
+  5:  { type: galaxy, go_to: 10 }
+  10: { type: galaxy, go_to: 15 }
+  15: { type: galaxy, go_to: 20 }
+  20: { type: galaxy, go_to: 25 }
+  25: { type: last_galaxy, trail: [[72.2, 67.5], [76.3, 71.8], [80.2, 73.8], [84.0, 75.5]] }  # the star trail to the Moon (% of the picture)
 
-  # Good ones.
-  2:
-    kind: good
-    emoji: "🚀"
-    title: "¡Propulsores a tope!"
-    text: "Pulsas el botón rojo gigante y los propulsores hacen ¡FIUUUU! Sales tan rápido que se te despeina hasta el casco. ¡Vuelve a tirar!"
-    again: true
-  14:
-    kind: good
-    emoji: "⭐"
-    title: "¡Estrella comodín!"
-    text: "¡Atrapas una estrella fugaz con tu red de cazar mariposas! Guárdala bien: te librará de una casilla mala."
-    star: true
-  17:
-    kind: good
-    emoji: "🔭"
-    title: "¡Satélite espía!"
-    text: "Un satélite espía te presta sus prismáticos mágicos y ves dónde está todo el mundo. Si te conviene, ¡cámbiate de sitio con quien quieras!"
-    swap: true
-  22:
-    kind: good
-    emoji: "☀️"
-    title: "¡Tormenta solar!"
-    text: "¡El Sol se ha levantado de mal humor y sopla con todas sus fuerzas! Tus rivales salen volando 1 casilla hacia atrás. Tú, ni te despeinas."
-    others_move: -1
+  # Trips, both ways.
+  4:  { type: wormhole, go_to: 12 }
+  12: { type: wormhole_back, go_to: 4 }
+  7:  { type: abduction, go_to: 11 }
+  11: { type: abduction_back, go_to: 7 }
+  18: { type: space_hero, go_to: 21 }
+  23: { type: nebula, go_to: 19 }
 
-  # Trips, both ways (no extra roll for the UFOs; the wormhole, yes).
-  4:
-    kind: good
-    emoji: "🌀"
-    title: "¡Agujero de gusano!"
-    text: "Te cuelas por un agujero de gusano blandito y pegajoso, ¡puaj!, y sales escurriéndote por la casilla 12. ¡Vuelve a tirar!"
-    go_to: 12
-    again: true
-  12:
-    kind: bad
-    emoji: "🌀"
-    title: "¡Agujero de gusano!"
-    text: "¡Uy! El gusano se da la vuelta, te traga otra vez y te escupe en la casilla 4. Al menos… ¡vuelves a tirar!"
-    go_to: 4
-    again: true
-    star_saves: true
-  7:
-    kind: good
-    emoji: "🛸"
-    title: "¡Abducción!"
-    text: "¡Unos ovnis te han abducido! Te sueltan en un bosque de nubes y aterrizas de culete en la casilla 11."
-    go_to: 11
-  11:
-    kind: bad
-    emoji: "🛸"
-    title: "¡Abducción!"
-    text: "¡Unos ovnis te han abducido! Te llevan de vuelta y aterrizas de culete en la casilla 7."
-    go_to: 7
-    star_saves: true
-  18:
-    kind: good
-    emoji: "🛰️"
-    title: "¡Héroe espacial!"
-    text: "Te quedas arreglando un satélite averiado y te dan una medalla de honor. Avanza hasta la casilla 21."
-    go_to: 21
-
-  # Punishments: the wildcard star saves you from all of them.
-  13:
-    kind: bad
-    emoji: "☄️"
-    title: "¡Zona de meteoritos!"
-    text: "Te cruzas con una lluvia de meteoritos y tienes que esquivarlos marcha atrás. Tira el dado y retrocede lo que salga."
-    back_roll: true
-    star_saves: true
-  16:
-    kind: bad
-    emoji: "🕳️"
-    title: "¡Agujero negro!"
-    text: "Un agujero negro te absorbe, te da tres vueltas y te escupe… ¡en la salida! Vuelves a empezar. Jijiji."
-    go_to: 0
-    star_saves: true
-  23:
-    kind: bad
-    emoji: "🌫️"
-    title: "¡Perdido en la nebulosa!"
-    text: "Te metes en una nube de gas y polvo tan espesa que no ves ni tu propia nariz. Cuando por fin sales… ¡estás en la casilla 19!"
-    go_to: 19
-    star_saves: true
-  24:
-    kind: bad
-    emoji: "🥳"
-    title: "¡Fiesta en la base!"
-    text: "En la base espacial te encuentras a unos amigos de hace mucho tiempo y montáis una fiesta. Pierdes el próximo turno."
-    skip: true
-    star_saves: true
+  # The rest.
+  2:  { type: boost }
+  13: { type: meteorites }
+  14: { type: star }
+  16: { type: black_hole }
+  17: { type: spy_satellite }
+  22: { type: solar_storm }
+  24: { type: party }
 
 # The questions (mode "Sabelotodo"): from the shared bank content/questions/general.yaml
 # (the levels and every field are explained there).

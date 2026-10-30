@@ -6,6 +6,7 @@ Cada juego es una carpeta dentro de `content/games/`. El nombre de la carpeta es
 content/
   games/
     general-rules.md las normas comunes a todos los tableros (una sola vez)
+    square-types.yaml los tipos de casilla especial, para todos los tableros
     space-race/
       game.yaml      lo que lee el juego: las casillas, lo que pasa en ellas y las reglas
       rules.md       las normas de este tablero, para personas (misma plantilla en todos)
@@ -44,6 +45,7 @@ Ejemplos completos: `content/games/space-race/game.yaml` (tablero corto) y
 | `squares_image` | Opcional: el mismo dibujo con solo las casillas y la meta (lo demás transparente), del mismo tamaño. Sirve para iluminar la casilla de una ficha. |
 | `lights` | Opcional: dibujos de partes del tablero que se iluminan, del mismo tamaño (lo demás transparente): `title`, `start`, `trail` (la estela), `moon`, `moon_sign` (el letrero), `moon_flags`, `moon_stars`. |
 | `voice` | `true`: una voz lee las cartas y las preguntas (para quien aún no lee). El 🔊 la apaga. |
+| `rocket` | Opcional: el cohete que trae cada ficha a la salida, dibujado donde se para, del mismo tamaño que el tablero (lo demás transparente). |
 | `waiting_place` | Opcional: `[x, y]` donde esperan las fichas en la salida mientras no es su turno; solo baja a la salida la que va a tirar. |
 | `places` | Dónde está cada sitio en el dibujo: `[x, y]` en % del ancho y del alto. En orden: la salida, la casilla 1, 2, 3… y la meta (la Luna, el último). Otro tablero necesita los suyos. |
 
@@ -72,10 +74,29 @@ Si ningún modo cambia nada, vale la forma corta: `modes: [race, questions]`.
 
 ## Las casillas especiales (`squares`)
 
-Por número de casilla. Lo que hace cada una:
+Los **tipos de casilla** (galaxia, ovni, agujero negro…) están en un solo archivo para todos
+los tableros: `content/games/square-types.yaml`. Cada tipo dice cómo es su carta y qué hace.
+Cada tablero solo dice, por número de casilla, qué tipo hay y, si es un viaje, adónde lleva:
+
+```yaml
+squares:
+  5:  { type: galaxy, go_to: 10 }
+  16: { type: black_hole }
+  52: { type: party, skip: 2 }   # lo que se escribe aquí manda sobre el tipo
+```
+
+- **Un tipo nuevo** se añade en `square-types.yaml`. Si en un tablero algo funciona distinto,
+  se crea otro tipo (como `galaxy` y `galaxy_again`) o, si es un solo detalle, se escribe en
+  esa casilla.
+- **En el texto**, `{to}` es la casilla a la que lleva. La regla la añade el juego al final:
+  "¡Vuelve a tirar!" (`again`) o "Pierdes el próximo turno." (`skip`), así que los textos no
+  la dicen.
+
+Los campos de un tipo (o de una casilla):
 
 | Campo | Qué es |
 |---|---|
+| `type` | Solo en el tablero: el tipo de la casilla, de `square-types.yaml`. |
 | `kind` | `good` o `bad`: el color de la carta. |
 | `emoji`, `title`, `text` | Lo que enseña la carta (y lee la voz). |
 | `go_to` | Salta a esa casilla (0 = la salida; la meta = ganas). |

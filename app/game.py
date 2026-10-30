@@ -25,6 +25,8 @@ from pydantic import Field, StringConstraints, ValidationError, field_validator,
 from app.config import ImageName, StrictModel, Text
 
 GAME_FILE = "game.yaml"
+# The types of special square, shared by every board: a file in the games folder.
+SQUARE_TYPES_FILE = "square-types.yaml"
 # The question banks, a folder next to the games folder (content/questions, next to content/games).
 QUESTIONS_DIR = "questions"
 # A question bank's name: its file in the questions folder, without ".yaml".
@@ -55,7 +57,8 @@ Light = Literal["title", "start", "trail", "moon", "moon_sign", "moon_flags", "m
 
 class Square(StrictModel):
     """What happens on a special square: at most one way to move (go_to, move, back_roll,
-    swap, minigame)."""
+    swap, minigame). In a game.yaml, a square usually names its type (square-types.yaml)
+    and adds where to; see with_square_types."""
 
     kind: Literal["good", "bad"]  # the colour of the card
     emoji: Emoji
@@ -79,6 +82,25 @@ class Square(StrictModel):
     def skip_yes_or_no(cls, value: object) -> object:
         return int(value) if isinstance(value, bool) else value  # skip: true → 1 turn
 
+    @model_validator(mode="before")
+    @classmethod
+    def card_text(cls, data: object) -> object:
+        """The text of the card: {to} becomes the square it sends to, and the rule is added
+        at the end ("¡Vuelve a tirar!", "Pierdes el próximo turno."), so it always matches."""
+        if not isinstance(data, dict) or not isinstance(data.get("text"), str):
+            return data
+        text = data["text"]
+        if data.get("go_to") is not None:
+            text = text.replace("{to}", str(data["go_to"]))
+        if data.get("again"):
+            text += " ¡Vuelve a tirar!"
+        skip = data.get("skip")
+        if skip is True or skip == 1:
+            text += " Pierdes el próximo turno."
+        elif isinstance(skip, int) and skip > 1:
+            text += f" Pierdes los próximos {skip} turnos."
+        return {**data, "text": text}
+
     @model_validator(mode="after")
     def one_way_to_move(self) -> "Square":
         ways = [self.go_to is not None, self.move is not None, self.back_roll, self.swap, self.minigame]
@@ -88,6 +110,8 @@ class Square(StrictModel):
             raise ValueError('"trail" is the way to the Moon after a minigame: it needs "minigame"')
         if self.move == 0 or self.others_move == 0:
             raise ValueError('a move of 0 does nothing: remove it')
+        if "{to}" in self.text:
+            raise ValueError(f"{self.title!r}: its text says {{to}}, but the square has no go_to")
         return self
 
 
@@ -134,6 +158,9 @@ class GamePack(StrictModel):
     # Optional: pictures of parts of the board (the same size, the rest see-through), to
     # light them up: the title, the start, the trail to the Moon, the Moon…
     lights: dict[Light, ImageName] = Field(default_factory=dict)
+    # Optional: the rocket that brings each token to the start, drawn where it stops (the
+    # same size as the board, the rest see-through).
+    rocket: ImageName | None = None
     # The start, squares 1, 2, … and the goal (the last one), in order.
     places: list[Place] = Field(min_length=3)
     # Optional: where the tokens at the start wait while it is not their turn (only whose
@@ -204,7 +231,7 @@ class GamePack(StrictModel):
 
     def pictures(self) -> set[str]:
         """Every picture of the board (the only files of its folder that are served)."""
-        return {name for name in (self.image, self.squares_image, *self.lights.values()) if name}
+        return {name for name in (self.image, self.squares_image, self.rocket, *self.lights.values()) if name}
 
     def exact_finish_in(self, mode: Mode) -> bool | None:
         """The exact finish in that mode: its own, else the game's (None: the players choose)."""
@@ -243,9 +270,41 @@ def load_game_pack(folder: Path) -> GamePack:
     Raises OSError (a missing file), yaml.YAMLError or pydantic.ValidationError.
     """
     data = read_yaml(folder / GAME_FILE)
+    if isinstance(data, dict) and isinstance(data.get("squares"), dict):
+        data["squares"] = with_square_types(data["squares"], load_square_types(folder.parent))
     if isinstance(data, dict) and isinstance(data.get("questions"), str):
         data["questions"] = load_question_bank(folder.parent.parent / QUESTIONS_DIR, data["questions"])
     return GamePack.model_validate(data)
+
+
+def load_square_types(games_dir: Path) -> dict[str, dict]:
+    """The types of special square (games_dir/square-types.yaml), each one checked as a
+    square; none if there is no such file."""
+    path = games_dir / SQUARE_TYPES_FILE
+    types = read_yaml(path) if path.is_file() else {}
+    if not isinstance(types, dict):
+        raise ValueError(f"{path} must be a list of types (name: what it does)")
+    for name, fields in types.items():
+        try:
+            # A trip's type says {to} but not where to: each square adds it (try with 1).
+            needs_to = isinstance(fields, dict) and "{to}" in str(fields.get("text")) and "go_to" not in fields
+            Square.model_validate({**fields, "go_to": 1} if needs_to else fields)
+        except ValidationError as error:
+            raise ValueError(f"square type {name!r} in {path} is not valid:\n{error}") from error
+    return types
+
+
+def with_square_types(squares: dict, types: dict[str, dict]) -> dict:
+    """Each square with "type: <name>" becomes that type's fields plus its own (its own win)."""
+    result = {}
+    for number, square in squares.items():
+        if isinstance(square, dict) and "type" in square:
+            fields = {key: value for key, value in square.items() if key != "type"}
+            if square["type"] not in types:
+                raise ValueError(f"square {number}: there is no square type {square['type']!r}")
+            square = {**types[square["type"]], **fields}
+        result[number] = square
+    return result
 
 
 def load_question_bank(questions_dir: Path, name: str) -> object:
@@ -264,7 +323,7 @@ def load_game(folder: Path) -> GameLoad:
     """The game in this folder (its game.yaml)."""
     try:
         return GameLoad(folder.name, load_game_pack(folder))
-    except (OSError, yaml.YAMLError, ValidationError) as error:
+    except (OSError, ValueError, yaml.YAMLError) as error:  # ValidationError is a ValueError
         return GameLoad(folder.name, None, f"{folder / GAME_FILE} is not valid:\n{error}")
 
 

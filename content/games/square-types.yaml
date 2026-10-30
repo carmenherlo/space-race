@@ -1,0 +1,121 @@
+# The types of special square, for every board. A board's game.yaml only says which type
+# is on each square and, if it is a trip, where to (go_to); anything else it writes there
+# wins over the type (for example skip: 2). Every field is explained in docs/game-yaml.md.
+#
+#   kind:  good or bad (the colour of the card)
+#   emoji, title, text: what the card shows. In the text, {to} is the square the trip goes
+#     to. The game adds the rule at the end: "¡Vuelve a tirar!" (again) or "Pierdes el
+#     próximo turno." (skip), so the texts never say it.
+#   What it does: go_to, back_roll, again, skip, others_move, star, star_saves, swap,
+#     shine, minigame.
+#
+# After editing it, restart the app. Texts IN QUOTES: some have a colon (:).
+
+# Trips forward.
+galaxy: &galaxy
+  kind: good
+  emoji: "🌌"
+  shine: true  # the token shines when it lands here
+  title: "De galaxia a galaxia…"
+  text: "…¡y acelero con magia! Su magia te lleva hasta la galaxia de la casilla {to}."
+galaxy_again:  # the same galaxy, and you roll again
+  <<: *galaxy
+  again: true
+last_galaxy:
+  kind: good
+  emoji: "🌌"
+  shine: true
+  title: "¡La última galaxia!"
+  text: "Esta galaxia te reta a un minijuego. Si ganas, ¡te lanza directo a la Luna!"
+  minigame: true
+wormhole:
+  kind: good
+  emoji: "🌀"
+  title: "¡Agujero de gusano!"
+  text: "Te cuelas por un agujero de gusano blandito y pegajoso, ¡puaj!, y sales escurriéndote por la casilla {to}."
+  again: true
+abduction:
+  kind: good
+  emoji: "🛸"
+  title: "¡Abducción!"
+  text: "¡Unos ovnis te han abducido! Te sueltan en un bosque de nubes y aterrizas de culete en la casilla {to}."
+space_hero:
+  kind: good
+  emoji: "🛰️"
+  title: "¡Héroe espacial!"
+  text: "Te quedas arreglando un satélite averiado y te dan una medalla de honor. Avanza hasta la casilla {to}."
+
+# Other good ones.
+boost:
+  kind: good
+  emoji: "🚀"
+  title: "¡Propulsores a tope!"
+  text: "Pulsas el botón rojo gigante y los propulsores hacen ¡FIUUUU! Sales tan rápido que se te despeina hasta el casco."
+  again: true
+star:
+  kind: good
+  emoji: "⭐"
+  title: "¡Estrella comodín!"
+  text: "¡Atrapas una estrella fugaz con tu red de cazar mariposas! Guárdala bien: te librará de una casilla mala."
+  star: true
+solar_storm:
+  kind: good
+  emoji: "☀️"
+  title: "¡Tormenta solar!"
+  text: "¡El Sol se ha levantado de mal humor y sopla con todas sus fuerzas! Tus rivales salen volando 1 casilla hacia atrás. Tú, ni te despeinas."
+  others_move: -1
+spy_satellite:
+  kind: good
+  emoji: "🔭"
+  title: "¡Satélite espía!"
+  text: "Un satélite espía te presta sus prismáticos mágicos y ves dónde está todo el mundo. Si te conviene, ¡cámbiate de sitio con quien quieras!"
+  swap: true
+
+# The bad ones: a wildcard star saves you from them (star_saves).
+wormhole_back:
+  kind: bad
+  emoji: "🌀"
+  title: "¡Agujero de gusano!"
+  text: "¡Uy! El gusano se da la vuelta, te traga otra vez y te escupe en la casilla {to}. Al menos…"
+  again: true
+  star_saves: true
+abduction_back:
+  kind: bad
+  emoji: "🛸"
+  title: "¡Abducción!"
+  text: "¡Unos ovnis te han abducido! Te llevan de vuelta y aterrizas de culete en la casilla {to}."
+  star_saves: true
+meteorites:
+  kind: bad
+  emoji: "☄️"
+  title: "¡Zona de meteoritos!"
+  text: "Te cruzas con una lluvia de meteoritos y tienes que esquivarlos marcha atrás. Tira el dado y retrocede lo que salga."
+  back_roll: true
+  star_saves: true
+black_hole:
+  kind: bad
+  emoji: "🕳️"
+  title: "¡Agujero negro!"
+  text: "Un agujero negro te absorbe, te da tres vueltas y te escupe… ¡en la salida! Vuelves a empezar. Jijiji."
+  go_to: 0
+  star_saves: true
+nebula:
+  kind: bad
+  emoji: "🌫️"
+  title: "¡Perdido en la nebulosa!"
+  text: "Te metes en una nube de gas y polvo tan espesa que no ves ni tu propia nariz. Cuando por fin sales… ¡estás en la casilla {to}!"
+  star_saves: true
+party:
+  kind: bad
+  emoji: "🥳"
+  title: "¡Fiesta en la base!"
+  text: "En la base espacial te encuentras a unos amigos de hace mucho tiempo y montáis una fiesta."
+  skip: 1
+  star_saves: true
+space_station:
+  kind: bad
+  emoji: "🛰️"
+  title: "¡Estación espacial!"
+  text: "A la estación espacial se le ha caído un tornillo y te toca arreglarla con tu llave inglesa gigante."
+  skip: 1
+  star_saves: true

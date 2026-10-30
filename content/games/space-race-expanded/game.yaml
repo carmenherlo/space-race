@@ -96,229 +96,43 @@ places:
   - [85.0, 57.6] # 68
   - [92.5, 65.6] # the Moon (goal)
 
-# What happens on the special squares. Besides the fields of Space Race (go_to, move,
-# back_roll, again, skip), this game uses:
-#   skip: 2           → miss the next 2 turns
-#   others_move: -1   → every OTHER player goes back 1 square
-#   star: true        → the player gets a wildcard star ⭐ (it lasts the whole game)
-#   star_saves: true  → a player with a star can use it here: nothing happens, the turn ends
-#   swap: true        → the player may swap places with another one of their choice
+# The special squares, by number: which type each one is (content/games/square-types.yaml,
+# shared by every board: the card and what it does) and, for a trip, where to (go_to).
+# Anything else written here wins over the type. Only squares reached with the die count:
+# where a trip sends you does nothing, so trips never loop.
 squares:
-  # Galaxies: "de galaxia a galaxia y tiro porque me toca". To the next galaxy, and roll
-  # again; the last one (65), to the Moon.
-  6:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y tiro porque me toca! Una galaxia con forma de remolino te centrifuga como una lavadora y te escupe la galaxia de la casilla 11. ¡Vuelve a tirar!"
-    go_to: 11
-    again: true
-  11:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y tiro porque me toca! Te subes a una estrella fugaz que pasaba por ahí y te deja la galaxia de la casilla 15. ¡Vuelve a tirar!"
-    go_to: 15
-    again: true
-  15:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y tiro porque me toca! Un pulpo espacial te pasa de brazo en brazo, ¡tiene ocho!, hasta la galaxia de la casilla 20. ¡Vuelve a tirar!"
-    go_to: 20
-    again: true
-  20:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y tiro porque me toca! Estornudas tan fuerte con el polvo de estrellas que sales disparado hasta la galaxia de la casilla 24. ¡Vuelve a tirar!"
-    go_to: 24
-    again: true
-  24:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y tiro porque me toca! Una ballena cósmica te lleva a caballito hasta la galaxia de la casilla 29. ¡Vuelve a tirar!"
-    go_to: 29
-    again: true
-  29:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y tiro porque me toca! Te tiras por un tobogán de luces de colores y aterrizas de culete en la galaxia de la casilla 33. ¡Vuelve a tirar!"
-    go_to: 33
-    again: true
-  33:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y tiro porque me toca! Unos cometas juegan contigo al pilla-pilla y te dejan en la galaxia de la casilla 38. ¡Vuelve a tirar!"
-    go_to: 38
-    again: true
-  38:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y tiro porque me toca! Un robot taxista te pregunta «¿Adónde le llevo?» y te deja en la galaxia de la casilla 42. ¡Vuelve a tirar!"
-    go_to: 42
-    again: true
-  42:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y tiro porque me toca! Saltas en una cama elástica hecha de nubes de estrellas y botas hasta la galaxia de la casilla 47. ¡Vuelve a tirar!"
-    go_to: 47
-    again: true
-  47:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y tiro porque me toca! Un dragón de estrellas te lleva volando, con mucho cuidado, hasta la galaxia de la casilla 51. ¡Vuelve a tirar!"
-    go_to: 51
-    again: true
-  51:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y tiro porque me toca! Te pones unas botas cohete que corren solas y no paran hasta la galaxia de la casilla 56. ¡Vuelve a tirar!"
-    go_to: 56
-    again: true
-  56:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y tiro porque me toca! Un agujero de gusano con cosquillas te hace reír tanto que sales rodando en la galaxia de la casilla 60. ¡Vuelve a tirar!"
-    go_to: 60
-    again: true
-  60:
-    kind: good
-    emoji: "🌌"
-    shine: true  # the token shines when it lands here (a galaxy)
-    title: "De galaxia a galaxia…"
-    text: "…¡y tiro porque me toca! Una nave de reparto te mete en una caja con lazo y te entrega en la galaxia de la casilla 65. ¡Vuelve a tirar!"
-    go_to: 65
-    again: true
-  65:
-    kind: good
-    emoji: "🌕"
-    title: "¡Galaxia lunar!"
-    shine: true
-    text: "La última galaxia tiene tanta magia que te reta a un minijuego. Si ganas, ¡te lanza directo a la Luna!"
-    minigame: true
-    trail: [[79.5, 85.5], [82.0, 84.0], [84.2, 81.5], [85.8, 78.0], [87.5, 74.5]]  # the star trail to the Moon (in % of the picture)
+  # Galaxies: to the next one, and roll again. The last one (65): a minigame.
+  6:  { type: galaxy_again, go_to: 11 }
+  11: { type: galaxy_again, go_to: 15 }
+  15: { type: galaxy_again, go_to: 20 }
+  20: { type: galaxy_again, go_to: 24 }
+  24: { type: galaxy_again, go_to: 29 }
+  29: { type: galaxy_again, go_to: 33 }
+  33: { type: galaxy_again, go_to: 38 }
+  38: { type: galaxy_again, go_to: 42 }
+  42: { type: galaxy_again, go_to: 47 }
+  47: { type: galaxy_again, go_to: 51 }
+  51: { type: galaxy_again, go_to: 56 }
+  56: { type: galaxy_again, go_to: 60 }
+  60: { type: galaxy_again, go_to: 65 }
+  65: { type: last_galaxy, trail: [[79.5, 85.5], [82.0, 84.0], [84.2, 81.5], [85.8, 78.0], [87.5, 74.5]] }  # the star trail to the Moon (% of the picture)
 
-  3:
-    kind: good
-    emoji: "🚀"
-    title: "¡Propulsores a tope!"
-    text: "Pulsas el botón rojo gigante y los propulsores hacen ¡FIUUUU! Sales tan rápido que se te despeina hasta el casco. ¡Vuelve a tirar!"
-    again: true
+  # Trips, both ways.
+  9:  { type: wormhole, go_to: 22 }
+  22: { type: wormhole_back, go_to: 9, star_saves: false }  # here the star does not save you
+  26: { type: abduction, go_to: 57 }
+  57: { type: abduction_back, go_to: 26 }
+  44: { type: nebula, go_to: 30 }
 
-  # The wormhole works both ways, and you roll again.
-  9:
-    kind: good
-    emoji: "🌀"
-    title: "¡Agujero de gusano!"
-    text: "Te cuelas por un agujero de gusano blandito y pegajoso, ¡puaj!, y sales escurriéndote por la casilla 22. ¡Vuelve a tirar!"
-    go_to: 22
-    again: true
-  22:
-    kind: bad
-    emoji: "🌀"
-    title: "¡Agujero de gusano!"
-    text: "¡Uy! El gusano se da la vuelta, te traga otra vez y te escupe en la casilla 9. Al menos… ¡vuelves a tirar!"
-    go_to: 9
-    again: true
-
-  13:
-    kind: good
-    emoji: "⭐"
-    title: "¡Estrella comodín!"
-    text: "¡Atrapas una estrella fugaz con tu red de cazar mariposas! Guárdala bien: te librará de una casilla mala (meteoritos, ovni hacia atrás, estación, nebulosa, fiesta o agujero negro)."
-    star: true
-
-  17:
-    kind: good
-    emoji: "☀️"
-    title: "¡Tormenta solar!"
-    text: "¡El Sol se ha levantado de mal humor y sopla con todas sus fuerzas! Tus rivales salen volando 1 casilla hacia atrás. Tú, ni te despeinas."
-    others_move: -1
-
-  # Swap places, if it suits you: whoever you choose (the game asks).
-  49:
-    kind: good
-    emoji: "🔭"
-    title: "¡Satélite espía!"
-    text: "Un satélite espía te presta sus prismáticos mágicos y ves dónde está todo el mundo. Si te conviene, ¡cámbiate de sitio con quien quieras!"
-    swap: true
-
-  # The bad squares: a star saves you from them.
-  23:
-    kind: bad
-    emoji: "☄️"
-    title: "¡Lluvia de meteoritos!"
-    text: "¡Pedruscos espaciales por todas partes! Tienes que esquivarlos marcha atrás. Tira el dado y retrocede lo que salga."
-    back_roll: true
-    star_saves: true
-
-  # The UFOs, both ways, with no extra roll: you are dizzy from the trip.
-  26:
-    kind: good
-    emoji: "🛸"
-    title: "¡Abducción!"
-    text: "¡Unos marcianos te abducen con su rayo de luz! Te dan un paseo por el espacio y te sueltan en la casilla 57… tan mareado que no puedes volver a tirar."
-    go_to: 57
-  57:
-    kind: bad
-    emoji: "🛸"
-    title: "¡Abducción!"
-    text: "¡Unos marcianos te abducen con su rayo de luz! Te llevan de vuelta a la casilla 26… tan mareado que no puedes volver a tirar."
-    go_to: 26
-    star_saves: true
-
-  36:
-    kind: bad
-    emoji: "🛰️"
-    title: "¡Estación espacial!"
-    text: "A la estación espacial se le ha caído un tornillo y te toca arreglarla con tu llave inglesa gigante. Pierdes 1 turno."
-    skip: 1
-    star_saves: true
-
-  44:
-    kind: bad
-    emoji: "🌫️"
-    title: "¡Perdido en la nebulosa!"
-    text: "Te metes en una nube de gas y polvo tan espesa que no ves ni tu propia nariz. Cuando por fin sales… ¡estás en la casilla 30!"
-    go_to: 30
-    star_saves: true
-
-  52:
-    kind: bad
-    emoji: "🥳"
-    title: "¡Fiesta alienígena!"
-    text: "Los alienígenas te invitan a su fiesta: música galáctica, tarta de queso lunar y bailes con tentáculos. ¡Te lo pasas tan bien que te quedas 2 turnos!"
-    skip: 2
-    star_saves: true
-
-  58:
-    kind: bad
-    emoji: "⚫"
-    title: "¡Agujero negro!"
-    text: "Un agujero negro te absorbe, te da tres vueltas como una peonza y te escupe… ¡en la salida! Vuelves a empezar. Jijiji."
-    go_to: 0
-    star_saves: true
+  # The rest.
+  3:  { type: boost }
+  13: { type: star }
+  17: { type: solar_storm }
+  23: { type: meteorites }
+  36: { type: space_station }
+  49: { type: spy_satellite }
+  52: { type: party, skip: 2 }  # the party lasts 2 turns here
+  58: { type: black_hole }
 
 # The questions (mode "Sabelotodo"): from the shared bank content/questions/general.yaml
 # (the levels and every field are explained there).

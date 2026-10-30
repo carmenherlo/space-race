@@ -11,7 +11,15 @@ import yaml
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
 
-from app.game import GAME_FILE, GamePack, load_game_pack, load_games, load_question_bank
+from app.game import (
+    GAME_FILE,
+    GamePack,
+    load_game_pack,
+    load_games,
+    load_question_bank,
+    load_square_types,
+    with_square_types,
+)
 from tests.conftest import GAMES
 
 SPACE_RACE = GAMES / "space-race"  # the short board
@@ -30,6 +38,7 @@ def copy_games(tmp_path: Path) -> Path:
 def raw() -> dict[str, Any]:
     """The short board's game.yaml, with every mode and its bank's questions in it."""
     data = yaml.safe_load((SPACE_RACE / GAME_FILE).read_text(encoding="utf-8"))
+    data["squares"] = with_square_types(data["squares"], load_square_types(GAMES))
     data["questions"] = load_question_bank(GAMES.parent / "questions", data["questions"])
     data["modes"] = ["race", "questions"]
     return data
@@ -95,6 +104,29 @@ def test_space_race_expanded_has_its_own_rules() -> None:
     assert sorted(n for n, sq in pack.squares.items() if sq.star_saves) == [23, 36, 44, 52, 57, 58]
     assert pack.squares[44].go_to == 30  # lost in the nebula
     assert pack.squares[49].swap  # the spy satellite
+
+
+def test_the_boards_share_the_square_types() -> None:
+    short, expanded = load_game_pack(SPACE_RACE), load_game_pack(EXPANDED)
+    assert short.squares[16] == expanded.squares[58]  # the same black hole on both boards
+    galaxy, galaxy_again = short.squares[5], expanded.squares[6]
+    assert galaxy.text == "…¡y acelero con magia! Su magia te lleva hasta la galaxia de la casilla 10."
+    assert galaxy_again.text.endswith("casilla 11. ¡Vuelve a tirar!")  # the rule, added by the game
+    assert short.squares[24].text.endswith("Pierdes el próximo turno.")
+    assert expanded.squares[52].text.endswith("Pierdes los próximos 2 turnos.")  # its own skip: 2
+    assert not expanded.squares[22].star_saves  # its own field wins over the type
+
+
+def test_a_square_needs_a_type_that_exists(raw: dict[str, Any]) -> None:
+    with pytest.raises(ValueError, match="no square type"):
+        with_square_types({5: {"type": "nope"}}, load_square_types(GAMES))
+
+
+def test_a_trip_text_needs_where_to(raw: dict[str, Any]) -> None:
+    data = copy.deepcopy(raw)
+    data["squares"][5] = {**data["squares"][5], "text": "Vas a la casilla {to}.", "go_to": None}
+    with pytest.raises(ValidationError, match="no go_to"):
+        GamePack.model_validate(data)
 
 
 def test_both_boards_share_the_general_questions_of_every_level() -> None:
@@ -226,7 +258,8 @@ def test_api_serves_the_board_picture_and_nothing_else(client: TestClient) -> No
     short = client.get("/api/games/space-race").json()
     assert short["squares_image_url"] == "games-pack/space-race/lights/squares.png"
     assert short["lights"]["title"] == "games-pack/space-race/lights/title.png"
-    for picture in ("lights/squares.png", "lights/title.png", "lights/moon_sign.png"):
+    assert short["rocket_url"] == "games-pack/space-race/lights/rocketship_position.png"
+    for picture in ("lights/squares.png", "lights/title.png", "lights/moon_sign.png", "lights/rocketship_position.png"):
         assert client.get(f"/games-pack/space-race/{picture}").status_code == 200, picture
 
 
