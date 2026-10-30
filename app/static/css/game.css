@@ -90,8 +90,7 @@ body.game {
 .board-rocket__picture {
   display: block;
   width: 100%;
-  height: 100%;
-  transform-origin: 9.8% 14.2%; /* the middle of the short board's rocket, to wiggle round it */
+  height: 100%; /* it wiggles round its own middle (measured in rocket.js) */
 }
 
 /* Flying to another square (UFOs, galaxies, the black hole): slower, with a little

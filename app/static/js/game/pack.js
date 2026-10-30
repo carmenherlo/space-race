@@ -62,7 +62,7 @@ export async function loadPack() {
     elements.boardImage.hidden = false;
     await setUpLights(content);
     if (content.rocket_url) {
-      setUpRocket(content.rocket_url);
+      await setUpRocket(content.rocket_url);
     }
   } else {
     renderPlainBoard();
