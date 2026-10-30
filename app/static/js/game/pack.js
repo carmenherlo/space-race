@@ -37,7 +37,6 @@ export async function loadPack() {
         skip: square.skip, // turns to miss
         othersMove: square.others_move ?? undefined,
         star: square.star,
-        starSaves: square.star_saves,
         swap: square.swap,
         minigame: square.minigame,
         shine: square.shine,

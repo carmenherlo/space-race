@@ -8,7 +8,7 @@ export const pack = {
   places: [], // [x, y] in % of the board picture: the start, squares 1, 2, … and the goal
   goal: 0, // the last place: reaching it wins
   // square number → { kind, emoji, title, text, goTo, move, backRoll, again, skip,
-  //                   othersMove, star, starSaves, swap } (see app/game.py, Square)
+  //                   othersMove, star, swap } (see app/game.py, Square)
   squares: new Map(),
   // The modes this game has ("race", "questions"), in order, each with its
   // rules: id → { exactFinish } (true or false: fixed; null: the players choose)

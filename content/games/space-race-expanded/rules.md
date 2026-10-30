@@ -28,8 +28,3 @@ modos, Sabelotodo) están en `content/games/general-rules.md`.
 | 52 | 🥳 **Fiesta en la base** | Pierdes 2 turnos. |
 | 58 | 🕳️ **Agujero negro** | Vuelves a Start here. |
 | 69 | 🌕 **Luna** | ¡Meta! |
-
-## La estrella comodín ⭐
-
-Te libra de: **meteoritos (23), estación espacial (36), nebulosa (44), fiesta (52),
-ovni hacia atrás (57) y agujero negro (58)**.

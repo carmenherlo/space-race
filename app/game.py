@@ -71,7 +71,6 @@ class Square(StrictModel):
     skip: int = Field(default=0, ge=0, le=5)  # turns to miss (true = 1)
     others_move: int | None = None  # every OTHER player goes forward (+) or back (−)
     star: bool = False  # the player gets a wildcard star ⭐
-    star_saves: bool = False  # a player with a star can use it here: nothing happens
     swap: bool = False  # the player may swap places with another one of their choice
     shine: bool = False  # the token shines when it lands here (the galaxies)
     minigame: bool = False  # the player chooses a minigame: win it, straight to the Moon

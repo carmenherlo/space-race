@@ -21,7 +21,7 @@ export async function landOn(player) {
   // or a tremble.
   await (square.shine ? shine(player) : react(player, square.kind));
   const others = game.players.filter((p) => p !== player);
-  if (square.starSaves && player.stars > 0) {
+  if (square.kind === "bad" && player.stars > 0) { // a star saves you from any bad square
     if (await offerStar(player, square)) {
       return { again: false }; // saved: you stay here and the turn ends
     }

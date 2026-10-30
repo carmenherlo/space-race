@@ -97,7 +97,7 @@ Los campos de un tipo (o de una casilla):
 | Campo | Qué es |
 |---|---|
 | `type` | Solo en el tablero: el tipo de la casilla, de `square-types.yaml`. |
-| `kind` | `good` o `bad`: el color de la carta. |
+| `kind` | `good` o `bad`: el color de la carta. De una casilla mala (`bad`) te libra la estrella comodín. |
 | `emoji`, `title`, `text` | Lo que enseña la carta (y lee la voz). |
 | `go_to` | Salta a esa casilla (0 = la salida; la meta = ganas). |
 | `move` | Avanza (+) o retrocede (−) esas casillas. |
@@ -110,7 +110,6 @@ Los campos de un tipo (o de una casilla):
 | `others_move` | Todos los DEMÁS avanzan (+) o retroceden (−) esas casillas. |
 | `shine` | `true`: la ficha brilla al caer aquí (el aro como un anillo de oro). En las galaxias. |
 | `star` | `true`: coge una estrella comodín ⭐. |
-| `star_saves` | `true`: con una estrella, puede usarla aquí y no le pasa nada. |
 
 - Una casilla tiene como mucho una forma de moverte: `go_to`, `move`, `back_roll`, `swap` o `minigame`.
 - Solo cuenta la casilla a la que llegas **con el dado**: a donde te manda un viaje (ovni, galaxia…) no hace nada, así nunca hay bucles.

@@ -33,8 +33,8 @@ especial, haces lo que dice su tarjeta (cada tablero tiene las suyas).
 Solo en los tableros que tienen una casilla de estrella.
 
 - Al caer en ella coges una estrella y te la guardas (el tablero dice cuántas puedes tener).
-- La usas **una vez** para librarte de una casilla mala (el tablero dice de cuáles): el juego
-  te pregunta si la usas o te la guardas. Si la usas, te quedas en esa casilla y no te pasa nada.
+- La usas **una vez** para librarte de **cualquier casilla mala** (las de carta roja): el
+  juego te pregunta si la usas o te la guardas. Si la usas, te quedas en esa casilla y no te pasa nada.
 - La estrella no te protege de lo que hace otro jugador (por ejemplo, una tormenta solar).
 
 ## Llegar a la Luna 🌕

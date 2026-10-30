@@ -6,7 +6,7 @@
 #   emoji, title, text: what the card shows. In the text, {to} is the square the trip goes
 #     to. The game adds the rule at the end: "¡Vuelve a tirar!" (again) or "Pierdes el
 #     próximo turno." (skip), so the texts never say it.
-#   What it does: go_to, back_roll, again, skip, others_move, star, star_saves, swap,
+#   What it does: go_to, back_roll, again, skip, others_move, star, swap,
 #     shine, minigame.
 #
 # After editing it, restart the app. Texts IN QUOTES: some have a colon (:).
@@ -71,51 +71,44 @@ spy_satellite:
   text: "Un satélite espía te presta sus prismáticos mágicos y ves dónde está todo el mundo. Si te conviene, ¡cámbiate de sitio con quien quieras!"
   swap: true
 
-# The bad ones: a wildcard star saves you from them (star_saves).
+# The bad ones: a wildcard star saves you from any of them.
 wormhole_back:
   kind: bad
   emoji: "🌀"
   title: "¡Agujero de gusano!"
   text: "¡Uy! El gusano se da la vuelta, te traga otra vez y te escupe en la casilla {to}. Al menos…"
   again: true
-  star_saves: true
 abduction_back:
   kind: bad
   emoji: "🛸"
   title: "¡Abducción!"
   text: "¡Unos ovnis te han abducido! Te llevan de vuelta y aterrizas de culete en la casilla {to}."
-  star_saves: true
 meteorites:
   kind: bad
   emoji: "☄️"
   title: "¡Zona de meteoritos!"
   text: "Te cruzas con una lluvia de meteoritos y tienes que esquivarlos marcha atrás. Tira el dado y retrocede lo que salga."
   back_roll: true
-  star_saves: true
 black_hole:
   kind: bad
   emoji: "🕳️"
   title: "¡Agujero negro!"
   text: "Un agujero negro te absorbe, te da tres vueltas y te escupe… ¡en la salida! Vuelves a empezar. Jijiji."
   go_to: 0
-  star_saves: true
 nebula:
   kind: bad
   emoji: "🌫️"
   title: "¡Perdido en la nebulosa!"
   text: "Te metes en una nube de gas y polvo tan espesa que no ves ni tu propia nariz. Cuando por fin sales… ¡estás en la casilla {to}!"
-  star_saves: true
 party:
   kind: bad
   emoji: "🥳"
   title: "¡Fiesta en la base!"
   text: "En la base espacial te encuentras a unos amigos de hace mucho tiempo y montáis una fiesta."
   skip: 1
-  star_saves: true
 space_station:
   kind: bad
   emoji: "🛰️"
   title: "¡Estación espacial!"
   text: "A la estación espacial se le ha caído un tornillo y te toca arreglarla con tu llave inglesa gigante."
   skip: 1
-  star_saves: true

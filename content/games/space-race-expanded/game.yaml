@@ -119,7 +119,7 @@ squares:
 
   # Trips, both ways.
   9:  { type: wormhole, go_to: 22 }
-  22: { type: wormhole_back, go_to: 9, star_saves: false }  # here the star does not save you
+  22: { type: wormhole_back, go_to: 9 }
   26: { type: abduction, go_to: 57 }
   57: { type: abduction_back, go_to: 26 }
   44: { type: nebula, go_to: 30 }

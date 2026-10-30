@@ -57,8 +57,6 @@ def test_the_short_board_keeps_its_rules() -> None:
     assert pack.squares[13].back_roll  # meteorites: roll and go back
     assert (pack.squares[4].go_to, pack.squares[12].go_to) == (12, 4)  # the wormhole, both ways
     assert pack.squares[14].star and pack.max_stars == 1  # one wildcard star at a time
-    bad = sorted(n for n, sq in pack.squares.items() if sq.kind == "bad")
-    assert bad == sorted(n for n, sq in pack.squares.items() if sq.star_saves)  # it saves from every bad one
     galaxies = [n for n, sq in pack.squares.items() if sq.emoji == "🌌"]
     assert [pack.squares[n].go_to for n in galaxies] == [10, 15, 20, 25, None]  # each to the next one
     assert not any(pack.squares[n].again for n in galaxies)  # no extra roll: no chains
@@ -101,7 +99,7 @@ def test_space_race_expanded_has_its_own_rules() -> None:
     assert pack.squares[13].star
     assert pack.squares[17].others_move == -1  # the solar storm
     assert (pack.squares[36].skip, pack.squares[52].skip) == (1, 2)
-    assert sorted(n for n, sq in pack.squares.items() if sq.star_saves) == [23, 36, 44, 52, 57, 58]
+    assert sorted(n for n, sq in pack.squares.items() if sq.kind == "bad") == [22, 23, 36, 44, 52, 57, 58]  # the star saves from them
     assert pack.squares[44].go_to == 30  # lost in the nebula
     assert pack.squares[49].swap  # the spy satellite
 
@@ -114,7 +112,7 @@ def test_the_boards_share_the_square_types() -> None:
     assert galaxy_again.text.endswith("casilla 11. ¡Vuelve a tirar!")  # the rule, added by the game
     assert short.squares[24].text.endswith("Pierdes el próximo turno.")
     assert expanded.squares[52].text.endswith("Pierdes los próximos 2 turnos.")  # its own skip: 2
-    assert not expanded.squares[22].star_saves  # its own field wins over the type
+    assert expanded.squares[22].go_to == 9  # its own field (where to) with the type's card
 
 
 def test_a_square_needs_a_type_that_exists(raw: dict[str, Any]) -> None:
