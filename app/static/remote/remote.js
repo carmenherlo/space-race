@@ -15,7 +15,20 @@ const DIRECTIONS = {
 
 // The button most likely pressed next (e.g. "Vale" on a card, the die on the board): the
 // highlight goes there by itself when it appears, while the remote is in use.
-const PRIMARY = [".game-button:not(.game-button--quiet)", ".game-button", "#die"];
+const PRIMARY = [
+  ".game-button:not(.game-button--quiet)",
+  ".game-button",
+  ".minigame__choice", // the minigames (js/minigames.js)…
+  ".wheel__spin",
+  ".launch__pad",
+  ".voyage__ok", // …and the trip to the Moon
+  "#die",
+];
+// While these are on screen the arrows belong to the page (the comets minigame moves the
+// rocket with them), not to the remote.
+const OWN_ARROWS = ".dodge__lane:not([disabled])";
+// Buttons that answer to a touch, not to a click: the centre button touches them.
+const TOUCHED = ".launch__pad, .dodge__lane";
 // Never highlighted by themselves: closing or silencing buttons.
 const NOT_FIRST = ".close-x, .question__quiet";
 // Windows that start on their first button (the setup: the avatars come first).
@@ -129,6 +142,10 @@ function keepPlace() {
 function onKey(event) {
   const direction = DIRECTIONS[event.key];
   const from = current();
+  if (direction && [...document.querySelectorAll(OWN_ARROWS)].some(visible)) {
+    from?.classList.remove("remote-focus");
+    return;
+  }
   if (direction) {
     // A slider (e.g. the volume): left and right move it.
     if (from?.matches("input[type='range']") && direction[1] === 0) {
@@ -151,7 +168,11 @@ function onKey(event) {
       }
       return;
     }
-    from.click();
+    if (from.matches(TOUCHED)) {
+      from.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true }));
+    } else {
+      from.click();
+    }
     keepPlace();
   }
 }
@@ -217,7 +238,10 @@ function checkPrimary() {
 }
 
 // A tap or a click: the highlight goes away until the next arrow.
-function onPointer() {
+function onPointer(event) {
+  if (!event.isTrusted) {
+    return; // the remote's own touch (TOUCHED)
+  }
   setInUse(false);
   document.querySelector(".remote-focus")?.classList.remove("remote-focus");
 }
