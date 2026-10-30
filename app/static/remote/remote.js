@@ -4,7 +4,7 @@
 // else knows about it. Touch and mouse keep working as before.
 
 // Pages where the remote is on (more are added one at a time, once tried on the TV).
-const PAGES = ["games.html", "game.html"];
+const PAGES = ["games.html", "game.html", "pruebas/galaxia.html"];
 
 const DIRECTIONS = {
   ArrowUp: [0, -1],
@@ -22,6 +22,7 @@ const PRIMARY = [
   ".wheel__spin",
   ".launch__pad",
   ".voyage__ok", // …and the trip to the Moon
+  ".galaxy__button", // "Otra vez" on the minigames test page
   "#die",
 ];
 // While these are on screen the arrows belong to the page (the comets minigame moves the
