@@ -813,6 +813,7 @@ body.game[data-mode="questions"] .ranking {
 /* Someone's avatar (their profile): their name under it. */
 .setup__choice-name {
   display: block;
+  margin-top: 0.3em;
   max-width: 7.5em; /* a name of 14 letters, nearly always whole */
   overflow: hidden;
   font-size: 0.6em;
