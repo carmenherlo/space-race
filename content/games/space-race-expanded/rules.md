@@ -1,7 +1,7 @@
 # 🚀 Space Race Expanded — Normas del tablero
 
 Lo propio de este tablero. Las normas comunes a todos (turnos, viajes, estrella, Luna,
-modos, Sabelotodo) están en `docs/rules.md`.
+modos, Sabelotodo) están en `content/games/rules.md`.
 
 ## El tablero
 

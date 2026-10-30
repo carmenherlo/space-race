@@ -44,9 +44,10 @@ Para tener voz en desarrollo, el modelo de Piper va en `data/voices/`
 |---|---|---|
 | `app/` | El servidor (Python): `main.py` las rutas · `game.py` lee y comprueba los `game.yaml` · `avatars.py` · `voice.py` la voz | Sí |
 | `app/static/` | La web: `games.html` (menú) · `game.html` + `js/game.js` y `js/game/` (el juego, un módulo por parte) · `css/` | Sí |
+| `content/games/` | `rules.md`: las normas comunes a todos los tableros | Sí |
 | `content/games/<juego>/` | Cada juego, todos con la misma forma: `game.yaml` (lo que lee el juego), `rules.md` (sus normas), `board.webp` (el tablero) y `lights/` (lo que se ilumina) | Sí |
 | `content/questions/` | Los bancos de preguntas que usan los juegos (`general.yaml`; se leen en la página "Preguntas" del menú) | Sí |
-| `docs/` | Para leer: las normas comunes a todos los tableros (`rules.md`) y cómo se escribe un juego (`game-yaml.md`) | Sí |
+| `docs/` | Cómo se escribe un juego (`game-yaml.md`) | Sí |
 | `tests/` | Las pruebas automáticas (`python -m pytest`) | Sí |
 | `data/avatars/` | Tus avatares y sus colores | **No** |
 | `data/voices/` | El modelo de voz, para desarrollo (Docker lo trae solo) | **No** |

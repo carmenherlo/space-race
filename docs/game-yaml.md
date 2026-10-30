@@ -5,6 +5,7 @@ Cada juego es una carpeta dentro de `content/games/`. El nombre de la carpeta es
 ```
 content/
   games/
+    rules.md         las normas comunes a todos los tableros (una sola vez)
     space-race/
       game.yaml      lo que lee el juego: las casillas, lo que pasa en ellas y las reglas
       rules.md       las normas de este tablero, para personas (misma plantilla en todos)
@@ -21,7 +22,7 @@ Todos los juegos tienen la misma forma: lo que sabes de uno vale para todos.
 
 - **`rules.md`** de cada juego: solo lo suyo (el tablero, sus casillas especiales y sus
   detalles), con la plantilla de `content/games/space-race/rules.md`. Lo que vale para todos
-  los tableros va en `docs/rules.md`, una sola vez.
+  los tableros va en `content/games/rules.md`, una sola vez.
 - **Dibujos**: el tablero es `board.webp`; las luces, en `lights/`, con el nombre de su parte.
 
 - Después de cambiar algo, hay que reiniciar la app (con Docker, `docker compose up -d --build`; con `bash dev.sh`, guardar un `.py` o reiniciarlo).
