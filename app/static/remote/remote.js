@@ -106,7 +106,7 @@ function closest(point) {
   return elements.reduce((best, element) => (best && distance(best) <= distance(element) ? best : element), null);
 }
 
-// A text box: highlighted without focus, so the TV keyboard only opens on the centre button.
+// A text box: the TV opens its keyboard itself when the centre button is pressed on it.
 function isTextBox(element) {
   return element.matches("input:not([type]), input[type='text'], input[type='search'], textarea");
 }
@@ -115,11 +115,7 @@ function highlight(element) {
   document.querySelector(".remote-focus")?.classList.remove("remote-focus");
   element.classList.add("remote-focus");
   lastPoint = centre(element);
-  if (isTextBox(element)) {
-    document.activeElement?.blur();
-  } else {
-    element.focus({ preventScroll: true });
-  }
+  element.focus({ preventScroll: true });
   element.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
 }
 
@@ -159,16 +155,10 @@ function onKey(event) {
       highlight(to);
     }
   } else if (event.key === "Enter" && from) {
-    event.preventDefault();
     if (isTextBox(from)) {
-      // In a text box: the centre button opens the keyboard, and pressed again closes it.
-      if (document.activeElement === from) {
-        from.blur();
-      } else {
-        from.focus();
-      }
-      return;
+      return; // the TV's own centre button opens its keyboard
     }
+    event.preventDefault();
     if (from.matches(TOUCHED)) {
       from.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true }));
     } else {
