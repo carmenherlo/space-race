@@ -123,7 +123,7 @@ function askQuestion(question) {
   elements.questionResult.hidden = true;
   elements.questionNext.hidden = true;
   delete elements.question.dataset.result; // nothing answered yet
-  sounds.challenge();
+  sounds.quiz();
   elements.question.show();
   // The question, then each answer in the order they are on the screen, with a pause
   // between them.

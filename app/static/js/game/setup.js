@@ -221,9 +221,6 @@ function renderSummary() {
   }
   const parts = [...opening];
   parts.push("🎲 Tiras y haces lo que dice tu casilla.");
-  if (mode === "challenges") {
-    parts.push("🎭 Si acabas más adelante de donde empezaste, ¡reto!");
-  }
   const squares = [...pack.squares.values()];
   parts.push(
     squares.some((square) => square.minigame)

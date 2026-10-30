@@ -147,8 +147,8 @@ export const sounds = {
     });
   },
 
-  // "¡Reto!": a little drum roll and a "ta-dá".
-  challenge() {
+  // A question or a minigame: a little drum roll and a "ta-dá".
+  quiz() {
     play((ctx, out, now) => {
       for (let i = 0; i < 8; i += 1) {
         noise(ctx, out, { at: now + i * 0.045, length: 0.04, volume: 0.25 + i * 0.04 });

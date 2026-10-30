@@ -1071,17 +1071,13 @@ body.game[data-mode="questions"] .ranking {
   --avatar-size: clamp(4rem, calc(var(--screen-h) * 0.14), 6.4rem);
 }
 
-/* Cards: the colour of the squares tells the kind (mint good, pink bad, lilac challenge). */
+/* Cards: the colour of the squares tells the kind (mint good, pink bad). */
 .card[data-kind="good"] {
   border-top-color: var(--game-mint);
 }
 
 .card[data-kind="bad"] {
   border-top-color: var(--game-pink);
-}
-
-.card[data-kind="challenge"] {
-  border-top-color: var(--game-lilac);
 }
 
 .card[open] {

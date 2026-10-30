@@ -1,7 +1,6 @@
 // Space Race: a board game for family and friends, on its own page (game.html).
 // Everybody plays on this tablet, taking turns. The first one to reach the Moon wins.
-// "Carrera" (and "Retos locos"): roll the die and do what your square says (UFOs, galaxies,
-// a black hole…); in "Retos locos", a turn that ends further on brings a funny challenge.
+// "Carrera": roll the die and do what your square says (UFOs, galaxies, a black hole…).
 // "Sabelotodo": first a question of your level; right, roll and do what your square says;
 // wrong, you stay where you are. In both, a draw decides the order of the turns.
 // Nothing is saved on the server: a game lasts while the page is open. Only the setup (how
@@ -10,7 +9,7 @@
 // This file only starts the page. The engine is in game/, one module per part:
 //   state.js     the shared state: pack (the game), game (what is going on), elements
 //   pack.js      loading the game pack        setup.js   before playing: players, mode
-//   turns.js     start, turn order, next turn race.js    a turn in "Carrera"/"Retos locos"
+//   turns.js     start, turn order, next turn race.js    a turn in "Carrera"
 //   questions.js "Sabelotodo" and its turn    squares.js what the special squares do
 //   moves.js     the die and the tokens       cards.js   cards, star, satellite, winner
 //   board.js     drawing the board            pause.js   ⏸, restart, menu, idle timer

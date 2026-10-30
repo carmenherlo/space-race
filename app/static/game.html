@@ -86,18 +86,11 @@
     <section class="setup__section" id="setup-mode" aria-labelledby="setup-mode-title">
       <h2 class="setup__heading" id="setup-mode-title">3. Modo de juego</h2>
       <div class="setup__options" role="radiogroup" aria-labelledby="setup-mode-title">
-        <button class="option" type="button" role="radio" aria-checked="false" data-mode="race">
+        <button class="option" type="button" role="radio" aria-checked="true" data-mode="race">
           <span class="option__icon" aria-hidden="true">🏁</span>
           <span class="option__text">
             <span class="option__name">Carrera</span>
             <span class="option__hint">Solo dado: ¡rápida!</span>
-          </span>
-        </button>
-        <button class="option" type="button" role="radio" aria-checked="true" data-mode="challenges">
-          <span class="option__icon" aria-hidden="true">🎭</span>
-          <span class="option__text">
-            <span class="option__name">Retos locos</span>
-            <span class="option__hint">Un reto gracioso cada turno</span>
           </span>
         </button>
         <button class="option" type="button" role="radio" aria-checked="false" data-mode="questions">
@@ -143,7 +136,7 @@
     <ol class="draw__players" id="draw-players"></ol>
   </dialog>
 
-  <!-- What happens on a square: something good, something bad or a funny challenge. -->
+  <!-- What happens on a square: something good or something bad. -->
   <dialog class="game-dialog card" id="card" data-in-game aria-labelledby="card-title">
     <span class="card__emoji" id="card-emoji" aria-hidden="true"></span>
     <h2 class="card__title" id="card-title"></h2>

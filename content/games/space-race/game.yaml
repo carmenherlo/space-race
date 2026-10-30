@@ -223,44 +223,6 @@ squares:
     skip: true
     star_saves: true
 
-# The challenges (mode "Retos locos", not in the menu: add "challenges" to the modes to
-# play it): at the end of every turn that ends further on (not after a punishment),
-# something funny to do in front of everybody.
-# They come from one shuffled deck for everybody: none repeats until all have come out.
-challenges:
-  - { emoji: "🥬", text: "Pon cara de lechuga hasta que alguien se ría." }
-  - { emoji: "🗿", text: "Quédate quieto como una estatua hasta que todos digan «¡ya!»." }
-  - { emoji: "🐵", text: "Pon cara de mono hasta que alguien se ría." }
-  - { emoji: "🐟", text: "Pon cara de pez y mira a los ojos a alguien hasta que uno de los dos se ría." }
-  - { emoji: "😐", text: "Mira muy serio a todos: el primero que se ría, ¡pierde!" }
-  - { emoji: "🤪", text: "Haz la cara más rara que sepas hasta que alguien se ría." }
-  - { emoji: "🐷", text: "Haz de cerdito espacial («¡oink, oink!») hasta que alguien se ría." }
-  - { emoji: "🤖", text: "Baila como un robot hasta que alguien se ría." }
-  - { emoji: "🙊", text: "Todos cuentan un chiste malo; tú tienes que aguantar sin reírte." }
-  - { emoji: "👃", text: "Tócate la nariz con la lengua… o al menos inténtalo, hasta que alguien se ría." }
-  - { emoji: "🧑‍🚀", text: "Quédate flotando como un astronauta sin gravedad hasta que todos digan «¡aterriza!»." }
-  - { emoji: "🦩", text: "Aguanta a la pata coja como un flamenco espacial hasta que todos digan «¡ya!»." }
-  - { emoji: "🧊", text: "Te has congelado en el espacio: no te muevas hasta que alguien te dé un abrazo para descongelarte." }
-  - { emoji: "😴", text: "Hazte el dormido y no te despiertes hasta que alguien te haga reír." }
-  - { emoji: "🌟", text: "Ponte en forma de estrella (brazos y piernas abiertos) hasta que todos cuenten hasta 10." }
-  - { emoji: "🐶", text: "Imita a un animal sin hablar. Los demás tienen que adivinarlo." }
-  - { emoji: "🚗", text: "Haz el ruido de algo (un coche, un tren, una ducha…). Los demás adivinan qué es." }
-  - { emoji: "👨‍👩‍👧", text: "Imita a alguien de la familia. Los demás adivinan a quién." }
-  - { emoji: "🎬", text: "Haz como que haces algo de cada día (lavarte los dientes, comer sopa…). Los demás adivinan qué es." }
-  - { emoji: "👽", text: "Di «hola» como lo diría un extraterrestre. Todos te tienen que contestar igual." }
-  - { emoji: "🚀", text: "Cuenta atrás de 10 a 0 y, al llegar a 0, ¡todos saltan como un cohete!" }
-  - { emoji: "🪞", text: "Haz el espejo: todos tienen que copiar lo que haces durante 10 segundos." }
-  - { emoji: "👏", text: "Inventa un ritmo con palmas. Los demás tienen que repetirlo." }
-  - { emoji: "🎤", text: "Canta una canción que todos conozcan. Los demás tienen que seguirla." }
-  - { emoji: "🤗", text: "Abrazo de grupo espacial: ¡todos a abrazarse!" }
-  - { emoji: "💃", text: "Todos de pie: baile espacial de 10 segundos." }
-  - { emoji: "🐸", text: "Salta como una rana hasta la otra punta de la habitación y vuelve." }
-  - { emoji: "🌕", text: "Camina como un astronauta en la Luna, a cámara lenta, hasta la puerta y vuelve." }
-  - { emoji: "👀", text: "Cierra los ojos y toca la nariz de alguien." }
-  - { emoji: "🔢", text: "Di 3 cosas que haya en el espacio. (Para los mayores: 5)." }
-  - { emoji: "🔴", text: "Encuentra algo de color rojo en la habitación y tráelo." }
-  - { emoji: "🙆", text: "Tócate la cabeza, los hombros, las rodillas y los pies, cada vez más rápido." }
-
-# The questions (mode "Sabelotodo"): from the shared bank questions/space.yaml (next to
-# the games folder; the levels and every field are explained there).
+# The questions (mode "Sabelotodo"): from the shared bank content/questions/general.yaml
+# (the levels and every field are explained there).
 questions: general

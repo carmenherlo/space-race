@@ -53,7 +53,7 @@ Las reglas generales del juego valen para todos los modos; cada modo puede cambi
 
 | Campo | Qué es |
 |---|---|
-| `modes` | Los modos que salen en el menú, en orden: `race` ("Carrera"), `questions` ("Sabelotodo") y `challenges` ("Retos locos"). Cada uno puede llevar sus reglas (ver abajo). |
+| `modes` | Los modos que salen en el menú, en orden: `race` ("Carrera") y `questions` ("Sabelotodo"). Cada uno puede llevar sus reglas (ver abajo). |
 | `exact_finish` | `true`: a la Luna solo con el número justo; si te pasas, rebotas. `false`: si te pasas, llegas igual. Sin él, se elige en el menú con el interruptor "Llegada exacta". |
 | `backwards_counts` | Al retroceder (meteoritos, tormenta, rebote…): `true`, la casilla donde caes cuenta; `false`, te quedas ahí y ya está. |
 | `max_stars` | Cuántas estrellas comodín puede llevar un jugador a la vez. Sin él, todas las que coja. |
@@ -94,17 +94,6 @@ Por número de casilla. Lo que hace cada una:
 - Una casilla tiene como mucho una forma de moverte: `go_to`, `move`, `back_roll`, `swap` o `minigame`.
 - Solo cuenta la casilla a la que llegas **con el dado**: a donde te manda un viaje (ovni, galaxia…) no hace nada, así nunca hay bucles.
 - En "Sabelotodo" también cuentan, después de acertar la pregunta. "Vuelve a tirar" es tirar sin pregunta; quien pierde turnos tampoco tiene pregunta.
-
-## Los retos (`challenges`, modo "Retos locos")
-
-Al final de un turno que acaba más adelante de donde empezó, un reto gracioso para hacer
-delante de todos. Salen de un mazo barajado para todos: no se repite ninguno hasta que han
-salido todos.
-
-```yaml
-challenges:
-  - { emoji: "🥬", text: "Pon cara de lechuga hasta que alguien se ría." }
-```
 
 ## Las preguntas (`questions`, modo "Sabelotodo")
 

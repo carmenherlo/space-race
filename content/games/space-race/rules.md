@@ -34,10 +34,6 @@ modos, Sabelotodo) están en `content/games/general-rules.md`.
 Te libra de **todas las casillas malas**: agujero de gusano hacia atrás (12), ovni hacia atrás
 (11), meteoritos (13), agujero negro (16), nebulosa (23) y fiesta (24).
 
-## Retos locos 🎭
-
-Este tablero tiene sus retos (en su `game.yaml`), para el modo Retos locos.
-
 ## Los dibujos
 
 En `lights/`, cada uno con el nombre de su parte en `game.yaml`: `squares.png` (solo las

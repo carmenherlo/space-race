@@ -11,8 +11,8 @@ import { moonShines } from "./lights.js";
 import { MOON_ARRIVAL_MS, wait } from "./timing.js";
 import { startGame } from "./turns.js";
 
-const CARD_TITLES = { good: "¡Qué suerte!", bad: "¡Oh, no!", challenge: "¡Reto!" };
-const CARD_BUTTONS = { good: "¡Bien!", bad: "Vale…", challenge: "¡Hecho!" };
+const CARD_TITLES = { good: "¡Qué suerte!", bad: "¡Oh, no!" };
+const CARD_BUTTONS = { good: "¡Bien!", bad: "Vale…" };
 
 export function showBounce(bounced, player) {
   react(player, "bad");
@@ -105,10 +105,10 @@ export function chooseSwap(player, square, others) {
   });
 }
 
-// The next card of a deck everybody shares ("challenges" or "questions"): none repeats
+// The next card of a deck everybody shares (the questions of a level): none repeats
 // until all have come out. An empty deck is shuffled again, never starting with the card
 // that just came out.
-export function drawFrom(name, cards = pack[name]) {
+export function drawFrom(name, cards) {
   game.decks[name] = game.decks[name] ?? { cards: [], last: null };
   const deck = game.decks[name];
   if (deck.cards.length === 0) {
@@ -127,7 +127,7 @@ export function showCard(card) {
   elements.cardTitle.textContent = card.title ?? CARD_TITLES[card.kind];
   elements.cardText.textContent = card.text;
   elements.cardOk.textContent = card.button ?? CARD_BUTTONS[card.kind];
-  sounds[card.kind](); // good, bad or challenge
+  sounds[card.kind](); // good or bad
   elements.card.show();
   speak([elements.cardTitle.textContent, card.text]);
   return new Promise((resolve) => {

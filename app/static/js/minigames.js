@@ -207,7 +207,7 @@ function playComets(stage, say, avatar) {
       if (time >= SURPRISE_AT && news === 1) {
         news = 2;
         say("¡Sorpresa: cometas locos!");
-        sounds.challenge();
+        sounds.quiz();
       }
       if (time >= nextComet && time < DODGE_MS - 1000) {
         spawn(time);

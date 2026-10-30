@@ -320,6 +320,6 @@ squares:
     go_to: 0
     star_saves: true
 
-# The questions (mode "Sabelotodo"): from the shared bank questions/space.yaml (next to
-# the games folder; the levels and every field are explained there).
+# The questions (mode "Sabelotodo"): from the shared bank content/questions/general.yaml
+# (the levels and every field are explained there).
 questions: general

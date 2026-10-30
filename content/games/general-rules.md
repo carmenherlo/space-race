@@ -58,8 +58,6 @@ Antes de empezar se elige el modo:
 
 - 🏁 **Carrera**: tiras, avanzas y haces lo que dice tu casilla.
 - 🧠 **Sabelotodo**: una carrera de preguntas (ver abajo).
-- 🎭 **Retos locos**: como Carrera, y si acabas el turno más adelante, ¡un reto gracioso!
-  (ahora no sale en el menú).
 
 ## Sabelotodo 🧠
 

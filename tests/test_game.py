@@ -31,7 +31,7 @@ def raw() -> dict[str, Any]:
     """The short board's game.yaml, with every mode and its bank's questions in it."""
     data = yaml.safe_load((SPACE_RACE / GAME_FILE).read_text(encoding="utf-8"))
     data["questions"] = load_question_bank(GAMES.parent / "questions", data["questions"])
-    data["modes"] = ["race", "challenges", "questions"]
+    data["modes"] = ["race", "questions"]
     return data
 
 
@@ -61,7 +61,6 @@ def test_the_short_board_keeps_its_rules() -> None:
     assert pack.exact_finish_in("race") is True  # overshooting bounces back
     assert pack.exact_finish_in("questions") is True  # in both modes
     assert (pack.backwards_counts, pack.voice) == (True, True)  # going back, the square counts
-    assert len(pack.challenges) == 32  # "Retos locos", kept though not in the menu
     assert len(pack.questions) == 450  # the shared bank (see test_both_boards_share…)
 
 
@@ -134,7 +133,7 @@ INVALID: dict[str, Callable[[dict[str, Any]], None]] = {
     "unknown kind": lambda d: d["squares"][7].update(kind="great"),
     "card without text": lambda d: d["squares"][7].update(text="  "),
     "unknown field": lambda d: d["squares"][7].update(goto=11),
-    "challenges mode without challenges": lambda d: d.update(challenges=[]),
+    "mode that does not exist": lambda d: d.update(modes=["race", "challenges"]),
     "unknown mode": lambda d: d.update(modes=["race", "chess"]),
     "no modes": lambda d: d.update(modes=[]),
     "unknown rule in a mode": lambda d: d.update(modes={"race": {"bounce": True}}),
@@ -169,7 +168,7 @@ def test_skip_true_is_one_turn(raw: dict[str, Any]) -> None:
 
 def test_a_race_only_game_needs_no_cards(raw: dict[str, Any]) -> None:
     data = copy.deepcopy(raw)
-    data.update(modes=["race"], challenges=None)
+    data.update(modes=["race"])
     del data["questions"]
     assert GamePack.model_validate(data).playable_modes() == ["race"]
 
@@ -177,7 +176,7 @@ def test_a_race_only_game_needs_no_cards(raw: dict[str, Any]) -> None:
 def test_no_questions_no_questions_mode(raw: dict[str, Any]) -> None:
     data = copy.deepcopy(raw)
     del data["questions"]
-    assert GamePack.model_validate(data).playable_modes() == ["race", "challenges"]
+    assert GamePack.model_validate(data).playable_modes() == ["race"]
 
 
 def test_empty_sections_are_allowed(raw: dict[str, Any]) -> None:
@@ -240,7 +239,7 @@ def test_without_games_there_is_no_game(tmp_path: Path, client_for: ClientFor) -
 def test_a_broken_game_is_listed_as_not_available(tmp_path: Path, client_for: ClientFor) -> None:
     games_dir = tmp_path / "games"
     (games_dir / "broken").mkdir(parents=True)
-    (games_dir / "broken" / GAME_FILE).write_text("challenges: []\n", encoding="utf-8")
+    (games_dir / "broken" / GAME_FILE).write_text("questions: []\n", encoding="utf-8")
     with client_for(games_dir) as client:
         assert client.get("/api/games").json() == [
             {"id": "broken", "title": "broken", "image_url": None, "available": False}

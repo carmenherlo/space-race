@@ -10,11 +10,11 @@ import { LAND_PAUSE_MS, wait } from "./timing.js";
 // where a trip sends you (UFOs, galaxies, the satellite) does nothing, so they never loop.
 // The meteorites make you roll the die again (backwards); the square that roll lands on
 // counts too, unless the game says going back does nothing (backwardsCounts). Returns
-// { again, punished } (roll again; a punishment or a star used: no challenge after it).
+// { again } (roll again).
 export async function landOn(player) {
   const square = pack.squares.get(player.place);
   if (!square) {
-    return { again: false, punished: false };
+    return { again: false };
   }
   await wait(LAND_PAUSE_MS); // first see where the token landed
   // A galaxy: the token shines (its ring like a gold ring in the light); else a hop of joy,
@@ -23,7 +23,7 @@ export async function landOn(player) {
   const others = game.players.filter((p) => p !== player);
   if (square.starSaves && player.stars > 0) {
     if (await offerStar(player, square)) {
-      return { again: false, punished: true }; // saved: you stay here and the turn ends
+      return { again: false }; // saved: you stay here and the turn ends
     }
   } else if (square.star && player.stars >= pack.maxStars) {
     // Already as many stars as allowed: nothing happens here.
@@ -35,17 +35,17 @@ export async function landOn(player) {
         ? "Ya tienes una estrella: solo se puede llevar una."
         : `Ya tienes ${pack.maxStars} estrellas: no se pueden llevar más.`,
     });
-    return { again: false, punished: false };
+    return { again: false };
   } else if (square.swap && others.length > 0) {
     const other = await chooseSwap(player, square, others);
     if (other) {
       await swapPlaces(player, other); // where they land does nothing, for either of them
     }
-    return { again: square.again, punished: false };
+    return { again: square.again };
   } else {
     await showCard(square);
   }
-  const outcome = { again: square.again, punished: square.skip > 0 };
+  const outcome = { again: square.again };
   if (square.star) {
     player.stars += 1;
     renderTurn();
@@ -73,7 +73,6 @@ export async function landOn(player) {
     if (pack.backwardsCounts) {
       const next = await landOn(player); // a die landing: its square counts
       outcome.again = outcome.again || next.again;
-      outcome.punished = outcome.punished || next.punished;
     }
   }
   return outcome;

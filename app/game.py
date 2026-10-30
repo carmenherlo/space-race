@@ -45,9 +45,8 @@ Topic = Literal["animals", "science", "geography", "history", "art", "general"]
 TRUE_FALSE_LEVELS = ("very_easy", "easy")
 # The two answers of a true-or-false question, always in this order on the screen.
 TRUE_FALSE = ("Verdadero", "Falso")
-# What comes at the end of a turn: nothing ("Carrera"), a funny challenge ("Retos locos")
-# or a question ("Sabelotodo").
-Mode = Literal["race", "challenges", "questions"]
+# The modes: "Carrera" (roll and move) or "Sabelotodo" (a question every turn).
+Mode = Literal["race", "questions"]
 
 
 # The parts of a board that can light up (see GamePack.lights).
@@ -65,7 +64,7 @@ class Square(StrictModel):
     go_to: int | None = Field(default=None, ge=0)  # jump to that square (0 = the start)
     move: int | None = None  # squares forward (+) or back (−)
     back_roll: bool = False  # roll the die and go back that many squares
-    again: bool = False  # roll again (the challenge comes where the new roll lands)
+    again: bool = False  # roll again
     skip: int = Field(default=0, ge=0, le=5)  # turns to miss (true = 1)
     others_move: int | None = None  # every OTHER player goes forward (+) or back (−)
     star: bool = False  # the player gets a wildcard star ⭐
@@ -91,12 +90,6 @@ class Square(StrictModel):
             raise ValueError('a move of 0 does nothing: remove it')
         return self
 
-
-class Challenge(StrictModel):
-    """Something funny to do at the end of a turn (mode "Retos locos")."""
-
-    emoji: Emoji
-    text: Text
 
 
 class Question(StrictModel):
@@ -150,7 +143,7 @@ class GamePack(StrictModel):
     # The modes of this game, each with the rules it changes (see ModeRules), in the order
     # they are shown. A plain list ("modes: [race, questions]") changes nothing.
     modes: dict[Mode, ModeRules] = Field(
-        default_factory=lambda: {mode: ModeRules() for mode in ("race", "challenges", "questions")},
+        default_factory=lambda: {mode: ModeRules() for mode in ("race", "questions")},
         min_length=1,
     )
     # The rules of this game, for every mode that does not set its own:
@@ -165,7 +158,6 @@ class GamePack(StrictModel):
     # A voice reads the cards aloud (the tablet's own voice, in Spanish), for those who
     # cannot read yet. The sound switch turns it off too.
     voice: bool = False
-    challenges: list[Challenge] = Field(default_factory=list)  # mode "challenges"
     questions: list[Question] = Field(default_factory=list)  # mode "questions"
 
     @field_validator("modes", mode="before")
@@ -177,15 +169,15 @@ class GamePack(StrictModel):
             return {mode: {} if rules is None else rules for mode, rules in value.items()}
         return value
 
-    # "squares:", "challenges:"… with nothing below is read by YAML as None.
+    # "squares:", "questions:"… with nothing below is read by YAML as None.
     @field_validator("squares", mode="before")
     @classmethod
     def no_squares(cls, value: object) -> object:
         return {} if value is None else value
 
-    @field_validator("challenges", "questions", mode="before")
+    @field_validator("questions", mode="before")
     @classmethod
-    def no_cards(cls, value: object) -> object:
+    def no_questions(cls, value: object) -> object:
         return [] if value is None else value
 
     @property
@@ -204,12 +196,6 @@ class GamePack(StrictModel):
                 raise ValueError(
                     f"square {number} sends to {square.go_to}, past the goal ({self.goal})"
                 )
-        return self
-
-    @model_validator(mode="after")
-    def cards_for_the_modes(self) -> "GamePack":
-        if "challenges" in self.modes and not self.challenges:
-            raise ValueError('mode "challenges" needs some challenges (or remove the mode)')
         return self
 
     def playable_modes(self) -> list[Mode]:

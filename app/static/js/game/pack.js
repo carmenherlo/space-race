@@ -49,7 +49,6 @@ export async function loadPack() {
   pack.backwardsCounts = content.backwards_counts;
   pack.maxStars = content.max_stars ?? Infinity;
   pack.voice = content.voice;
-  pack.challenges = content.challenges.map((challenge) => ({ kind: "challenge", ...challenge }));
   pack.questions = content.questions.map((question) => ({ kind: "question", ...question }));
 
   document.title = pack.title;

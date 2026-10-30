@@ -1,7 +1,7 @@
-// A turn in "Carrera" and "Retos locos": roll, move, do what the square says.
+// A turn in "Carrera": roll, move, do what the square says.
 
 import { renderTurn } from "./board.js";
-import { drawFrom, showBounce, showCard, showWinner } from "./cards.js";
+import { showBounce, showWinner } from "./cards.js";
 import { moveBy, rollDie } from "./moves.js";
 import { landOn } from "./squares.js";
 import { currentPlayer, game, pack } from "./state.js";
@@ -15,7 +15,6 @@ export async function playTurn() {
   game.busy = true;
   const player = currentPlayer();
 
-  const startedAt = player.place; // the challenge depends on where the turn ends up
   const roll = await rollDie();
   const bounced = await moveBy(player, roll);
   if (player.place === pack.goal) {
@@ -31,7 +30,7 @@ export async function playTurn() {
     }
   }
 
-  // 1. The square the die landed on.
+  // The square the die landed on.
   const outcome = await landOn(player);
   if (player.place === pack.goal) {
     showWinner(player);
@@ -41,17 +40,6 @@ export async function playTurn() {
     game.busy = false; // same player, a new roll
     renderTurn();
     return;
-  }
-  // A turn that ends level or further back, or a punishment: no challenge.
-  if (player.place <= startedAt || outcome.punished) {
-    nextTurn();
-    return;
-  }
-
-  // 2. The end of the turn: a challenge in "Retos locos" (nothing after a punishment).
-  if (game.mode === "challenges") {
-    await wait(LAND_PAUSE_MS); // first see where the turn ended
-    await showCard(drawFrom("challenges"));
   }
   nextTurn();
 }
