@@ -75,8 +75,9 @@ export function lightTheTrail(on) {
   lights.trail?.toggleAttribute("data-on", on);
 }
 
-// The square at `place` lit up (null: none); the one left behind fades out.
-function lightTheSquare(place) {
+// The square at `place` lit up (null: none); the one left behind fades out. Also the square
+// a trip goes to, before the token gets there (travel in moves.js).
+export function lightTheSquare(place) {
   if (litSquare?.place === place) {
     return;
   }

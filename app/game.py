@@ -65,6 +65,11 @@ class Square(StrictModel):
     title: Text
     text: Text
     go_to: int | None = Field(default=None, ge=0)  # jump to that square (0 = the start)
+    # With go_to, how it gets there: that square lights up first, then "fly", the token flies
+    # there in an arc, leaving sparkles; "wormhole", it spins into a swirl and out of another;
+    # "teleport", up a beam of light and down another; "nebula", it fades in a cloud and comes
+    # out of another; none, a quick flight.
+    trip: Literal["fly", "wormhole", "teleport", "nebula"] | None = None
     move: int | None = None  # squares forward (+) or back (−)
     back_roll: bool = False  # roll the die and go back that many squares
     again: bool = False  # roll again

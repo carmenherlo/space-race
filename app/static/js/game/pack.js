@@ -32,6 +32,7 @@ export async function loadPack() {
         title: square.title,
         text: square.text,
         goTo: square.go_to ?? undefined,
+        trip: square.trip ?? null, // how it gets to goTo ("fly", "wormhole"…, see TRIPS in moves.js; null: a quick flight)
         move: square.move ?? undefined,
         backRoll: square.back_roll,
         again: square.again,

@@ -100,6 +100,7 @@ Los campos de un tipo (o de una casilla):
 | `kind` | `good` o `bad`: el color de la carta. De una casilla mala (`bad`) te libra la estrella comodín. |
 | `emoji`, `title`, `text` | Lo que enseña la carta (y lee la voz). |
 | `go_to` | Salta a esa casilla (0 = la salida; la meta = ganas). |
+| `trip` | Con `go_to`, cómo llega. Primero se ilumina la casilla de destino y luego: `fly`, la ficha vuela allí en arco dejando chispas (galaxias, héroe espacial); `wormhole`, se hunde girando en un remolino y sale girando por otro (agujeros de gusano, agujero negro); `teleport`, sube por un rayo de luz y baja por otro (abducciones); `nebula`, se difumina en una nube y sale de otra (nebulosa). Sin él, un vuelo rápido. |
 | `move` | Avanza (+) o retrocede (−) esas casillas. |
 | `back_roll` | `true`: tira el dado y retrocede lo que salga. |
 | `swap` | `true`: puede cambiarse de sitio con el jugador que elija. |

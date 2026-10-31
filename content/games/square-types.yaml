@@ -6,7 +6,7 @@
 #   emoji, title, text: what the card shows. In the text, {to} is the square the trip goes
 #     to. The game adds the rule at the end: "¡Vuelve a tirar!" (again) or "Pierdes el
 #     próximo turno." (skip), so the texts never say it.
-#   What it does: go_to, back_roll, again, skip, others_move, star, swap,
+#   What it does: go_to (and how: trip), back_roll, again, skip, others_move, star, swap,
 #     shine, minigame.
 #
 # After editing it, restart the app. Texts IN QUOTES: some have a colon (:).
@@ -16,6 +16,7 @@ galaxy: &galaxy
   kind: good
   emoji: "🌌"
   shine: true  # the token shines when it lands here
+  trip: fly  # the galaxy it goes to lights up, and it flies there
   title: "De galaxia a galaxia…"
   text: "…¡y acelero con magia! Su magia te lleva hasta la galaxia de la casilla {to}."
 galaxy_again:  # the same galaxy, and you roll again
@@ -31,17 +32,20 @@ last_galaxy:
 wormhole:
   kind: good
   emoji: "🌀"
+  trip: wormhole  # into a swirl, out of another
   title: "¡Agujero de gusano!"
   text: "Te cuelas por un agujero de gusano blandito y pegajoso, ¡puaj!, y sales escurriéndote por la casilla {to}."
   again: true
 abduction:
   kind: good
   emoji: "🛸"
+  trip: teleport  # up a beam of light, down another
   title: "¡Abducción!"
   text: "¡Unos ovnis te han abducido! Te sueltan en un bosque de nubes y aterrizas de culete en la casilla {to}."
 space_hero:
   kind: good
   emoji: "🛰️"
+  trip: fly
   title: "¡Héroe espacial!"
   text: "Te quedas arreglando un satélite averiado y te dan una medalla de honor. Avanza hasta la casilla {to}."
 
@@ -75,12 +79,14 @@ spy_satellite:
 wormhole_back:
   kind: bad
   emoji: "🌀"
+  trip: wormhole
   title: "¡Agujero de gusano!"
   text: "¡Uy! El gusano se da la vuelta, te traga otra vez y te escupe en la casilla {to}. Al menos…"
   again: true
 abduction_back:
   kind: bad
   emoji: "🛸"
+  trip: teleport
   title: "¡Abducción!"
   text: "¡Unos ovnis te han abducido! Te llevan de vuelta y aterrizas de culete en la casilla {to}."
 meteorites:
@@ -92,12 +98,14 @@ meteorites:
 black_hole:
   kind: bad
   emoji: "🕳️"
+  trip: wormhole
   title: "¡Agujero negro!"
   text: "Un agujero negro te absorbe, te da tres vueltas y te escupe… ¡en la salida! Vuelves a empezar. Jijiji."
   go_to: 0
 nebula:
   kind: bad
   emoji: "🌫️"
+  trip: nebula  # it fades in a cloud, out of another
   title: "¡Perdido en la nebulosa!"
   text: "Te metes en una nube de gas y polvo tan espesa que no ves ni tu propia nariz. Cuando por fin sales… ¡estás en la casilla {to}!"
 party:

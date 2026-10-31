@@ -10,6 +10,12 @@ export const MOOD_MS = 1200; // a token's hop of joy or tremble (react in board.
 export const MOON_SHINE_MS = 2600; // the Moon shining strongly (lights.js; board-light-shine in game.css)
 export const STEP_MS = 480; // a token hops one square (keep in sync with game.css)
 export const FLIGHT_MS = 900; // a token flies to another square (keep in sync with game.css)
+export const TRIP_TARGET_MS = 1100; // a trip "fly": the square it goes to lit up, before the flight…
+export const TRIP_FLIGHT_MS = 1600; // …then the flight there, in an arc
+export const WORMHOLE_MS = 900; // a trip "wormhole": into the swirl, and the same out of the other one
+export const TELEPORT_MS = 900; // a trip "teleport": up the beam, and the same down the other one
+export const NEBULA_MS = 900; // a trip "nebula": lost in the cloud, and the same out of the other one
+export const STAR_MS = 1300; // a wildcard star flies to the token that gets it
 export const LAND_PAUSE_MS = 900; // the token rests on its square before a card shows, to see where
 export const START_PAUSE_MS = 1500; // the board alone for a moment before the first turn
 export const TURN_PAUSE_MS = 1100; // between two turns: the turn bar goes away, then comes back
@@ -51,4 +57,14 @@ export function wait(ms) {
     };
     setTimeout(tick, Math.min(ms, 50));
   });
+}
+
+// Calls step(t) with t from 0 to 1 for `ms`, on the game clock (⏸ stops it half way).
+export async function animate(ms, step) {
+  const FRAME_MS = 16;
+  for (let time = 0; time < ms; time += FRAME_MS) {
+    step(time / ms);
+    await wait(FRAME_MS);
+  }
+  step(1);
 }

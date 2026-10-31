@@ -1,8 +1,8 @@
 // The special squares: what each one does (the rules come from the game's game.yaml).
 
-import { react, renderTurn, shine } from "./board.js";
+import { flyStar, react, renderTurn, shine } from "./board.js";
 import { chooseSwap, offerStar, playMinigameFor, showCard } from "./cards.js";
-import { followTrail, jumpTo, moveBy, rollDie, swapPlaces } from "./moves.js";
+import { followTrail, jumpTo, moveBy, rollDie, swapPlaces, travel } from "./moves.js";
 import { game, pack } from "./state.js";
 import { LAND_PAUSE_MS, wait } from "./timing.js";
 
@@ -47,6 +47,7 @@ export async function landOn(player) {
   }
   const outcome = { again: square.again };
   if (square.star) {
+    await flyStar(player);
     player.stars += 1;
     renderTurn();
   }
@@ -55,9 +56,11 @@ export async function landOn(player) {
     player.skipSquare = square;
   }
   if (square.othersMove) {
-    for (const other of game.players.filter((p) => p !== player)) {
-      await moveBy(other, square.othersMove); // not a die landing: their squares do nothing
-    }
+    // Everybody it moves trembles (or hops) at once, then they all move together. Not a die
+    // landing: their squares do nothing.
+    const moved = game.players.filter((other) => other !== player && !other.inRocket);
+    await Promise.all(moved.map((other) => react(other, square.othersMove < 0 ? "bad" : "good")));
+    await Promise.all(moved.map((other) => moveBy(other, square.othersMove)));
   }
   if (square.minigame) {
     if (await playMinigameFor(player)) {
@@ -65,7 +68,7 @@ export async function landOn(player) {
       await (square.trail ? followTrail(player, square.trail, pack.goal) : jumpTo(player, pack.goal));
     }
   } else if (square.goTo !== undefined) {
-    await jumpTo(player, square.goTo);
+    await travel(player, square.goTo, square.trip);
   } else if (square.move) {
     await moveBy(player, square.move);
   } else if (square.backRoll) {

@@ -1,9 +1,9 @@
 // The board: the turn bar, the tokens on their places, the avatars.
 
-import { music } from "../sounds.js";
+import { music, sounds } from "../sounds.js";
 import { nearTheMoon, showLights } from "./lights.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
-import { MOOD_MS, SHINE_MS, wait } from "./timing.js";
+import { MOOD_MS, SHINE_MS, STAR_MS, animate, wait } from "./timing.js";
 
 // Where each token sits when several share a square, in token sizes from the centre.
 const TOKEN_MAX = 4.2; // % of the board's width
@@ -103,6 +103,27 @@ export async function shine(player) {
 }
 
 // A token that reacts: a hop of joy ("good") or a tremble ("bad"). Resolves when it is over.
+// A wildcard star: a big star comes from the middle of the board, spinning, to the token
+// that gets it; it shines, and the star stays as its little ⭐.
+export async function flyStar(player) {
+  const star = document.createElement("span");
+  star.className = "board-star";
+  star.textContent = "⭐";
+  elements.tokens.after(star);
+  const [x, y] = pack.places[player.place];
+  sounds.fly();
+  await animate(STAR_MS, (t) => {
+    const e = 1 - (1 - t) ** 3; // fast, then slower as it arrives
+    star.style.left = `${50 + (x - 50) * e}%`;
+    star.style.top = `${50 + (y - 50) * e}%`;
+    star.style.scale = String(4 - 3 * e);
+    star.style.rotate = `${e * 360}deg`;
+  });
+  star.remove();
+  sounds.good();
+  await shine(player);
+}
+
 export async function react(player, mood) {
   const token = elements.tokens.children[game.players.indexOf(player)];
   if (!token) {

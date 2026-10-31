@@ -373,6 +373,74 @@ body.game {
   from { transform: scale(0.2) rotate(-30deg); }
 }
 
+/* A trip (travel in moves.js): over the others, moved frame by frame. */
+.token[data-trip] {
+  z-index: 3;
+  transition: none;
+}
+
+/* Flying: a shadow far below, as if it were high up. */
+.token[data-trip="fly"] .avatar {
+  box-shadow: 0 calc(var(--token) * 0.5) calc(var(--token) * 0.4) rgb(0 0 0 / 45%);
+}
+
+/* What a trip leaves on the board for a moment (mark in moves.js), under the tokens. */
+.board-mark {
+  position: absolute;
+  line-height: 1;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+/* Wormholes, the black hole: the swirl it goes into and comes out of, spinning. */
+.board-mark[data-kind="swirl"] {
+  font-size: calc(var(--token) * 1.6);
+  filter: drop-shadow(0 0 calc(var(--token) * 0.3) rgb(150 120 255 / 90%));
+  animation: board-swirl 0.6s linear infinite;
+}
+
+@keyframes board-swirl {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+/* The UFOs: a beam of light from above, down to the square. */
+.board-mark[data-kind="beam"] {
+  width: calc(var(--token) * 1.4);
+  height: calc(var(--token) * 3.5);
+  border-radius: 50% 50% 40% 40% / 10% 10% 20% 20%;
+  background: linear-gradient(to bottom, rgb(255 255 200 / 0%), rgb(255 255 200 / 75%) 60%, rgb(255 255 230 / 95%));
+  filter: drop-shadow(0 0 calc(var(--token) * 0.3) rgb(255 255 180 / 90%));
+  transform: translate(-50%, -85%); /* its bottom on the square */
+  animation: board-beam 0.3s ease-out;
+}
+
+@keyframes board-beam {
+  from { opacity: 0; }
+}
+
+/* The nebula: a cloud over the square, swelling softly. */
+.board-mark[data-kind="cloud"] {
+  font-size: calc(var(--token) * 1.8);
+  animation: board-cloud 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes board-cloud {
+  from { transform: translate(-50%, -50%) scale(0.9); }
+  to { transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* A wildcard star on its way to the token (flyStar in board.js), over everything. */
+.board-star {
+  position: absolute;
+  z-index: 4;
+  font-size: var(--token);
+  line-height: 1;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 calc(var(--token) * 0.3) rgb(255 220 80 / 95%));
+}
+
 /* Along the star trail to the Moon: a smooth glide from point to point (TRAIL_STEP_MS). */
 .token[data-trail] {
   z-index: 2;
