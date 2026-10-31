@@ -117,9 +117,9 @@ function sparkle(sky, traveller) {
 
 // ☄️ Dodge the comets: tap a lane to move your token there. Slow at first, then fast, and
 // then a surprise: crazy comets that swerve to the next lane. Last until the bar runs out.
-const DODGE_MS = 12000; // how long to last
-const FAST_AT = 4500; // from here, faster and more of them
-const SURPRISE_AT = 8000; // from here, some swerve
+const DODGE_MS = 10000; // how long to last
+const FAST_AT = 4000; // from here, faster and more of them
+const SURPRISE_AT = 7000; // from here, some swerve
 const LANES = 3;
 
 function playComets(stage, say, avatar) {
@@ -163,8 +163,8 @@ function playComets(stage, say, avatar) {
 
     const spawn = (time) => {
       const comet = { lane: Math.floor(Math.random() * LANES), y: -15, element: document.createElement("span") };
-      comet.speed = time >= FAST_AT ? 95 : 42; // % of the stage per second
-      if (time >= SURPRISE_AT && Math.random() < 0.5) {
+      comet.speed = time >= FAST_AT ? 65 : 40; // % of the stage per second
+      if (time >= SURPRISE_AT && Math.random() < 0.3) {
         comet.swerve = comet.lane === 0 ? 1 : comet.lane === LANES - 1 ? LANES - 2 : comet.lane + (Math.random() < 0.5 ? -1 : 1);
         comet.element.dataset.crazy = "";
       }
@@ -211,7 +211,7 @@ function playComets(stage, say, avatar) {
       }
       if (time >= nextComet && time < DODGE_MS - 1000) {
         spawn(time);
-        nextComet = time + (time >= FAST_AT ? 520 : 1100);
+        nextComet = time + (time >= FAST_AT ? 800 : 1100);
       }
       const you = player.getBoundingClientRect();
       for (const comet of [...comets]) {
