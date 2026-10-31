@@ -28,7 +28,7 @@ export function renderTurn() {
   elements.turnStars.textContent = "⭐".repeat(player.stars);
   elements.turnStars.hidden = player.stars === 0;
   elements.turn.style.setProperty("--player-color", player.color);
-  elements.die.disabled = false;
+  elements.die.disabled = !game.mayRoll; // on (and calling them, game.css) only when it is theirs
   elements.die.textContent = "🎲";
   renderTokens();
 }

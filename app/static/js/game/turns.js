@@ -56,6 +56,7 @@ function beginTurn() {
     askTurnQuestion();
   } else {
     game.mayRoll = true;
+    elements.die.disabled = false;
   }
 }
 

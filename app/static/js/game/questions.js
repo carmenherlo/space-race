@@ -6,7 +6,7 @@ import { createAvatar, react, renderTurn } from "./board.js";
 import { drawFrom } from "./cards.js";
 import { shuffled, speak } from "./helpers.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
-import { TURN_START_MS, wait } from "./timing.js";
+import { READ_CHAR_MS, RIGHT_ANSWER_MS, TURN_START_MS, wait } from "./timing.js";
 import { nextTurn } from "./turns.js";
 
 // A setup remembered from before levels were saved (it had 4 others): each old level, as one of these.
@@ -96,7 +96,9 @@ function askQuestion(question) {
   });
 }
 
-function chooseAnswer(question, chosen) {
+// Right: the card closes by itself (longer with a note to read), so the next tap is the die.
+// Wrong: "Vale", once they have seen the right answer.
+async function chooseAnswer(question, chosen) {
   const right = chosen.dataset.answer === question.answer;
   for (const button of elements.questionAnswers.children) {
     button.disabled = true; // one try
@@ -112,12 +114,16 @@ function chooseAnswer(question, chosen) {
   const verdict = right ? "¡Correcto! 🎉" : `¡Casi! Era: ${question.answer}.`;
   elements.questionResult.textContent = question.note ? `${verdict} ${question.note}` : verdict;
   elements.questionResult.hidden = false;
-  elements.questionNext.textContent = right ? "¡Bien!" : "Vale";
-  elements.questionNext.hidden = false;
+  elements.questionNext.textContent = "Vale";
+  elements.questionNext.hidden = right;
   speak(question.note ? [verdict, question.note] : verdict);
-  if (right) {
-    sounds.good();
-  } else {
+  if (!right) {
     sounds.bad();
+    return;
+  }
+  sounds.good();
+  await wait(RIGHT_ANSWER_MS + elements.questionResult.textContent.length * READ_CHAR_MS);
+  if (chosen.isConnected && elements.question.open) { // still this question (not a new game)
+    elements.question.close();
   }
 }

@@ -640,11 +640,30 @@ body.game {
   font-size: calc(var(--die-size) * 0.5);
   font-weight: 800;
   line-height: 1;
-  animation: die-call 1.6s ease-in-out infinite; /* "tap me" */
 }
 
-.die:disabled {
-  animation: none;
+/* The die is theirs ("Carrera": their turn; "Sabelotodo": a right answer): it beats, glows
+   in their colour and says "¡Tira!", so nobody wonders what to do. */
+.die:enabled {
+  position: relative;
+  animation: die-call 1.1s ease-in-out infinite;
+}
+
+.die:enabled::after {
+  content: "¡Tira!";
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  left: 50%;
+  padding: 0.25rem 0.8rem;
+  border-radius: 999px;
+  background: var(--player-color, var(--game-lilac));
+  color: #ffffff;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 45%);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 35%);
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
 .die[data-rolling] {
@@ -652,8 +671,8 @@ body.game {
 }
 
 @keyframes die-call {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 var(--player-color, var(--game-lilac)); }
+  50% { transform: scale(1.18); box-shadow: 0 0 1.2rem 0.4rem var(--player-color, var(--game-lilac)); }
 }
 
 @keyframes die-roll {
