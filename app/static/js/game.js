@@ -9,8 +9,8 @@
 // This file only starts the page. The engine is in game/, one module per part:
 //   state.js     the shared state: pack (the game), game (what is going on), elements
 //   pack.js      loading the game pack        setup.js   before playing: players, mode
-//   turns.js     start, turn order, next turn race.js    a turn in "Carrera"
-//   questions.js "Sabelotodo" and its turn    squares.js what the special squares do
+//   turns.js     start, turn order, next turn roll.js    a roll, the same in every mode
+//   questions.js "Sabelotodo": its questions  squares.js what the special squares do
 //   moves.js     the die and the tokens       cards.js   cards, star, satellite, winner
 //   board.js     drawing the board            pause.js   ⏸, restart, menu, idle timer
 //   timing.js    how long things take (keep)  helpers.js voice, shuffle, status
@@ -28,10 +28,11 @@ import { loadPack } from "./game/pack.js";
 import { backToMenu, pauseGame, restartGame, restartIdleTimer, resumeGame } from "./game/pause.js";
 import { chosenPlayers, loadSetup, loadSharedProfiles, selectMode, setUpRules, showLevelsInfo, showSetup, toggleOption } from "./game/setup.js";
 import { GAME_ID, elements, game, pack } from "./game/state.js";
-import { startGame, tapDie } from "./game/turns.js";
+import { roll } from "./game/roll.js";
+import { startGame } from "./game/turns.js";
 
 async function init() {
-  elements.die.addEventListener("click", tapDie);
+  elements.die.addEventListener("click", roll);
   elements.start.addEventListener("click", () => startGame(chosenPlayers()));
   for (const option of elements.options) {
     option.addEventListener("click", () => toggleOption(option));

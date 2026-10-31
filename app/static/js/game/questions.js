@@ -1,14 +1,12 @@
-// "Sabelotodo": the levels, the questions, and a turn (a question first; right, roll).
+// "Sabelotodo": the levels, the questions, and the question that starts each turn.
 
 import { LEVEL_NAMES, LEVEL_STARS, TOPIC_NAMES, TRUE_FALSE_LEVELS } from "../levels.js";
 import { sounds } from "../sounds.js";
 import { createAvatar, react, renderTurn } from "./board.js";
-import { drawFrom, showBounce, showWinner } from "./cards.js";
+import { drawFrom } from "./cards.js";
 import { shuffled, speak } from "./helpers.js";
-import { moveBy, rollDie } from "./moves.js";
-import { landOn } from "./squares.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
-import { BOARD_LOOK_MS, LAND_PAUSE_MS, wait } from "./timing.js";
+import { TURN_START_MS, wait } from "./timing.js";
 import { nextTurn } from "./turns.js";
 
 // A setup remembered from before levels were saved (it had 4 others): each old level, as one of these.
@@ -20,13 +18,13 @@ const TRUE_FALSE = [
   { answer: "Falso", icon: "👎", tone: "false" }, // red
 ];
 
-// The turn starts with a question of the player's level, by itself. Right: the die is
-// theirs, they tap it (see rollAfterQuestion); it is always the die that rolls, never a
-// button on a card. Wrong: they stay where they are, next player. A player who must miss turns (the party) gets no question (see nextTurn).
+// The turn starts with a question of the player's level, by itself (see beginTurn in
+// turns.js). Right: the die is theirs, they tap it (see roll.js); it is always the die that
+// rolls, never a button on a card. Wrong: they stay where they are, next player.
 export async function askTurnQuestion() {
   game.busy = true;
   elements.die.disabled = true;
-  await wait(700); // a moment to see whose turn it is
+  await wait(TURN_START_MS);
   const player = currentPlayer();
   const right = await askQuestion(drawQuestion(player.level));
   if (!right) {
@@ -38,50 +36,6 @@ export async function askTurnQuestion() {
   game.mayRoll = true;
   game.busy = false;
   renderTurn(); // the die on: tap it
-}
-
-// Roll and move, and the square does what it says, as in "Carrera". "Roll again" (the
-// galaxies): the die again, with no question (the prize of that square).
-export async function rollAfterQuestion() {
-  if (game.busy || !game.mayRoll) {
-    return;
-  }
-  game.busy = true;
-  game.mayRoll = false;
-  const player = currentPlayer();
-  const bounced = await moveBy(player, await rollDie());
-  if (player.place === pack.goal) {
-    showWinner(player);
-    return;
-  }
-  let landed = true;
-  if (bounced) {
-    await wait(LAND_PAUSE_MS);
-    await showBounce(bounced, player);
-    landed = pack.backwardsCounts; // where the bounce leaves you may do nothing
-  }
-  if (landed) {
-    const outcome = await landOn(player);
-    if (player.place === pack.goal) {
-      showWinner(player);
-      return;
-    }
-    if (outcome.again) {
-      game.mayRoll = true; // same player: tap the die
-      game.busy = false;
-      renderTurn();
-      return;
-    }
-  }
-  await lookAtTheBoard();
-  nextTurn();
-}
-
-// A moment to see where everybody is before the next question: every token stands out.
-async function lookAtTheBoard() {
-  elements.tokens.dataset.look = "";
-  await wait(BOARD_LOOK_MS);
-  delete elements.tokens.dataset.look;
 }
 
 // A question of the player's level, from that level's deck (all the questions if the pack

@@ -4,12 +4,11 @@ import { music, sounds } from "../sounds.js";
 import { createAvatar, renderTokens, renderTurn } from "./board.js";
 import { showCard } from "./cards.js";
 import { shuffled, speak } from "./helpers.js";
-import { askTurnQuestion, rollAfterQuestion } from "./questions.js";
-import { playTurn } from "./race.js";
+import { askTurnQuestion } from "./questions.js";
 import { bringFromTheRocket } from "./rocket.js";
 import { chosenMode, exactFinish } from "./setup.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
-import { DRAW_SHOW_MS, DRAW_SHUFFLES, DRAW_SHUFFLE_MS, START_PAUSE_MS, TOKEN_CALL_MS, TURN_CALL_MS, TURN_PAUSE_MS, wait } from "./timing.js";
+import { DRAW_SHOW_MS, DRAW_SHUFFLES, DRAW_SHUFFLE_MS, START_PAUSE_MS, TOKEN_CALL_MS, TURN_CALL_MS, TURN_PAUSE_MS, TURN_START_MS, wait } from "./timing.js";
 
 export async function startGame(players) {
   music.start(); // after a tap ("¡A jugar!"), so the browser allows it
@@ -44,12 +43,20 @@ export async function startGame(players) {
   beginFirstTurn();
 }
 
-// The first turn, once who starts is decided: in "Sabelotodo", it begins with a question.
+// The first turn, once who starts is decided.
 function beginFirstTurn() {
   callToken();
   renderTurn();
+  beginTurn();
+}
+
+// The only thing the modes do differently: when the die is the player's. "Carrera": at once.
+// "Sabelotodo": after a right answer (askTurnQuestion). The roll is the same (roll.js).
+function beginTurn() {
   if (game.mode === "questions") {
     askTurnQuestion();
+  } else {
+    game.mayRoll = true;
   }
 }
 
@@ -89,20 +96,12 @@ function renderDraw(players, final) {
   );
 }
 
-export function tapDie() {
-  if (game.mode === "questions") {
-    rollAfterQuestion();
-  } else {
-    playTurn();
-  }
-}
-
 export async function nextTurn() {
   await passTurnTo((game.turn + 1) % game.players.length);
   if (currentPlayer().skipTurns > 0) {
     missTurn(); // in every mode: no die, and no question either
-  } else if (game.mode === "questions") {
-    askTurnQuestion();
+  } else {
+    beginTurn();
   }
 }
 
@@ -116,7 +115,7 @@ async function missTurn() {
   player.skipTurns -= 1;
   const square = player.skipSquare;
   const left = player.skipTurns > 0 ? ` Le queda ${player.skipTurns} ${player.skipTurns === 1 ? "turno" : "turnos"} más.` : "";
-  await wait(700); // a moment to see whose turn it is
+  await wait(TURN_START_MS);
   await showCard({
     kind: "bad",
     emoji: square.emoji,

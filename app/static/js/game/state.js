@@ -31,7 +31,7 @@ export const game = {
   players: [],
   turn: 0, // index in players
   busy: false, // a roll, a move or a card is in progress
-  mayRoll: false, // "Sabelotodo": the question was right, the die is the player's
+  mayRoll: false, // the die is the player's (in "Sabelotodo", once the question was right)
   paused: false, // ⏸: every wait stops (see wait) until "Seguir jugando"
   // What was chosen before playing (the setup):
   mode: "race", // "race" ("Carrera") or "questions" ("Sabelotodo": a question every turn)
