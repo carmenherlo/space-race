@@ -142,6 +142,12 @@
     <ol class="draw__players" id="draw-players"></ol>
   </dialog>
 
+  <!-- A new turn: whose it is, big, for a moment (js/game/turns.js, callTurn). -->
+  <dialog class="game-dialog turn-call" id="turn-call" data-in-game aria-labelledby="turn-call-title">
+    <span class="turn-call__avatar" id="turn-call-avatar"></span>
+    <h2 class="turn-call__title" id="turn-call-title"></h2>
+  </dialog>
+
   <!-- What happens on a square: something good or something bad. -->
   <dialog class="game-dialog card" id="card" data-in-game aria-labelledby="card-title">
     <span class="card__emoji" id="card-emoji" aria-hidden="true"></span>
@@ -183,6 +189,8 @@
       <button class="question__quiet" id="question-quiet" type="button" aria-label="Callar la voz" hidden>🤫</button>
     </div>
     <span class="question__topic" id="question-topic"></span>
+    <!-- Who answers: their avatar and name. -->
+    <span class="question__who" id="question-who"></span>
     <span class="question__emoji" id="question-emoji" aria-hidden="true"></span>
     <p class="question__text" id="question-text"></p>
     <div class="question__answers" id="question-answers"></div>

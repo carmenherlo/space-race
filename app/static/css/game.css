@@ -1112,6 +1112,28 @@ body.game[data-mode="questions"] .ranking {
   --avatar-size: clamp(4rem, calc(var(--screen-h) * 0.14), 6.4rem);
 }
 
+/* A new turn: whose it is, big, in their colour. */
+.turn-call[open] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-s);
+  border-top-color: var(--player-color, var(--game-lilac));
+  animation: card-in 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.turn-call .avatar {
+  --avatar-size: clamp(5rem, calc(var(--screen-h) * 0.22), 9rem);
+
+  box-shadow: 0 0 0 0.35rem var(--player-color, var(--game-lilac));
+}
+
+.turn-call__title {
+  margin: 0;
+  font-size: clamp(1.8rem, 1.2rem + 2vw, 3rem);
+  font-weight: 800;
+}
+
 /* Cards: the colour of the squares tells the kind (mint good, pink bad). */
 .card[data-kind="good"] {
   border-top-color: var(--game-mint);
@@ -1222,7 +1244,7 @@ body.game[data-mode="questions"] .ranking {
 /* Question (mode "Preguntas"): the question, four answers in a grid, then the result. */
 .question {
   width: min(94vw, 46rem);
-  border-top-color: #ffd166;
+  border-top-color: var(--player-color, #ffd166); /* the colour of who answers */
 }
 
 /* In the top corner: the level, and 🤫 to stop the voice. */
@@ -1269,6 +1291,24 @@ body.game[data-mode="questions"] .ranking {
 
 .question {
   position: relative;
+}
+
+/* Who answers: their avatar and name, in their colour. */
+.question__who {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-s);
+  align-self: center;
+  margin: var(--space-m) 0 var(--space-l);
+  padding: 0.2rem 0.9rem 0.2rem 0.2rem;
+  border: 0.25rem solid var(--player-color, var(--game-lilac));
+  border-radius: 999px;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.question__who .avatar {
+  --avatar-size: 2.6rem;
 }
 
 .question__emoji {
@@ -1419,7 +1459,7 @@ body.game[data-mode="questions"] .question[open] {
   padding: calc(3.5rem + var(--space-s) * 2) var(--space-m) var(--space-m); /* under ⏸ and 🔊 */
   overflow-y: auto;
   border-top: 0;
-  border-left: 12px solid #ffd166;
+  border-left: 12px solid var(--player-color, #ffd166);
   border-radius: 2rem 0 0 2rem;
   box-shadow: none;
 }
@@ -1464,7 +1504,7 @@ body.game[data-mode="questions"] .question__answers[data-kind="true-false"] .ans
     height: calc(var(--screen-h) - 100vw * 9 / 16 - 3.5rem - var(--space-s) * 2);
     padding-top: var(--space-m);
     border-left: 0;
-    border-top: 12px solid #ffd166;
+    border-top: 12px solid var(--player-color, #ffd166);
     border-radius: 2rem 2rem 0 0;
   }
 }

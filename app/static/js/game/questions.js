@@ -2,7 +2,7 @@
 
 import { LEVEL_NAMES, LEVEL_STARS, TOPIC_NAMES, TRUE_FALSE_LEVELS } from "../levels.js";
 import { sounds } from "../sounds.js";
-import { react, renderTurn } from "./board.js";
+import { createAvatar, react, renderTurn } from "./board.js";
 import { drawFrom, showBounce, showWinner } from "./cards.js";
 import { shuffled, speak } from "./helpers.js";
 import { moveBy, rollDie } from "./moves.js";
@@ -99,6 +99,11 @@ function askQuestion(question) {
   elements.questionLevel.textContent = LEVEL_STARS[question.level];
   elements.questionLevel.setAttribute("aria-label", `Nivel ${LEVEL_NAMES[question.level]}`);
   elements.questionTopic.textContent = TOPIC_NAMES[question.topic];
+  const player = currentPlayer();
+  const name = document.createElement("span");
+  name.textContent = player.name;
+  elements.question.style.setProperty("--player-color", player.color); // its border and who answers
+  elements.questionWho.replaceChildren(createAvatar(player), name);
   elements.questionEmoji.textContent = question.emoji;
   elements.questionText.textContent = question.text;
   // True or false: always "Verdadero", "Falso". The others: four answers, shuffled.

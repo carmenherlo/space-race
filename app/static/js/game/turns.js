@@ -9,7 +9,7 @@ import { playTurn } from "./race.js";
 import { bringFromTheRocket } from "./rocket.js";
 import { chosenMode, exactFinish } from "./setup.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
-import { DRAW_SHOW_MS, DRAW_SHUFFLES, DRAW_SHUFFLE_MS, START_PAUSE_MS, TOKEN_CALL_MS, TURN_PAUSE_MS, wait } from "./timing.js";
+import { DRAW_SHOW_MS, DRAW_SHUFFLES, DRAW_SHUFFLE_MS, START_PAUSE_MS, TOKEN_CALL_MS, TURN_CALL_MS, TURN_PAUSE_MS, wait } from "./timing.js";
 
 export async function startGame(players) {
   music.start(); // after a tap ("¡A jugar!"), so the browser allows it
@@ -136,11 +136,28 @@ async function passTurnTo(index) {
   await wait(TURN_PAUSE_MS);
   game.turn = index;
   await bringFromTheRocket(currentPlayer());
-  game.busy = false;
   delete elements.tokens.dataset.changing;
   callToken();
   renderTurn();
   delete elements.turn.dataset.changing;
+  await callTurn(currentPlayer());
+  game.busy = false;
+}
+
+// So nobody wonders whose turn it is: their avatar and "¡Te toca, …!", big, and the voice
+// says it. Playing alone, it is always yours: nothing to say.
+async function callTurn(player) {
+  if (game.players.length === 1) {
+    return;
+  }
+  elements.turnCall.style.setProperty("--player-color", player.color);
+  elements.turnCallAvatar.replaceChildren(createAvatar(player));
+  elements.turnCallTitle.textContent = `¡Te toca, ${player.name}!`;
+  sounds.hop();
+  speak(elements.turnCallTitle.textContent);
+  elements.turnCall.show();
+  await wait(TURN_CALL_MS);
+  elements.turnCall.close();
 }
 
 // The token of the player whose turn it is jumps twice, so everybody sees whose it is.
