@@ -4,6 +4,7 @@
 // Used by the game (js/game/squares.js, a square with "minigame") and its test page
 // (galaxia.html). Their look is in css/minigames.css.
 
+import { silvered } from "./moon.js";
 import { sounds } from "./sounds.js";
 
 export const MINIGAMES = [
@@ -29,7 +30,7 @@ export function playMinigame(host, avatar) {
   stage.className = "minigame__stage";
   stage.hidden = true;
   host.replaceChildren(choices, stage, message);
-  const say = (text) => (message.textContent = text);
+  const say = (text) => message.replaceChildren(...silvered(text));
   return new Promise((resolve) => {
     for (const game of MINIGAMES) {
       const button = document.createElement("button");
@@ -67,7 +68,7 @@ export async function flyToTheMoon(avatar) {
   const sky = document.createElement("div");
   sky.className = "voyage";
   const moon = document.createElement("span");
-  moon.className = "voyage__moon";
+  moon.className = "voyage__moon silver-moon";
   moon.textContent = "🌕";
   const traveller = document.createElement("span");
   traveller.className = "voyage__token";
@@ -256,7 +257,7 @@ function playWheel(stage, say) {
   slices.forEach((emoji, index) => {
     const slice = document.createElement("span");
     slice.className = "wheel__slice";
-    slice.textContent = emoji;
+    slice.replaceChildren(...silvered(emoji));
     slice.style.transform = `rotate(${index * 60 + 30}deg)`;
     wheel.append(slice);
   });
@@ -303,7 +304,7 @@ const LEAK_PER_SECOND = 1.5; // taps' worth of fuel lost each second
 function playRocket(stage, say) {
   say("¡Toca muy rápido para llenar el depósito!");
   const goal = document.createElement("span");
-  goal.className = "launch__moon";
+  goal.className = "launch__moon silver-moon";
   goal.textContent = "🌕";
   const tank = document.createElement("span");
   tank.className = "launch__tank";

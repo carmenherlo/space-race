@@ -1,6 +1,7 @@
 // "Sabelotodo": the levels, the questions, and the question that starts each turn.
 
 import { LEVEL_NAMES, LEVEL_STARS, TOPIC_NAMES, TRUE_FALSE_LEVELS } from "../levels.js";
+import { silvered } from "../moon.js";
 import { sounds } from "../sounds.js";
 import { createAvatar, react, renderTurn } from "./board.js";
 import { drawFrom } from "./cards.js";
@@ -58,7 +59,7 @@ function askQuestion(question) {
   name.textContent = player.name;
   elements.question.style.setProperty("--player-color", player.color); // its border and who answers
   elements.questionWho.replaceChildren(createAvatar(player), name);
-  elements.questionEmoji.textContent = question.emoji;
+  elements.questionEmoji.replaceChildren(...silvered(question.emoji));
   elements.questionText.textContent = question.text;
   // True or false: always "Verdadero", "Falso". The others: four answers, shuffled.
   const trueFalse = TRUE_FALSE_LEVELS.includes(question.level);

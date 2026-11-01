@@ -6,6 +6,7 @@
 import { flyStar, renderTokens } from "../js/game/board.js";
 import { travel } from "../js/game/moves.js";
 import { NEAR_MOON } from "../js/game/lights.js";
+import { silvered } from "../js/moon.js";
 import { loadPack } from "../js/game/pack.js";
 import { moveOthers } from "../js/game/squares.js";
 import { game, pack } from "../js/game/state.js";
@@ -41,7 +42,7 @@ async function start() {
   const near = document.createElement("button");
   near.type = "button";
   near.className = "galaxy__button";
-  near.textContent = `🌙 Cerca de la Luna (${pack.goal - NEAR_MOON}+)`;
+  near.replaceChildren(...silvered(`🌙 Cerca de la Luna (${pack.goal - NEAR_MOON}+)`));
   near.addEventListener("click", () => {
     game.players.forEach((player, index) => (player.place = pack.goal - NEAR_MOON + 2 * index));
     renderTokens();

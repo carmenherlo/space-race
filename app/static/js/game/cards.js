@@ -3,6 +3,7 @@
 
 import { celebrate } from "../celebrations.js";
 import { flyToTheMoon, playMinigame } from "../minigames.js";
+import { silvered } from "../moon.js";
 import { music, sounds } from "../sounds.js";
 import { createAvatar, placeName, react, renderTokens, renderTurn } from "./board.js";
 import { shuffled, speak } from "./helpers.js";
@@ -123,7 +124,7 @@ export function drawFrom(name, cards) {
 
 export function showCard(card) {
   elements.card.dataset.kind = card.kind;
-  elements.cardEmoji.textContent = card.emoji;
+  elements.cardEmoji.replaceChildren(...silvered(card.emoji));
   elements.cardTitle.textContent = card.title ?? CARD_TITLES[card.kind];
   elements.cardText.textContent = card.text;
   elements.cardOk.textContent = card.button ?? CARD_BUTTONS[card.kind];

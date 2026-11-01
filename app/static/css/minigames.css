@@ -136,11 +136,11 @@
 /* 🎡 The wheel: six slices, two of them the Moon; the arrow on top says where it stops,
    the button in the middle spins it (very fast at first, then slower and slower). */
 .wheel-box {
+  --wheel: max(13rem, calc(var(--screen-h) * 0.36)); /* its size: the emojis go with it */
+
   position: relative;
-  width: calc(var(--screen-h) * 0.36);
-  height: calc(var(--screen-h) * 0.36);
-  min-width: 13rem;
-  min-height: 13rem;
+  width: var(--wheel);
+  height: var(--wheel);
 }
 
 .wheel {
@@ -157,11 +157,12 @@
   position: absolute;
   top: 0;
   left: 50%;
-  width: 3rem;
+  width: calc(var(--wheel) * 0.2);
   height: 50%;
-  margin-left: -1.5rem;
-  padding-top: 0.6rem;
-  font-size: 2rem;
+  margin-left: calc(var(--wheel) * -0.1);
+  /* As big as the wheel allows, half way between the rim and the middle. */
+  font-size: calc(var(--wheel) * 0.12);
+  padding-top: calc(var(--wheel) * 0.14);
   transform-origin: 50% 100%;
 }
 
@@ -304,7 +305,8 @@
   right: 8%;
   font-size: clamp(8rem, calc(var(--screen-h) * 0.3), 16rem);
   line-height: 1;
-  filter: drop-shadow(0 0 2rem rgb(255 246 176 / 50%));
+  /* Silver like the board's Moon (as .silver-moon in base.css), glowing. */
+  filter: grayscale(1) brightness(0.95) contrast(1.4) drop-shadow(0 0 2rem rgb(215 230 255 / 50%));
 }
 
 .voyage[data-landed] .voyage__moon {
@@ -312,7 +314,7 @@
 }
 
 @keyframes voyage-glow {
-  to { transform: scale(1.1); filter: drop-shadow(0 0 4rem #fff6b0); }
+  to { transform: scale(1.1); filter: grayscale(1) brightness(0.95) contrast(1.4) drop-shadow(0 0 4rem #eef4ff); }
 }
 
 .voyage__token {

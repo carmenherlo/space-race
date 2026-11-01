@@ -4,6 +4,7 @@
 import { createAvatar } from "./board.js";
 import { KIDS_LEVELS, LEVELS, LEVEL_NAMES, LEVEL_STARS, TRUE_FALSE_LEVELS } from "../levels.js";
 import { OLD_LEVELS } from "./questions.js";
+import { silvered } from "../moon.js";
 import { loadProfiles, saveProfile } from "../profiles.js";
 import { elements, game, pack } from "./state.js";
 
@@ -256,11 +257,11 @@ function renderSummary() {
     : "🌕 Gana el primero que llega a la Luna.";
   const opening = game.chosen.length > 1 ? ["🎲 Primero, un sorteo decide el orden."] : [];
   if (mode === "questions") {
-    elements.setupSummary.textContent = [
+    elements.setupSummary.replaceChildren(...silvered([
       ...opening,
       "🧠 En tu turno, una pregunta de tu nivel: si aciertas, tiras el dado y haces lo que dice tu casilla; si fallas, te quedas donde estás.",
       moon,
-    ].join(" ");
+    ].join(" ")));
     return;
   }
   const parts = [...opening];
@@ -277,7 +278,7 @@ function renderSummary() {
     parts.push("⭐ La estrella comodín te libra de una casilla mala.");
   }
   parts.push(moon);
-  elements.setupSummary.textContent = parts.join(" ");
+  elements.setupSummary.replaceChildren(...silvered(parts.join(" ")));
 }
 
 // The exact finish: fixed by the chosen mode (or the game), or chosen with its switch.

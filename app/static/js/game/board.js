@@ -1,5 +1,6 @@
 // The board: the turn bar, the tokens on their places, the avatars.
 
+import { silvered } from "../moon.js";
 import { music, sounds } from "../sounds.js";
 import { nearTheMoon, showLights } from "./lights.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
@@ -150,7 +151,7 @@ function renderRanking() {
     position.textContent = `${ranked.findIndex((other) => other.place === player.place) + 1}º`;
     const place = document.createElement("span");
     place.className = "ranking__place";
-    place.textContent = player.place === 0 ? "🚀" : player.place === pack.goal ? "🌕" : String(player.place);
+    place.replaceChildren(...silvered(player.place === 0 ? "🚀" : player.place === pack.goal ? "🌕" : String(player.place)));
     item.append(position, createAvatar(player), place);
     item.setAttribute("aria-label", `${player.name}: ${placeName(player.place)}`);
     return item;
@@ -165,7 +166,7 @@ export function renderPlainBoard() {
     mark.className = "mark";
     mark.style.left = `${x}%`;
     mark.style.top = `${y}%`;
-    mark.textContent = place === 0 ? "🚀" : place === pack.goal ? "🌕" : String(place);
+    mark.replaceChildren(...silvered(place === 0 ? "🚀" : place === pack.goal ? "🌕" : String(place)));
     return mark;
   });
   elements.marks.replaceChildren(...marks);
