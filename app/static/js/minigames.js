@@ -46,6 +46,7 @@ export function playMinigame(host, avatar) {
       button.addEventListener("click", async () => {
         choices.hidden = true;
         stage.hidden = false;
+        stage.dataset.game = game.id; // its own size (minigames.css)
         say("");
         const won = await PLAY[game.id](stage, say, avatar);
         await wait(700);
@@ -163,7 +164,7 @@ function playComets(stage, say, avatar) {
 
     const spawn = (time) => {
       const comet = { lane: Math.floor(Math.random() * LANES), y: -15, element: document.createElement("span") };
-      comet.speed = time >= FAST_AT ? 65 : 40; // % of the stage per second
+      comet.speed = time >= FAST_AT ? 47 : 29; // % of the stage per second (it is taller: as fast as before, with more way to go)
       if (time >= SURPRISE_AT && Math.random() < 0.3) {
         comet.swerve = comet.lane === 0 ? 1 : comet.lane === LANES - 1 ? LANES - 2 : comet.lane + (Math.random() < 0.5 ? -1 : 1);
         comet.element.dataset.crazy = "";

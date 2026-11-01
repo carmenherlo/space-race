@@ -54,6 +54,11 @@
   background: rgb(255 255 255 / 6%);
 }
 
+/* The comets: a taller sky, so they come from further away and there is time to dodge. */
+.minigame__stage[data-game="comets"] {
+  height: calc(var(--screen-h) * 0.62);
+}
+
 .minigame__stage[hidden] {
   display: none;
 }
