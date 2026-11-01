@@ -4,7 +4,7 @@ import { sounds } from "../sounds.js";
 import { renderTokens } from "./board.js";
 import { lightTheSquare, lightTheTrail } from "./lights.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
-import { DIE_NUMBER_MS, DIE_ROLL_MS, FLIGHT_MS, STEP_MS, TRAIL_STEP_MS, NEBULA_MS, TELEPORT_MS, TRIP_FLIGHT_MS, TRIP_TARGET_MS, WORMHOLE_MS, animate, wait } from "./timing.js";
+import { DIE_NUMBER_MS, DIE_ROLL_MS, FLIGHT_MS, STEP_MS, TRAIL_STEP_MS, NEBULA_MS, TELEPORT_MS, TRIP_FLIGHT_MS, TRIP_TARGET_MS, WORMHOLE_MS, HOP_MS, animate, wait } from "./timing.js";
 
 // Two tokens fly to each other's place at the same time.
 export async function swapPlaces(player, other) {
@@ -73,6 +73,39 @@ function sparkle(x, y) {
   star.style.top = `${y}%`;
   elements.tokens.after(star);
   setTimeout(() => star.remove(), 1200);
+}
+
+// Several tokens jump `steps` squares at once (back for a negative number), one jump in an
+// arc per square, never before the start nor past the Moon (the solar storm: a jump is
+// easier to see than a step).
+export async function hopAll(players, steps) {
+  const LIFT = 7; // how high a jump goes, in % of the board's height
+  for (let left = Math.abs(steps); left > 0; left -= 1) {
+    const jumps = players
+      .map((player) => ({ player, to: player.place + Math.sign(steps) }))
+      .filter(({ to }) => to >= 0 && to <= pack.goal)
+      .map((jump) => ({ ...jump, token: elements.tokens.children[game.players.indexOf(jump.player)] }))
+      .filter(({ token }) => token);
+    if (jumps.length === 0) {
+      return;
+    }
+    for (const { token } of jumps) {
+      token.dataset.trip = "hop"; // moved by hand (see game.css)
+    }
+    sounds.hop();
+    await animate(HOP_MS, (t) => {
+      for (const { player, to, token } of jumps) {
+        const [x0, y0] = pack.places[player.place];
+        const [x1, y1] = pack.places[to];
+        put(token, [x0 + (x1 - x0) * t, y0 + (y1 - y0) * t - LIFT * 4 * t * (1 - t)]);
+        token.style.scale = String(1 + 0.3 * Math.sin(Math.PI * t));
+      }
+    });
+    for (const { player, to } of jumps) {
+      player.place = to;
+    }
+    renderTokens();
+  }
 }
 
 // A trip to another square (go_to). With a `trip`, first the square it goes to lights up,
@@ -162,14 +195,14 @@ const TRIPS = {
   // The nebula: a cloud covers the token, which blurs and fades away in it; then it comes
   // out of another cloud where it goes.
   async nebula(token, from, to) {
-    let cloud = mark("cloud", from, "🌫️");
+    let cloud = mark("cloud", from);
     await animate(NEBULA_MS, (t) => {
       token.style.filter = `blur(${t * 8}px)`;
       token.style.opacity = String(1 - t);
     });
     cloud.remove();
     put(token, to);
-    cloud = mark("cloud", to, "🌫️");
+    cloud = mark("cloud", to);
     await animate(NEBULA_MS, (t) => {
       token.style.filter = `blur(${(1 - t) * 8}px)`;
       token.style.opacity = String(t);
@@ -183,9 +216,9 @@ function put(token, [x, y]) {
   token.style.top = `${y}%`;
 }
 
-// Something on the board under the tokens (a swirl, a beam, a cloud), until it is removed.
-// Its look is in game.css (.board-mark[data-kind]).
-function mark(kind, [x, y], text = "") {
+// Something on the board under the tokens (a swirl, a beam, a cloud, a fire), until it is
+// removed. Its look is in game.css (.board-mark[data-kind]).
+export function mark(kind, [x, y], text = "") {
   const element = document.createElement("span");
   element.className = "board-mark";
   element.dataset.kind = kind;

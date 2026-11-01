@@ -419,15 +419,38 @@ body.game {
   from { opacity: 0; }
 }
 
-/* The nebula: a cloud over the square, swelling softly. */
+/* The nebula: a soft cloud of mist over the square (blurred, see-through), swelling. */
 .board-mark[data-kind="cloud"] {
-  font-size: calc(var(--token) * 1.8);
+  z-index: 3; /* over the token: it gets lost in it */
+  width: calc(var(--token) * 2.6);
+  height: calc(var(--token) * 1.8);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 55%, rgb(255 255 255 / 85%), transparent 45%),
+    radial-gradient(circle at 65% 40%, rgb(235 225 255 / 80%), transparent 50%),
+    radial-gradient(circle at 55% 70%, rgb(220 230 255 / 70%), transparent 50%);
+  filter: blur(calc(var(--token) * 0.12));
   animation: board-cloud 0.9s ease-in-out infinite alternate;
 }
 
 @keyframes board-cloud {
   from { transform: translate(-50%, -50%) scale(0.9); }
   to { transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* The solar storm: the squares of those it sends back burn, flickering. */
+.board-mark[data-kind="fire"] {
+  width: calc(var(--token) * 2);
+  height: calc(var(--token) * 2);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 245 170) 15%, rgb(255 150 0) 38%, rgb(235 50 0 / 90%) 55%, transparent 70%);
+  filter: blur(calc(var(--token) * 0.05)) drop-shadow(0 0 calc(var(--token) * 0.4) rgb(255 90 0));
+  animation: board-fire 0.18s ease-in-out infinite alternate;
+}
+
+@keyframes board-fire {
+  from { opacity: 0.75; transform: translate(-50%, -50%) scale(0.92, 1); }
+  to { opacity: 1; transform: translate(-50%, -55%) scale(1.05, 1.15); }
 }
 
 /* A wildcard star on its way to the token (flyStar in board.js), over everything. */
@@ -500,7 +523,8 @@ body.game {
   75% { transform: translateX(8%) rotate(6deg); }
 }
 
-/* The final stretch (NEAR_MOON in board.js): a glow in the player's colour, pulsing. */
+/* The final stretch (NEAR_MOON in board.js): a steady glow in the player's colour. It does
+   not beat: only whose turn it is beats (data-current), so nobody looks "active". */
 .token[data-near]::before {
   content: "";
   position: absolute;
@@ -509,13 +533,9 @@ body.game {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  box-shadow: 0 0 calc(var(--token) * 0.5) calc(var(--token) * 0.15) var(--player-color);
-  animation: token-near 1s ease-in-out infinite alternate;
-}
-
-@keyframes token-near {
-  from { opacity: 0.35; transform: scale(1); }
-  to { opacity: 1; transform: scale(1.25); }
+  box-shadow:
+    0 0 0 calc(var(--token) * 0.1) var(--player-color),
+    0 0 calc(var(--token) * 0.6) calc(var(--token) * 0.25) var(--player-color);
 }
 
 /* Wildcard stars (Space Race Expanded): a little badge on the token. */

@@ -2,7 +2,7 @@
 
 import { flyStar, react, renderTurn, shine } from "./board.js";
 import { chooseSwap, offerStar, playMinigameFor, showCard } from "./cards.js";
-import { followTrail, jumpTo, moveBy, rollDie, swapPlaces, travel } from "./moves.js";
+import { followTrail, hopAll, jumpTo, mark, moveBy, rollDie, swapPlaces, travel } from "./moves.js";
 import { game, pack } from "./state.js";
 import { LAND_PAUSE_MS, wait } from "./timing.js";
 
@@ -56,11 +56,7 @@ export async function landOn(player) {
     player.skipSquare = square;
   }
   if (square.othersMove) {
-    // Everybody it moves trembles (or hops) at once, then they all move together. Not a die
-    // landing: their squares do nothing.
-    const moved = game.players.filter((other) => other !== player && !other.inRocket);
-    await Promise.all(moved.map((other) => react(other, square.othersMove < 0 ? "bad" : "good")));
-    await Promise.all(moved.map((other) => moveBy(other, square.othersMove)));
+    await moveOthers(player, square.othersMove);
   }
   if (square.minigame) {
     if (await playMinigameFor(player)) {
@@ -79,4 +75,16 @@ export async function landOn(player) {
     }
   }
   return outcome;
+}
+
+// The solar storm: everybody but `player` at once. Their squares burn while their tokens
+// shake (back) or hop (forward), then they all jump there together. Not a die landing:
+// their squares do nothing.
+export async function moveOthers(player, steps) {
+  const moved = game.players.filter((other) => other !== player && !other.inRocket);
+  const back = steps < 0;
+  const fires = back ? moved.map((other) => mark("fire", pack.places[other.place])) : [];
+  await Promise.all(moved.map((other) => react(other, back ? "bad" : "good")));
+  fires.forEach((fire) => fire.remove());
+  await hopAll(moved, steps);
 }

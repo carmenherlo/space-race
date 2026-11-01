@@ -15,6 +15,7 @@ export const TRIP_FLIGHT_MS = 1600; // …then the flight there, in an arc
 export const WORMHOLE_MS = 900; // a trip "wormhole": into the swirl, and the same out of the other one
 export const TELEPORT_MS = 900; // a trip "teleport": up the beam, and the same down the other one
 export const NEBULA_MS = 900; // a trip "nebula": lost in the cloud, and the same out of the other one
+export const HOP_MS = 550; // the solar storm: each jump of the tokens it moves
 export const STAR_MS = 1300; // a wildcard star flies to the token that gets it
 export const LAND_PAUSE_MS = 900; // the token rests on its square before a card shows, to see where
 export const START_PAUSE_MS = 1500; // the board alone for a moment before the first turn
