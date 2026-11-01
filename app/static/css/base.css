@@ -184,3 +184,8 @@ body > .status {
   display: inline-block;
   filter: grayscale(1) brightness(0.95) contrast(1.4) drop-shadow(0 0 0.1em rgb(215 230 255 / 70%));
 }
+
+/* On a light card it needs an edge: a soft grey shadow around it instead of the glow. */
+.game-dialog:not(.minigame) .silver-moon {
+  filter: grayscale(1) brightness(0.95) contrast(1.4) drop-shadow(0 0 0.06em rgb(40 50 80 / 80%)) drop-shadow(0 0.04em 0.1em rgb(40 50 80 / 45%));
+}
