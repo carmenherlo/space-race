@@ -523,8 +523,9 @@ body.game {
   75% { transform: translateX(8%) rotate(6deg); }
 }
 
-/* The final stretch (NEAR_MOON in board.js): a steady glow in the player's colour. It does
-   not beat: only whose turn it is beats (data-current), so nobody looks "active". */
+/* The final stretch (NEAR_MOON in board.js): a ring in the player's colour and a steady white
+   glow, like the Moon's. It does not beat: only whose turn it is beats (data-current), so
+   nobody looks "active". */
 .token[data-near]::before {
   content: "";
   position: absolute;
@@ -535,7 +536,9 @@ body.game {
   border-radius: 50%;
   box-shadow:
     0 0 0 calc(var(--token) * 0.1) var(--player-color),
-    0 0 calc(var(--token) * 0.6) calc(var(--token) * 0.25) var(--player-color);
+    0 0 calc(var(--token) * 0.6) calc(var(--token) * 0.25) rgb(255 255 255 / 90%); /* white, like the Moon */
+  /* And a still light from the middle, behind the avatar: it glows from inside too. */
+  background: radial-gradient(closest-side, rgb(255 255 255 / 95%), rgb(255 255 255 / 55%) 55%, rgb(255 255 255 / 15%));
 }
 
 /* Wildcard stars (Space Race Expanded): a little badge on the token. */
@@ -571,6 +574,11 @@ body.game {
   background: radial-gradient(closest-side, var(--player-color) 55%, transparent);
   animation: token-pulse 1.1s ease-in-out infinite alternate;
   transition: scale 0.4s ease-in-out; /* grows with a shining token */
+}
+
+/* Near the Moon and its turn: only the turn's halo (the Moon's ring would ring it twice). */
+.token[data-current][data-near]::before {
+  box-shadow: none;
 }
 
 /* While the token shines, its pulse grows with it (scale, apart from the beat's transform). */
