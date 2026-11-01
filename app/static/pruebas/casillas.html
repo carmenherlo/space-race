@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Efectos de las casillas</title>
+  <!-- A test page (in the menu, under "Pruebas"): each special square's effect, with the
+       game's own engine (js/game/), without playing. Its paths start at the app's root, like
+       game.html's, so the engine finds api/ and its pictures. -->
+  <base href="../">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/game.css">
+  <link rel="stylesheet" href="pruebas/pruebas.css">
+  <link rel="stylesheet" href="pruebas/casillas.css">
+  <script type="module" src="pruebas/casillas.js"></script>
+</head>
+<body class="game">
+  <a class="close-x galaxy__close" href="games.html" aria-label="Salir">✕</a>
+  <!-- The same board as game.html: what the engine draws on. -->
+  <main class="board-game" id="board">
+    <img class="board-game__image" id="board-image" alt="" decoding="async" hidden>
+    <div class="board-game__marks" id="marks" aria-hidden="true"></div>
+    <div class="board-game__lights" id="lights" aria-hidden="true"></div>
+    <div class="board-game__tokens" id="tokens"></div>
+    <span class="board-game__number" id="die-number" aria-hidden="true" hidden></span>
+  </main>
+  <ol class="ranking" id="ranking" hidden></ol>
+  <!-- What the engine needs from game.html: where it writes the title; "playing" (the
+       turn bar showing) lights the square of whose turn it is. -->
+  <span id="setup-title" hidden></span>
+  <span id="turn"></span>
+  <!-- The board, and one button per special square with an effect. -->
+  <nav class="effects" aria-label="Efectos">
+    <div class="effects__boards">
+      <a class="galaxy__button" href="pruebas/casillas.html?game=space-race">Tablero corto</a>
+      <a class="galaxy__button" href="pruebas/casillas.html?game=space-race-expanded">Tablero largo</a>
+    </div>
+    <div class="effects__squares" id="effects"></div>
+  </nav>
+</body>
+</html>

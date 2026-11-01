@@ -1,0 +1,30 @@
+/* Each special square's effect (casillas.html): the game's board, and the buttons at the
+   bottom, over it. */
+
+.effects {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-s);
+  padding: var(--space-s);
+  background: rgb(7 10 28 / 75%);
+}
+
+.effects__boards,
+.effects__squares {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-s);
+}
+
+.effects .galaxy__button {
+  min-height: 2.4rem;
+  padding: 0.3rem 1rem;
+  font-size: 0.95rem;
+}
