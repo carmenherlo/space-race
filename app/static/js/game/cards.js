@@ -55,16 +55,6 @@ export function setUpCards() {
 const CARD_TITLES = { good: "¡Qué suerte!", bad: "¡Oh, no!" };
 const CARD_BUTTONS = { good: "¡Bien!", bad: "Vale…" };
 
-export function showBounce(bounced, player) {
-  react(player, "bad");
-  return showCard({
-    kind: "bad",
-    emoji: "🌕",
-    title: "¡Rebote lunar!",
-    text: `¡Casi! Te has pasado de la Luna y rebotas ${bounced} ${bounced === 1 ? "casilla" : "casillas"} hacia atrás. Hay que llegar con el número justo.`,
-  });
-}
-
 // The last galaxy: the player chooses a minigame and plays it; won, the trip to the Moon on
 // the whole screen. Resolves to true if they won (the token is not moved here).
 export async function playMinigameFor(player) {
