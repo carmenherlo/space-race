@@ -30,6 +30,7 @@ export const TURN_START_MS = 700; // a new turn: a moment to see whose it is, be
 export const TURN_CALL_MS = 1800; // a new turn: "¡Te toca, …!", big, before anything else
 export const TOKEN_CALL_MS = 1000; // a new turn: that player's token jumps (keep in sync with game.css)
 export const TRAIL_STEP_MS = 380; // along the star trail to the Moon, from one point to the next (game.css)
+export const MINIGAME_WON_MS = 1500; // the last galaxy's minigame won: "¡Directo a la Luna!", before the trip
 export const MOON_ARRIVAL_MS = 1800; // the winner's token on the Moon, hopping for joy, before the celebration
 export const RIGHT_ANSWER_MS = 2000; // "Sabelotodo", right: the card closes by itself after this…
 export const READ_CHAR_MS = 70; // …and this for each letter of "¡Correcto!" and its note (time to read or hear it)

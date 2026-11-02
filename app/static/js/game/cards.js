@@ -12,7 +12,7 @@ import { elementsOf } from "./dom.js";
 import { placeName } from "./rules.js";
 import { game, pack } from "./state.js";
 import { moonShines } from "./lights.js";
-import { MOON_ARRIVAL_MS, wait } from "./timing.js";
+import { MINIGAME_WON_MS, MOON_ARRIVAL_MS, wait } from "./timing.js";
 import { renderTurn } from "./turn-bar.js";
 
 const dom = elementsOf({
@@ -55,20 +55,24 @@ export function setUpCards() {
 const CARD_TITLES = { good: "¡Qué suerte!", bad: "¡Oh, no!" };
 const CARD_BUTTONS = { good: "¡Bien!", bad: "Vale…" };
 
-// The last galaxy: the player chooses a minigame and plays it; won, the trip to the Moon on
-// the whole screen. Resolves to true if they won (the token is not moved here).
+// The last galaxy: the player chooses a minigame and plays it. Won: a moment to read it,
+// then the trip to the Moon on the whole screen, all by itself. Lost: "Vale…". Resolves to
+// true if they won (the token is not moved here).
 export async function playMinigameFor(player) {
   dom.minigameNext.hidden = true;
   dom.minigame.show();
   const won = await playMinigame(dom.minigameHost, createAvatar(player));
-  dom.minigameNext.textContent = won ? "¡A la Luna!" : "Vale…";
+  if (won) {
+    await wait(MINIGAME_WON_MS);
+    dom.minigame.close();
+    await flyToTheMoon(createAvatar(player));
+    return true;
+  }
+  dom.minigameNext.textContent = "Vale…";
   dom.minigameNext.hidden = false;
   await new Promise((resolve) => dom.minigameNext.addEventListener("click", resolve, { once: true }));
   dom.minigame.close();
-  if (won) {
-    await flyToTheMoon(createAvatar(player));
-  }
-  return won;
+  return false;
 }
 
 // A player with a wildcard star landed on a square it saves them from: they choose.

@@ -21,7 +21,6 @@ const PRIMARY = [
   ".minigame__choice", // the minigames (js/minigames.js)…
   ".wheel__spin",
   ".launch__pad",
-  ".voyage__ok", // …and the trip to the Moon
   ".galaxy__button", // "Otra vez" on the minigames test page
   "#die",
 ];

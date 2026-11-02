@@ -15,6 +15,7 @@ export const MINIGAMES = [
 const PLAY = { comets: playComets, wheel: playWheel, rocket: playRocket };
 
 const VOYAGE_MS = 2400; // as long as the flight in minigames.css (voyage-fly)
+const VOYAGE_LANDED_MS = 2500; // on the Moon, with its title, before going back to the board
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // In `host` (an empty box): the three minigames to choose from, then the chosen one. The
@@ -63,7 +64,7 @@ export function playMinigame(host, avatar) {
 }
 
 // The trip to the Moon, on the whole screen: the avatar flies in a curve, leaving sparkles,
-// and lands on a big Moon, with a fanfare. Resolves when the player taps "¡Bien!".
+// and lands on a big Moon, with a fanfare. Resolves by itself a moment after landing.
 export async function flyToTheMoon(avatar) {
   const sky = document.createElement("div");
   sky.className = "voyage";
@@ -76,12 +77,7 @@ export async function flyToTheMoon(avatar) {
   const title = document.createElement("p");
   title.className = "voyage__title";
   title.textContent = "¡Directo a la Luna!";
-  const ok = document.createElement("button");
-  ok.type = "button";
-  ok.className = "voyage__ok";
-  ok.textContent = "¡Bien!";
-  ok.hidden = true;
-  sky.append(moon, traveller, title, ok);
+  sky.append(moon, traveller, title);
   document.body.append(sky);
 
   // From where the token starts to the middle of the Moon.
@@ -99,9 +95,7 @@ export async function flyToTheMoon(avatar) {
   clearInterval(sparkles);
   sky.dataset.landed = "";
   sounds.win();
-  await wait(1200);
-  ok.hidden = false;
-  await new Promise((resolve) => ok.addEventListener("click", resolve, { once: true }));
+  await wait(VOYAGE_LANDED_MS);
   sky.remove();
 }
 
