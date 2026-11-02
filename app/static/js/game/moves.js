@@ -5,6 +5,7 @@ import { fly, hop, nebula, teleport, wormhole } from "../effects/trips.js";
 import { sounds } from "../sounds.js";
 import { BOARD_ASPECT, markTokens, over, renderTokens, showRolled, tokenOf, under } from "./board.js";
 import { lightTheSquare, lightTheTrail } from "./lights.js";
+import { walk } from "./rules.js";
 import { currentPlayer, game, pack } from "./state.js";
 import { allowRoll, rollingDie, showDieFace } from "./turn-bar.js";
 import { DIE_NUMBER_MS, DIE_ROLL_MS, FLIGHT_MS, STEP_MS, TRAIL_STEP_MS, NEBULA_MS, TELEPORT_MS, TRIP_FLIGHT_MS, TRIP_TARGET_MS, WORMHOLE_MS, HOP_MS, clock, wait } from "./timing.js";
@@ -141,25 +142,14 @@ export async function jumpTo(player, place) {
 
 // Moves a token one square at a time (backwards for a negative number), never before
 // the start. At the Moon it stops, or, with the exact finish, it bounces back what is
-// left (like the Game of the Goose). Returns how many squares it bounced back (0 if none).
+// left (see walk in rules.js). Returns how many squares it bounced back (0 if none).
 export async function moveBy(player, steps) {
-  let direction = Math.sign(steps);
-  let bounced = 0;
-  for (let left = Math.abs(steps); left > 0; left -= 1) {
-    if (direction > 0 && player.place === pack.goal) {
-      if (!game.exactFinish) {
-        break;
-      }
-      direction = -1;
+  const { path, bounced } = walk(player.place, steps, pack.goal, game.exactFinish);
+  for (const { place, bounce } of path) {
+    if (bounce) {
       sounds.bounce();
     }
-    if (direction < 0 && player.place === 0) {
-      break;
-    }
-    player.place += direction;
-    if (direction < 0 && steps > 0) {
-      bounced += 1;
-    }
+    player.place = place;
     sounds.hop();
     renderTokens();
     await wait(STEP_MS);

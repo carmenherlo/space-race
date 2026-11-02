@@ -12,11 +12,11 @@
 
 import { elementsOf } from "./dom.js";
 import { currentPlayer, game, pack } from "./state.js";
+import { NEAR_MOON, isNearTheMoon } from "./rules.js";
 import { MOON_SHINE_MS, wait } from "./timing.js";
 
 const dom = elementsOf({ lights: "lights" });
 
-export const NEAR_MOON = 6; // squares: the Moon glows, the token glows, the music speeds up
 const MOON_PARTS = ["moon", "moon_sign", "moon_flags", "moon_stars"];
 
 const lights = {}; // part of the board (title, start, trail, moon…) → its light
@@ -45,10 +45,6 @@ export async function setUpLights(content) {
   }
 }
 
-export function nearTheMoon(player) {
-  return player.place > 0 && pack.goal - player.place <= NEAR_MOON;
-}
-
 // After every move: the lights that depend on where the tokens are.
 export function showLights() {
   const player = currentPlayer();
@@ -57,7 +53,7 @@ export function showLights() {
   lights.title?.toggleAttribute("data-on", true);
   lights.start?.toggleAttribute("data-on", playing && player?.place === 0);
   // The closest of everybody: the Moon glows more the closer (a glimmer six squares away).
-  const away = Math.min(...game.players.filter(nearTheMoon).map((one) => pack.goal - one.place));
+  const away = Math.min(...game.players.filter((one) => isNearTheMoon(one.place, pack.goal)).map((one) => pack.goal - one.place));
   const near = Number.isFinite(away);
   lights.moon?.toggleAttribute("data-near", near);
   lights.moon?.style.setProperty("--near", near ? String(Math.min(1, 0.25 + (0.6 * (NEAR_MOON - away)) / (NEAR_MOON - 1))) : "0");

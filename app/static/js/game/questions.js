@@ -5,8 +5,8 @@ import { silvered } from "../moon.js";
 import { sounds } from "../sounds.js";
 import { quiet } from "../voice.js";
 import { createAvatar, react } from "./board.js";
-import { drawFrom } from "./cards.js";
-import { shuffled, speak } from "./helpers.js";
+import { speak } from "./helpers.js";
+import { drawFrom, questionDeck, shuffled } from "./rules.js";
 import { elementsOf } from "./dom.js";
 import { currentPlayer, game, pack } from "./state.js";
 import { READ_CHAR_MS, RIGHT_ANSWER_MS, TURN_START_MS, wait } from "./timing.js";
@@ -67,10 +67,8 @@ export async function askTurnQuestion() {
 // A question of the player's level, from that level's deck (all the questions if the pack
 // has none of that level).
 function drawQuestion(level) {
-  const ofLevel = pack.questions.filter((question) => question.level === level);
-  return ofLevel.length
-    ? drawFrom(`questions-${level}`, ofLevel)
-    : drawFrom("questions-any", pack.questions);
+  const { name, cards } = questionDeck(pack.questions, level);
+  return drawFrom(game.decks, name, cards);
 }
 
 // A question with its four answers in a new order each time. The player taps one; the game

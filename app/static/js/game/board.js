@@ -4,7 +4,8 @@ import { shine as shineOn, react as reactOn } from "../effects/pieces.js";
 import { send } from "../effects/trips.js";
 import { silvered } from "../moon.js";
 import { music, sounds } from "../sounds.js";
-import { nearTheMoon, showLights } from "./lights.js";
+import { showLights } from "./lights.js";
+import { isNearTheMoon, placeName, ranking } from "./rules.js";
 import { elementsOf } from "./dom.js";
 import { currentPlayer, game, pack } from "./state.js";
 import { MOOD_MS, SHINE_MS, STAR_MS, clock } from "./timing.js";
@@ -108,7 +109,7 @@ export function renderTokens({ flying = [] } = {}) {
     if (player === currentPlayer() && !game.players.some((p) => p.place === pack.goal)) {
       token.dataset.fxHalo = ""; // whose turn it is (states.css)
     }
-    if (nearTheMoon(player)) {
+    if (isNearTheMoon(player.place, pack.goal)) {
       token.dataset.fxAura = ""; // near the Moon (states.css)
     }
     const body = createAvatar(player);
@@ -121,13 +122,13 @@ export function renderTokens({ flying = [] } = {}) {
       token.append(badge);
     }
     const stars = player.stars > 0 ? `, ${player.stars} ⭐` : "";
-    token.setAttribute("aria-label", `${player.name}: ${placeName(player.place)}${stars}`);
+    token.setAttribute("aria-label", `${player.name}: ${placeName(player.place, pack.goal)}${stars}`);
     return token;
   });
   dom.tokens.replaceChildren(...tokens);
   renderRanking();
   showLights();
-  music.tense(game.players.some(nearTheMoon));
+  music.tense(game.players.some((player) => isNearTheMoon(player.place, pack.goal)));
 }
 
 // The token of a player shines for a moment (landing on a galaxy): see shine in
@@ -159,8 +160,7 @@ export async function react(player, mood) {
 // Everybody in order, from the furthest on: their position (a tie shares it), avatar and
 // square. The player whose turn it is stands out.
 function renderRanking() {
-  const ranked = [...game.players].sort((a, b) => b.place - a.place); // a tie keeps the turn order
-  const items = ranked.map((player) => {
+  const items = ranking(game.players).map(({ player, position: number }) => {
     const item = document.createElement("li");
     item.className = "ranking__player";
     item.style.setProperty("--player-color", player.color);
@@ -169,12 +169,12 @@ function renderRanking() {
     }
     const position = document.createElement("span");
     position.className = "ranking__position";
-    position.textContent = `${ranked.findIndex((other) => other.place === player.place) + 1}º`;
+    position.textContent = `${number}º`;
     const place = document.createElement("span");
     place.className = "ranking__place";
     place.replaceChildren(...silvered(player.place === 0 ? "🚀" : player.place === pack.goal ? "🌕" : String(player.place)));
     item.append(position, createAvatar(player), place);
-    item.setAttribute("aria-label", `${player.name}: ${placeName(player.place)}`);
+    item.setAttribute("aria-label", `${player.name}: ${placeName(player.place, pack.goal)}`);
     return item;
   });
   dom.ranking.replaceChildren(...items);
@@ -204,10 +204,6 @@ export function sizeTokens() {
   const usual = steps[Math.floor(steps.length / 2)];
   const size = Math.min(TOKEN_MAX, usual * TOKEN_SHARE);
   dom.board.style.setProperty("--token", `calc(var(--board-width) * ${(size / 100).toFixed(4)})`);
-}
-
-export function placeName(place) {
-  return place === 0 ? "en la salida" : place === pack.goal ? "en la Luna" : `casilla ${place}`;
 }
 
 // A player's avatar picture, or their initial (or emoji) on their colour.

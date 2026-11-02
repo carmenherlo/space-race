@@ -3,9 +3,10 @@
 import { music, sounds } from "../sounds.js";
 import { createAvatar, markTokens, renderTokens, showRanking } from "./board.js";
 import { showCard } from "./cards.js";
-import { shuffled, speak } from "./helpers.js";
+import { speak } from "./helpers.js";
 import { askTurnQuestion } from "./questions.js";
 import { bringFromTheRocket } from "./rocket.js";
+import { shuffled } from "./rules.js";
 import { chosenMode, closeSetup, exactFinish } from "./setup.js";
 import { elementsOf } from "./dom.js";
 import { currentPlayer, game, pack } from "./state.js";

@@ -5,7 +5,7 @@
 
 import { flyStar, renderTokens } from "../js/game/board.js";
 import { travel } from "../js/game/moves.js";
-import { NEAR_MOON } from "../js/game/lights.js";
+import { NEAR_MOON } from "../js/game/rules.js";
 import { silvered } from "../js/moon.js";
 import { loadPack } from "../js/game/pack.js";
 import { moveOthers } from "../js/game/squares.js";

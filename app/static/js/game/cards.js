@@ -6,10 +6,11 @@ import { flyToTheMoon, playMinigame } from "../minigames.js";
 import { silvered } from "../moon.js";
 import { music, sounds } from "../sounds.js";
 import { quiet } from "../voice.js";
-import { createAvatar, placeName, react, renderTokens } from "./board.js";
-import { shuffled, speak } from "./helpers.js";
+import { createAvatar, react, renderTokens } from "./board.js";
+import { speak } from "./helpers.js";
 import { elementsOf } from "./dom.js";
-import { game } from "./state.js";
+import { placeName } from "./rules.js";
+import { game, pack } from "./state.js";
 import { moonShines } from "./lights.js";
 import { MOON_ARRIVAL_MS, wait } from "./timing.js";
 import { renderTurn, showTurnBar } from "./turn-bar.js";
@@ -124,7 +125,7 @@ export function chooseSwap(player, square, others) {
     name.textContent = other.name;
     const place = document.createElement("span");
     place.className = "swap__place";
-    place.textContent = placeName(other.place);
+    place.textContent = placeName(other.place, pack.goal);
     button.append(createAvatar(other), name, place);
     button.addEventListener("click", () => {
       dom.swap.returnValue = other.id;
@@ -144,22 +145,6 @@ export function chooseSwap(player, square, others) {
       { once: true },
     );
   });
-}
-
-// The next card of a deck everybody shares (the questions of a level): none repeats
-// until all have come out. An empty deck is shuffled again, never starting with the card
-// that just came out.
-export function drawFrom(name, cards) {
-  game.decks[name] = game.decks[name] ?? { cards: [], last: null };
-  const deck = game.decks[name];
-  if (deck.cards.length === 0) {
-    deck.cards = shuffled(cards);
-    if (deck.cards.length > 1 && deck.cards[0] === deck.last) {
-      deck.cards.push(deck.cards.shift());
-    }
-  }
-  deck.last = deck.cards.shift();
-  return deck.last;
 }
 
 export function showCard(card) {
