@@ -7,13 +7,16 @@
 // many play, their avatars, names and levels, the mode) is remembered on this device.
 //
 // This file only starts the page. The engine is in game/, one module per part:
-//   state.js     the shared state: pack (the game), game (what is going on), elements
+//   state.js     the shared data: pack (the game), game (what is going on)
 //   pack.js      loading the game pack        setup.js   before playing: players, mode
 //   turns.js     start, turn order, next turn roll.js    a roll, the same in every mode
 //   questions.js "Sabelotodo": its questions  squares.js what the special squares do
 //   moves.js     the die and the tokens       cards.js   cards, star, satellite, winner
-//   board.js     drawing the board            pause.js   ⏸, restart, menu, idle timer
-//   timing.js    how long things take (keep)  helpers.js voice, shuffle, status
+//   board.js     drawing the board            turn-bar.js whose turn it is, the die
+//   lights.js    the board's lights           rocket.js  the rocket of the start
+//   pause.js     ⏸, restart, menu, idle timer timing.js  how long things take (keep)
+//   helpers.js   voice, shuffle, status       dom.js     finding a part's elements
+// Each part of the screen finds only its own elements (dom.js) and sets up its own buttons.
 // What each game is made of comes from its folder (content/games/<id>/game.yaml, served by
 // api/games/<id>, checked by app/game.py): the board picture, where the places are, what
 // happens on the special squares, its rules and cards. The game comes in the address
@@ -23,49 +26,27 @@ import { setUpFullscreen } from "./fullscreen.js";
 import { setUpSoundPanel } from "./sound-panel.js";
 import { music } from "./sounds.js";
 import { quiet } from "./voice.js";
+import { setUpCards } from "./game/cards.js";
+import { elementsOf } from "./game/dom.js";
 import { showStatus } from "./game/helpers.js";
 import { loadPack } from "./game/pack.js";
-import { backToMenu, pauseGame, restartGame, restartIdleTimer, resumeGame } from "./game/pause.js";
-import { chosenPlayers, loadSetup, loadSharedProfiles, selectMode, setUpRules, showLevelsInfo, showSetup, toggleOption } from "./game/setup.js";
-import { GAME_ID, elements, game, pack } from "./game/state.js";
+import { restartIdleTimer, setUpPause } from "./game/pause.js";
+import { setUpQuestions } from "./game/questions.js";
+import { chosenPlayers, loadSetup, loadSharedProfiles, setUpRules, setUpSetupScreen, showSetup } from "./game/setup.js";
+import { GAME_ID, game, pack } from "./game/state.js";
 import { roll } from "./game/roll.js";
+import { setUpTurnBar } from "./game/turn-bar.js";
 import { startGame } from "./game/turns.js";
 
-async function init() {
-  elements.die.addEventListener("click", roll);
-  elements.start.addEventListener("click", () => startGame(chosenPlayers()));
-  for (const option of elements.options) {
-    option.addEventListener("click", () => toggleOption(option));
-  }
-  for (const mode of elements.modes) {
-    mode.addEventListener("click", () => selectMode(mode));
-  }
-  elements.levelsInfoOpen.addEventListener("click", showLevelsInfo);
-  elements.levelsInfoClose.addEventListener("click", () => elements.levelsInfo.close());
-  elements.questionNext.addEventListener("click", () => elements.question.close());
-  elements.questionQuiet.addEventListener("click", quiet);
-  elements.cardOk.addEventListener("click", () => elements.card.close());
-  elements.starUse.addEventListener("click", () => elements.starOffer.close("use"));
-  elements.starKeep.addEventListener("click", () => elements.starOffer.close("keep"));
-  elements.swapNone.addEventListener("click", () => elements.swap.close(""));
-  elements.pauseButton.addEventListener("click", pauseGame);
-  elements.pauseResume.addEventListener("click", resumeGame);
-  elements.pauseRestart.addEventListener("click", restartGame);
-  elements.pauseMenu.addEventListener("click", backToMenu);
-  elements.pause.addEventListener("cancel", (event) => {
-    event.preventDefault();
-    resumeGame(); // Escape: go on playing
-  });
-  // The voice stops with its card, and when leaving the page.
-  for (const dialog of [elements.card, elements.question, elements.starOffer, elements.swap]) {
-    dialog.addEventListener("close", quiet);
-  }
-  window.addEventListener("pagehide", quiet);
+const dom = elementsOf({ sound: "sound", soundPanel: "sound-panel", fullscreen: "fullscreen" });
 
-  // The setup and the cards wait for their button: Escape does not skip them.
-  for (const dialog of [elements.setup, elements.card, elements.question, elements.starOffer, elements.swap]) {
-    dialog.addEventListener("cancel", (event) => event.preventDefault());
-  }
+async function init() {
+  setUpTurnBar({ onRoll: roll });
+  setUpSetupScreen({ onStart: startGame });
+  setUpQuestions();
+  setUpCards();
+  setUpPause();
+  window.addEventListener("pagehide", quiet); // the voice stops when leaving the page
   // The music from the menu on. Browsers allow sound only after a tap: some count the tap
   // that chose the game (it plays now); others wait for the first tap on this page.
   music.start();
@@ -86,9 +67,8 @@ async function init() {
     return;
   }
   // 🔊: music, effects and, in a game with a voice, the voice (see sound-panel.js).
-  setUpSoundPanel(elements.sound, elements.soundPanel, { voice: pack.voice });
-  elements.questionQuiet.hidden = !pack.voice;
-  setUpFullscreen(elements.fullscreen);
+  setUpSoundPanel(dom.sound, dom.soundPanel, { voice: pack.voice });
+  setUpFullscreen(dom.fullscreen);
 
   try {
     const response = await fetch("api/avatars", { cache: "no-store" });

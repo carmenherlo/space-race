@@ -6,7 +6,26 @@ import { KIDS_LEVELS, LEVELS, LEVEL_NAMES, LEVEL_STARS, TRUE_FALSE_LEVELS } from
 import { OLD_LEVELS } from "./questions.js";
 import { silvered } from "../moon.js";
 import { loadProfiles, saveProfile } from "../profiles.js";
-import { elements, game, pack } from "./state.js";
+import { elementsOf } from "./dom.js";
+import { game, pack } from "./state.js";
+
+const dom = elementsOf({
+  setup: "setup",
+  setupTitle: "setup-title",
+  setupChoices: "setup-choices",
+  setupPlayers: "setup-players",
+  setupSummary: "setup-summary",
+  start: "start",
+  options: () => document.querySelectorAll("[data-option]"),
+  modes: () => document.querySelectorAll("[data-mode]"),
+  modeSection: "setup-mode",
+  exactOption: () => document.querySelector('[data-option="exactFinish"]'),
+  levelsInfo: "levels-info",
+  levelsInfoOpen: "levels-info-open",
+  levelsInfoClose: "levels-info-close",
+  levelsInfoList: "levels-info-list",
+  playerTemplate: "player-template",
+});
 
 const MAX_PLAYERS = 6;
 // Each seat's colour, for an avatar without its own (data/avatars/colors.yaml): the ring
@@ -15,10 +34,30 @@ const PLAYER_COLORS = ["#c3a6ff", "#8fd3c7", "#ffb4a2", "#ffe08a", "#9cc7ff", "#
 // The setup, remembered on this device for the next game (see saveSetup).
 const SETUP_KEY = "space-race:setup";
 
+// The setup's buttons; "¡A jugar!" calls onStart with the chosen players. Escape does not
+// close it: it waits for "¡A jugar!".
+export function setUpSetupScreen({ onStart }) {
+  dom.start.addEventListener("click", () => onStart(chosenPlayers()));
+  for (const option of dom.options) {
+    option.addEventListener("click", () => toggleOption(option));
+  }
+  for (const mode of dom.modes) {
+    mode.addEventListener("click", () => selectMode(mode));
+  }
+  dom.levelsInfoOpen.addEventListener("click", showLevelsInfo);
+  dom.levelsInfoClose.addEventListener("click", () => dom.levelsInfo.close());
+  dom.setup.addEventListener("cancel", (event) => event.preventDefault());
+}
+
 export function showSetup() {
+  dom.setupTitle.textContent = `🚀 ${pack.title}`;
   renderChoices();
   renderSeats();
-  elements.setup.showModal();
+  dom.setup.showModal();
+}
+
+export function closeSetup() {
+  dom.setup.close();
 }
 
 // The avatars still free, in full colour: a tap puts one in the game (it moves to the
@@ -47,8 +86,8 @@ function renderChoices() {
     button.addEventListener("click", () => choose(avatar.id));
     return [button];
   });
-  elements.setupChoices.replaceChildren(...buttons);
-  elements.start.disabled = game.chosen.length === 0;
+  dom.setupChoices.replaceChildren(...buttons);
+  dom.start.disabled = game.chosen.length === 0;
 }
 
 // In the game, or out of it again.
@@ -78,7 +117,7 @@ function renderSeats() {
   const items = chosenPlayers().map((person, index) => {
     const id = game.chosen[index];
     const profile = profileOf(id);
-    const node = elements.playerTemplate.content.firstElementChild.cloneNode(true);
+    const node = dom.playerTemplate.content.firstElementChild.cloneNode(true);
     const avatar = node.querySelector(".setup__avatar");
     avatar.replaceChildren(createAvatar(person));
     avatar.setAttribute("aria-label", `${avatarLabel(id)}: no jugar`);
@@ -103,7 +142,7 @@ function renderSeats() {
     });
     return node;
   });
-  elements.setupPlayers.replaceChildren(...items);
+  dom.setupPlayers.replaceChildren(...items);
 }
 
 function renderLevel(button, person) {
@@ -207,7 +246,7 @@ function saveSetup() {
 }
 
 // "ⓘ": every level, with who it is for ("Niños de 3 a 5 años", "Adultos, medio").
-export function showLevelsInfo() {
+function showLevelsInfo() {
   const rows = LEVELS.map((level) => {
     const row = document.createElement("li");
     const stars = document.createElement("span");
@@ -220,20 +259,20 @@ export function showLevelsInfo() {
     row.append(stars, text);
     return row;
   });
-  elements.levelsInfoList.replaceChildren(...rows);
-  elements.levelsInfo.showModal();
+  dom.levelsInfoList.replaceChildren(...rows);
+  dom.levelsInfo.showModal();
 }
 
 export function chosenMode() {
   return document.querySelector('[data-mode][aria-checked="true"]')?.dataset.mode;
 }
 
-export function selectMode(chosen) {
-  for (const mode of elements.modes) {
+function selectMode(chosen) {
+  for (const mode of dom.modes) {
     mode.setAttribute("aria-checked", String(mode === chosen));
   }
-  elements.setup.dataset.mode = chosen.dataset.mode; // the stars show only in "Sabelotodo"
-  elements.exactOption.hidden = fixedExactFinish() !== null; // a switch only if not fixed
+  dom.setup.dataset.mode = chosen.dataset.mode; // the stars show only in "Sabelotodo"
+  dom.exactOption.hidden = fixedExactFinish() !== null; // a switch only if not fixed
   renderSummary();
   saveSetup();
 }
@@ -243,7 +282,7 @@ function optionIsOn(name) {
   return option.getAttribute("aria-checked") === "true";
 }
 
-export function toggleOption(option) {
+function toggleOption(option) {
   const on = option.getAttribute("aria-checked") !== "true";
   option.setAttribute("aria-checked", String(on));
   renderSummary();
@@ -257,7 +296,7 @@ function renderSummary() {
     : "🌕 Gana el primero que llega a la Luna.";
   const opening = game.chosen.length > 1 ? ["🎲 Primero, un sorteo decide el orden."] : [];
   if (mode === "questions") {
-    elements.setupSummary.replaceChildren(...silvered([
+    dom.setupSummary.replaceChildren(...silvered([
       ...opening,
       "🧠 En tu turno, una pregunta de tu nivel: si aciertas, tiras el dado y haces lo que dice tu casilla; si fallas, te quedas donde estás.",
       moon,
@@ -278,7 +317,7 @@ function renderSummary() {
     parts.push("⭐ La estrella comodín te libra de una casilla mala.");
   }
   parts.push(moon);
-  elements.setupSummary.replaceChildren(...silvered(parts.join(" ")));
+  dom.setupSummary.replaceChildren(...silvered(parts.join(" ")));
 }
 
 // The exact finish: fixed by the chosen mode (or the game), or chosen with its switch.
@@ -294,10 +333,10 @@ function fixedExactFinish() {
 // game has it. With a single mode and nothing to choose, the whole "3. Modo de juego"
 // section goes away.
 export function setUpRules(savedMode) {
-  for (const mode of elements.modes) {
+  for (const mode of dom.modes) {
     mode.hidden = !pack.modes.has(mode.dataset.mode);
   }
-  const visible = [...elements.modes].filter((mode) => !mode.hidden);
+  const visible = [...dom.modes].filter((mode) => !mode.hidden);
   selectMode(visible.find((mode) => mode.dataset.mode === savedMode) ?? visible.find((mode) => mode.dataset.mode === chosenMode()) ?? visible[0]);
-  elements.modeSection.hidden = pack.modes.size === 1 && fixedExactFinish() !== null;
+  dom.modeSection.hidden = pack.modes.size === 1 && fixedExactFinish() !== null;
 }

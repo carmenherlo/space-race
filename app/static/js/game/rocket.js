@@ -4,8 +4,8 @@
 // it simply has none (its tokens wait at waiting_place).
 
 import { sounds } from "../sounds.js";
-import { renderTokens } from "./board.js";
-import { elements, game, pack } from "./state.js";
+import { addToBoard, renderTokens, tokenOf } from "./board.js";
+import { game, pack } from "./state.js";
 import { ROCKET_DROP_MS, ROCKET_IN_MS, ROCKET_LANDED_MS, ROCKET_OUT_MS, ROCKET_WIGGLE_MS, wait } from "./timing.js";
 
 // The rocket flies along its nose, up and to the right: this much down for each step right
@@ -30,7 +30,7 @@ export async function setUpRocket(url) {
   sky.setAttribute("aria-hidden", "true");
   sky.hidden = true;
   sky.append(rocket);
-  elements.board.append(sky);
+  addToBoard(sky);
   pack.rocket = true;
   try {
     await rocket.decode();
@@ -104,7 +104,7 @@ export async function bringFromTheRocket(player) {
   // The token falls out of its belly to the start, growing, and bounces a little.
   player.inRocket = false;
   renderTokens();
-  const token = elements.tokens.children[game.players.indexOf(player)];
+  const token = tokenOf(player);
   const [x, y] = pack.places[0];
   sounds.rocketDrop(ROCKET_DROP_MS / 1000);
   await play(

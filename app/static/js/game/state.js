@@ -1,5 +1,5 @@
-// The shared state of a game: what the game is made of (pack), what is going on
-// (game) and the page's elements.
+// The shared data of a game: what the game is made of (pack) and what is going on (game).
+// No page here: each part of the screen finds its own elements (see dom.js).
 
 export const GAME_ID = new URLSearchParams(window.location.search).get("game");
 
@@ -33,88 +33,13 @@ export const game = {
   busy: false, // a roll, a move or a card is in progress
   mayRoll: false, // the die is the player's (in "Sabelotodo", once the question was right)
   paused: false, // ⏸: every wait stops (see wait) until "Seguir jugando"
+  playing: false, // the board is in play (the turn bar shows): the square of whose turn it is lights up
   // What was chosen before playing (the setup):
   mode: "race", // "race" ("Carrera") or "questions" ("Sabelotodo": a question every turn)
   exactFinish: false, // the Moon only with the exact number: overshooting bounces back
   // One shuffled deck of each for everybody (see drawFrom).
   decks: {}, // by name: "questions-easy", "questions-medium"… ({ cards, last })
   answered: null, // the question being asked: { right } once answered (see askQuestion)
-};
-
-export const elements = {
-  status: document.getElementById("status"),
-  board: document.getElementById("board"),
-  boardImage: document.getElementById("board-image"),
-  marks: document.getElementById("marks"),
-  tokens: document.getElementById("tokens"),
-  lights: document.getElementById("lights"),
-  dieNumber: document.getElementById("die-number"),
-  ranking: document.getElementById("ranking"),
-  turn: document.getElementById("turn"),
-  turnAvatar: document.getElementById("turn-avatar"),
-  turnName: document.getElementById("turn-name"),
-  die: document.getElementById("die"),
-  setup: document.getElementById("setup"),
-  setupTitle: document.getElementById("setup-title"),
-  setupChoices: document.getElementById("setup-choices"),
-  setupPlayers: document.getElementById("setup-players"),
-  start: document.getElementById("start"),
-  options: document.querySelectorAll("[data-option]"),
-  modes: document.querySelectorAll("[data-mode]"),
-  question: document.getElementById("question"),
-  questionEmoji: document.getElementById("question-emoji"),
-  questionText: document.getElementById("question-text"),
-  questionLevel: document.getElementById("question-level"),
-  questionTopic: document.getElementById("question-topic"),
-  questionWho: document.getElementById("question-who"),
-  questionQuiet: document.getElementById("question-quiet"),
-  questionAnswers: document.getElementById("question-answers"),
-  questionResult: document.getElementById("question-result"),
-  questionNext: document.getElementById("question-next"),
-  setupSummary: document.getElementById("setup-summary"),
-  levelsInfo: document.getElementById("levels-info"),
-  levelsInfoOpen: document.getElementById("levels-info-open"),
-  levelsInfoClose: document.getElementById("levels-info-close"),
-  levelsInfoList: document.getElementById("levels-info-list"),
-  card: document.getElementById("card"),
-  cardEmoji: document.getElementById("card-emoji"),
-  cardTitle: document.getElementById("card-title"),
-  cardText: document.getElementById("card-text"),
-  cardOk: document.getElementById("card-ok"),
-  turnCall: document.getElementById("turn-call"),
-  turnCallAvatar: document.getElementById("turn-call-avatar"),
-  turnCallTitle: document.getElementById("turn-call-title"),
-  draw: document.getElementById("draw"),
-  drawTitle: document.getElementById("draw-title"),
-  drawPlayers: document.getElementById("draw-players"),
-  minigame: document.getElementById("minigame"),
-  minigameHost: document.getElementById("minigame-host"),
-  minigameNext: document.getElementById("minigame-next"),
-  turnStars: document.getElementById("turn-stars"),
-  starOffer: document.getElementById("star-offer"),
-  starOfferEmoji: document.getElementById("star-offer-emoji"),
-  starOfferTitle: document.getElementById("star-offer-title"),
-  starOfferText: document.getElementById("star-offer-text"),
-  starOfferStars: document.getElementById("star-offer-stars"),
-  starUse: document.getElementById("star-use"),
-  starKeep: document.getElementById("star-keep"),
-  modeSection: document.getElementById("setup-mode"),
-  swap: document.getElementById("swap"),
-  swapEmoji: document.getElementById("swap-emoji"),
-  swapTitle: document.getElementById("swap-title"),
-  swapText: document.getElementById("swap-text"),
-  swapPlayers: document.getElementById("swap-players"),
-  swapNone: document.getElementById("swap-none"),
-  exactOption: document.querySelector('[data-option="exactFinish"]'),
-  pauseButton: document.getElementById("pause-button"),
-  pause: document.getElementById("pause"),
-  pauseResume: document.getElementById("pause-resume"),
-  pauseRestart: document.getElementById("pause-restart"),
-  pauseMenu: document.getElementById("pause-menu"),
-  sound: document.getElementById("sound"),
-  soundPanel: document.getElementById("sound-panel"),
-  fullscreen: document.getElementById("fullscreen"),
-  playerTemplate: document.getElementById("player-template"),
 };
 
 export function currentPlayer() {

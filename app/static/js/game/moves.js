@@ -3,9 +3,10 @@
 import { mark as markOn, sparkle } from "../effects/layer.js";
 import { fly, hop, nebula, teleport, wormhole } from "../effects/trips.js";
 import { sounds } from "../sounds.js";
-import { BOARD_ASPECT, over, renderTokens, tokenOf, under } from "./board.js";
+import { BOARD_ASPECT, markTokens, over, renderTokens, showRolled, tokenOf, under } from "./board.js";
 import { lightTheSquare, lightTheTrail } from "./lights.js";
-import { currentPlayer, elements, game, pack } from "./state.js";
+import { currentPlayer, game, pack } from "./state.js";
+import { allowRoll, rollingDie, showDieFace } from "./turn-bar.js";
 import { DIE_NUMBER_MS, DIE_ROLL_MS, FLIGHT_MS, STEP_MS, TRAIL_STEP_MS, NEBULA_MS, TELEPORT_MS, TRIP_FLIGHT_MS, TRIP_TARGET_MS, WORMHOLE_MS, HOP_MS, clock, wait } from "./timing.js";
 
 // Two tokens fly to each other's place at the same time.
@@ -21,26 +22,23 @@ export async function swapPlaces(player, other) {
 export function rollDie() {
   const roll = 1 + Math.floor(Math.random() * 6);
   sounds.dice();
-  delete elements.tokens.dataset.calling; // the hops of the turn's start…
-  elements.tokens.dataset.rolling = ""; // …give way to the hops while the die rolls
-  elements.die.disabled = true;
-  elements.die.dataset.rolling = "";
+  markTokens("calling", false); // the hops of the turn's start…
+  markTokens("rolling", true); // …give way to the hops while the die rolls
+  allowRoll(false);
+  rollingDie(true);
   const shuffle = setInterval(() => {
-    elements.die.textContent = String(1 + Math.floor(Math.random() * 6));
+    showDieFace(String(1 + Math.floor(Math.random() * 6)));
   }, 80);
   return wait(DIE_ROLL_MS).then(async () => {
     clearInterval(shuffle);
-    delete elements.die.dataset.rolling;
-    delete elements.tokens.dataset.rolling;
-    elements.die.textContent = String(roll);
+    rollingDie(false);
+    markTokens("rolling", false);
+    showDieFace(String(roll));
     // So everybody sees what came out before the token moves: the number, big on the board
     // (the token is easy to find: its square is lit, and it pulses).
-    const player = currentPlayer();
-    elements.dieNumber.style.setProperty("--player-color", player.color);
-    elements.dieNumber.textContent = String(roll);
-    elements.dieNumber.hidden = false;
+    showRolled(roll, currentPlayer().color);
     await wait(DIE_NUMBER_MS);
-    elements.dieNumber.hidden = true;
+    showRolled(null);
     return roll;
   });
 }

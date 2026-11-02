@@ -1,7 +1,10 @@
 // Small helpers: the voice, shuffling, the status line.
 
 import { say } from "../voice.js";
-import { elements, pack } from "./state.js";
+import { elementsOf } from "./dom.js";
+import { pack } from "./state.js";
+
+const dom = elementsOf({ status: "status" });
 
 // A shuffled copy of a list (Fisher–Yates: every order equally likely).
 export function shuffled(list) {
@@ -26,6 +29,6 @@ export function showStatus(message, error) {
   if (error) {
     console.error(error);
   }
-  elements.status.textContent = message ?? "";
-  elements.status.hidden = !message;
+  dom.status.textContent = message ?? "";
+  dom.status.hidden = !message;
 }

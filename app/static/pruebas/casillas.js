@@ -24,6 +24,7 @@ async function start() {
   await loadPack();
   game.players = await players();
   game.turn = 0;
+  game.playing = true; // as in a game: the square of whose turn it is lights up
   renderTokens();
   const buttons = [];
   for (const [number, square] of pack.squares) {

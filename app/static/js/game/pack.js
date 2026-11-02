@@ -1,9 +1,9 @@
 // Loading the game pack: api/games/<id> into `pack`, and the board picture.
 
-import { renderPlainBoard, sizeTokens } from "./board.js";
+import { renderPlainBoard, showBoardPicture, sizeTokens } from "./board.js";
 import { setUpLights } from "./lights.js";
 import { setUpRocket } from "./rocket.js";
-import { GAME_ID, elements, pack } from "./state.js";
+import { GAME_ID, pack } from "./state.js";
 
 // Fills `pack` from api/games/<id> and shows the board picture (or a plain board without one).
 export async function loadPack() {
@@ -53,14 +53,8 @@ export async function loadPack() {
   pack.questions = content.questions.map((question) => ({ kind: "question", ...question }));
 
   document.title = pack.title;
-  elements.setupTitle.textContent = `🚀 ${pack.title}`;
   if (content.image_url) {
-    elements.boardImage.addEventListener("error", () => {
-      elements.boardImage.hidden = true;
-      renderPlainBoard();
-    });
-    elements.boardImage.src = content.image_url;
-    elements.boardImage.hidden = false;
+    showBoardPicture(content.image_url);
     await setUpLights(content);
     if (content.rocket_url) {
       await setUpRocket(content.rocket_url);

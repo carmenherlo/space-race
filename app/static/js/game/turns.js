@@ -1,14 +1,25 @@
 // The game from start to end: who starts, whose turn it is, missed turns.
 
 import { music, sounds } from "../sounds.js";
-import { createAvatar, renderTokens, renderTurn } from "./board.js";
+import { createAvatar, markTokens, renderTokens, showRanking } from "./board.js";
 import { showCard } from "./cards.js";
 import { shuffled, speak } from "./helpers.js";
 import { askTurnQuestion } from "./questions.js";
 import { bringFromTheRocket } from "./rocket.js";
-import { chosenMode, exactFinish } from "./setup.js";
-import { currentPlayer, elements, game, pack } from "./state.js";
+import { chosenMode, closeSetup, exactFinish } from "./setup.js";
+import { elementsOf } from "./dom.js";
+import { currentPlayer, game, pack } from "./state.js";
 import { DRAW_SHOW_MS, DRAW_SHUFFLES, DRAW_SHUFFLE_MS, START_PAUSE_MS, TOKEN_CALL_MS, TURN_CALL_MS, TURN_PAUSE_MS, TURN_START_MS, wait } from "./timing.js";
+import { allowRoll, changingTurn, renderTurn, resetTurnBar, showTurnBar } from "./turn-bar.js";
+
+const dom = elementsOf({
+  draw: "draw",
+  drawTitle: "draw-title",
+  drawPlayers: "draw-players",
+  turnCall: "turn-call",
+  turnCallAvatar: "turn-call-avatar",
+  turnCallTitle: "turn-call-title",
+});
 
 export async function startGame(players) {
   music.start(); // after a tap ("¡A jugar!"), so the browser allows it
@@ -26,8 +37,8 @@ export async function startGame(players) {
   game.exactFinish = exactFinish();
   game.turn = 0;
   game.busy = false;
-  elements.setup.close();
-  delete elements.turnAvatar.dataset.player; // a new game: same ids, new players
+  closeSetup();
+  resetTurnBar();
   game.mayRoll = false;
   game.busy = true; // nothing to tap yet
   if (game.players.length > 1) {
@@ -37,8 +48,9 @@ export async function startGame(players) {
   await wait(START_PAUSE_MS); // first, the board with everybody at the start (or in the rocket)
   await bringFromTheRocket(currentPlayer());
   game.busy = false;
-  elements.turn.hidden = false;
-  elements.ranking.hidden = false;
+  game.playing = true;
+  showTurnBar(true);
+  showRanking(true);
   beginFirstTurn();
 }
 
@@ -56,31 +68,31 @@ function beginTurn() {
     askTurnQuestion();
   } else {
     game.mayRoll = true;
-    elements.die.disabled = false;
+    allowRoll(true);
   }
 }
 
 // The order of the turns, drawn by itself (game.players is already in that order): the
 // avatars change places a few times, then stay in order, 1st, 2nd… Nobody taps anything.
 async function drawOrder() {
-  elements.drawTitle.textContent = "🎲 ¿Quién empieza?";
-  elements.draw.show();
+  dom.drawTitle.textContent = "🎲 ¿Quién empieza?";
+  dom.draw.show();
   for (let i = 0; i < DRAW_SHUFFLES; i += 1) {
     renderDraw(shuffled(game.players), false);
     sounds.hop();
     await wait(DRAW_SHUFFLE_MS);
   }
   renderDraw(game.players, true);
-  elements.drawTitle.textContent = `¡Empieza ${game.players[0].name}!`;
+  dom.drawTitle.textContent = `¡Empieza ${game.players[0].name}!`;
   sounds.good();
-  speak(elements.drawTitle.textContent);
+  speak(dom.drawTitle.textContent);
   await wait(DRAW_SHOW_MS);
-  elements.draw.close();
+  dom.draw.close();
 }
 
 function renderDraw(players, final) {
-  elements.drawPlayers.dataset.final = String(final);
-  elements.drawPlayers.replaceChildren(
+  dom.drawPlayers.dataset.final = String(final);
+  dom.drawPlayers.replaceChildren(
     ...players.map((player, index) => {
       const item = document.createElement("li");
       item.className = "draw__player";
@@ -110,7 +122,7 @@ export async function nextTurn() {
 // die for nothing.
 async function missTurn() {
   game.busy = true;
-  elements.die.disabled = true;
+  allowRoll(false);
   const player = currentPlayer();
   player.skipTurns -= 1;
   const square = player.skipSquare;
@@ -129,16 +141,16 @@ async function missTurn() {
 // moment, then comes back with that player's avatar.
 async function passTurnTo(index) {
   game.busy = true;
-  elements.die.disabled = true;
-  elements.turn.dataset.changing = "";
-  elements.tokens.dataset.changing = "";
+  allowRoll(false);
+  changingTurn(true);
+  markTokens("changing", true);
   await wait(TURN_PAUSE_MS);
   game.turn = index;
   await bringFromTheRocket(currentPlayer());
-  delete elements.tokens.dataset.changing;
+  markTokens("changing", false);
   callToken();
   renderTurn();
-  delete elements.turn.dataset.changing;
+  changingTurn(false);
   await callTurn(currentPlayer());
   game.busy = false;
 }
@@ -149,18 +161,18 @@ async function callTurn(player) {
   if (game.players.length === 1) {
     return;
   }
-  elements.turnCall.style.setProperty("--player-color", player.color);
-  elements.turnCallAvatar.replaceChildren(createAvatar(player));
-  elements.turnCallTitle.textContent = `¡Te toca, ${player.name}!`;
+  dom.turnCall.style.setProperty("--player-color", player.color);
+  dom.turnCallAvatar.replaceChildren(createAvatar(player));
+  dom.turnCallTitle.textContent = `¡Te toca, ${player.name}!`;
   sounds.hop();
-  speak(elements.turnCallTitle.textContent);
-  elements.turnCall.show();
+  speak(dom.turnCallTitle.textContent);
+  dom.turnCall.show();
   await wait(TURN_CALL_MS);
-  elements.turnCall.close();
+  dom.turnCall.close();
 }
 
 // The token of the player whose turn it is jumps twice, so everybody sees whose it is.
 function callToken() {
-  elements.tokens.dataset.calling = "";
-  setTimeout(() => delete elements.tokens.dataset.calling, TOKEN_CALL_MS);
+  markTokens("calling", true);
+  setTimeout(() => markTokens("calling", false), TOKEN_CALL_MS);
 }

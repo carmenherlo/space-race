@@ -1,10 +1,11 @@
 // The special squares: what each one does (the rules come from the game's game.yaml).
 
-import { flyStar, react, renderTurn, shine } from "./board.js";
+import { flyStar, react, shine } from "./board.js";
 import { chooseSwap, offerStar, playMinigameFor, showCard } from "./cards.js";
 import { followTrail, hopAll, jumpTo, mark, moveBy, rollDie, swapPlaces, travel } from "./moves.js";
 import { game, pack } from "./state.js";
 import { LAND_PAUSE_MS, wait } from "./timing.js";
+import { renderTurn } from "./turn-bar.js";
 
 // Does what the square a player has just reached WITH THE DIE says. Only die landings count:
 // where a trip sends you (UFOs, galaxies, the satellite) does nothing, so they never loop.

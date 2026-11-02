@@ -5,12 +5,52 @@ import { celebrate } from "../celebrations.js";
 import { flyToTheMoon, playMinigame } from "../minigames.js";
 import { silvered } from "../moon.js";
 import { music, sounds } from "../sounds.js";
-import { createAvatar, placeName, react, renderTokens, renderTurn } from "./board.js";
+import { quiet } from "../voice.js";
+import { createAvatar, placeName, react, renderTokens } from "./board.js";
 import { shuffled, speak } from "./helpers.js";
-import { elements, game, pack } from "./state.js";
+import { elementsOf } from "./dom.js";
+import { game } from "./state.js";
 import { moonShines } from "./lights.js";
 import { MOON_ARRIVAL_MS, wait } from "./timing.js";
+import { renderTurn, showTurnBar } from "./turn-bar.js";
 import { startGame } from "./turns.js";
+
+const dom = elementsOf({
+  card: "card",
+  cardEmoji: "card-emoji",
+  cardTitle: "card-title",
+  cardText: "card-text",
+  cardOk: "card-ok",
+  minigame: "minigame",
+  minigameHost: "minigame-host",
+  minigameNext: "minigame-next",
+  starOffer: "star-offer",
+  starOfferEmoji: "star-offer-emoji",
+  starOfferTitle: "star-offer-title",
+  starOfferText: "star-offer-text",
+  starOfferStars: "star-offer-stars",
+  starUse: "star-use",
+  starKeep: "star-keep",
+  swap: "swap",
+  swapEmoji: "swap-emoji",
+  swapTitle: "swap-title",
+  swapText: "swap-text",
+  swapPlayers: "swap-players",
+  swapNone: "swap-none",
+});
+
+// The cards' buttons. The voice stops when a card closes; Escape does not skip a card: it
+// waits for its button.
+export function setUpCards() {
+  dom.cardOk.addEventListener("click", () => dom.card.close());
+  dom.starUse.addEventListener("click", () => dom.starOffer.close("use"));
+  dom.starKeep.addEventListener("click", () => dom.starOffer.close("keep"));
+  dom.swapNone.addEventListener("click", () => dom.swap.close(""));
+  for (const dialog of [dom.card, dom.starOffer, dom.swap]) {
+    dialog.addEventListener("close", quiet);
+    dialog.addEventListener("cancel", (event) => event.preventDefault());
+  }
+}
 
 const CARD_TITLES = { good: "¡Qué suerte!", bad: "¡Oh, no!" };
 const CARD_BUTTONS = { good: "¡Bien!", bad: "Vale…" };
@@ -28,13 +68,13 @@ export function showBounce(bounced, player) {
 // The last galaxy: the player chooses a minigame and plays it; won, the trip to the Moon on
 // the whole screen. Resolves to true if they won (the token is not moved here).
 export async function playMinigameFor(player) {
-  elements.minigameNext.hidden = true;
-  elements.minigame.show();
-  const won = await playMinigame(elements.minigameHost, createAvatar(player));
-  elements.minigameNext.textContent = won ? "¡A la Luna!" : "Vale…";
-  elements.minigameNext.hidden = false;
-  await new Promise((resolve) => elements.minigameNext.addEventListener("click", resolve, { once: true }));
-  elements.minigame.close();
+  dom.minigameNext.hidden = true;
+  dom.minigame.show();
+  const won = await playMinigame(dom.minigameHost, createAvatar(player));
+  dom.minigameNext.textContent = won ? "¡A la Luna!" : "Vale…";
+  dom.minigameNext.hidden = false;
+  await new Promise((resolve) => dom.minigameNext.addEventListener("click", resolve, { once: true }));
+  dom.minigame.close();
   if (won) {
     await flyToTheMoon(createAvatar(player));
   }
@@ -44,19 +84,19 @@ export async function playMinigameFor(player) {
 // A player with a wildcard star landed on a square it saves them from: they choose.
 // Resolves to true if they used it (one star less, and nothing happens).
 export function offerStar(player, square) {
-  elements.starOfferEmoji.textContent = square.emoji;
-  elements.starOfferTitle.textContent = square.title;
-  elements.starOfferText.textContent = square.text;
-  elements.starOfferStars.textContent = `${player.name}, tienes ${"⭐".repeat(player.stars)}. ¿Usas una estrella para librarte?`;
+  dom.starOfferEmoji.textContent = square.emoji;
+  dom.starOfferTitle.textContent = square.title;
+  dom.starOfferText.textContent = square.text;
+  dom.starOfferStars.textContent = `${player.name}, tienes ${"⭐".repeat(player.stars)}. ¿Usas una estrella para librarte?`;
   sounds.bad();
-  elements.starOffer.show();
+  dom.starOffer.show();
   const stars = player.stars === 1 ? "una estrella" : `${player.stars} estrellas`;
   speak([square.title, square.text, `${player.name}, tienes ${stars}. ¿Usas una para librarte?`]);
   return new Promise((resolve) => {
-    elements.starOffer.addEventListener(
+    dom.starOffer.addEventListener(
       "close",
       () => {
-        const used = elements.starOffer.returnValue === "use";
+        const used = dom.starOffer.returnValue === "use";
         if (used) {
           player.stars -= 1;
           sounds.good();
@@ -72,9 +112,9 @@ export function offerStar(player, square) {
 // The spy satellite: the player sees where everybody is and taps who to swap places with,
 // or stays. Resolves to the chosen player, or null.
 export function chooseSwap(player, square, others) {
-  elements.swapEmoji.textContent = square.emoji;
-  elements.swapTitle.textContent = square.title;
-  elements.swapText.textContent = square.text;
+  dom.swapEmoji.textContent = square.emoji;
+  dom.swapTitle.textContent = square.title;
+  dom.swapText.textContent = square.text;
   const buttons = others.map((other) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -87,20 +127,20 @@ export function chooseSwap(player, square, others) {
     place.textContent = placeName(other.place);
     button.append(createAvatar(other), name, place);
     button.addEventListener("click", () => {
-      elements.swap.returnValue = other.id;
-      elements.swap.close(other.id);
+      dom.swap.returnValue = other.id;
+      dom.swap.close(other.id);
     });
     return button;
   });
-  elements.swapPlayers.replaceChildren(...buttons);
+  dom.swapPlayers.replaceChildren(...buttons);
   sounds.good();
-  elements.swap.returnValue = "";
-  elements.swap.show();
+  dom.swap.returnValue = "";
+  dom.swap.show();
   speak([square.title, square.text, "¿Con quién te cambias?"]);
   return new Promise((resolve) => {
-    elements.swap.addEventListener(
+    dom.swap.addEventListener(
       "close",
-      () => resolve(others.find((other) => other.id === elements.swap.returnValue) ?? null),
+      () => resolve(others.find((other) => other.id === dom.swap.returnValue) ?? null),
       { once: true },
     );
   });
@@ -123,16 +163,16 @@ export function drawFrom(name, cards) {
 }
 
 export function showCard(card) {
-  elements.card.dataset.kind = card.kind;
-  elements.cardEmoji.replaceChildren(...silvered(card.emoji));
-  elements.cardTitle.textContent = card.title ?? CARD_TITLES[card.kind];
-  elements.cardText.textContent = card.text;
-  elements.cardOk.textContent = card.button ?? CARD_BUTTONS[card.kind];
+  dom.card.dataset.kind = card.kind;
+  dom.cardEmoji.replaceChildren(...silvered(card.emoji));
+  dom.cardTitle.textContent = card.title ?? CARD_TITLES[card.kind];
+  dom.cardText.textContent = card.text;
+  dom.cardOk.textContent = card.button ?? CARD_BUTTONS[card.kind];
   sounds[card.kind](); // good or bad
-  elements.card.show();
-  speak([elements.cardTitle.textContent, card.text]);
+  dom.card.show();
+  speak([dom.cardTitle.textContent, card.text]);
   return new Promise((resolve) => {
-    elements.card.addEventListener("close", resolve, { once: true });
+    dom.card.addEventListener("close", resolve, { once: true });
   });
 }
 
@@ -140,7 +180,8 @@ export function showCard(card) {
 // the celebration (js/celebrations.js: the podium, up to the Moon, the traca, fireworks).
 // "¡Otra partida!": the same players again.
 export async function showWinner(player) {
-  elements.turn.hidden = true;
+  game.playing = false;
+  showTurnBar(false);
   renderTokens();
   react(player, "good");
   sounds.good();

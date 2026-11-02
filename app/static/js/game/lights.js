@@ -10,18 +10,23 @@
 //     gets there.
 // Their look is in game.css (.board-light).
 
-import { currentPlayer, elements, game, pack } from "./state.js";
+import { elementsOf } from "./dom.js";
+import { currentPlayer, game, pack } from "./state.js";
 import { MOON_SHINE_MS, wait } from "./timing.js";
+
+const dom = elementsOf({ lights: "lights" });
 
 export const NEAR_MOON = 6; // squares: the Moon glows, the token glows, the music speeds up
 const MOON_PARTS = ["moon", "moon_sign", "moon_flags", "moon_stars"];
 
 const lights = {}; // part of the board (title, start, trail, moon…) → its light
+let boardUrl = null; // the board's picture: a lit square is a piece of it
 let squareShapes = new Map(); // square number → { left, top, width, height (in %), mask }
 let litSquare = null; // the lit square: { place, element }
 
 // Gets the lights ready (after the pack is loaded): one picture each, and each square's shape.
 export async function setUpLights(content) {
+  boardUrl = content.image_url;
   for (const [part, url] of Object.entries(content.lights ?? {})) {
     const picture = document.createElement("img");
     picture.className = "board-light";
@@ -29,7 +34,7 @@ export async function setUpLights(content) {
     picture.alt = "";
     picture.src = url;
     lights[part] = picture;
-    elements.lights.append(picture);
+    dom.lights.append(picture);
   }
   if (content.squares_image_url && content.image_url) {
     try {
@@ -47,7 +52,7 @@ export function nearTheMoon(player) {
 // After every move: the lights that depend on where the tokens are.
 export function showLights() {
   const player = currentPlayer();
-  const playing = game.players.length > 0 && !elements.turn.hidden;
+  const playing = game.players.length > 0 && game.playing;
   lightTheSquare(playing && player ? player.place : null);
   lights.title?.toggleAttribute("data-on", true);
   lights.start?.toggleAttribute("data-on", playing && player?.place === 0);
@@ -100,13 +105,13 @@ export function lightTheSquare(place) {
   }
   const picture = document.createElement("span");
   picture.className = "board-light__picture";
-  picture.style.backgroundImage = `url("${elements.boardImage.src}")`;
+  picture.style.backgroundImage = `url("${boardUrl}")`;
   picture.style.backgroundSize = `${10000 / shape.width}% ${10000 / shape.height}%`;
   picture.style.backgroundPosition = `${(shape.left / (100 - shape.width)) * 100}% ${(shape.top / (100 - shape.height)) * 100}%`;
   picture.style.webkitMaskImage = `url("${shape.mask}")`;
   picture.style.maskImage = `url("${shape.mask}")`;
   element.append(picture);
-  elements.lights.append(element);
+  dom.lights.append(element);
   litSquare = { place, element };
 }
 

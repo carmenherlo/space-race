@@ -2,12 +2,13 @@
 // player again ("roll again") or the next one. Each mode only decides when the die is the
 // player's (game.mayRoll, see beginTurn in turns.js).
 
-import { renderTurn } from "./board.js";
+import { markTokens } from "./board.js";
 import { showBounce, showWinner } from "./cards.js";
 import { moveBy, rollDie } from "./moves.js";
 import { landOn } from "./squares.js";
-import { currentPlayer, elements, game, pack } from "./state.js";
+import { currentPlayer, game, pack } from "./state.js";
 import { BOARD_LOOK_MS, LAND_PAUSE_MS, wait } from "./timing.js";
+import { renderTurn } from "./turn-bar.js";
 import { nextTurn } from "./turns.js";
 
 export async function roll() {
@@ -50,7 +51,7 @@ export async function roll() {
 // "Sabelotodo": a moment to see where everybody is before the next question covers the
 // board: every token stands out.
 async function lookAtTheBoard() {
-  elements.tokens.dataset.look = "";
+  markTokens("look", true);
   await wait(BOARD_LOOK_MS);
-  delete elements.tokens.dataset.look;
+  markTokens("look", false);
 }

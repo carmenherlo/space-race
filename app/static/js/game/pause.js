@@ -2,19 +2,40 @@
 
 import { music } from "../sounds.js";
 import { quiet } from "../voice.js";
-import { GAME_ID, elements, game } from "./state.js";
+import { elementsOf } from "./dom.js";
+import { GAME_ID, game } from "./state.js";
 import { IDLE_MS } from "./timing.js";
+
+const dom = elementsOf({
+  button: "pause-button",
+  pause: "pause",
+  resume: "pause-resume",
+  restart: "pause-restart",
+  menu: "pause-menu",
+});
+
+// The ⏸ button and the pause's own buttons. Escape goes on playing.
+export function setUpPause() {
+  dom.button.addEventListener("click", pauseGame);
+  dom.resume.addEventListener("click", resumeGame);
+  dom.restart.addEventListener("click", restartGame);
+  dom.menu.addEventListener("click", backToMenu);
+  dom.pause.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    resumeGame();
+  });
+}
 
 // ⏸ stops everything (the clock of the game, the music, the voice) and asks what to do.
 export function pauseGame() {
   game.paused = true;
   music.pause();
   quiet();
-  elements.pause.showModal();
+  dom.pause.showModal();
 }
 
 export function resumeGame() {
-  elements.pause.close();
+  dom.pause.close();
   game.paused = false;
   music.follow(); // back on, unless the music is switched off
 }

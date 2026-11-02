@@ -1,23 +1,33 @@
-// The board: the turn bar, the tokens on their places, the avatars.
+// The board: its picture, the tokens on their places, the positions, the avatars.
 
 import { shine as shineOn, react as reactOn } from "../effects/pieces.js";
 import { send } from "../effects/trips.js";
 import { silvered } from "../moon.js";
 import { music, sounds } from "../sounds.js";
 import { nearTheMoon, showLights } from "./lights.js";
-import { currentPlayer, elements, game, pack } from "./state.js";
+import { elementsOf } from "./dom.js";
+import { currentPlayer, game, pack } from "./state.js";
 import { MOOD_MS, SHINE_MS, STAR_MS, clock } from "./timing.js";
+
+const dom = elementsOf({
+  board: "board",
+  image: "board-image",
+  marks: "marks",
+  tokens: "tokens",
+  rolled: "die-number",
+  ranking: "ranking",
+});
 
 export const BOARD_ASPECT = 9 / 16; // the board is 16:9: its height over its width
 
 // Where the effects put what they leave on the board: under the tokens (swirls, beams,
 // clouds, fires) or over them (sparkles, a flying star).
-export const under = (element) => elements.tokens.before(element);
-export const over = (element) => elements.tokens.after(element);
+export const under = (element) => dom.tokens.before(element);
+export const over = (element) => dom.tokens.after(element);
 
 // A player's token on the board (none while the tokens are not drawn).
 export function tokenOf(player) {
-  return elements.tokens.children[game.players.indexOf(player)];
+  return dom.tokens.children[game.players.indexOf(player)];
 }
 
 // Where each token sits when several share a square, in token sizes from the centre.
@@ -32,20 +42,42 @@ const SHARED_SQUARE_OFFSETS = [
   [0, 0.8],
 ];
 
-export function renderTurn() {
-  const player = currentPlayer();
-  // A new avatar (with its little jump, see game.css) only when the player changes.
-  if (elements.turnAvatar.dataset.player !== player.id) {
-    elements.turnAvatar.dataset.player = player.id;
-    elements.turnAvatar.replaceChildren(createAvatar(player));
+// The board's picture; if it cannot be loaded, a plain board instead (renderPlainBoard).
+export function showBoardPicture(url) {
+  dom.image.addEventListener("error", () => {
+    dom.image.hidden = true;
+    renderPlainBoard();
+  });
+  dom.image.src = url;
+  dom.image.hidden = false;
+}
+
+// Something more on the board, over everything (the rocket of the start).
+export function addToBoard(element) {
+  dom.board.append(element);
+}
+
+// The tokens in a moment of the game (see game.css): "calling" (whose turn it is jumps),
+// "rolling" (the same while the die rolls), "changing" (between two turns: no halo),
+// "look" ("Sabelotodo": everybody stands out).
+export function markTokens(moment, on) {
+  dom.tokens.toggleAttribute(`data-${moment}`, on);
+}
+
+// The number the die gave, big in the middle of the board, in the player's colour; null
+// hides it.
+export function showRolled(number, color) {
+  if (number === null) {
+    dom.rolled.hidden = true;
+    return;
   }
-  elements.turnName.textContent = `Turno de ${player.name}`;
-  elements.turnStars.textContent = "⭐".repeat(player.stars);
-  elements.turnStars.hidden = player.stars === 0;
-  elements.turn.style.setProperty("--player-color", player.color);
-  elements.die.disabled = !game.mayRoll; // on (and calling them, game.css) only when it is theirs
-  elements.die.textContent = "🎲";
-  renderTokens();
+  dom.rolled.style.setProperty("--player-color", color);
+  dom.rolled.textContent = String(number);
+  dom.rolled.hidden = false;
+}
+
+export function showRanking(shown) {
+  dom.ranking.hidden = !shown;
 }
 
 // Every player's token on its place; tokens sharing a place spread out a little. `flying`:
@@ -92,7 +124,7 @@ export function renderTokens({ flying = [] } = {}) {
     token.setAttribute("aria-label", `${player.name}: ${placeName(player.place)}${stars}`);
     return token;
   });
-  elements.tokens.replaceChildren(...tokens);
+  dom.tokens.replaceChildren(...tokens);
   renderRanking();
   showLights();
   music.tense(game.players.some(nearTheMoon));
@@ -145,7 +177,7 @@ function renderRanking() {
     item.setAttribute("aria-label", `${player.name}: ${placeName(player.place)}`);
     return item;
   });
-  elements.ranking.replaceChildren(...items);
+  dom.ranking.replaceChildren(...items);
 }
 
 // Without the board picture: a numbered dot on every place, so the game is still playable.
@@ -158,7 +190,7 @@ export function renderPlainBoard() {
     mark.replaceChildren(...silvered(place === 0 ? "🚀" : place === pack.goal ? "🌕" : String(place)));
     return mark;
   });
-  elements.marks.replaceChildren(...marks);
+  dom.marks.replaceChildren(...marks);
 }
 
 // Tokens as big as the squares of this board allow: a share of the usual distance between
@@ -171,7 +203,7 @@ export function sizeTokens() {
   steps.sort((a, b) => a - b);
   const usual = steps[Math.floor(steps.length / 2)];
   const size = Math.min(TOKEN_MAX, usual * TOKEN_SHARE);
-  elements.board.style.setProperty("--token", `calc(var(--board-width) * ${(size / 100).toFixed(4)})`);
+  dom.board.style.setProperty("--token", `calc(var(--board-width) * ${(size / 100).toFixed(4)})`);
 }
 
 export function placeName(place) {
