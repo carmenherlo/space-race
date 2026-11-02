@@ -201,7 +201,8 @@
   </dialog>
 
   <!-- The last galaxy: the player chooses a minigame (js/minigames.js); win it, the Moon. -->
-  <dialog class="game-dialog minigame" id="minigame" data-in-game aria-label="Minijuego">
+  <dialog class="game-dialog minigame" id="minigame" data-in-game aria-labelledby="minigame-title">
+    <h2 class="card__title minigame__title" id="minigame-title">🌌 Última galaxia</h2>
     <div id="minigame-host"></div>
     <button class="game-button" id="minigame-next" type="button" hidden>Seguir</button>
   </dialog>

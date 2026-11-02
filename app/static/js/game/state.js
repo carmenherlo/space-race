@@ -27,7 +27,7 @@ export const game = {
   // time: avatar id → { name, level }
   profiles: {},
   // who plays this game, in turn order: { ...person, place, stars, skipTurns, skipSquare,
-  // inRocket }
+  // inRocket, knowsTheMinigame }
   players: [],
   turn: 0, // index in players
   busy: false, // a roll, a move or a card is in progress

@@ -1271,6 +1271,11 @@ body.game {
   color: #fff;
 }
 
+.minigame__title {
+  margin: 0 0 var(--space-m);
+  text-align: center;
+}
+
 .minigame .game-button {
   margin-top: var(--space-m);
   background: #fff;

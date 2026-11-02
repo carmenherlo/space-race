@@ -43,6 +43,8 @@ export async function landOn(player) {
       await swapPlaces(player, other); // where they land does nothing, for either of them
     }
     return { again: square.again };
+  } else if (square.minigame && player.knowsTheMinigame) {
+    // Their second time at the last galaxy: no card, straight to the minigames.
   } else {
     await showCard(square);
   }
@@ -60,6 +62,7 @@ export async function landOn(player) {
     await moveOthers(player, square.othersMove);
   }
   if (square.minigame) {
+    player.knowsTheMinigame = true;
     if (await playMinigameFor(player)) {
       // Won: to the Moon, along the star trail if the board has one.
       await (square.trail ? followTrail(player, square.trail, pack.goal) : jumpTo(player, pack.goal));

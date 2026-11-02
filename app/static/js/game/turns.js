@@ -33,6 +33,7 @@ export async function startGame(players) {
     skipTurns: 0, // turns still to miss
     skipSquare: null, // the square that made them miss turns
     inRocket: pack.rocket, // waiting in the rocket of the start, not on the board yet
+    knowsTheMinigame: false, // the last galaxy's card explains it only the first time (squares.js)
   }));
   game.decks = {};
   game.mode = chosenMode();
