@@ -259,7 +259,7 @@ body.game {
   to { opacity: 1; }
 }
 
-/* A token that shines (shine in board.js, SHINE_MS), so everybody finds it before it moves:
+/* A token that shines (shine in js/effects/pieces.js, SHINE_MS), so everybody finds it before it moves:
    a little bigger, its ring thicker and glowing in its colour, and a reflection going round
    the ring with a comet of light, like a gold ring turned in the light (two highlights,
    opposite, as on a real ring). The reflection lies on the ring only (the mask leaves a
@@ -274,7 +274,7 @@ body.game {
     box-shadow 0.4s ease-in-out;
 }
 
-.token[data-shine] .avatar {
+.token[data-fx-shine] .avatar {
   transform: scale(1.2);
   box-shadow:
     0 0 0 var(--thick) var(--avatar-color),
@@ -282,8 +282,8 @@ body.game {
     0 0 calc(var(--token) * 0.7) calc(var(--thick) + var(--token) * 0.1) rgb(255 255 255 / 35%);
 }
 
-.token__reflection,
-.token__glow span {
+.fx-reflection,
+.fx-glow span {
   --band: calc(var(--thick) + var(--token) * 0.025 + 2px); /* the white ring and the coloured one */
 
   position: absolute;
@@ -308,7 +308,7 @@ body.game {
   pointer-events: none;
 }
 
-.token__glow {
+.fx-glow {
   position: absolute;
   z-index: 2;
   top: calc(var(--thick) * -1);
@@ -321,7 +321,7 @@ body.game {
   pointer-events: none;
 }
 
-.token__glow span {
+.fx-glow span {
   --band: calc(var(--thick) * 2 + var(--token) * 0.06 + 4px);
 
   top: 0;
@@ -332,8 +332,8 @@ body.game {
 }
 
 /* Grown with it (the ring is bigger), it turns once, slowly, once the token has grown. */
-.token[data-shine] .token__reflection,
-.token[data-shine] .token__glow {
+.token[data-fx-shine] .fx-reflection,
+.token[data-fx-shine] .fx-glow {
   animation: token-shine 1.3s ease-in-out 0.3s both;
 }
 
@@ -453,8 +453,8 @@ body.game {
   to { opacity: 1; transform: translate(-50%, -55%) scale(1.05, 1.15); }
 }
 
-/* A wildcard star on its way to the token (flyStar in board.js), over everything. */
-.board-star {
+/* A wildcard star on its way to the token (send in js/effects/trips.js), over everything. */
+.fx-flying {
   position: absolute;
   z-index: 4;
   font-size: var(--token);
@@ -490,14 +490,14 @@ body.game {
   to { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(90deg); }
 }
 
-/* A token that reacts (react in board.js, MOOD_MS): a hop of joy on a good square or a
+/* A token that reacts (react in js/effects/pieces.js, MOOD_MS): a hop of joy on a good square or a
    right answer; a tremble on a bad one. The whole token jumps (margin, so its glows go with
    it and its place on a shared square stays), and its avatar squashes and stretches. */
-.token[data-mood="good"] {
+.token[data-fx-mood="good"] {
   animation: token-joy-jump 0.6s ease-out 2;
 }
 
-.token[data-mood="good"] .avatar {
+.token[data-fx-mood="good"] .avatar {
   animation: token-joy 0.6s ease-out 2;
 }
 
@@ -513,7 +513,7 @@ body.game {
   80% { transform: scale(1.1, 0.9); }
 }
 
-.token[data-mood="bad"] .avatar {
+.token[data-fx-mood="bad"] .avatar {
   animation: token-tremble 0.12s linear 10;
 }
 
@@ -582,7 +582,7 @@ body.game {
 }
 
 /* While the token shines, its pulse grows with it (scale, apart from the beat's transform). */
-.token[data-shine]::before {
+.token[data-fx-shine]::before {
   scale: 1.2;
 }
 

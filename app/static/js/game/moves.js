@@ -3,7 +3,7 @@
 import { mark as markOn, sparkle } from "../effects/layer.js";
 import { fly, hop, nebula, teleport, wormhole } from "../effects/trips.js";
 import { sounds } from "../sounds.js";
-import { renderTokens } from "./board.js";
+import { BOARD_ASPECT, over, renderTokens, tokenOf, under } from "./board.js";
 import { lightTheSquare, lightTheTrail } from "./lights.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
 import { DIE_NUMBER_MS, DIE_ROLL_MS, FLIGHT_MS, STEP_MS, TRAIL_STEP_MS, NEBULA_MS, TELEPORT_MS, TRIP_FLIGHT_MS, TRIP_TARGET_MS, WORMHOLE_MS, HOP_MS, clock, wait } from "./timing.js";
@@ -126,17 +126,6 @@ const TRIPS = {
   teleport: { effect: teleport, ms: TELEPORT_MS, sound: true }, // the UFOs
   nebula: { effect: nebula, ms: NEBULA_MS, sound: false }, // the nebula: silent
 };
-
-const BOARD_ASPECT = 9 / 16; // the board is 16:9
-
-// Where the effects put what they leave on the board: under the tokens (swirls, beams,
-// clouds, fires) or over them (sparkles).
-const under = (element) => elements.tokens.before(element);
-const over = (element) => elements.tokens.after(element);
-
-function tokenOf(player) {
-  return elements.tokens.children[game.players.indexOf(player)];
-}
 
 // Something on the board under the tokens (a swirl, a beam, a cloud, a fire), until it is
 // removed (see markOn in effects/layer.js).

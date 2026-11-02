@@ -10,7 +10,7 @@
 //   onLeg   called as each leg starts (to play a sound, say)
 
 import { mark, put, sparkle } from "./layer.js";
-import { arcTop, curvePoint, easeInOut, hopPoint, swell } from "./motion.js";
+import { arcTop, curvePoint, easeInOut, easeOut, hopPoint, swell } from "./motion.js";
 
 // Takes off (bigger, as if nearer), flies there in an arc leaving sparkles, and lands.
 // `aspect`: the surface's height over its width (see arcTop).
@@ -106,6 +106,22 @@ export async function hop(jumps, { clock, ms, lift = 7 } = {}) {
   for (const { element } of jumps) {
     delete element.dataset.fxTrip;
   }
+}
+
+// Something new (a star…) comes from `from` to `to`, big and spinning, smaller and slower
+// as it arrives, and goes away. Its look is .fx-flying.
+export async function send(text, from, to, { clock, ms, over }) {
+  const thing = document.createElement("span");
+  thing.className = "fx-flying";
+  thing.textContent = text;
+  over(thing);
+  await clock.animate(ms, (t) => {
+    const e = easeOut(t);
+    put(thing, [from[0] + (to[0] - from[0]) * e, from[1] + (to[1] - from[1]) * e]);
+    thing.style.scale = String(4 - 3 * e);
+    thing.style.rotate = `${e * 360}deg`;
+  });
+  thing.remove();
 }
 
 // One leg of a trip with a mark under it (a swirl, a beam, a cloud), there only meanwhile.

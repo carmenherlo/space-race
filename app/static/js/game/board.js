@@ -1,10 +1,24 @@
 // The board: the turn bar, the tokens on their places, the avatars.
 
+import { shine as shineOn, react as reactOn } from "../effects/pieces.js";
+import { send } from "../effects/trips.js";
 import { silvered } from "../moon.js";
 import { music, sounds } from "../sounds.js";
 import { nearTheMoon, showLights } from "./lights.js";
 import { currentPlayer, elements, game, pack } from "./state.js";
-import { MOOD_MS, SHINE_MS, STAR_MS, animate, wait } from "./timing.js";
+import { MOOD_MS, SHINE_MS, STAR_MS, clock } from "./timing.js";
+
+export const BOARD_ASPECT = 9 / 16; // the board is 16:9: its height over its width
+
+// Where the effects put what they leave on the board: under the tokens (swirls, beams,
+// clouds, fires) or over them (sparkles, a flying star).
+export const under = (element) => elements.tokens.before(element);
+export const over = (element) => elements.tokens.after(element);
+
+// A player's token on the board (none while the tokens are not drawn).
+export function tokenOf(player) {
+  return elements.tokens.children[game.players.indexOf(player)];
+}
 
 // Where each token sits when several share a square, in token sizes from the centre.
 const TOKEN_MAX = 4.2; // % of the board's width
@@ -82,57 +96,30 @@ export function renderTokens({ flying = [] } = {}) {
   music.tense(game.players.some(nearTheMoon));
 }
 
-// The token of a player shines for a moment (landing on a galaxy): a little bigger (its
-// pulse too), its ring thicker and glowing, and a reflection goes round the ring with a
-// comet of light, like a gold ring turned in the light (see game.css).
+// The token of a player shines for a moment (landing on a galaxy): see shine in
+// effects/pieces.js. Its pulse grows with it (game.css).
 export async function shine(player) {
-  const token = elements.tokens.children[game.players.indexOf(player)];
-  if (!token) {
-    return;
+  const token = tokenOf(player);
+  if (token) {
+    await shineOn(token, { clock, ms: SHINE_MS });
   }
-  const reflection = document.createElement("span");
-  reflection.className = "token__reflection";
-  const glow = document.createElement("span");
-  glow.className = "token__glow";
-  glow.append(document.createElement("span"));
-  token.append(reflection, glow);
-  token.dataset.shine = "";
-  await wait(SHINE_MS);
-  delete token.dataset.shine;
-  reflection.remove();
-  glow.remove();
 }
 
-// A token that reacts: a hop of joy ("good") or a tremble ("bad"). Resolves when it is over.
 // A wildcard star: a big star comes from the middle of the board, spinning, to the token
 // that gets it; it shines, and the star stays as its little ⭐.
 export async function flyStar(player) {
-  const star = document.createElement("span");
-  star.className = "board-star";
-  star.textContent = "⭐";
-  elements.tokens.after(star);
-  const [x, y] = pack.places[player.place];
   sounds.fly();
-  await animate(STAR_MS, (t) => {
-    const e = 1 - (1 - t) ** 3; // fast, then slower as it arrives
-    star.style.left = `${50 + (x - 50) * e}%`;
-    star.style.top = `${50 + (y - 50) * e}%`;
-    star.style.scale = String(4 - 3 * e);
-    star.style.rotate = `${e * 360}deg`;
-  });
-  star.remove();
+  await send("⭐", [50, 50], pack.places[player.place], { clock, ms: STAR_MS, over });
   sounds.good();
   await shine(player);
 }
 
+// A token that reacts: a hop of joy ("good") or a tremble ("bad"). Resolves when it is over.
 export async function react(player, mood) {
-  const token = elements.tokens.children[game.players.indexOf(player)];
-  if (!token) {
-    return;
+  const token = tokenOf(player);
+  if (token) {
+    await reactOn(token, mood, { clock, ms: MOOD_MS });
   }
-  token.dataset.mood = mood;
-  await wait(MOOD_MS);
-  delete token.dataset.mood;
 }
 
 // Everybody in order, from the furthest on: their position (a tie shares it), avatar and
@@ -177,7 +164,7 @@ export function renderPlainBoard() {
 export function sizeTokens() {
   const steps = pack.places.slice(1).map(([x, y], i) => {
     const [px, py] = pack.places[i];
-    return Math.hypot(x - px, ((y - py) * 9) / 16); // in % of the board's width
+    return Math.hypot(x - px, (y - py) * BOARD_ASPECT); // in % of the board's width
   });
   steps.sort((a, b) => a - b);
   const usual = steps[Math.floor(steps.length / 2)];
