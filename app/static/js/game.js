@@ -34,14 +34,13 @@ import { restartIdleTimer, setUpPause } from "./game/pause.js";
 import { setUpQuestions } from "./game/questions.js";
 import { chosenPlayers, loadSetup, loadSharedProfiles, setUpRules, setUpSetupScreen, showSetup } from "./game/setup.js";
 import { GAME_ID, game, pack } from "./game/state.js";
-import { roll } from "./game/roll.js";
 import { setUpTurnBar } from "./game/turn-bar.js";
-import { startGame } from "./game/turns.js";
+import { playRoll, startGame } from "./game/turns.js";
 
 const dom = elementsOf({ sound: "sound", soundPanel: "sound-panel", fullscreen: "fullscreen" });
 
 async function init() {
-  setUpTurnBar({ onRoll: roll });
+  setUpTurnBar({ onRoll: playRoll });
   setUpSetupScreen({ onStart: startGame });
   setUpQuestions();
   setUpCards();

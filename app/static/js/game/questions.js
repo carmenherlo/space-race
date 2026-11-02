@@ -8,10 +8,9 @@ import { createAvatar, react } from "./board.js";
 import { speak } from "./helpers.js";
 import { drawFrom, questionDeck, shuffled } from "./rules.js";
 import { elementsOf } from "./dom.js";
-import { currentPlayer, game, pack } from "./state.js";
+import { game, pack } from "./state.js";
 import { READ_CHAR_MS, RIGHT_ANSWER_MS, TURN_START_MS, wait } from "./timing.js";
-import { allowRoll, renderTurn } from "./turn-bar.js";
-import { nextTurn } from "./turns.js";
+import { allowRoll } from "./turn-bar.js";
 
 const dom = elementsOf({
   question: "question",
@@ -26,8 +25,6 @@ const dom = elementsOf({
   questionNext: "question-next",
 });
 
-// A setup remembered from before levels were saved (it had 4 others): each old level, as one of these.
-export const OLD_LEVELS = { very_easy: "easy", easy: "medium", medium: "medium", hard: "hard" };
 // True-or-false questions: these two answers, in this order, with a hand
 // for those who cannot read yet.
 const TRUE_FALSE = [
@@ -45,23 +42,20 @@ export function setUpQuestions() {
 }
 
 // The turn starts with a question of the player's level, by itself (see beginTurn in
-// turns.js). Right: the die is theirs, they tap it (see roll.js); it is always the die that
-// rolls, never a button on a card. Wrong: they stay where they are, next player.
-export async function askTurnQuestion() {
+// turns.js). Resolves to true if it was right (their token hops for joy; the die will be
+// theirs: it is always the die that rolls, never a button on a card), or false (it
+// trembles; they stay where they are).
+export async function askTurnQuestion(player) {
   game.busy = true;
   allowRoll(false);
   await wait(TURN_START_MS);
-  const player = currentPlayer();
   const right = await askQuestion(drawQuestion(player.level), player);
   if (!right) {
     await react(player, "bad"); // a tremble, still with its pulse, then the next one
-    nextTurn();
-    return;
+    return false;
   }
   react(player, "good");
-  game.mayRoll = true;
-  game.busy = false;
-  renderTurn(); // the die on: tap it
+  return true;
 }
 
 // A question of the player's level, from that level's deck (all the questions if the pack

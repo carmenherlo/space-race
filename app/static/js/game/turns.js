@@ -2,10 +2,11 @@
 
 import { music, sounds } from "../sounds.js";
 import { createAvatar, markTokens, renderTokens, showRanking } from "./board.js";
-import { showCard } from "./cards.js";
+import { showCard, showWinner } from "./cards.js";
 import { speak } from "./helpers.js";
 import { askTurnQuestion } from "./questions.js";
 import { bringFromTheRocket } from "./rocket.js";
+import { roll } from "./roll.js";
 import { shuffled } from "./rules.js";
 import { chosenMode, closeSetup, exactFinish } from "./setup.js";
 import { elementsOf } from "./dom.js";
@@ -63,14 +64,51 @@ function beginFirstTurn() {
 }
 
 // The only thing the modes do differently: when the die is the player's. "Carrera": at once.
-// "Sabelotodo": after a right answer (askTurnQuestion). The roll is the same (roll.js).
-function beginTurn() {
+// "Sabelotodo": after a right answer (askTurnQuestion); wrong, the next player. The roll is
+// the same (roll.js).
+async function beginTurn() {
   if (game.mode === "questions") {
-    askTurnQuestion();
-  } else {
+    if (!(await askTurnQuestion(currentPlayer()))) {
+      nextTurn();
+      return;
+    }
     game.mayRoll = true;
-    allowRoll(true);
+    game.busy = false;
+    renderTurn(); // the die on: tap it
+    return;
   }
+  game.mayRoll = true;
+  allowRoll(true);
+}
+
+// A tap on the die, when it is the player's: the roll (roll.js), then what it says comes
+// next: the winner, the same player again, or the next one.
+export async function playRoll() {
+  if (game.busy || !game.mayRoll) {
+    return;
+  }
+  game.busy = true;
+  game.mayRoll = false;
+  const player = currentPlayer();
+  const next = await roll(player);
+  if (next === "won") {
+    win(player);
+  } else if (next === "again") {
+    game.mayRoll = true; // same player, a new roll ("Sabelotodo": with no question, the prize of that square)
+    game.busy = false;
+    renderTurn();
+  } else {
+    nextTurn();
+  }
+}
+
+// Someone reached the Moon: the game ends (no turn bar, no lit square), the winner is
+// celebrated, and "¡Otra partida!" starts a new one with the same players.
+async function win(player) {
+  game.playing = false;
+  showTurnBar(false);
+  await showWinner(player);
+  startGame(game.players);
 }
 
 // The order of the turns, drawn by itself (game.players is already in that order): the

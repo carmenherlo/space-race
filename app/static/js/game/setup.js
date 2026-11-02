@@ -3,7 +3,6 @@
 
 import { createAvatar } from "./board.js";
 import { KIDS_LEVELS, LEVELS, LEVEL_NAMES, LEVEL_STARS, TRUE_FALSE_LEVELS } from "../levels.js";
-import { OLD_LEVELS } from "./questions.js";
 import { silvered } from "../moon.js";
 import { loadProfiles, saveProfile } from "../profiles.js";
 import { elementsOf } from "./dom.js";
@@ -27,6 +26,8 @@ const dom = elementsOf({
   playerTemplate: "player-template",
 });
 
+// A setup remembered from before levels were saved (it had 4 others): each old level, as one of these.
+const OLD_LEVELS = { very_easy: "easy", easy: "medium", medium: "medium", hard: "hard" };
 const MAX_PLAYERS = 6;
 // Each seat's colour, for an avatar without its own (data/avatars/colors.yaml): the ring
 // of their avatar, their token, their glow and their turn.
