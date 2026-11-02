@@ -1,0 +1,229 @@
+/* Effects: things that happen to a piece for a moment and end by themselves (js/effects/).
+   They know nothing of a game. Whoever uses them gives:
+     --fx-size   the size of a piece (on the surface the pieces are on)
+     --fx-color  a piece's colour (on the piece)
+     .fx-piece   on each piece, and .fx-body on its own part that grows or squashes.
+   Load it after the page's own CSS (and states.css after it): on a tie, the later rule wins. */
+
+/* A piece that shines (shine in js/effects/pieces.js), so everybody finds it: a little bigger, its ring thicker and glowing in its colour, and a reflection going round
+   the ring with a comet of light, like a gold ring turned in the light (two highlights,
+   opposite, as on a real ring). The reflection lies on the ring only (the mask leaves a
+   band as wide as the thick ring); its glow is a blurred copy, added as light (screen). */
+.fx-piece {
+  --fx-thick: calc(var(--fx-size) * 0.11); /* the coloured ring while it shines */
+}
+
+.fx-piece .fx-body {
+  transition:
+    transform 0.4s ease-in-out,
+    box-shadow 0.4s ease-in-out;
+}
+
+.fx-piece[data-fx-shine] .fx-body {
+  transform: scale(1.2);
+  box-shadow:
+    0 0 0 var(--fx-thick) var(--fx-color),
+    0 0 calc(var(--fx-size) * 0.35) calc(var(--fx-thick) + var(--fx-size) * 0.08) var(--fx-color),
+    0 0 calc(var(--fx-size) * 0.7) calc(var(--fx-thick) + var(--fx-size) * 0.1) rgb(255 255 255 / 35%);
+}
+
+.fx-reflection,
+.fx-glow span {
+  --fx-band: calc(var(--fx-thick) + var(--fx-size) * 0.025 + 2px); /* the white ring and the coloured one */
+
+  position: absolute;
+  z-index: 1; /* over the ring */
+  top: calc(var(--fx-thick) * -1);
+  left: calc(var(--fx-thick) * -1);
+  width: calc(100% + var(--fx-thick) * 2);
+  height: calc(100% + var(--fx-thick) * 2);
+  border-radius: 50%;
+  background: conic-gradient(
+    rgb(255 255 255 / 0%) 0deg,
+    rgb(255 252 235 / 100%) 40deg,
+    rgb(255 255 255 / 0%) 95deg,
+    rgb(255 255 255 / 0%) 180deg,
+    rgb(255 248 220 / 60%) 220deg,
+    rgb(255 255 255 / 0%) 275deg,
+    rgb(255 255 255 / 0%) 360deg
+  );
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - var(--fx-band)), #000 calc(100% - var(--fx-band) + 1px));
+  mask: radial-gradient(closest-side, transparent calc(100% - var(--fx-band)), #000 calc(100% - var(--fx-band) + 1px));
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fx-glow {
+  position: absolute;
+  z-index: 2;
+  top: calc(var(--fx-thick) * -1);
+  left: calc(var(--fx-thick) * -1);
+  width: calc(100% + var(--fx-thick) * 2);
+  height: calc(100% + var(--fx-thick) * 2);
+  filter: blur(calc(var(--fx-size) * 0.14)) brightness(1.9);
+  mix-blend-mode: screen; /* light added on top: it glows */
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fx-glow span {
+  --fx-band: calc(var(--fx-thick) * 2 + var(--fx-size) * 0.06 + 4px);
+
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+}
+
+/* Grown with it (the ring is bigger), it turns once, slowly, once the piece has grown. */
+.fx-piece[data-fx-shine] .fx-reflection,
+.fx-piece[data-fx-shine] .fx-glow {
+  animation: fx-shine 1.3s ease-in-out 0.3s both;
+}
+
+@keyframes fx-shine {
+  0% { opacity: 0; transform: scale(1.2) rotate(0deg); }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.2) rotate(360deg); }
+}
+
+/* A trip (js/effects/trips.js): over the others, moved frame by frame. */
+.fx-piece[data-fx-trip] {
+  z-index: 3;
+  transition: none;
+}
+
+/* Flying: a shadow far below, as if it were high up. */
+.fx-piece[data-fx-trip="fly"] .fx-body {
+  box-shadow: 0 calc(var(--fx-size) * 0.5) calc(var(--fx-size) * 0.4) rgb(0 0 0 / 45%);
+}
+
+/* What a trip leaves for a moment (mark in js/effects/layer.js), under the pieces. */
+.fx-mark {
+  position: absolute;
+  line-height: 1;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+/* Wormholes, the black hole: the swirl it goes into and comes out of, spinning. */
+.fx-mark[data-kind="swirl"] {
+  font-size: calc(var(--fx-size) * 1.6);
+  filter: drop-shadow(0 0 calc(var(--fx-size) * 0.3) rgb(150 120 255 / 90%));
+  animation: fx-swirl 0.6s linear infinite;
+}
+
+@keyframes fx-swirl {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+/* The UFOs: a beam of light from above, down to the square. */
+.fx-mark[data-kind="beam"] {
+  width: calc(var(--fx-size) * 1.4);
+  height: calc(var(--fx-size) * 3.5);
+  border-radius: 50% 50% 40% 40% / 10% 10% 20% 20%;
+  background: linear-gradient(to bottom, rgb(255 255 200 / 0%), rgb(255 255 200 / 75%) 60%, rgb(255 255 230 / 95%));
+  filter: drop-shadow(0 0 calc(var(--fx-size) * 0.3) rgb(255 255 180 / 90%));
+  transform: translate(-50%, -85%); /* its bottom on the square */
+  animation: fx-beam 0.3s ease-out;
+}
+
+@keyframes fx-beam {
+  from { opacity: 0; }
+}
+
+/* The nebula: a soft cloud of mist over the square (blurred, see-through), swelling. */
+.fx-mark[data-kind="cloud"] {
+  z-index: 3; /* over the piece: it gets lost in it */
+  width: calc(var(--fx-size) * 2.6);
+  height: calc(var(--fx-size) * 1.8);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 55%, rgb(255 255 255 / 85%), transparent 45%),
+    radial-gradient(circle at 65% 40%, rgb(235 225 255 / 80%), transparent 50%),
+    radial-gradient(circle at 55% 70%, rgb(220 230 255 / 70%), transparent 50%);
+  filter: blur(calc(var(--fx-size) * 0.12));
+  animation: fx-cloud 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes fx-cloud {
+  from { transform: translate(-50%, -50%) scale(0.9); }
+  to { transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* The solar storm: the squares of those it sends back burn, flickering. */
+.fx-mark[data-kind="fire"] {
+  width: calc(var(--fx-size) * 2);
+  height: calc(var(--fx-size) * 2);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 245 170) 15%, rgb(255 150 0) 38%, rgb(235 50 0 / 90%) 55%, transparent 70%);
+  filter: blur(calc(var(--fx-size) * 0.05)) drop-shadow(0 0 calc(var(--fx-size) * 0.4) rgb(255 90 0));
+  animation: fx-fire 0.18s ease-in-out infinite alternate;
+}
+
+@keyframes fx-fire {
+  from { opacity: 0.75; transform: translate(-50%, -50%) scale(0.92, 1); }
+  to { opacity: 1; transform: translate(-50%, -55%) scale(1.05, 1.15); }
+}
+
+/* Something on its way to a piece, a star say (send in js/effects/trips.js), over everything. */
+.fx-flying {
+  position: absolute;
+  z-index: 4;
+  font-size: var(--fx-size);
+  line-height: 1;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 calc(var(--fx-size) * 0.3) rgb(255 220 80 / 95%));
+}
+
+/* A sparkle left behind (sparkle in js/effects/layer.js), fading away. */
+.fx-sparkle {
+  position: absolute;
+  z-index: 1;
+  font-size: calc(var(--fx-size) * 0.6);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: fx-sparkle 1.2s ease-out forwards;
+}
+
+@keyframes fx-sparkle {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  to { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(90deg); }
+}
+
+/* A piece that reacts (react in js/effects/pieces.js): a hop of joy ("good") or a tremble
+   ("bad"). The whole piece jumps (translate, so its glows go with it, whatever else places
+   it), and its body squashes and stretches. */
+.fx-piece[data-fx-mood="good"] {
+  animation: fx-joy-jump 0.6s ease-out 2;
+}
+
+.fx-piece[data-fx-mood="good"] .fx-body {
+  animation: fx-joy 0.6s ease-out 2;
+}
+
+@keyframes fx-joy-jump {
+  0%, 20%, 80%, 100% { translate: 0 0; }
+  50% { translate: 0 calc(var(--fx-size) * -0.55); }
+}
+
+@keyframes fx-joy {
+  0%, 100% { transform: scale(1); }
+  20% { transform: scale(1.15, 0.85); }
+  50% { transform: scale(0.95, 1.1); }
+  80% { transform: scale(1.1, 0.9); }
+}
+
+.fx-piece[data-fx-mood="bad"] .fx-body {
+  animation: fx-tremble 0.12s linear 10;
+}
+
+@keyframes fx-tremble {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  25% { transform: translateX(-8%) rotate(-6deg); }
+  75% { transform: translateX(8%) rotate(6deg); }
+}

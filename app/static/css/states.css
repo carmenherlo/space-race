@@ -1,0 +1,90 @@
+/* States: how something looks while a thing is true (whose turn it is, near the goal, a
+   button waiting to be pressed). The page puts or takes away a data-fx-… attribute; the rest
+   is here. They know nothing of a game: they use --fx-size and --fx-color, like
+   effects.css, and go after it. */
+
+/* Aura: a ring in its colour and a steady white glow (in the game: near the Moon, like the
+   Moon's). It does not beat: only the halo beats, so nobody looks "active". */
+.fx-piece[data-fx-aura]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 calc(var(--fx-size) * 0.1) var(--fx-color),
+    0 0 calc(var(--fx-size) * 0.6) calc(var(--fx-size) * 0.25) rgb(255 255 255 / 90%); /* white, like the Moon */
+  /* And a still light from the middle, behind the body: it glows from inside too. */
+  background: radial-gradient(closest-side, rgb(255 255 255 / 95%), rgb(255 255 255 / 55%) 55%, rgb(255 255 255 / 15%));
+}
+
+/* Halo: on top of the others, with a pulsing light in its colour (in the game: whose turn it is). */
+.fx-piece[data-fx-halo] {
+  z-index: 1;
+}
+
+.fx-piece[data-fx-halo]::before {
+  content: "";
+  position: absolute;
+  top: -35%;
+  left: -35%;
+  width: 170%;
+  height: 170%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--fx-color) 55%, transparent);
+  animation: fx-pulse 1.1s ease-in-out infinite alternate;
+  transition: scale 0.4s ease-in-out; /* grows with a shining piece */
+}
+
+/* Halo and aura: only the halo (the aura's ring would ring it twice). */
+.fx-piece[data-fx-halo][data-fx-aura]::before {
+  box-shadow: none;
+}
+
+/* While the piece shines (effects.css), its halo grows with it (scale, apart from the beat's transform). */
+.fx-piece[data-fx-shine]::before {
+  scale: 1.2;
+}
+
+@keyframes fx-pulse {
+  from { opacity: 0.35; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1.1); }
+}
+
+/* Call: a button that is enabled beats, glows in its colour and says its data-fx-label (in
+   the game: the die, "¡Tira!"), so nobody wonders what to do. */
+.fx-call:enabled {
+  position: relative;
+  animation: fx-call 1.1s ease-in-out infinite;
+}
+
+.fx-call:enabled::after {
+  content: attr(data-fx-label);
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  left: 50%;
+  padding: 0.25rem 0.8rem;
+  border-radius: 999px;
+  background: var(--fx-color);
+  color: #ffffff;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 45%);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 35%);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+@keyframes fx-call {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 var(--fx-color); }
+  50% { transform: scale(1.18); box-shadow: 0 0 1.2rem 0.4rem var(--fx-color); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-piece[data-fx-halo]::before {
+    transition: none;
+    animation: none;
+  }
+}

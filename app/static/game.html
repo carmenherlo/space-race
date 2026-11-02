@@ -7,6 +7,8 @@
   <!-- Relative paths, so it also works behind a proxy under a sub-path. -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/game.css">
+  <link rel="stylesheet" href="css/effects.css">
+  <link rel="stylesheet" href="css/states.css">
   <link rel="stylesheet" href="css/minigames.css">
   <link rel="stylesheet" href="css/celebrations.css">
   <link rel="stylesheet" href="css/sound-panel.css">
@@ -36,7 +38,7 @@
     <!-- Whose turn, for screen readers: on the screen, their avatar says it. -->
     <p class="turn__name" id="turn-name"></p>
     <span class="turn__stars" id="turn-stars" aria-label="Estrellas comodín" hidden></span>
-    <button class="die" id="die" type="button" aria-label="Tirar el dado">🎲</button>
+    <button class="die fx-call" id="die" type="button" aria-label="Tirar el dado" data-fx-label="¡Tira!">🎲</button>
   </section>
 
   <!-- Sound: 🔊 opens the panel, with a slider for the music, the effects and the voice,

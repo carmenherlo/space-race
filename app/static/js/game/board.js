@@ -63,7 +63,7 @@ export function renderTokens({ flying = [] } = {}) {
     const [x, y] = spot === "waiting" ? pack.waitingPlace : pack.places[player.place];
     const [dx, dy] = SHARED_SQUARE_OFFSETS[sharing % SHARED_SQUARE_OFFSETS.length];
     const token = document.createElement("span");
-    token.className = "token";
+    token.className = "token fx-piece";
     token.hidden = player.inRocket; // still in the rocket of the start (rocket.js)
     token.style.left = `${x}%`;
     token.style.top = `${y}%`;
@@ -74,12 +74,14 @@ export function renderTokens({ flying = [] } = {}) {
       token.dataset.flying = ""; // a slower, longer move (see game.css)
     }
     if (player === currentPlayer() && !game.players.some((p) => p.place === pack.goal)) {
-      token.dataset.current = "";
+      token.dataset.fxHalo = ""; // whose turn it is (states.css)
     }
     if (nearTheMoon(player)) {
-      token.dataset.near = "";
+      token.dataset.fxAura = ""; // near the Moon (states.css)
     }
-    token.append(createAvatar(player));
+    const body = createAvatar(player);
+    body.classList.add("fx-body"); // what grows or squashes in the effects (effects.css)
+    token.append(body);
     if (player.stars > 0) {
       const badge = document.createElement("span");
       badge.className = "token__stars";
