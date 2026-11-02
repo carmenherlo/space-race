@@ -115,8 +115,8 @@ function askQuestion(question, player) {
   });
 }
 
-// Right: the card closes by itself (longer with a note to read), so the next tap is the die.
-// Wrong: "Vale", once they have seen the right answer.
+// Right: "Vale" closes the card at once, or it closes by itself (longer with a note to
+// read), so the next tap is the die. Wrong: "Vale", once they have seen the right answer.
 async function chooseAnswer(question, chosen) {
   const right = chosen.dataset.answer === question.answer;
   for (const button of dom.questionAnswers.children) {
@@ -134,7 +134,7 @@ async function chooseAnswer(question, chosen) {
   dom.questionResult.textContent = question.note ? `${verdict} ${question.note}` : verdict;
   dom.questionResult.hidden = false;
   dom.questionNext.textContent = "Vale";
-  dom.questionNext.hidden = right;
+  dom.questionNext.hidden = false;
   speak(question.note ? [verdict, question.note] : verdict);
   if (!right) {
     sounds.bad();
@@ -142,7 +142,7 @@ async function chooseAnswer(question, chosen) {
   }
   sounds.good();
   await wait(RIGHT_ANSWER_MS + dom.questionResult.textContent.length * READ_CHAR_MS);
-  if (chosen.isConnected && dom.question.open) { // still this question (not a new game)
+  if (chosen.isConnected && dom.question.open) { // still this question, not closed with "Vale" (nor a new game)
     dom.question.close();
   }
 }
