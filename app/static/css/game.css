@@ -373,19 +373,19 @@ body.game {
   from { transform: scale(0.2) rotate(-30deg); }
 }
 
-/* A trip (travel in moves.js): over the others, moved frame by frame. */
-.token[data-trip] {
+/* A trip (js/effects/trips.js): over the others, moved frame by frame. */
+.token[data-fx-trip] {
   z-index: 3;
   transition: none;
 }
 
 /* Flying: a shadow far below, as if it were high up. */
-.token[data-trip="fly"] .avatar {
+.token[data-fx-trip="fly"] .avatar {
   box-shadow: 0 calc(var(--token) * 0.5) calc(var(--token) * 0.4) rgb(0 0 0 / 45%);
 }
 
-/* What a trip leaves on the board for a moment (mark in moves.js), under the tokens. */
-.board-mark {
+/* What a trip leaves on the board for a moment (mark in js/effects/layer.js), under the tokens. */
+.fx-mark {
   position: absolute;
   line-height: 1;
   pointer-events: none;
@@ -393,7 +393,7 @@ body.game {
 }
 
 /* Wormholes, the black hole: the swirl it goes into and comes out of, spinning. */
-.board-mark[data-kind="swirl"] {
+.fx-mark[data-kind="swirl"] {
   font-size: calc(var(--token) * 1.6);
   filter: drop-shadow(0 0 calc(var(--token) * 0.3) rgb(150 120 255 / 90%));
   animation: board-swirl 0.6s linear infinite;
@@ -405,7 +405,7 @@ body.game {
 }
 
 /* The UFOs: a beam of light from above, down to the square. */
-.board-mark[data-kind="beam"] {
+.fx-mark[data-kind="beam"] {
   width: calc(var(--token) * 1.4);
   height: calc(var(--token) * 3.5);
   border-radius: 50% 50% 40% 40% / 10% 10% 20% 20%;
@@ -420,7 +420,7 @@ body.game {
 }
 
 /* The nebula: a soft cloud of mist over the square (blurred, see-through), swelling. */
-.board-mark[data-kind="cloud"] {
+.fx-mark[data-kind="cloud"] {
   z-index: 3; /* over the token: it gets lost in it */
   width: calc(var(--token) * 2.6);
   height: calc(var(--token) * 1.8);
@@ -439,7 +439,7 @@ body.game {
 }
 
 /* The solar storm: the squares of those it sends back burn, flickering. */
-.board-mark[data-kind="fire"] {
+.fx-mark[data-kind="fire"] {
   width: calc(var(--token) * 2);
   height: calc(var(--token) * 2);
   border-radius: 50%;
@@ -476,7 +476,7 @@ body.game {
   transform: scale(1.25);
 }
 
-.board-sparkle {
+.fx-sparkle {
   position: absolute;
   z-index: 1;
   font-size: calc(var(--token) * 0.6);
