@@ -37,9 +37,13 @@ la imagen). Cómo se escribe un juego: [docs/game-yaml.md](docs/game-yaml.md).
 Con el entorno de conda `missionboard` activo:
 
 ```bash
-bash dev.sh            # → http://localhost:8101
-python -m pytest
+bash dev.sh                         # → http://localhost:8101
+python -m pytest                    # pruebas del servidor
+node --test "tests/js/*.test.mjs"   # pruebas de las reglas y los efectos (no hace falta instalar nada)
 ```
+
+Las ideas nuevas (efectos, minijuegos, celebraciones) se prueban primero en las páginas de
+**Pruebas** del menú (`app/static/pruebas/`) y luego pasan al juego.
 
 Para tener voz en desarrollo, el modelo de Piper va en `data/voices/`
 (`es_ES-sharvard-medium.onnx` y su `.onnx.json`). Sin él, se usa la voz del navegador.
@@ -49,12 +53,13 @@ Para tener voz en desarrollo, el modelo de Piper va en `data/voices/`
 | Carpeta | Qué hay | ¿En git? |
 |---|---|---|
 | `app/` | El servidor (Python): `main.py` las rutas · `game.py` lee y comprueba los `game.yaml` · `avatars.py` · `profiles.py` los perfiles · `voice.py` la voz | Sí |
-| `app/static/` | La web: `games.html` (menú) · `profiles.html` (perfiles) · `game.html` + `js/game.js` y `js/game/` (el juego, un módulo por parte) · `css/` | Sí |
+| `app/static/` | La web: `games.html` (menú) · `profiles.html` (perfiles) · `game.html` + `js/game.js` y `js/game/` (el juego, un módulo por parte; las reglas puras en `rules.js`) · `css/` · `pruebas/` (las páginas de Pruebas) | Sí |
+| `app/static/js/effects/` | Los efectos visuales (vuelos, remolinos, brillos…), con `css/effects.css` y `css/states.css`: no saben nada del juego, se pueden llevar a otro proyecto | Sí |
 | `content/games/` | `general-rules.md` (las normas comunes a todos los tableros) y `square-types.yaml` (los tipos de casilla especial) | Sí |
 | `content/games/<juego>/` | Cada juego, todos con la misma forma: `game.yaml` (lo que lee el juego), `rules.md` (sus normas), `board.webp` (el tablero) y `lights/` (lo que se ilumina) | Sí |
 | `content/questions/` | Los bancos de preguntas que usan los juegos (`general.yaml`; se leen en la página "Preguntas" del menú) | Sí |
 | `docs/` | Cómo se escribe un juego (`game-yaml.md`) · el mando de la tele (`mando-tv.md`) | Sí |
-| `tests/` | Las pruebas automáticas (`python -m pytest`) | Sí |
+| `tests/` | Las pruebas automáticas: del servidor (`python -m pytest`) y, en `tests/js/`, de las reglas y los efectos (`node --test`) | Sí |
 | `data/avatars/` | Tus avatares y sus colores | **No** |
 | `data/profiles.yaml` | Los perfiles: el nombre y el nivel de cada avatar (los escribe el juego) | **No** |
 | `data/voices/` | El modelo de voz, para desarrollo (Docker lo trae solo) | **No** |
