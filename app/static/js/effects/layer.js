@@ -2,7 +2,7 @@
 // is up to whoever uses the effects: they pass an `insert(element)` function (under the
 // pieces, over them…). The look is in css/effects.css.
 
-const SPARKLE_MS = 1200; // as long as its fading (.fx-sparkle)
+const SPARKLE_MS = 1200; // as long as its fading (.fx-sparkle), if it has no animation
 
 export function put(element, [x, y]) {
   element.style.left = `${x}%`;
@@ -21,12 +21,17 @@ export function mark(insert, kind, at, text = "") {
   return element;
 }
 
-// A sparkle that fades away by itself.
+// A sparkle that fades away by itself: it goes when its fading ends (so it waits while
+// paused, see .fx-paused), or after SPARKLE_MS if it has no animation.
 export function sparkle(insert, at) {
   const star = document.createElement("span");
   star.className = "fx-sparkle";
   star.textContent = "✨";
   put(star, at);
   insert(star);
-  setTimeout(() => star.remove(), SPARKLE_MS);
+  if (star.getAnimations().length > 0) {
+    star.addEventListener("animationend", () => star.remove(), { once: true });
+  } else {
+    setTimeout(() => star.remove(), SPARKLE_MS);
+  }
 }

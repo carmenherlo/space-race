@@ -38,6 +38,11 @@ function drawTurn(player, { mayRoll }) {
   dom.die.textContent = "🎲";
 }
 
+// While paused (⏸), the die stops calling (.fx-paused, effects.css).
+export function pauseTurnBar(paused) {
+  dom.turn.classList.toggle("fx-paused", paused);
+}
+
 export function showTurnBar(shown) {
   dom.turn.hidden = !shown;
 }

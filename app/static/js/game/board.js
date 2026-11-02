@@ -78,6 +78,11 @@ export function showRolled(number, color) {
   dom.rolled.hidden = false;
 }
 
+// While paused (⏸), everything on the board stops where it is (.fx-paused, effects.css).
+export function pauseBoard(paused) {
+  dom.board.classList.toggle("fx-paused", paused);
+}
+
 export function showRanking(shown) {
   dom.ranking.hidden = !shown;
 }

@@ -2,9 +2,11 @@
 
 import { music } from "../sounds.js";
 import { quiet } from "../voice.js";
+import { pauseBoard } from "./board.js";
 import { elementsOf } from "./dom.js";
 import { GAME_ID, game } from "./state.js";
 import { IDLE_MS } from "./timing.js";
+import { pauseTurnBar } from "./turn-bar.js";
 
 const dom = elementsOf({
   button: "pause-button",
@@ -26,9 +28,12 @@ export function setUpPause() {
   });
 }
 
-// ⏸ stops everything (the clock of the game, the music, the voice) and asks what to do.
+// ⏸ stops everything (the clock of the game, what moves on the board, the music, the
+// voice) and asks what to do.
 export function pauseGame() {
   game.paused = true;
+  pauseBoard(true);
+  pauseTurnBar(true);
   music.pause();
   quiet();
   dom.pause.showModal();
@@ -37,6 +42,8 @@ export function pauseGame() {
 export function resumeGame() {
   dom.pause.close();
   game.paused = false;
+  pauseBoard(false);
+  pauseTurnBar(false);
   music.follow(); // back on, unless the music is switched off
 }
 

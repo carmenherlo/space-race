@@ -5,6 +5,15 @@
      .fx-piece   on each piece, and .fx-body on its own part that grows or squashes.
    Load it after the page's own CSS (and states.css after it): on a tie, the later rule wins. */
 
+/* Paused: every effect and state inside stops where it is (the page puts .fx-paused on what
+   it pauses, together with its clock; transitions cannot be paused). */
+.fx-paused,
+.fx-paused *,
+.fx-paused *::before,
+.fx-paused *::after {
+  animation-play-state: paused !important;
+}
+
 /* A piece that shines (shine in js/effects/pieces.js), so everybody finds it: a little bigger, its ring thicker and glowing in its colour, and a reflection going round
    the ring with a comet of light, like a gold ring turned in the light (two highlights,
    opposite, as on a real ring). The reflection lies on the ring only (the mask leaves a
