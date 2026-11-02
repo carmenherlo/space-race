@@ -1,6 +1,7 @@
 // Timing: how long things take (behaviour the players like: keep them), and the game
 // clock, which stops while paused.
 
+import { createClock } from "../effects/clock.js";
 import { game } from "./state.js";
 
 export const DIE_ROLL_MS = 900; // the die keeps changing before it stops
@@ -38,34 +39,8 @@ export const DRAW_SHUFFLE_MS = 140; // …this fast
 export const DRAW_SHOW_MS = 2200; // then the order stays on the screen this long
 export const IDLE_MS = 10 * 60 * 1000; // back to the home screen after 10 minutes untouched
 
-// Waits `ms` of game time: while paused (⏸), the clock stops, so the whole game stops
-// where it is (a token half way, the die rolling, the pause before a card…).
-export function wait(ms) {
-  return new Promise((resolve) => {
-    let left = ms;
-    let last = performance.now();
-    const tick = () => {
-      const now = performance.now();
-      if (!game.paused) {
-        left -= now - last;
-      }
-      last = now;
-      if (left <= 0) {
-        resolve();
-      } else {
-        setTimeout(tick, Math.min(left, 50));
-      }
-    };
-    setTimeout(tick, Math.min(ms, 50));
-  });
-}
-
-// Calls step(t) with t from 0 to 1 for `ms`, on the game clock (⏸ stops it half way).
-export async function animate(ms, step) {
-  const FRAME_MS = 16;
-  for (let time = 0; time < ms; time += FRAME_MS) {
-    step(time / ms);
-    await wait(FRAME_MS);
-  }
-  step(1);
-}
+// The game clock: while paused (⏸), it stops, so the whole game stops where it is (a
+// token half way, the die rolling, the pause before a card…). wait(ms) waits on it;
+// animate(ms, step) calls step(t) with t from 0 to 1 on it.
+export const clock = createClock(() => game.paused);
+export const { wait, animate } = clock;
