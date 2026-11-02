@@ -13,8 +13,7 @@ import { placeName } from "./rules.js";
 import { game, pack } from "./state.js";
 import { moonShines } from "./lights.js";
 import { MOON_ARRIVAL_MS, wait } from "./timing.js";
-import { renderTurn, showTurnBar } from "./turn-bar.js";
-import { startGame } from "./turns.js";
+import { renderTurn } from "./turn-bar.js";
 
 const dom = elementsOf({
   card: "card",
@@ -163,10 +162,8 @@ export function showCard(card) {
 
 // Someone reached the Moon: first everybody sees their token there, hopping for joy, then
 // the celebration (js/celebrations.js: the podium, up to the Moon, the traca, fireworks).
-// "¡Otra partida!": the same players again.
+// Resolves when they tap "¡Otra partida!".
 export async function showWinner(player) {
-  game.playing = false;
-  showTurnBar(false);
   renderTokens();
   react(player, "good");
   sounds.good();
@@ -179,5 +176,4 @@ export async function showWinner(player) {
   const title = `¡${player.name} ha llegado a la Luna!`;
   speak(title);
   await celebrate("rise", { name: player.name, avatar: createAvatar(player) }, others, "¡Otra partida!", { exit: "games.html" });
-  startGame(game.players);
 }

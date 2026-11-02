@@ -8,8 +8,8 @@ import { moveBy, rollDie } from "./moves.js";
 import { landOn } from "./squares.js";
 import { currentPlayer, game, pack } from "./state.js";
 import { BOARD_LOOK_MS, LAND_PAUSE_MS, wait } from "./timing.js";
-import { renderTurn } from "./turn-bar.js";
-import { nextTurn } from "./turns.js";
+import { renderTurn, showTurnBar } from "./turn-bar.js";
+import { nextTurn, startGame } from "./turns.js";
 
 export async function roll() {
   if (game.busy || !game.mayRoll) {
@@ -20,7 +20,7 @@ export async function roll() {
   const player = currentPlayer();
   const bounced = await moveBy(player, await rollDie());
   if (player.place === pack.goal) {
-    showWinner(player);
+    win(player);
     return;
   }
   let landed = true;
@@ -32,7 +32,7 @@ export async function roll() {
   if (landed) {
     const outcome = await landOn(player);
     if (player.place === pack.goal) {
-      showWinner(player);
+      win(player);
       return;
     }
     if (outcome.again) {
@@ -46,6 +46,15 @@ export async function roll() {
     await lookAtTheBoard();
   }
   nextTurn();
+}
+
+// Someone reached the Moon: the game ends (no turn bar, no lit square), the winner is
+// celebrated, and "¡Otra partida!" starts a new one with the same players.
+async function win(player) {
+  game.playing = false;
+  showTurnBar(false);
+  await showWinner(player);
+  startGame(game.players);
 }
 
 // "Sabelotodo": a moment to see where everybody is before the next question covers the

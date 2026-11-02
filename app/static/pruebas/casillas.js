@@ -1,10 +1,14 @@
 // Each special square's effect (casillas.html): a test page, with the game's own engine. A
 // button per square: its token goes there, and the effect plays as in a game (the trips,
-// the solar storm, the wildcard star), with no card and no die. Two more tokens stand a few
-// squares behind, for the storm. Nothing here touches a game: it is only to try them out.
+// the solar storm, the wildcard star, the last galaxy's way to the Moon once its minigame is
+// won), with no card and no die. Two more tokens stand a few squares behind, for the storm.
+// And the end: reaching the Moon with the die, and the celebration. Nothing here touches a
+// game: it is only to try them out.
 
-import { flyStar, renderTokens } from "../js/game/board.js";
-import { travel } from "../js/game/moves.js";
+import { createAvatar, flyStar, renderTokens } from "../js/game/board.js";
+import { showWinner } from "../js/game/cards.js";
+import { followTrail, jumpTo, moveBy, travel } from "../js/game/moves.js";
+import { flyToTheMoon } from "../js/minigames.js";
 import { NEAR_MOON } from "../js/game/rules.js";
 import { silvered } from "../js/moon.js";
 import { loadPack } from "../js/game/pack.js";
@@ -49,6 +53,18 @@ async function start() {
     renderTokens();
   });
   buttons.push(near);
+  // The end: three squares before the Moon, the token steps there, and everybody celebrates.
+  const arrival = document.createElement("button");
+  arrival.type = "button";
+  arrival.className = "galaxy__button";
+  arrival.replaceChildren(...silvered("🌕 Llegada a la Luna"));
+  arrival.addEventListener("click", () =>
+    play(pack.goal - 3, async (player) => {
+      await moveBy(player, 3);
+      await showWinner(player);
+    }),
+  );
+  buttons.push(arrival);
   document.getElementById("effects").replaceChildren(...buttons);
 }
 
@@ -59,6 +75,15 @@ function effectOf(square) {
   }
   if (square.othersMove) {
     return (player) => moveOthers(player, square.othersMove);
+  }
+  if (square.minigame) {
+    // Its minigame won: the trip to the Moon on the whole screen, then the token along the
+    // star trail (or straight there), and the celebration.
+    return async (player) => {
+      await flyToTheMoon(createAvatar(player));
+      await (square.trail ? followTrail(player, square.trail, pack.goal) : jumpTo(player, pack.goal));
+      await showWinner(player);
+    };
   }
   if (square.star) {
     return async (player) => {
