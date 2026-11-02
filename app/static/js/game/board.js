@@ -43,11 +43,12 @@ const SHARED_SQUARE_OFFSETS = [
   [0, 0.8],
 ];
 
-// The board's picture; if it cannot be loaded, a plain board instead (renderPlainBoard).
-export function showBoardPicture(url) {
+// The board's picture; if it cannot be loaded, a plain board with these places instead
+// (renderPlainBoard).
+export function showBoardPicture(url, places) {
   dom.image.addEventListener("error", () => {
     dom.image.hidden = true;
-    renderPlainBoard();
+    renderPlainBoard(places);
   });
   dom.image.src = url;
   dom.image.hidden = false;
@@ -81,19 +82,39 @@ export function showRanking(shown) {
   dom.ranking.hidden = !shown;
 }
 
-// Every player's token on its place; tokens sharing a place spread out a little. `flying`:
-// the player (or players) moving to another square in one go, with a slower move.
+// After anything moves: every token on its place, the positions, the board's lights and
+// the music (tenser near the Moon). `flying`: the player (or players) moving to another
+// square in one go, with a slower move.
 export function renderTokens({ flying = [] } = {}) {
-  const flyingPlayers = [flying].flat();
+  const current = currentPlayer();
+  const someoneWon = game.players.some((player) => player.place === pack.goal);
+  drawTokens(game.players, {
+    places: pack.places,
+    goal: pack.goal,
+    waitingPlace: pack.waitingPlace,
+    current,
+    halo: someoneWon ? null : current,
+    flying: [flying].flat(),
+  });
+  drawRanking(game.players, { current, goal: pack.goal });
+  showLights();
+  music.tense(game.players.some((player) => isNearTheMoon(player.place, pack.goal)));
+}
+
+// Draws the tokens from what it is given, nothing else. `places`, `goal`, `waitingPlace`:
+// the board's; `current`: who is on the start (the others there wait aside, at
+// waitingPlace); `halo`: who has the turn's halo (or null); `flying`: who moves slowly.
+// Tokens sharing a place spread out a little.
+function drawTokens(players, { places, goal, waitingPlace, current, halo, flying }) {
   const byPlace = new Map();
-  const tokens = game.players.map((player) => {
-    const spot = player.place === 0 && pack.waitingPlace && player !== currentPlayer() ? "waiting" : player.place;
+  const tokens = players.map((player) => {
+    const spot = player.place === 0 && waitingPlace && player !== current ? "waiting" : player.place;
     const sharing = byPlace.get(spot) ?? 0;
     if (!player.inRocket) {
       byPlace.set(spot, sharing + 1);
     }
     // At the start, only whose turn it is is on the start; the others wait aside.
-    const [x, y] = spot === "waiting" ? pack.waitingPlace : pack.places[player.place];
+    const [x, y] = spot === "waiting" ? waitingPlace : places[player.place];
     const [dx, dy] = SHARED_SQUARE_OFFSETS[sharing % SHARED_SQUARE_OFFSETS.length];
     const token = document.createElement("span");
     token.className = "token fx-piece";
@@ -103,13 +124,13 @@ export function renderTokens({ flying = [] } = {}) {
     token.style.setProperty("--dx", String(dx));
     token.style.setProperty("--dy", String(dy));
     token.style.setProperty("--player-color", player.color);
-    if (flyingPlayers.includes(player)) {
+    if (flying.includes(player)) {
       token.dataset.flying = ""; // a slower, longer move (see game.css)
     }
-    if (player === currentPlayer() && !game.players.some((p) => p.place === pack.goal)) {
+    if (player === halo) {
       token.dataset.fxHalo = ""; // whose turn it is (states.css)
     }
-    if (isNearTheMoon(player.place, pack.goal)) {
+    if (isNearTheMoon(player.place, goal)) {
       token.dataset.fxAura = ""; // near the Moon (states.css)
     }
     const body = createAvatar(player);
@@ -122,13 +143,10 @@ export function renderTokens({ flying = [] } = {}) {
       token.append(badge);
     }
     const stars = player.stars > 0 ? `, ${player.stars} ⭐` : "";
-    token.setAttribute("aria-label", `${player.name}: ${placeName(player.place, pack.goal)}${stars}`);
+    token.setAttribute("aria-label", `${player.name}: ${placeName(player.place, goal)}${stars}`);
     return token;
   });
   dom.tokens.replaceChildren(...tokens);
-  renderRanking();
-  showLights();
-  music.tense(game.players.some((player) => isNearTheMoon(player.place, pack.goal)));
 }
 
 // The token of a player shines for a moment (landing on a galaxy): see shine in
@@ -159,12 +177,12 @@ export async function react(player, mood) {
 
 // Everybody in order, from the furthest on: their position (a tie shares it), avatar and
 // square. The player whose turn it is stands out.
-function renderRanking() {
-  const items = ranking(game.players).map(({ player, position: number }) => {
+function drawRanking(players, { current, goal }) {
+  const items = ranking(players).map(({ player, position: number }) => {
     const item = document.createElement("li");
     item.className = "ranking__player";
     item.style.setProperty("--player-color", player.color);
-    if (player === currentPlayer()) {
+    if (player === current) {
       item.dataset.current = "";
     }
     const position = document.createElement("span");
@@ -172,22 +190,24 @@ function renderRanking() {
     position.textContent = `${number}º`;
     const place = document.createElement("span");
     place.className = "ranking__place";
-    place.replaceChildren(...silvered(player.place === 0 ? "🚀" : player.place === pack.goal ? "🌕" : String(player.place)));
+    place.replaceChildren(...silvered(player.place === 0 ? "🚀" : player.place === goal ? "🌕" : String(player.place)));
     item.append(position, createAvatar(player), place);
-    item.setAttribute("aria-label", `${player.name}: ${placeName(player.place, pack.goal)}`);
+    item.setAttribute("aria-label", `${player.name}: ${placeName(player.place, goal)}`);
     return item;
   });
   dom.ranking.replaceChildren(...items);
 }
 
-// Without the board picture: a numbered dot on every place, so the game is still playable.
-export function renderPlainBoard() {
-  const marks = pack.places.map(([x, y], place) => {
+// Without the board picture: a numbered dot on every place ([x, y] in %; the last one is
+// the Moon), so the game is still playable.
+export function renderPlainBoard(places) {
+  const goal = places.length - 1;
+  const marks = places.map(([x, y], place) => {
     const mark = document.createElement("span");
     mark.className = "mark";
     mark.style.left = `${x}%`;
     mark.style.top = `${y}%`;
-    mark.replaceChildren(...silvered(place === 0 ? "🚀" : place === pack.goal ? "🌕" : String(place)));
+    mark.replaceChildren(...silvered(place === 0 ? "🚀" : place === goal ? "🌕" : String(place)));
     return mark;
   });
   dom.marks.replaceChildren(...marks);
@@ -195,9 +215,9 @@ export function renderPlainBoard() {
 
 // Tokens as big as the squares of this board allow: a share of the usual distance between
 // two squares (boards with more, smaller squares get smaller tokens), never above 4.2%.
-export function sizeTokens() {
-  const steps = pack.places.slice(1).map(([x, y], i) => {
-    const [px, py] = pack.places[i];
+export function sizeTokens(places) {
+  const steps = places.slice(1).map(([x, y], i) => {
+    const [px, py] = places[i];
     return Math.hypot(x - px, (y - py) * BOARD_ASPECT); // in % of the board's width
   });
   steps.sort((a, b) => a - b);

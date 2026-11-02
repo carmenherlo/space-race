@@ -22,7 +22,7 @@ export async function loadPack() {
   pack.places = content.places;
   pack.waitingPlace = content.waiting_place ?? null; // at the start, everybody but whose turn it is
   pack.goal = content.places.length - 1;
-  sizeTokens();
+  sizeTokens(pack.places);
   pack.squares = new Map(
     Object.entries(content.squares).map(([number, square]) => [
       Number(number),
@@ -54,12 +54,12 @@ export async function loadPack() {
 
   document.title = pack.title;
   if (content.image_url) {
-    showBoardPicture(content.image_url);
+    showBoardPicture(content.image_url, pack.places);
     await setUpLights(content);
     if (content.rocket_url) {
       await setUpRocket(content.rocket_url);
     }
   } else {
-    renderPlainBoard();
+    renderPlainBoard(pack.places);
   }
 }

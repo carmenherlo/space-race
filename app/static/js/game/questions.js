@@ -52,7 +52,7 @@ export async function askTurnQuestion() {
   allowRoll(false);
   await wait(TURN_START_MS);
   const player = currentPlayer();
-  const right = await askQuestion(drawQuestion(player.level));
+  const right = await askQuestion(drawQuestion(player.level), player);
   if (!right) {
     await react(player, "bad"); // a tremble, still with its pulse, then the next one
     nextTurn();
@@ -73,11 +73,11 @@ function drawQuestion(level) {
 
 // A question with its four answers in a new order each time. The player taps one; the game
 // marks it (and the right one) and waits for "continue". Resolves to true if it was right.
-function askQuestion(question) {
+// `player`: who answers (their avatar, name and colour on the card).
+function askQuestion(question, player) {
   dom.questionLevel.textContent = LEVEL_STARS[question.level];
   dom.questionLevel.setAttribute("aria-label", `Nivel ${LEVEL_NAMES[question.level]}`);
   dom.questionTopic.textContent = TOPIC_NAMES[question.topic];
-  const player = currentPlayer();
   const name = document.createElement("span");
   name.textContent = player.name;
   dom.question.style.setProperty("--player-color", player.color); // its border and who answers

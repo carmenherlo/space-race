@@ -19,7 +19,12 @@ export function setUpTurnBar({ onRoll }) {
 
 // Whose turn it is, and the tokens (whose turn it is stands out).
 export function renderTurn() {
-  const player = currentPlayer();
+  drawTurn(currentPlayer(), { mayRoll: game.mayRoll });
+  renderTokens();
+}
+
+// Draws the bar from what it is given: the player and whether the die is theirs.
+function drawTurn(player, { mayRoll }) {
   // A new avatar (with its little jump, see game.css) only when the player changes.
   if (dom.avatar.dataset.player !== player.id) {
     dom.avatar.dataset.player = player.id;
@@ -29,9 +34,8 @@ export function renderTurn() {
   dom.stars.textContent = "⭐".repeat(player.stars);
   dom.stars.hidden = player.stars === 0;
   dom.turn.style.setProperty("--player-color", player.color);
-  dom.die.disabled = !game.mayRoll; // on (and calling them, states.css) only when it is theirs
+  dom.die.disabled = !mayRoll; // on (and calling them, states.css) only when it is theirs
   dom.die.textContent = "🎲";
-  renderTokens();
 }
 
 export function showTurnBar(shown) {
